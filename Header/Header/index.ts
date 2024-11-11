@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
+import HeaderComponent from "./Header";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -34,9 +34,11 @@ export class Header implements ComponentFramework.ReactControl<IInputs, IOutputs
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        const props: IHelloWorldProps = { name: 'Hello, World!' };
+
+        const props = {navLinks: context.parameters.navItemsJson.raw || ""};
+
         return React.createElement(
-            HelloWorld, props
+            HeaderComponent, props
         );
     }
 
