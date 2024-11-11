@@ -7,7 +7,7 @@
 
   <!-- Properties -->
 
-<property name = 'navItemsJson' display-name-key="navItemsJson" description-key="navItemsJson" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '[{"linkText": "TESTING"}, {"linkText": "TESTING2"}]' />
+<property name = 'navItemsJson' display-name-key="navItemsJson" description-key="navItemsJson" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '"[{""linkText"": ""testValue""}]"' />
 
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="items" display-name-key="items">
