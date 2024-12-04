@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PcfComponentLibrary" constructor="Header" version="0.0.1" display-name-key="Header" description-key="Header description" control-type="virtual" >
+  <control namespace="PcfComponentLibrary" constructor="Header" version="0.0.5" display-name-key="Header" description-key="Header description" control-type="virtual" >
   
     <external-service-usage enabled="false">
     </external-service-usage>
@@ -8,6 +8,8 @@
   <!-- Properties -->
 
 <property name = 'navItemsJson' display-name-key="navItemsJson" description-key="navItemsJson" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '"[{""linkText"": ""testValue""}]"' />
+<property name = 'selectedLink' display-name-key="selectedLink" description-key="selectedLink" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '"well"' />
+<property name = 'defaultLink' display-name-key="defaultLink" description-key="defaultLink" of-type="SingleLine.Text" usage="input" required="true" pfx-default-value = '"Home"' />
 
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="items" display-name-key="items">

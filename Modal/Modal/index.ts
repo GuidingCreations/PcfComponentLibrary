@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import ModalComponent from "./HelloWorld";
+import ModalComponent from "./Modal";
 import * as React from "react";
 
 export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -32,8 +32,18 @@ export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs>
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+
+        const props = {
+            containerHeight: context.parameters.containerHeight.raw || 0,
+            modalHeader: context.parameters.dialogHeader.raw || "",
+            modalText: context.parameters.dialogText.raw || "",
+            confirmText: context.parameters.confirmText.raw || "",
+            OnCancel: context.events.OnCancel,
+            OnConfirm: context.events.OnConfirm
+        }
+
         return React.createElement(
-            ModalComponent
+            ModalComponent, props
         );
     }
 

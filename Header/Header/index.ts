@@ -7,7 +7,7 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 export class Header implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
-
+    private _value = "";
     /**
      * Empty constructor.
      */
@@ -35,19 +35,36 @@ export class Header implements ComponentFramework.ReactControl<IInputs, IOutputs
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        const props = {navLinks: context.parameters.navItemsJson.raw || ""};
+        this._value = context.parameters.defaultLink.raw || "";
+
+        const props = {
+            navLinks: context.parameters.navItemsJson.raw || "",
+            updateValue: this._updateValue.bind(this),
+            currentLink: this._value|| ""
+        };
 
         return React.createElement(
             HeaderComponent, props
         );
     }
 
+    public _updateValue(value: string) {
+        
+        this._value = value;
+        this.notifyOutputChanged();
+       
+    }
+
+
+
     /**
      * It is called by the framework prior to a control receiving new data.
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return { };
+        return {
+            selectedLink: this._value
+         };
     }
 
     /**
