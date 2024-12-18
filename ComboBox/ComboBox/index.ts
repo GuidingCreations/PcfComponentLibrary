@@ -94,7 +94,8 @@ export class ComboBox implements ComponentFramework.ReactControl<IInputs, IOutpu
         console.log('DATA', data)
         const props: ComboBoxProps = {  
             data: data, 
-            setSelectedRecords: this.setSelectedRecords, 
+            setSelectedRecords: this.setSelectedRecords,
+            displayField: context.parameters.displayField.raw || 'Name' 
             };
         console.log("PROPS", props)
         return React.createElement(

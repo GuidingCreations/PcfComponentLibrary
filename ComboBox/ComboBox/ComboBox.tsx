@@ -12,6 +12,7 @@ import { Theme, useTheme } from '@mui/material/styles';
 export interface ComboBoxProps {
   data: any;
   setSelectedRecords: (ids: string[]) => void;
+  displayField: string;
 }
 
 // Initiate component
@@ -33,7 +34,7 @@ const ComboBoxComponent = (props : ComboBoxProps) => {
 // Declare some variables
   
     const theme = useTheme()
-    const displayColumn = "Name"
+    const displayColumn = props.displayField
   
     const [selectedValues, setSelectedValues] = React.useState<string[]>([])
     React.useEffect(() => {
