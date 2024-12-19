@@ -8,6 +8,9 @@ export class Header implements ComponentFramework.ReactControl<IInputs, IOutputs
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
     private _value = "";
+
+    
+
     /**
      * Empty constructor.
      */

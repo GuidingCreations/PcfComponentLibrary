@@ -51,6 +51,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Header\Header.pcfproj" />
     <ProjectReference Include="..\Modal\Modal.pcfproj" />
+    <ProjectReference Include="..\Loader\Loader.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
