@@ -13,6 +13,8 @@ export interface ComboBoxProps {
   data: any;
   setSelectedRecords: (ids: string[]) => void;
   displayField: string;
+  height: number;
+  width: number;
 }
 
 // Initiate component
@@ -26,7 +28,8 @@ const ComboBoxComponent = (props : ComboBoxProps) => {
     return {
       fontWeight: selectedValues.includes(value)
         ? theme.typography.fontWeightMedium
-        : theme.typography.fontWeightRegular
+        : theme.typography.fontWeightRegular,
+        width: props.width
     }
 
   }
@@ -39,7 +42,7 @@ const ComboBoxComponent = (props : ComboBoxProps) => {
     const [selectedValues, setSelectedValues] = React.useState<string[]>([])
     React.useEffect(() => {
         
-      const selectedItems = props.data.filter((item : any) => selectedValues.includes(item[displayColumn]))
+      const selectedItems = props.data.filter((item : any) => selectedValues.includes(item['displayField']))
       console.log('SELECTED ITEMS');
       console.table(selectedItems);
       const selectedItemIds = selectedItems.map( (item : any) => props.data.findIndex((dataItem : any) => dataItem.id == item.id ));
@@ -92,16 +95,20 @@ const ComboBoxComponent = (props : ComboBoxProps) => {
         name='Test Name'
         onChange={handleNewSelection}
         input={<OutlinedInput label = "Name"/>}
+        style={{
+            width: props.width, 
+            height: props.height
+        }}
         >
             {props.data.map((item : any) => {
               return (
               <MenuItem 
-                value = {item[displayColumn]} 
-                key= {item[displayColumn]}
-                style={generateItemStyles(item[displayColumn], selectedValues, theme)}
+                value = {item['displayField']} 
+                key= {item['displayField']}
+                style={generateItemStyles(item['displayField'], selectedValues, theme)}
                 >
                 
-                {item[displayColumn]}
+                {item['displayField']}
               
               </MenuItem>
               )

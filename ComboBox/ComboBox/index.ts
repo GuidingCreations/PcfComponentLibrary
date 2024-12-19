@@ -71,21 +71,22 @@ export class ComboBox implements ComponentFramework.ReactControl<IInputs, IOutpu
         context.parameters.records.clearSelectedRecordIds
         console.log('TRIGGERED UPDATE VIEW')
         
-        //const dataset = context.parameters.records;
-        // const datasetChanged = context.updatedProperties.indexOf('dataset') > -1
-        // if ( datasetChanged) {
-        //     this.records = dataset.records;
-        //     this.sortedRecordIds = dataset.sortedRecordIds;
-        // }
-        //this.records = dataset.records
+        console.log("records", context.parameters.records.records)
+        const columnInfo = this.getInputSchema(this.context)
+        console.log("COLUMN INFO", columnInfo)
+
         console.log('try to establish data variable')
         const data : any[] = [];
         console.log('DATA VARIABLE ESTABLISHED', data)
-        console.log('REC', context.parameters.records)
         console.log("TRY TO PUSH SORTED RECORDS TO DATA")
         context.parameters.records.sortedRecordIds.forEach( (recordId) => {
             console.log("TRYING TO ADD RECORD ", recordId)
-            data.push({"Name": context.parameters.records.records[recordId].getFormattedValue("Name"), "id": context.parameters.records.records[recordId].getFormattedValue("id")})
+            const displayColumn = context.parameters.displayField.raw || '';
+            data.push(
+                {"Name": context.parameters.records.records[recordId].getFormattedValue("Name"), 
+                    "id": context.parameters.records.records[recordId].getFormattedValue("id"),
+                    "displayField" : context.parameters.records.records[recordId].getFormattedValue(displayColumn)
+                })
             console.log("ADDED RECORD ID ", recordId)
         })
 
@@ -95,7 +96,9 @@ export class ComboBox implements ComponentFramework.ReactControl<IInputs, IOutpu
         const props: ComboBoxProps = {  
             data: data, 
             setSelectedRecords: this.setSelectedRecords,
-            displayField: context.parameters.displayField.raw || 'Name' 
+            displayField: context.parameters.displayField.raw || 'Name',
+            height: context.parameters.containerHeight.raw || 50,
+            width: context.parameters.containerWidth.raw || 50 
             };
         console.log("PROPS", props)
         return React.createElement(
@@ -144,6 +147,7 @@ export class ComboBox implements ComponentFramework.ReactControl<IInputs, IOutpu
                 columnProperties[c.displayName || c.name] = properties;
             });
         this.columnProperties = columnProperties;
+        console.log("COLUMN PROPERTIES", columnProperties)
         return columnProperties;
     }
     private getColumnSchema(column: ComponentFramework.PropertyHelper.DataSetApi.Column): JSONSchema4 {

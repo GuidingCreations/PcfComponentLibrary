@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthy" constructor="ComboBox" version="0.0.192" display-name-key="ComboBox" description-key="ComboBox description" control-type="virtual" >
+  <control namespace="HunterMcCarthy" constructor="ComboBox" version="0.0.204" display-name-key="ComboBox" description-key="ComboBox description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -12,6 +12,8 @@
 
     <property name="selectedRecords" display-name-key="selectedRecord" of-type="Object" usage="bound"/>
     <property name="displayField" display-name-key="displayField" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
+    <property name="containerHeight" display-name-key="containerHeight" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
+    <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
 
 
     <resources>
