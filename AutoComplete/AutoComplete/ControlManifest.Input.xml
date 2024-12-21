@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.31" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+    
+    <data-set name="records" display-name-key="Data source">
+      
+    </data-set>
+
+    <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
+    <property name="labelText" display-name-key="Label text" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
+    <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
+    <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+    <property name="AllowMultipleSelect" display-name-key="Allow multiple selection?" of-type="TwoOptions" usage="input" hidden="false"/>
+
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+       <css path = '../../dist/output.css' order="1" />
+    
+    </resources>
+    
+  </control>
+</manifest>
