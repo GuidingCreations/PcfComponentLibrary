@@ -1,7 +1,7 @@
 // IMPORTS
 
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import AutoCompleteComponent from "./AutoComplete";
+import AutoCompleteComponent, { AutoCompleteProps } from "./AutoComplete";
 import * as React from "react";
 import { JSONSchema4 } from "json-schema";
 
@@ -90,7 +90,7 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
             
             this._data = [];
         
-        
+            
             
             context.parameters.records.sortedRecordIds.forEach( (recordId) => {
             console.log("TRYING TO ADD RECORD ", recordId)
@@ -101,10 +101,22 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
                     "label" : context.parameters.records.records[recordId].getFormattedValue(displayColumn)
                 })
                 console.log("ADDED RECORD ID ", recordId)
-            })
+            });
+
+
         }
 
         updateData()
+
+
+        const props : AutoCompleteProps = {
+            DarkMode: context.parameters.DarkMode.raw || false,
+            height: context.parameters.containerHeight.raw || 50,
+            width: context.parameters.containerWidth.raw || 300,
+            labelText: context.parameters.labelText.raw || "Autocomplete",
+            options: this._data,
+            AllowMultipleSelect: context.parameters.AllowMultipleSelect.raw || false
+        }
 
         // Establish props for ComboBox
 
@@ -122,7 +134,7 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
         // Render Combobox Component
         
         return React.createElement(
-            AutoCompleteComponent
+            AutoCompleteComponent, props
         );
     }
 
