@@ -98,11 +98,12 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
             this._data.push(
                 { 
                     "id": context.parameters.records.records[recordId].getRecordId(),
-                    "label" : context.parameters.records.records[recordId].getFormattedValue(displayColumn)
+                    "label" : context.parameters.records.records[recordId].getFormattedValue(displayColumn),
+                    "classNames": {} 
                 })
                 console.log("ADDED RECORD ID ", recordId)
             });
-
+            console.log("DATA", this._data)
 
         }
 
@@ -115,22 +116,11 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
             width: context.parameters.containerWidth.raw || 300,
             labelText: context.parameters.labelText.raw || "Autocomplete",
             options: this._data,
-            AllowMultipleSelect: context.parameters.AllowMultipleSelect.raw || false
+            AllowMultipleSelect: context.parameters.AllowMultipleSelect.raw || false,
+            data: this._data
         }
 
-        // Establish props for ComboBox
-
-        /*const props: AutoCompleteProps = {  
-            Items: this._data, 
-            setSelectedRecords: this.setSelectedRecords,
-            height: context.parameters.containerHeight.raw || 300,
-            width: context.parameters.containerWidth.raw || 150,
-            labelText: context.parameters.labelText.raw || 'Name',
-            AllowMultipleSelection: context.parameters.AllowMultipleSelect.raw || false
-            };
         
-        console.log("PROPS", props)
-        */
         // Render Combobox Component
         
         return React.createElement(

@@ -3,6 +3,8 @@
 import { ClassNames } from "@emotion/react";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import React, {  useState, useRef, useEffect } from "react";
+import Chip from '../subComponents/Chip'
+import { chipProps } from "../subComponents/Chip";
 
 // Test data
 
@@ -17,6 +19,7 @@ export interface AutoCompleteProps {
   options: any[];
   labelText: string;
   AllowMultipleSelect: boolean;
+  data: any[];
 }
 
 
@@ -32,11 +35,24 @@ const AutoComplete = (props: AutoCompleteProps) => {
     { id: 5, label: "Test name 1", classNames: '' },
     // More users...
   ];
+  console.log('PROPS DATA', props.data)
 
-  const [optionsList, setOptionsList] = useState<any[]>(people);
+  const [optionsList, setOptionsList] = useState<any[]>(props.data);
   const [selectedValues, setSelectedValues] = useState<any[]>([])
+ 
+  const masterList : any[] = []
+  props.data.forEach((item) => {
+    masterList.push(item)
+  })
+  console.log("MASTER LIST", masterList)
 
+  console.log("OPTIONS: ", optionsList)
 
+  if (optionsList.length == 0) {
+    masterList.forEach((item) => {
+      optionsList.push(item)
+    })
+  }
   //Handle when an option is selected
 
   const handleOptionSelect = (e : any) => {
@@ -63,7 +79,8 @@ const AutoComplete = (props: AutoCompleteProps) => {
     console.log(
       "EVENT", e.target.value
     )
-    setOptionsList( people.filter( (person : any) => person.label.toLowerCase().includes(e.target.value.toLowerCase()) ))
+    setOptionsList( masterList.filter( (item : any) => item.label.toLowerCase().includes(e.target.value.toLowerCase()) ));
+    console.log("FILTERED OPTIONS LIST", optionsList)
   }
 
 
@@ -142,19 +159,30 @@ const AutoComplete = (props: AutoCompleteProps) => {
   return (
     // Wrapper for the outer container
     <div
-      style={{ width: "600px", height: "600px" }}
+      style={{ width: props.width, height: props.height }}
       className={`flex justify-center ${props.DarkMode ? 'bg-gray-900' : 'bg-gray-100'} p-8`}
     >
       {/* content wrapper for the whole content */}
       <div className="flex flex-col">
+        
         {/* Label above the input for the combo box */}
         <label className={classes.label.ClassNames}>
           Label text here
         </label>
         
-        {/* Wrapper for the input and down button */}
-        <div className="relative mt-2" style={{whiteSpace : 'nowrap'}} onClick={() => handleOpenChange()}>
+        {/* Wrapper for the input, chevron up/down icon, and list of selected values */}
+        <div className="relative mt-2 w-full" onClick={() => handleOpenChange()}>
 
+      {/* wrapper for input and selected values */}
+        <div style={{display: "flex", flexWrap: "wrap", width: props.width, maxWidth: props.width}}>
+
+      {/* Wrapper for chips for selected values */}
+
+      <div className="flex flex-wrap gap-1">
+        {selectedValues?.map((value) => {
+          return <Chip key={value} label={value}/>
+        })}
+      </div>
         {/* Text input to act as combo box */}
         <input
         ref={inputRef}
@@ -162,18 +190,21 @@ const AutoComplete = (props: AutoCompleteProps) => {
           className={classes.input.className}
           onChange={changeFilterText}
           ></input>
+          </div>
+        
+
 {/* Chevron down icon */}
 <button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden" style={{width: '35px', visibility: isOpen ? 'hidden' : 'visible'}} ref={iconRef}>
     <ChevronDownIcon className={classes.icon.classNames}/>
 </button>
 
-<button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden fill-white " style={{width: '35px', visibility: isOpen ? 'visible' : 'hidden'}} ref={buttonRef}>
+<button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 h-full focus:outline-hidden fill-white " style={{width: '35px', visibility: isOpen ? 'visible' : 'hidden'}} ref={buttonRef}>
     <ChevronUpIcon className={classes.icon.classNames} ref={iconRef}/>
 </button>
+        </div>
 
-          </div>
 
-          <div style={{visibility : isOpen ? 'visible' : 'hidden', }} ref = {listRef} className={classes.optionsWrapper.classNames}>
+          <div style={{visibility : isOpen ? 'visible' : 'hidden', overflow: 'visible'}} ref = {listRef} className={classes.optionsWrapper.classNames}>
             
             {optionsList.map( (option : any) => {
                return <label data-value={option.label}  key={option.label} className={option.classNames} onClick={handleOptionSelect}>{option.label}</label>
