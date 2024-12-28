@@ -1,10 +1,8 @@
 "use client";
 
 import { ClassNames } from "@emotion/react";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import React, {  useState, useRef, useEffect } from "react";
-import Chip from '../subComponents/Chip'
-import { chipProps } from "../subComponents/Chip";
 
 // Test data
 
@@ -20,6 +18,8 @@ export interface AutoCompleteProps {
   labelText: string;
   AllowMultipleSelect: boolean;
   data: any[];
+  setSelectedRecords: (ids: any[]) => void;
+  defaultSelectedValues: string[]
 }
 
 
@@ -38,8 +38,9 @@ const AutoComplete = (props: AutoCompleteProps) => {
   console.log('PROPS DATA', props.data)
 
   const [optionsList, setOptionsList] = useState<any[]>(props.data);
-  const [selectedValues, setSelectedValues] = useState<any[]>([])
- 
+  console.log("DEFAULT SELECTED VALUES", props.defaultSelectedValues)
+  const [selectedValues, setSelectedValues] = useState<any[]>(props.defaultSelectedValues)
+ console.log("SELECTED VALUES FROM DEFAULT", selectedValues)
   const masterList : any[] = []
   props.data.forEach((item) => {
     masterList.push(item)
@@ -55,10 +56,11 @@ const AutoComplete = (props: AutoCompleteProps) => {
   }
   //Handle when an option is selected
 
-  const handleOptionSelect = (e : any) => {
+  const handleOptionSelect = (targetValue : any) => {
 
-    const target = e.target as HTMLElement;
-    const targetValue = target.dataset.value
+    console.log("CURRENT SELECTED VALUES", selectedValues)
+    console.log("OPTION SELECTED", targetValue)
+    
 
     if (props.AllowMultipleSelect) {
       if (selectedValues.includes(targetValue)) {
@@ -119,6 +121,8 @@ const AutoComplete = (props: AutoCompleteProps) => {
 
   useEffect(() => {
     generateItemStyles();
+    console.log("NEWLY SELECTED VALUES", selectedValues)
+    props.setSelectedRecords(selectedValues)
     console.log("GENERATED")
   }, [selectedValues])
 
@@ -132,28 +136,46 @@ const AutoComplete = (props: AutoCompleteProps) => {
   const inputRef : any= useRef(null);
   const iconRef : any = useRef(null);
   const buttonRef : any = useRef(null);
-
+  const chipRef: any = useRef(null)
+  const xMarkRef: any = useRef(null)
   //Use ref to establish event listener to hide options list when user clicks away
 
   useEffect(() => {
-    const handleClickOutside = (event : any) => {
+    const handleClickOutside = async (e : any) => {
+      console.log("CLICKED")
+      console.log("e", e);
+      console.log("e TARGET", e.target);
+      console.log("DATA CHIP", e.target.dataset.chip)
+
+      if (e.target.dataset.chip) {
+        console.log("TARGETED VALUE", e.target.dataset.value);
+        console.log("SELECTED VALUESS", selectedValues)
+        handleOptionSelect(e.target.dataset.value)
+      }
+
       if (
         listRef.current && 
-        !listRef.current.contains(event.target) && 
-        !inputRef.current.contains(event.target) &&
-        !iconRef.current.contains(event.target) &&
-        !buttonRef.current.contains(event.target)
+        !listRef.current.contains(e.target) && 
+        !inputRef.current.contains(e.target) 
+        // && !iconRef.current.contains(e.target) &&
+        // !buttonRef.current.contains(e.target) && 
+        // !chipRef.current.contains(e.target) &&
+        // !xMarkRef.current.contains(e.target)
       ) {
+        console.log("CLOSING")
         setIsOpen(false);
+      } else {
+        console.log("CLICK EXCLUDED")
       }
+
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [selectedValues]);
 
 
   return (
@@ -171,16 +193,23 @@ const AutoComplete = (props: AutoCompleteProps) => {
         </label>
         
         {/* Wrapper for the input, chevron up/down icon, and list of selected values */}
-        <div className="relative mt-2 w-full" onClick={() => handleOpenChange()}>
+        <div className="relative mt-2 w-full" >
 
       {/* wrapper for input and selected values */}
         <div style={{display: "flex", flexWrap: "wrap", width: props.width, maxWidth: props.width}}>
 
       {/* Wrapper for chips for selected values */}
 
-      <div className="flex flex-wrap gap-1">
+      <div className="flex flex-wrap gap-1" style={{alignItems: 'center'}}>
         {selectedValues?.map((value) => {
-          return <Chip key={value} label={value}/>
+          return ( 
+          <div key={value} className='bg-blue-700 text-white border border-solid rounded-md p-1 flex gap-1 pointer' style={{height: '35px', maxHeight:'35px', alignItems: 'center'}} ref={chipRef} data-value = {value} data-chip={true}>
+          <label style={{height: '35px', maxHeight: '35px', alignItems: 'center'}} className="flex">
+            {value}
+          </label>
+    
+          <XMarkIcon fill='white' cursor={'pointer'}  data-value={value} width={'1rem'} ref={xMarkRef} className="pointer"/>
+            </div>)
         })}
       </div>
         {/* Text input to act as combo box */}
@@ -189,17 +218,18 @@ const AutoComplete = (props: AutoCompleteProps) => {
           type="text"
           className={classes.input.className}
           onChange={changeFilterText}
+          onClick={() => handleOpenChange()}
           ></input>
           </div>
         
 
 {/* Chevron down icon */}
 <button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden" style={{width: '35px', visibility: isOpen ? 'hidden' : 'visible'}} ref={iconRef}>
-    <ChevronDownIcon className={classes.icon.classNames}/>
+    <ChevronDownIcon className={classes.icon.classNames} onClick={() => handleOpenChange()}/>
 </button>
 
 <button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 h-full focus:outline-hidden fill-white " style={{width: '35px', visibility: isOpen ? 'visible' : 'hidden'}} ref={buttonRef}>
-    <ChevronUpIcon className={classes.icon.classNames} ref={iconRef}/>
+    <ChevronUpIcon className={classes.icon.classNames} ref={iconRef} onClick={() => handleOpenChange()}/>
 </button>
         </div>
 
@@ -207,7 +237,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
           <div style={{visibility : isOpen ? 'visible' : 'hidden', overflow: 'visible'}} ref = {listRef} className={classes.optionsWrapper.classNames}>
             
             {optionsList.map( (option : any) => {
-               return <label data-value={option.label}  key={option.label} className={option.classNames} onClick={handleOptionSelect}>{option.label}</label>
+               return <label data-value={option.label}  key={option.label} className={option.classNames} onClick={() => handleOptionSelect(option.label)}>{option.label}</label>
             })}
           </div>
 

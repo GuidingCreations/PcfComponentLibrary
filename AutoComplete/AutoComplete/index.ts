@@ -12,6 +12,7 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     public _selectedItems : any[] = [];
     public _selectedRecordIds: string[] = [];
+    public _selectedRecordValues: any[] = []
     public _data: any[] = [];
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>;
@@ -20,37 +21,43 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
     };
 
 // Function for changing the selected records
+setSelectedRecords = (values: any[]): void => {
 
-    setSelectedRecords = (values: string[]): void => {
+    console.log("SET SELECTED RECORDS TRIGGERED", values)
+    // Store display column info to check against
 
-        // Store display column info to check against
+const displayColumn = this.context.parameters.displayField.raw || 'Name'
     
-    const displayColumn = this.context.parameters.displayField.raw || 'Name'
-        
-        
-    // Iterate over data source to gather record IDs
+console.log("_DATA", this._data);
 
-
-    const selectedRecordIDs : any = []
     
-    values.map( (value: string) => {
-        
-        this._data.map( (item : any) => {
-             
-            if ( item.displayField == value ) {
-                selectedRecordIDs.push(item.id)
-             }
-        })
+// Iterate over data source to gather record IDs
 
+
+const selectedRecordIDs : any = []
+
+values.map( (value: string) => {
+
+    console.log("THIS VALUE", value)
+    this._data.map( (item : any) => {
+         console.log("COMPARE VALUE => DATA", value, item.label)
+        if ( item.label == value ) {
+            selectedRecordIDs.push(item.id)
+         }
     })
 
-    // Set selected records to list of selected records from previous iteration so that they populate in the component's SelectedItems property
+})
 
-    this.context.parameters.records.setSelectedRecordIds(selectedRecordIDs);
-    this.notifyOutputChanged()
+console.log("SELECTED RECORDS IDS", selectedRecordIDs)
 
-    
-	};
+// Set selected records to list of selected records from previous iteration so that they populate in the component's SelectedItems property
+this._selectedRecordValues = values
+this.context.parameters.records.setSelectedRecordIds(selectedRecordIDs);
+this.notifyOutputChanged()
+
+
+
+};
 
     /**
      * Empty constructor.
@@ -117,7 +124,9 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
             labelText: context.parameters.labelText.raw || "Autocomplete",
             options: this._data,
             AllowMultipleSelect: context.parameters.AllowMultipleSelect.raw || false,
-            data: this._data
+            data: this._data,
+            setSelectedRecords: this.setSelectedRecords,
+            defaultSelectedValues: this._selectedRecordValues
         }
 
         
