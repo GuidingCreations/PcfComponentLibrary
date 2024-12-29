@@ -2,7 +2,9 @@
 
 import { ClassNames } from "@emotion/react";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import React, {  useState, useRef, useEffect } from "react";
+import { create } from "@mui/material/styles/createTransitions";
+import React, {  useRef, useEffect, memo } from "react";
+import useState from 'react-usestateref';
 
 // Test data
 
@@ -19,7 +21,8 @@ export interface AutoCompleteProps {
   AllowMultipleSelect: boolean;
   data: any[];
   setSelectedRecords: (ids: any[]) => void;
-  defaultSelectedValues: string[]
+  defaultSelectedValues: string[];
+  backgroundColorOverride?: string;
 }
 
 
@@ -27,6 +30,15 @@ export interface AutoCompleteProps {
 const placeholder = "Placeholder text";
 const AutoComplete = (props: AutoCompleteProps) => {
 
+  
+  const [isOpen, setIsOpen] = useState(false)
+  const listRef : any = useRef(null);
+  const inputRef : any= useRef(null);
+  const iconRef : any = useRef(null);
+  const iconDownRef : any = useRef(null);
+  const buttonRef : any = useRef(null);
+  const chipRef: any = useRef(null)
+  const xMarkRef: any = useRef(null)
   const people : any[] = [
     { id: 1, label: "Leslie Alexander", classNames: '' },
     { id: 2, label: "Hunter McCarthy", classNames: '' },
@@ -35,11 +47,12 @@ const AutoComplete = (props: AutoCompleteProps) => {
     { id: 5, label: "Test name 1", classNames: '' },
     // More users...
   ];
-  console.log('PROPS DATA', props.data)
 
+  console.log('PROPS DATA', props.data)
+  const [filterText, setFilterText] = useState<string>('')
   const [optionsList, setOptionsList] = useState<any[]>(props.data);
   console.log("DEFAULT SELECTED VALUES", props.defaultSelectedValues)
-  const [selectedValues, setSelectedValues] = useState<any[]>(props.defaultSelectedValues)
+  const [selectedValues, setSelectedValues, selectedValuesRef] = useState<any[]>(props.defaultSelectedValues)
  console.log("SELECTED VALUES FROM DEFAULT", selectedValues)
   const masterList : any[] = []
   props.data.forEach((item) => {
@@ -49,31 +62,23 @@ const AutoComplete = (props: AutoCompleteProps) => {
 
   console.log("OPTIONS: ", optionsList)
 
-  if (optionsList.length == 0) {
+  if (optionsList.length == 0 && !filterText) {
     masterList.forEach((item) => {
       optionsList.push(item)
     })
   }
+
+
+  useEffect(() => {
+    console.log("EFFECT TRIGGERED FOR FILTER TEXT")
+    setOptionsList( masterList.filter( (item : any) => item.label.toLowerCase().includes(filterText) ));
+    console.log("EFFECT ENDED OPTIONS LIST")
+
+  }, [filterText])
   //Handle when an option is selected
 
-  const handleOptionSelect = (targetValue : any) => {
-
-    console.log("CURRENT SELECTED VALUES", selectedValues)
-    console.log("OPTION SELECTED", targetValue)
-    
-
-    if (props.AllowMultipleSelect) {
-      if (selectedValues.includes(targetValue)) {
-        console.log("ALREADY THERE")
-        setSelectedValues(selectedValues.filter((value) => value != targetValue))
-      } else {
-        console.log("NOT INCLUDED")
-        setSelectedValues([...selectedValues, targetValue])
-      }
-    }
-    console.log("NEW SELECTED VALUES", selectedValues)
-
-  }
+ 
+  
 
   //Filters options list when text input changes
 
@@ -81,28 +86,18 @@ const AutoComplete = (props: AutoCompleteProps) => {
     console.log(
       "EVENT", e.target.value
     )
-    setOptionsList( masterList.filter( (item : any) => item.label.toLowerCase().includes(e.target.value.toLowerCase()) ));
-    console.log("FILTERED OPTIONS LIST", optionsList)
+    setFilterText(e.target.value)
   }
 
 
   //Styling
 
-  const classes = {
-    input: {
-      className: `pl-1 ${props.DarkMode ? "relative mt-2 w-full rounded-md py-1.5 text-base text-white bg-gray-900 border border-solid border-white" : 'relative mt-2 w-full rounded-md py-1.5 text-base text-gray-900 border border-solid border-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 bg-white'}`
-    },
-    label: {
-      ClassNames: props.DarkMode ? 'block text-sm/6 font-medium text-white text-left' : "block text-sm/6 font-medium text-gray-900 text-left"
-    },
-    icon: {
-      classNames: props.DarkMode? 'fill-white' : "fill-black"
-    },
-    optionsWrapper: {
-      classNames: props.DarkMode ? 'bg-black mt-1 max-h-60 w-full flex flex-col overflow-auto rounded-md py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm' : 'mt-1 max-h-60 w-full flex flex-col overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm'
-    },
-    
-  };
+
+
+  const styles = {
+    input: {display: "flex", width: props.width, maxWidth: props.width},
+    inputWrapper: {backgroundColor: props.backgroundColorOverride}
+  }
 
   const generateItemStyles = () => {
       optionsList.map( (option) => {
@@ -130,19 +125,37 @@ const AutoComplete = (props: AutoCompleteProps) => {
   const handleOpenChange = () => {
     setIsOpen(!isOpen)
   }
-  
-  const [isOpen, setIsOpen] = useState(false)
-  const listRef : any = useRef(null);
-  const inputRef : any= useRef(null);
-  const iconRef : any = useRef(null);
-  const iconDownRef : any = useRef(null);
-  const buttonRef : any = useRef(null);
-  const chipRef: any = useRef(null)
-  const xMarkRef: any = useRef(null)
-  //Use ref to establish event listener to hide options list when user clicks away
+  const closeOptionList = () => {
+    setIsOpen(false)
+  }
 
+  const openOptionsLIst = () => {
+    setIsOpen(true)
+  }
+
+  //Use ref to establish event listener to hide options list when user clicks away
+  const classes = {
+    inputWrapper: {
+      className: `pl-1 ${props.DarkMode ? "relative mt-2 w-full rounded-md py-1.5 text-base text-white bg-gray-900 border border-solid border-white" : 'relative mt-2 w-full rounded-md py-1.5 text-base text-gray-900 border border-solid border-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 bg-white'}`
+    },
+    label: {
+      ClassNames: props.DarkMode ? 'block text-sm/6 font-medium text-white text-left' : "block text-sm/6 font-medium text-gray-900 text-left"
+    },
+    icon: {
+      classNames: props.DarkMode? 'fill-white' : "fill-black"
+    },
+    optionsWrapper: {
+      classNames: props.DarkMode ? 'bg-black mt-1 max-h-60 w-full flex flex-col overflow-auto rounded-md py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm border border-white' : 'mt-1 max-h-60 w-full flex flex-col overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm border border-black'
+    },
+    input: {
+      classNames: 'mt-2 mb-2'
+    }
+    
+  };
   useEffect(() => {
     const handleClickOutside = async (e : any) => {
+      e.stopPropagation();
+      console.log("SELECTED VALUES AT START OF CLICK", selectedValuesRef.current)
       console.log("CLICKED")
       console.log("e", e);
       console.log("e TARGET", e.target);
@@ -150,7 +163,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
       console.log("icon down ref", iconDownRef)
       if (e.target.dataset.chip) {
         console.log("TARGETED VALUE", e.target.dataset.value);
-        console.log("SELECTED VALUESS", selectedValues)
+        console.log("SELECTED VALUESS", selectedValuesRef.current)
         handleOptionSelect(e.target.dataset.value)
       }
 
@@ -165,11 +178,11 @@ const AutoComplete = (props: AutoCompleteProps) => {
         // !xMarkRef.current.contains(e.target)
       ) {
         console.log("CLOSING")
-        setIsOpen(false);
+        closeOptionList()
       } else {
         console.log("CLICK EXCLUDED");
         if (e.target.dataset.action == 'open') {
-          setIsOpen(true)
+       openOptionsLIst()
         }
       }
 
@@ -178,9 +191,34 @@ const AutoComplete = (props: AutoCompleteProps) => {
     document.addEventListener('click', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
-  }, [selectedValues, isOpen]);
+  }, []);
+
+  const handleOptionSelect = (targetValue : any) => {
+
+    console.log("CURRENT SELECTED VALUES", selectedValues);
+    console.log("CURRENT STORED VALUES", selectedValuesRef.current)
+    console.log("OPTION SELECTED", targetValue)
+    
+
+    if (props.AllowMultipleSelect) {
+      if (selectedValuesRef.current.includes(targetValue)) {
+        console.log("ALREADY THERE")
+        setSelectedValues(selectedValuesRef.current.filter((value) => value != targetValue));
+        
+        console.log("STORED VALUES", selectedValuesRef.current)
+      } else {
+        console.log("NOT INCLUDED")
+        setSelectedValues([...selectedValuesRef.current, targetValue]);
+        console.log("STORED VALUES 2", selectedValuesRef.current)
+      }
+    }
+    console.log("NEW SELECTED VALUES", selectedValues);
+    console.log("NEW SELECTED VALUES REF", selectedValuesRef.current)
+
+  }
+  
 
 
   return (
@@ -194,14 +232,14 @@ const AutoComplete = (props: AutoCompleteProps) => {
         
         {/* Label above the input for the combo box */}
         <label className={classes.label.ClassNames}>
-          Label text here
+          {props.labelText}
         </label>
         
         {/* Wrapper for the input, chevron up/down icon, and list of selected values */}
-        <div className={classes.input.className}>
+        <div className={classes.inputWrapper.className} style={styles.inputWrapper}>
 
       {/* wrapper for input and selected values */}
-        <div style={{display: "flex", flexWrap: "wrap", width: props.width, maxWidth: props.width}}>
+        <div style={styles.input} className="flex flex-wrap">
 
       {/* Wrapper for chips for selected values */}
 
@@ -225,6 +263,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
           onChange={changeFilterText}
           onClick={() => handleOpenChange()}
           placeholder="Enter search text here"
+          className={classes.input.classNames}
           ></input>
           </div>
         

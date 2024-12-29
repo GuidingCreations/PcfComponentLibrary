@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.136" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
+  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.158" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -14,6 +14,8 @@
     <property name="labelText" display-name-key="Label text" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
     <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+    <property name="backgroundColorOverride" display-name-key="Background color override" of-type="SingleLine.Text" usage="input" hidden="false"/>
+
     <property name="AllowMultipleSelect" display-name-key="Allow multiple selection?" of-type="TwoOptions" usage="input" hidden="false"/>
     <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
 

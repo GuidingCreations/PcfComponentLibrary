@@ -126,7 +126,9 @@ this.notifyOutputChanged()
             AllowMultipleSelect: context.parameters.AllowMultipleSelect.raw || false,
             data: this._data,
             setSelectedRecords: this.setSelectedRecords,
-            defaultSelectedValues: this._selectedRecordValues
+            defaultSelectedValues: this._selectedRecordValues,
+            backgroundColorOverride: context.parameters.backgroundColorOverride.raw || ''
+
         }
 
         
