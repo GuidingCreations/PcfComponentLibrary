@@ -90,7 +90,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
 
   const classes = {
     input: {
-      className: `pl-1 ${props.DarkMode ? "block w-full rounded-md py-1.5 text-base text-white bg-gray-900 border border-solid border-white" : 'block w-full rounded-md py-1.5 text-base text-gray-900 border border-solid border-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 bg-white'}`
+      className: `pl-1 ${props.DarkMode ? "relative mt-2 w-full rounded-md py-1.5 text-base text-white bg-gray-900 border border-solid border-white" : 'relative mt-2 w-full rounded-md py-1.5 text-base text-gray-900 border border-solid border-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 bg-white'}`
     },
     label: {
       ClassNames: props.DarkMode ? 'block text-sm/6 font-medium text-white text-left' : "block text-sm/6 font-medium text-gray-900 text-left"
@@ -135,6 +135,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
   const listRef : any = useRef(null);
   const inputRef : any= useRef(null);
   const iconRef : any = useRef(null);
+  const iconDownRef : any = useRef(null);
   const buttonRef : any = useRef(null);
   const chipRef: any = useRef(null)
   const xMarkRef: any = useRef(null)
@@ -146,7 +147,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
       console.log("e", e);
       console.log("e TARGET", e.target);
       console.log("DATA CHIP", e.target.dataset.chip)
-
+      console.log("icon down ref", iconDownRef)
       if (e.target.dataset.chip) {
         console.log("TARGETED VALUE", e.target.dataset.value);
         console.log("SELECTED VALUESS", selectedValues)
@@ -157,7 +158,8 @@ const AutoComplete = (props: AutoCompleteProps) => {
         listRef.current && 
         !listRef.current.contains(e.target) && 
         !inputRef.current.contains(e.target) 
-        // && !iconRef.current.contains(e.target) &&
+        && !iconRef.current.contains(e.target) 
+        && !iconDownRef.current.contains(e.target) 
         // !buttonRef.current.contains(e.target) && 
         // !chipRef.current.contains(e.target) &&
         // !xMarkRef.current.contains(e.target)
@@ -165,7 +167,10 @@ const AutoComplete = (props: AutoCompleteProps) => {
         console.log("CLOSING")
         setIsOpen(false);
       } else {
-        console.log("CLICK EXCLUDED")
+        console.log("CLICK EXCLUDED");
+        if (e.target.dataset.action == 'open') {
+          setIsOpen(true)
+        }
       }
 
     };
@@ -175,14 +180,14 @@ const AutoComplete = (props: AutoCompleteProps) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [selectedValues]);
+  }, [selectedValues, isOpen]);
 
 
   return (
     // Wrapper for the outer container
     <div
       style={{ width: props.width, height: props.height }}
-      className={`flex justify-center ${props.DarkMode ? 'bg-gray-900' : 'bg-gray-100'} p-8`}
+      className={`flex justify-center p-8`}
     >
       {/* content wrapper for the whole content */}
       <div className="flex flex-col">
@@ -193,7 +198,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
         </label>
         
         {/* Wrapper for the input, chevron up/down icon, and list of selected values */}
-        <div className="relative mt-2 w-full" >
+        <div className={classes.input.className}>
 
       {/* wrapper for input and selected values */}
         <div style={{display: "flex", flexWrap: "wrap", width: props.width, maxWidth: props.width}}>
@@ -207,7 +212,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
           <label style={{height: '35px', maxHeight: '35px', alignItems: 'center'}} className="flex">
             {value}
           </label>
-    
+
           <XMarkIcon fill='white' cursor={'pointer'}  data-value={value} width={'1rem'} ref={xMarkRef} className="pointer"/>
             </div>)
         })}
@@ -216,19 +221,21 @@ const AutoComplete = (props: AutoCompleteProps) => {
         <input
         ref={inputRef}
           type="text"
-          className={classes.input.className}
+          style={{width: props.width, outline: 'none'}}
           onChange={changeFilterText}
           onClick={() => handleOpenChange()}
+          placeholder="Enter search text here"
           ></input>
           </div>
         
 
 {/* Chevron down icon */}
-<button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden" style={{width: '35px', visibility: isOpen ? 'hidden' : 'visible'}} ref={iconRef}>
-    <ChevronDownIcon className={classes.icon.classNames} onClick={() => handleOpenChange()}/>
+<button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden ml-1" style={{width: '35px', visibility: isOpen ? 'hidden' : 'visible'}} ref={iconDownRef} data-action='open'>
+    
+    <ChevronDownIcon className={classes.icon.classNames} />
 </button>
 
-<button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 h-full focus:outline-hidden fill-white " style={{width: '35px', visibility: isOpen ? 'visible' : 'hidden'}} ref={buttonRef}>
+<button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 h-full focus:outline-hidden fill-white ml-1 " style={{width: '35px', visibility: isOpen ? 'visible' : 'hidden'}} ref={buttonRef}>
     <ChevronUpIcon className={classes.icon.classNames} ref={iconRef} onClick={() => handleOpenChange()}/>
 </button>
         </div>

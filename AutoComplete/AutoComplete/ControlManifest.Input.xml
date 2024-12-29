@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.119" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
+  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.136" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
