@@ -23,6 +23,7 @@ export interface AutoCompleteProps {
   setSelectedRecords: (ids: any[]) => void;
   defaultSelectedValues: string[];
   backgroundColorOverride?: string;
+  defaultSelectedItems: any[]
 }
 
 
@@ -52,8 +53,8 @@ const AutoComplete = (props: AutoCompleteProps) => {
   const [filterText, setFilterText] = useState<string>('')
   const [optionsList, setOptionsList] = useState<any[]>(props.data);
   console.log("DEFAULT SELECTED VALUES", props.defaultSelectedValues)
-  const [selectedValues, setSelectedValues, selectedValuesRef] = useState<any[]>(props.defaultSelectedValues)
- console.log("SELECTED VALUES FROM DEFAULT", selectedValues)
+  const [selectedValues, setSelectedValues, selectedValuesRef] = useState<any[]>(props.defaultSelectedValues);
+ console.log("SELECTED VALUES FROM DEFAULT", selectedValues);
   const masterList : any[] = []
   props.data.forEach((item) => {
     masterList.push(item)
@@ -69,6 +70,9 @@ const AutoComplete = (props: AutoCompleteProps) => {
   }
 
 
+console.log("PROPS DEFAULT SELECTED", props.defaultSelectedItems)
+const defaultSelected = props.defaultSelectedItems
+console.log("DEFAULT SELECTED ITEMS: ", defaultSelected)
   useEffect(() => {
     console.log("EFFECT TRIGGERED FOR FILTER TEXT")
     setOptionsList( masterList.filter( (item : any) => item.label.toLowerCase().includes(filterText) ));
@@ -89,6 +93,17 @@ const AutoComplete = (props: AutoCompleteProps) => {
     setFilterText(e.target.value)
   }
 
+  const changedCount = useRef(0);
+console.log("CHANGE REF CURRENT", changedCount.current)
+  if (changedCount.current < 2 && props.data.length > 0) {
+    const selectionArray : any[] = []
+    defaultSelected.map((item) => {console.log("ITEMSSS", item); selectionArray.push(item.label)});
+    console.log("SELECTION ARRAY", selectionArray)
+    setSelectedValues( selectionArray);
+    console.log("SELECTEDs VALUES", selectedValuesRef.current)
+    changedCount.current = changedCount.current + 1
+  } 
+  
 
   //Styling
 
@@ -104,7 +119,7 @@ const AutoComplete = (props: AutoCompleteProps) => {
         
         if (selectedValues.includes(option.label)) {
 
-          option.classNames = `py-2 pr-9 pl-3 text-left hover:text-bold ${props.DarkMode ? "bg-black hover:bg-white text-white hover:text-black hover:text-semibold": `text-white bg-blue-700`}`
+          option.classNames = `py-2 pr-9 pl-3 text-left hover:text-bold ${props.DarkMode ? "bg-blue-700 hover:bg-white text-white hover:text-black hover:text-semibold": `text-white bg-blue-700`}`
         } else {
           option.classNames = `py-2 pr-9 pl-3 text-left hover:text-bold ${props.DarkMode ? "bg-black hover:bg-white text-white hover:text-black hover:text-semibold": `hover:bg-blue-700 hover:text-white`}`
         }
@@ -200,7 +215,8 @@ const AutoComplete = (props: AutoCompleteProps) => {
     console.log("CURRENT SELECTED VALUES", selectedValues);
     console.log("CURRENT STORED VALUES", selectedValuesRef.current)
     console.log("OPTION SELECTED", targetValue)
-    
+    changedCount.current = changedCount.current + 1
+    console.log("CHANGED COUNT", changedCount.current)
 
     if (props.AllowMultipleSelect) {
       if (selectedValuesRef.current.includes(targetValue)) {

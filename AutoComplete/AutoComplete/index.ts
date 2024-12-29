@@ -14,6 +14,7 @@ export class AutoComplete implements ComponentFramework.ReactControl<IInputs, IO
     public _selectedRecordIds: string[] = [];
     public _selectedRecordValues: any[] = []
     public _data: any[] = [];
+    public _defaultSelectedValues :  any[] = []
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>;
     records: {
@@ -116,6 +117,19 @@ this.notifyOutputChanged()
 
         updateData()
 
+        const updateDefaultSelectedValues = () => {
+            this._defaultSelectedValues = []
+            context.parameters.defaultSelectedItems.sortedRecordIds.forEach( (recordId) => {
+                console.log("ADDING TO DEFAULT SELECTED VALUES");
+                const displayColumn = context.parameters.displayField.raw || 'value'
+                this._defaultSelectedValues.push({
+                    "label": context.parameters.defaultSelectedItems.records[recordId].getFormattedValue(displayColumn)
+                });
+                console.log("ADDED LABEL TO DEFAULT SELECTED VALUES")
+            })
+        }
+
+        updateDefaultSelectedValues()
 
         const props : AutoCompleteProps = {
             DarkMode: context.parameters.DarkMode.raw || false,
@@ -127,6 +141,7 @@ this.notifyOutputChanged()
             data: this._data,
             setSelectedRecords: this.setSelectedRecords,
             defaultSelectedValues: this._selectedRecordValues,
+            defaultSelectedItems: this._defaultSelectedValues,
             backgroundColorOverride: context.parameters.backgroundColorOverride.raw || ''
 
         }

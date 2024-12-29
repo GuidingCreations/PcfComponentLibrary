@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.158" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
+  <control namespace="PcfComponentLibraryNamespace" constructor="AutoComplete" version="0.0.177" display-name-key="AutoComplete" description-key="AutoComplete description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -9,6 +9,12 @@
     <data-set name="records" display-name-key="Data source">
       
     </data-set>
+
+    <data-set name="defaultSelectedItems" display-name-key="Default Selected Items">
+      
+    </data-set>
+
+    
 
     <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
     <property name="labelText" display-name-key="Label text" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
