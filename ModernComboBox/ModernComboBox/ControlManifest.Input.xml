@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNamespace" constructor="ModernComboBox" version="0.1.28" display-name-key="ModernComboBox" description-key="ModernComboBox description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNamespace" constructor="ModernComboBox" version="0.2.56" display-name-key="ModernComboBox" description-key="ModernComboBox description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       

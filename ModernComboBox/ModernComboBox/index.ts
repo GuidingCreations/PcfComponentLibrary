@@ -6,9 +6,42 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
+    context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: () => void;
-    public _data: any[] = []
-       /**
+    public _data: any[] = [];
+
+
+     
+    setSelectedRecords = (selectedRecords: any[]) => {
+        console.log("SET SELECTED RECORDS TRIGGERED WITH : ", selectedRecords);
+        const arrSelected : any[] = [];
+        console.log("_DATA", this._data)
+        
+        selectedRecords.map((selectedRecord : any) => {
+            const label = selectedRecord.label    
+            console.log("CHECKING SELECTED RECORD: ", selectedRecord);
+            console.log("CHECKING SELECTED RECORD LABEL: ", label);
+            
+            this._data.map((record) => {
+                console.log("RECORD TO CHECK SEL", record)
+                console.log("COMPARE SELECTED RECORD LABEL VALUE: ", label, " WITH RECORD LABEL: ", record.label);
+                if (label == record.label) {
+                    arrSelected.push(record.id)
+                }  
+
+            })
+
+            
+            
+        })
+    
+    console.log("SELECTED ARRAY IDS", arrSelected);
+    this.context.parameters.Items.setSelectedRecordIds(arrSelected)
+    console.log("EXIT SELECT RECORDS")
+    }
+    
+    
+    /**
      * Empty constructor.
      */
     constructor() { }
@@ -26,6 +59,8 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this.context = context;
+
     }
 
     /**
@@ -35,28 +70,49 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         this._data = []
+        const columns = context.parameters.Items.columns;
+       console.log("COLUMNS", columns)
+        let idColumnLogicalName : string = ''
 
-        context.parameters.Items.columns.map((column) => {
-            console.log('COLUMN LOGICAL NAME', column.name);
-            console.log("COLUMN DISPLAY NAME", column.displayName);
-        })
-        
-        context.parameters.Items.sortedRecordIds.forEach( (recordId) => {
-            const objToAdd : any= {}
-            context.parameters.Items.columns.map((column) => {
-                objToAdd[column.displayName] = context.parameters.Items.records[recordId].getFormattedValue(column.name)
-            });
-            console.log("OBJECT TO ADD", objToAdd)
-            this._data.push(objToAdd)
-        })
+       columns.map((column : any) => {
+            if (column.displayName == 'id') {
+                console.log("LOGICAL NAME: ", column.name);
+                idColumnLogicalName = column.name
+            }
+       } )
+       
+       
+       
+       console.log('ID COLUMN', idColumnLogicalName) 
+       console.log("sortedRecordIds", context.parameters.Items.sortedRecordIds)
+
+        console.log("LOADING DATA")
+                  context.parameters.Items.sortedRecordIds.forEach( (recordId) => {
+                       
+                       
+                       const objToAdd : any = {
+                           id: context.parameters.Items.records[recordId].getRecordId(),
+                           label: context.parameters.Items.records[recordId].getFormattedValue("label"),
+                           chipBackgroundColor: context.parameters.Items.records[recordId].getFormattedValue("chipBackgroundColor"),
+                           chipTextColor: context.parameters.Items.records[recordId].getFormattedValue("chipTextColor"),
+                       }
+           
+                       this._data.push(objToAdd)
+                   })
+                console.log("DONE LOADING DATA:", this._data)
+      
+
         
         const props : ModernComboProps = {
             width: context.parameters.containerWidth.raw || 300,
             labelText: context.parameters.labelText.raw || "Label text",
             items: this._data,
             height: context.parameters.containerHeight.raw || 30,
-            useTestData: context.parameters.useTestData.raw || false
+            useTestData: context.parameters.useTestData.raw || false,
+            setSelectedRecords: this.setSelectedRecords
         }
+
+        console.log("PROPS", props)
 
         return React.createElement(
             ModernCombo, props

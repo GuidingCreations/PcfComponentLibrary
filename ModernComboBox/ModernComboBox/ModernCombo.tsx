@@ -8,15 +8,17 @@ export interface ModernComboProps {
   labelText?: string;
   useTestData?: boolean;
   items: any[];
+  setSelectedRecords: (records: any[]) => void;
+
 }
 
 const ModernCombo = (props: ModernComboProps) => {
   const testData = [
-    { label: "Blue springs (Volusia)" },
-    { label: "Ginnie Springs" },
-    { label: "Royal Springs" },
-    { label: "Alexander Springs" },
-    { label: "Three Sisters Springs" },
+    { label: "Blue springs (Volusia)", chipBackgroundColor: 'blue', chipTextColor: 'white' },
+    { label: "Ginnie Springs", chipBackgroundColor: 'orange', chipTextColor: 'white' },
+    { label: "Royal Springs", chipBackgroundColor: 'green', chipTextColor: 'white' },
+    { label: "Alexander Springs", chipBackgroundColor: 'red', chipTextColor: 'white' },
+    { label: "Three Sisters Springs", chipBackgroundColor: 'black', chipTextColor: 'white' },
   ];
 
   console.log("TEST DATA", testData)
@@ -61,7 +63,9 @@ const optionsList = props.useTestData ? testData : ( !hasItemsPassed ? [{label: 
   const optionsWrapperRef = useRef<any>(null)
   const inputRef = useRef<any>(null)
  
-
+useEffect(() => {
+  props.setSelectedRecords(selectedValues)
+}, [selectedValues])
 
   useEffect(() => {
     const handleClickOutside = async (e : any) => {
@@ -107,6 +111,7 @@ const optionsList = props.useTestData ? testData : ( !hasItemsPassed ? [{label: 
             chipFontSize="10px"
             data={selectedValues}
             onDestroyChip={handleDestroyChip}
+            
             
             />
             </div>
