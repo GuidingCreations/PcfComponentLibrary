@@ -7,8 +7,8 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
-
-    /**
+    public _data: any[] = []
+       /**
      * Empty constructor.
      */
     constructor() { }
@@ -34,9 +34,28 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+        this._data = []
+
+        context.parameters.Items.columns.map((column) => {
+            console.log('COLUMN LOGICAL NAME', column.name);
+            console.log("COLUMN DISPLAY NAME", column.displayName);
+        })
+        
+        context.parameters.Items.sortedRecordIds.forEach( (recordId) => {
+            const objToAdd : any= {}
+            context.parameters.Items.columns.map((column) => {
+                objToAdd[column.displayName] = context.parameters.Items.records[recordId].getFormattedValue(column.name)
+            });
+            console.log("OBJECT TO ADD", objToAdd)
+            this._data.push(objToAdd)
+        })
         
         const props : ModernComboProps = {
-            width: context.parameters.containerWidth.raw || 300
+            width: context.parameters.containerWidth.raw || 300,
+            labelText: context.parameters.labelText.raw || "Label text",
+            items: this._data,
+            height: context.parameters.containerHeight.raw || 30,
+            useTestData: context.parameters.useTestData.raw || false
         }
 
         return React.createElement(
