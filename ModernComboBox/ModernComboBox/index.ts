@@ -109,7 +109,8 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
             items: this._data,
             height: context.parameters.containerHeight.raw || 30,
             useTestData: context.parameters.useTestData.raw || false,
-            setSelectedRecords: this.setSelectedRecords
+            setSelectedRecords: this.setSelectedRecords,
+            AllowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false
         }
 
         console.log("PROPS", props)
