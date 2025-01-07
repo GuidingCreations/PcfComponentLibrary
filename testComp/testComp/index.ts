@@ -5,7 +5,7 @@ import { ComboBoxProps } from "./HelloWorld";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
-export class testComp implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     public _items : any[] = [];
     public _data : any[] = [];
@@ -85,6 +85,7 @@ export class testComp implements ComponentFramework.ReactControl<IInputs, IOutpu
                         label: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("label"),
                         id: context.parameters.DefaultSelectedItems.records[item].getRecordId()
                     }
+                    console.log("ADDING DEFAULT: ", valueToAdd)
                     this._defaultSelectedItems.push(valueToAdd)
                 })
                 console.log("DEFAULTS", this._defaultSelectedItems)
@@ -102,6 +103,7 @@ export class testComp implements ComponentFramework.ReactControl<IInputs, IOutpu
             setSelectedRecords: this.setSelectedRecords,
             defaultValues: this._defaultSelectedItems,
             darkMode: context.parameters.DarkMode.raw || false
+            
         }
 
         return React.createElement(
