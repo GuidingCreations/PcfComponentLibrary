@@ -3,7 +3,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
 
-const treeData: TreeDataNode[] = [
+const treeData: any[] = [
   {
     title: 'parent 1',
     key: '0-0',
@@ -54,7 +54,11 @@ const treeData: TreeDataNode[] = [
   },
 ];
 
-const TreeComponent = () => {
+export interface TreeComponentProps {
+  showLine: boolean
+}
+
+const TreeComponent = (props: TreeComponentProps) => {
 
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
     console.log('selected', selectedKeys, info);

@@ -6,8 +6,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useEffect, useState } from 'react';
-
+import { useEffect, useRef } from 'react';
+import useState from 'react-usestateref'
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -30,6 +30,16 @@ export interface ComboBoxProps {
 
 
 export default function CheckboxesTags(props: ComboBoxProps) {
+  
+  const renderCountRef = useRef(0)
+  const [selectedValues, setSelectedValues, selectedValuesRef] = useState<any[]>([])
+  const defaultValues = useRef<any>([])
+  renderCountRef.current++
+  const comboBoxRef = useRef(null)
+  const [height, setHeight] = useState(0);
+
+
+  console.log("RENDER COUNT", renderCountRef.current)
 
   const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -81,29 +91,50 @@ export default function CheckboxesTags(props: ComboBoxProps) {
     { title: 'Interstellar', year: 2014 },
   ];
 
-  console.log("PROP THEME", props.darkMode)
+  const compareDefaults = () => {
+    console.log("comparing defaults", JSON.stringify(defaultValues.current), "to ", JSON.stringify(props.defaultValues));
+    const hasChanged = JSON.stringify(defaultValues.current) != JSON.stringify(props.defaultValues)
+    console.log("has changed? ", hasChanged);
+    
+    return hasChanged
+  }
+
+  const updateDefaults = () => {
+    if(compareDefaults()) {
+      console.log("default values have changed, setting selected values to new state of default values");
+      defaultValues.current = props.defaultValues
+      setSelectedValues(props.defaultValues)
+      console.log("NEW SELECTED VALUES", selectedValuesRef.current)
+    }
+  };
+
+  updateDefaults();
+
+
   const theme = createTheme({
     palette: {
       mode:  props.darkMode ? 'dark' : 'light'
     },
   });
-  console.log("theme", theme)
   
-  const [selectedValues, setSelectedValues] = useState<any[]>( props.defaultValues)
+
+
   const handleOptionSelect = (e : any, value : any[]) => {
     console.log(e);
     console.log(value);
     if (props.allowSelectMultiple) {
+      console.log("IS OF ARRAY TYPE? ", Array.isArray(value) )
       setSelectedValues(value)
     } else {
-      setSelectedValues([]);
-      selectedValues.push(value)
+      console.log("ISARRAY !mult: ", Array.isArray(value))
+      setSelectedValues([value]);
+      console.log("sel Values at end of !mult handleOptionSelect", selectedValues)
     }
   }
   const displayColumn : string = props.displayColumn;
-  console.log("display column", displayColumn)
+  const emptyLabel : any = {}
+  emptyLabel.label = ""
   const optionsList = props.useTestData ? top100Films :  props.Items
-  console.log("optionsList", optionsList)
 
   useEffect(() => {
     console.log("BEFORE SEL", selectedValues)
@@ -111,8 +142,8 @@ export default function CheckboxesTags(props: ComboBoxProps) {
     console.log("AFTER SEL", selectedValues)
     props.setSelectedRecords(selectedValues)
   }, [selectedValues])
-  
-  const multDefaults = props.allowSelectMultiple ? props.defaultValues : [{}]
+  console.log("PROP DEFAULTS", props.defaultValues)
+  const multDefaults = props.defaultValues
 console.log("MULT DEFAULTS", multDefaults)
   return (
 
@@ -122,7 +153,7 @@ console.log("MULT DEFAULTS", multDefaults)
     <Autocomplete
       multiple = {props.allowSelectMultiple}
       onChange={handleOptionSelect}
-      value={selectedValues}
+      value={ selectedValuesRef.current || [{title: ""}]}
       id="checkboxes-tags-demo"
       options={optionsList}
       defaultValue={multDefaults}
@@ -146,7 +177,7 @@ console.log("MULT DEFAULTS", multDefaults)
       }}
       style={{ width: props.width , maxWidth: props.width, maxHeight : props.height}}
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder="Favorites" />
+        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
       )}
       />
   </ThemeProvider>
@@ -160,10 +191,10 @@ console.log("MULT DEFAULTS", multDefaults)
   onChange={handleOptionSelect}
   id="checkboxes-tags-demo"
   options={optionsList}
+  getOptionLabel={(option : any) => option[displayColumn]}
+  value={selectedValues[0] || emptyLabel}
   isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
-  disableCloseOnSelect
-  getOptionLabel={(option : any) => option[displayColumn] || ''}
-  defaultValue={props.defaultValues[0] || {}}
+
   renderOption={(props, option : any, { selected }) => {
     const { key, ...optionProps } = props;
     return (

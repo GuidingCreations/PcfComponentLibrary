@@ -8,7 +8,7 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.props')" />
 
   <PropertyGroup>
-    <ProjectGuid>dccaa097-2e09-46a5-9e3f-148f0f6c8973</ProjectGuid>
+    <ProjectGuid>83f0177d-d1e8-4a02-b8a3-083d400dfa79</ProjectGuid>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <!--Remove TargetFramework when this is available in 16.1-->
     <TargetFramework>net462</TargetFramework>
@@ -49,9 +49,14 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\ComboBox\ComboBox.pcfproj" />
     <ProjectReference Include="..\Header\Header.pcfproj" />
-    <ProjectReference Include="..\Modal\Modal.pcfproj" />
     <ProjectReference Include="..\Loader\Loader.pcfproj" />
+    <ProjectReference Include="..\Modal\Modal.pcfproj" />
+    <ProjectReference Include="..\AutoComplete\AutoComplete.pcfproj" />
+    <ProjectReference Include="..\Tree\Tree.pcfproj" />
+    <ProjectReference Include="..\ModernComboBox\ModernComboBox.pcfproj" />
+    <ProjectReference Include="..\DarkLightToggle\DarkLightToggle.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

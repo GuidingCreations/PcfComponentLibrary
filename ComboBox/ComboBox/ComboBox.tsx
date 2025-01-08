@@ -1,11 +1,11 @@
 //Imports
 
-import * as React from 'react';
-import Select, {SelectChangeEvent} from '@mui/material/Select'
-import { FormControl, OutlinedInput } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import { Theme, useTheme } from '@mui/material/styles';
+import * as React from "react";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FormControl, OutlinedInput } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import { Theme, useTheme } from "@mui/material/styles";
 
 // Create interface for props
 
@@ -15,117 +15,112 @@ export interface ComboBoxProps {
   displayField: string;
   height: number;
   width: number;
+  labelText: string;
+  AllowSelectMultiple: boolean;
+  backgroundColorOverride?: string;
+  labelTextColor?: string;
+  listItemHoverBackgroundColor: string;
+  listItemHoverTextColor: string;
+  
 }
+
 
 // Initiate component
 
-const ComboBoxComponent = (props : ComboBoxProps) => {
-
+const ComboBoxComponent = (props: ComboBoxProps) => {
   // Create function for determining dynamic styling of items
+  
+  const selectStyles = {'--placeholder-color': 'red',width: props.width,
+    height: props.height,
+    backgroundColor: props.backgroundColorOverride != '' ? props.backgroundColorOverride : '' } as React.CSSProperties
 
-  function generateItemStyles( value: any, selectedValues: any[], theme: Theme) {
-
+  function generateItemStyles(value: any, selectedValues: any[], theme: Theme) {
     return {
       fontWeight: selectedValues.includes(value)
         ? theme.typography.fontWeightMedium
         : theme.typography.fontWeightRegular,
-        width: props.width
-    }
-
+      width: props.width,
+      '--background-color': props.listItemHoverBackgroundColor == '' ? '' : props.listItemHoverBackgroundColor,
+      '--hover-text-color': props.listItemHoverTextColor,
+      theme
+      
+    } as React.CSSProperties;
   }
 
-// Declare some variables
+  // Declare some variables
+
+  const theme = useTheme();
+  const displayColumn = props.displayField;
+
+  // Create the state we will use to store the selected values
+
+  const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+  console.log("INITIAL SELECTED VALUES", selectedValues);
+
+  // Hook we will call whenever selectedValues is updated to pass new values back to the component
+
+  React.useEffect(() => {
+    
+    // Pass selected values to forumla from manifest to execute from there
+
+    props.setSelectedRecords(selectedValues)
+
+  }, [selectedValues]);
+
+  //Function for handling the selection of an item
   
-    const theme = useTheme()
-    const displayColumn = props.displayField
+  const handleNewSelection = async (e: any) => {
   
-    const [selectedValues, setSelectedValues] = React.useState<string[]>([])
-    React.useEffect(() => {
-        
-      const selectedItems = props.data.filter((item : any) => selectedValues.includes(item['displayField']))
-      console.log('SELECTED ITEMS');
-      console.table(selectedItems);
-      const selectedItemIds = selectedItems.map( (item : any) => props.data.findIndex((dataItem : any) => dataItem.id == item.id ));
-      console.log('Selected item IDS', selectedItemIds)
-      props.setSelectedRecords(selectedItemIds);
-      // console.log("NEW SELECTED VALUES");
-      // console.table(selectedValues);
+    // Set selectedValues to target - includes logic from switching between multiple and single select
+console.log('SELECTED: ', e.target.value, typeof e.target.value)
+
+if ( typeof e.target.value === 'string') {
+  setSelectedValues([e.target.value])
+} else {
+  setSelectedValues(e.target.value)
+}
+
+  
+  };
+
+  return (
+    <div className="p-1">
+
+    <FormControl fullWidth className="p-1">
+      <InputLabel style={{color: props.labelTextColor}}  id="TestLabelID">{props.labelText}</InputLabel>
       
 
-    }, [selectedValues])
-    
-    
-//Function for handling the selection of an item
-    const handleNewSelection = async (e : any) => {
-      
-      console.log('event', e);
-      console.log('target', e.target)
-
-// if the array is empty
-
-      console.log('current values');
-      console.table(selectedValues);
-
-      const newSelection = e.target.value
-      console.log('new selection');
-      console.table(newSelection); 
-
-      setSelectedValues(newSelection);
-
-      
-      
-      
-      
-    
-  }
-
-    return (
-
-      <FormControl fullWidth>
-        
-        <InputLabel id="TestLabelID">
-          Name
-        </InputLabel>
-
-        <Select
-        labelId='1'
-        label = "ComboBox Label"
-        multiple
-        value= {selectedValues}
-        name='Test Name'
+      <Select
+        labelId="1"
+        label="ComboBox Label"
+        className="bg-white option"
+        multiple = {props.AllowSelectMultiple}
+        value={selectedValues}
+        name="Test Name"
         onChange={handleNewSelection}
-        input={<OutlinedInput label = "Name"/>}
-        style={{
-            width: props.width, 
-            height: props.height
-        }}
+        input={<OutlinedInput label={props.labelText} />}
+        style={selectStyles}
         >
-            {props.data.map((item : any) => {
-              return (
-              <MenuItem 
-                value = {item['displayField']} 
-                key= {item['displayField']}
-                style={generateItemStyles(item['displayField'], selectedValues, theme)}
-                >
-                
-                {item['displayField']}
-              
-              </MenuItem>
-              )
-            })}
-        </Select>
-      </FormControl>
+        {props.data.map((item: any) => {
+          return (
+            <MenuItem
+            id="OPTION"
+            value={item["displayField"]}
+            key={item["displayField"]}
+            style={generateItemStyles(
+              item["displayField"],
+              selectedValues,
+                theme
+              )}
+              >
+              {item["displayField"]}
+            </MenuItem>
+          );
+        })}
+      </Select>
+    </FormControl>
+        </div>
+  );
+};
 
-      /*<button
-      onClick={() => {
-        
-        console.log("DATA" + this.props.data[0][displayColumn]);
-        
-      }}
-      >
-hhhhhhh
-      </button>*/
-    )
-  }
-
-  export default ComboBoxComponent
+export default ComboBoxComponent;

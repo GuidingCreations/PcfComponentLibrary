@@ -1,12 +1,22 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
-import TreeComponent, {TreeComponentProps} from "./Tree";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
+import MuiSwitch, { MaterialUISwitchProps } from "./HelloWorld";
 
-export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+export class DarkLightToggle implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
+    context: ComponentFramework.Context<IInputs>
+    public _compDarkMode : boolean;
+    
+
+    
+    toggleMode = (newValue: boolean) => {
+        console.log("TRANSFERRING TO NEW VALUE")
+        this._compDarkMode = newValue
+        console.log("NOTIFYING OUTPUT", this._compDarkMode)
+        this.notifyOutputChanged()
+    }
+    
 
     /**
      * Empty constructor.
@@ -26,6 +36,9 @@ export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> 
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this.context = context;
+
+
     }
 
     /**
@@ -34,11 +47,18 @@ export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+
+
+        const props : MaterialUISwitchProps = {
+            useDarkMode: this._compDarkMode,
+            handleToggleChange: this.toggleMode,
+            defaultDarkMode: context.parameters.useDarkMode.raw
+        }
         
-        const props = {}
-        
+        console.log("COMP PROPS", props)
+
         return React.createElement(
-            TreeComponent
+            MuiSwitch, props
         );
     }
 
@@ -47,7 +67,10 @@ export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        console.log("DARK MODE OUTPUT", this._compDarkMode)
+        return { 
+            darkModeEnabled: this._compDarkMode
+        };
     }
 
     /**

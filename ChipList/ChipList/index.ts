@@ -1,10 +1,10 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import ChipList, {  ChipListProps } from "./ChipList";
 import * as React from "react";
-import TreeComponent, {TreeComponentProps} from "./Tree";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
-export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+export class ChipListComponent implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
 
@@ -34,11 +34,16 @@ export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        
-        const props = {}
-        
+        const props: ChipListProps = { 
+            chipFontSize: '11px',
+            chipHeight: 30,
+            onDestroyChip: (value : any) => {
+                console.log("DESTROY")
+            }
+
+        };
         return React.createElement(
-            TreeComponent
+            ChipList, props
         );
     }
 

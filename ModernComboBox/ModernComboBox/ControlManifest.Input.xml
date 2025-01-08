@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNamespace" constructor="ModernComboBox" version="0.2.56" display-name-key="ModernComboBox" description-key="ModernComboBox description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNamespace" constructor="ModernComboBox" version="0.4.92" display-name-key="ModernComboBox" description-key="ModernComboBox description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
     </external-service-usage>
     <data-set name="Items" display-name-key="Items">
+    </data-set>
+
+    <data-set name="DefaultSelectedItems" display-name-key="DefaultSelectedItems">
     </data-set>
 
 
@@ -20,6 +23,7 @@
     <resources>
       <code path="index.ts" order="1"/>
       <css path= "../../dist/output.css" order='1'/>
+      <css path= "./styles.css" order='1'/>
       <platform-library name="React" version="16.14.0" />
       <platform-library name="Fluent" version="9.46.2" />
     </resources>

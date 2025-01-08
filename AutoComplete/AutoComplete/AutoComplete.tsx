@@ -1,9 +1,7 @@
 "use client";
 
-import { ClassNames } from "@emotion/react";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { create } from "@mui/material/styles/createTransitions";
-import React, {  useRef, useEffect, memo } from "react";
+import { ChevronDownIcon, ChevronUpIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import React, {  useRef, useEffect} from "react";
 import useState from 'react-usestateref';
 
 // Test data
@@ -154,13 +152,13 @@ console.log("CHANGE REF CURRENT", changedCount.current)
       className: `pl-1 ${props.DarkMode ? "relative mt-2 w-full rounded-md py-1.5 text-base text-white bg-gray-900 border border-solid border-white" : 'relative mt-2 w-full rounded-md py-1.5 text-base text-gray-900 border border-solid border-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 bg-white'}`
     },
     label: {
-      ClassNames: props.DarkMode ? 'block text-sm/6 font-medium text-white text-left' : "block text-sm/6 font-medium text-gray-900 text-left"
+      ClassNames: `font-semibold ${props.DarkMode ? 'block text-sm/6 font-medium text-white text-left' : "block text-sm/6 font-medium text-gray-900 text-left"}`
     },
     icon: {
       classNames: props.DarkMode? 'fill-white' : "fill-black"
     },
     optionsWrapper: {
-      classNames: props.DarkMode ? 'bg-black mt-1 max-h-60 w-full flex flex-col overflow-auto rounded-md py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm border border-white' : 'mt-1 max-h-60 w-full flex flex-col overflow-auto rounded-md bg-white py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm border border-black'
+      classNames: `z-50 overflow-scroll max-h-60 w-full sm:text-sm mt-1 focus:outline-hidden flex flex-col rounded-md py-1 text-base ring-1 shadow-lg ${props.DarkMode ? 'bg-black   ring-white/5   border border-white' : 'bg-white text-base ring-1 shadow-lg ring-black/5 border border-black'}`
     },
     input: {
       classNames: 'mt-2 mb-2'
@@ -241,7 +239,7 @@ console.log("CHANGE REF CURRENT", changedCount.current)
     // Wrapper for the outer container
     <div
       style={{ width: props.width, height: props.height }}
-      className={`flex justify-center p-8`}
+      className={`flex justify-center p-1 m-2`}
     >
       {/* content wrapper for the whole content */}
       <div className="flex flex-col">
@@ -295,14 +293,16 @@ console.log("CHANGE REF CURRENT", changedCount.current)
 </button>
         </div>
 
+        { isOpen ?
 
-          <div style={{visibility : isOpen ? 'visible' : 'hidden', overflow: 'visible'}} ref = {listRef} className={classes.optionsWrapper.classNames}>
+          <div ref = {listRef} className={classes.optionsWrapper.classNames} style={{minHeight: '-webkit-fill-available', maxHeight: '350px'}}>
             
             {optionsList.map( (option : any) => {
-               return <label data-value={option.label}  key={option.label} className={option.classNames} onClick={() => handleOptionSelect(option.label)}>{option.label}</label>
+              return <label data-value={option.label}  key={option.label} className={option.classNames} onClick={() => handleOptionSelect(option.label)}>{option.label}</label>
             })}
-          </div>
+          </div> : ''
 
+            }
 
       </div>
     </div>

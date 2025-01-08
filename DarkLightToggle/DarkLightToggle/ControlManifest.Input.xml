@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="HunterMcCarthysNamespace" constructor="DarkLightToggle" version="0.0.5" display-name-key="DarkLightToggle" description-key="DarkLightToggle description" control-type="virtual" >
+
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+      
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="darkModeEnabled" display-name-key="darkModeEnabled" of-type="TwoOptions" usage="output" hidden="false" default-value="true"/>
+
+    <event name="OnChangeMode"
+   pfx-default-value='Set(varDarkMode, Self.darkModeEnabled)'
+   display-name-key="OnChangeMode"
+   description-key="OnChangeMode" />
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+
+    </resources>
+   
+  </control>
+</manifest>

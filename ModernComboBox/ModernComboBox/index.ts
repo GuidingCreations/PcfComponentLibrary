@@ -9,8 +9,7 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
     context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: () => void;
     public _data: any[] = [];
-
-
+    public _defaultSelectedItems : any = []
      
     setSelectedRecords = (selectedRecords: any[]) => {
         console.log("SET SELECTED RECORDS TRIGGERED WITH : ", selectedRecords);
@@ -34,10 +33,10 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
             
             
         })
-    
-    console.log("SELECTED ARRAY IDS", arrSelected);
-    this.context.parameters.Items.setSelectedRecordIds(arrSelected)
-    console.log("EXIT SELECT RECORDS")
+        console.log("SELECTED ARRAY IDS", arrSelected);
+        this.context.parameters.Items.setSelectedRecordIds(arrSelected)
+        console.log("EXIT SELECT RECORDS")
+        this.notifyOutputChanged()
     }
     
     
@@ -70,39 +69,40 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         this._data = []
-        const columns = context.parameters.Items.columns;
-       console.log("COLUMNS", columns)
-        let idColumnLogicalName : string = ''
 
-       columns.map((column : any) => {
-            if (column.displayName == 'id') {
-                console.log("LOGICAL NAME: ", column.name);
-                idColumnLogicalName = column.name
-            }
-       } )
-       
-       
-       
-       console.log('ID COLUMN', idColumnLogicalName) 
-       console.log("sortedRecordIds", context.parameters.Items.sortedRecordIds)
+    //    Load data
 
-        console.log("LOADING DATA")
-                  context.parameters.Items.sortedRecordIds.forEach( (recordId) => {
-                       
-                       
-                       const objToAdd : any = {
-                           id: context.parameters.Items.records[recordId].getRecordId(),
-                           label: context.parameters.Items.records[recordId].getFormattedValue("label"),
-                           chipBackgroundColor: context.parameters.Items.records[recordId].getFormattedValue("chipBackgroundColor"),
-                           chipTextColor: context.parameters.Items.records[recordId].getFormattedValue("chipTextColor"),
-                       }
-           
-                       this._data.push(objToAdd)
-                   })
-                console.log("DONE LOADING DATA:", this._data)
-      
+       context.parameters.Items.sortedRecordIds.map( (recordId : any) => {
+            const objToAdd : any = {
+               label: context.parameters.Items.records[recordId].getFormattedValue("label"),
+               chipBackgroundColor: context.parameters.Items.records[recordId].getFormattedValue("chipBackgroundColor"),
+               chipTextColor: context.parameters.Items.records[recordId].getFormattedValue("chipTextColor"),
+               chipFontSize: context.parameters.Items.records[recordId].getFormattedValue("chipFontSize"),
+               chipHeight: context.parameters.Items.records[recordId].getFormattedValue("chipHeight"),
+               iconFill: context.parameters.Items.records[recordId].getFormattedValue("iconFill")
+                    }
+                this._data.push(objToAdd)
+            })
 
-        
+    //  If the default values have not been loaded, load them
+
+        if (this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this._defaultSelectedItems.length) {
+            
+            this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
+                const valueToAdd : any = {
+                    label: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("label"),
+                    chipBackgroundColor: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("chipBackgroundColor"),
+                    chipTextColor: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("chipTextColor"),
+                    chipFontSize: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("chipFontSize"),
+                    chipHeight: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("chipHeight"),
+                    iconFill: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("iconFill")
+                }
+                this._defaultSelectedItems.push(valueToAdd)
+            })
+            console.log("DEFAULTS", this._defaultSelectedItems)
+        }
+
+
         const props : ModernComboProps = {
             width: context.parameters.containerWidth.raw || 300,
             labelText: context.parameters.labelText.raw || "Label text",
@@ -110,7 +110,9 @@ export class ModernComboBox implements ComponentFramework.ReactControl<IInputs, 
             height: context.parameters.containerHeight.raw || 30,
             useTestData: context.parameters.useTestData.raw || false,
             setSelectedRecords: this.setSelectedRecords,
-            AllowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false
+            AllowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false,
+            DarkMode: context.parameters.DarkMode.raw || false,
+            defaultSelectedValues: this._defaultSelectedItems
         }
 
         console.log("PROPS", props)

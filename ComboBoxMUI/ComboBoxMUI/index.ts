@@ -10,11 +10,13 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
     public _items : any[] = [];
     public _data : any[] = [];
     public _defaultSelectedItems : any = []
+    public _selectedRecords : any[] = [];
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>
 
     setSelectedRecords = (selectedRecords: any[]) => {
         console.log("SET SELECTED RECORDS TRIGGERED WITH : ", selectedRecords);
+        this._selectedRecords = [];
         const arrSelected : any[] = [];
         console.log("_DATA", this._data)
         
@@ -37,6 +39,13 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             
         })
         console.log("SELECTED ARRAY IDS", arrSelected);
+        if (selectedRecords.length == 0) {
+            this._selectedRecords = [{label: ""}]
+        } else {
+
+            this._selectedRecords = selectedRecords;
+        }
+
         this.context.parameters.Items.setSelectedRecordIds(arrSelected)
         console.log("EXIT SELECT RECORDS")
         this.notifyOutputChanged()
@@ -78,18 +87,26 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
                 this._items.push(objToAdd)
             })
 
-            if (this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this._defaultSelectedItems.length) {
-            
+            const updateDefaultSelectedValues = () => {
+                
+                console.log("starting DEFAULTS")
+                this._defaultSelectedItems = []
+
                 this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
                     const valueToAdd : any = {
                         label: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("label"),
                         id: context.parameters.DefaultSelectedItems.records[item].getRecordId()
                     }
                     console.log("ADDING DEFAULT: ", valueToAdd)
-                    this._defaultSelectedItems.push(valueToAdd)
+                        this._defaultSelectedItems.push(valueToAdd)
+                    
+                    
+
                 })
-                console.log("DEFAULTS", this._defaultSelectedItems)
+                console.log("new DEFAULTS", this._defaultSelectedItems)
             }
+
+            updateDefaultSelectedValues();
 
 
         const props = {
@@ -100,11 +117,13 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             width: context.parameters.containerWidth.raw || 300,
             height: context.parameters.containerHeight.raw || 40,
             allowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false,
-            setSelectedRecords: this.setSelectedRecords,
+            setSelectedRecords: this.setSelectedRecords.bind(this),
             defaultValues: this._defaultSelectedItems,
             darkMode: context.parameters.DarkMode.raw || false
             
         }
+
+        console.log("PROPS", props)
 
         return React.createElement(
             CheckboxesTags, props

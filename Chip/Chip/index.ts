@@ -1,10 +1,10 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import Chip, { ChipProps } from "./Chip";
 import * as React from "react";
-import TreeComponent, {TreeComponentProps} from "./Tree";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
-export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+export class ChipComponent implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
 
@@ -34,11 +34,16 @@ export class Tree implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        
-        const props = {}
-        
+        const props: ChipProps = {
+            height: context.parameters.containerHeight.raw || 50,
+            onSelectX: () => {console.log("HELLO WORLD")},
+            backgroundColor: 'blue',
+            labelColor: 'white',
+            labelText: 'test label text 1',
+            fontSize: '8px'
+        };
         return React.createElement(
-            TreeComponent
+            Chip, props
         );
     }
 
