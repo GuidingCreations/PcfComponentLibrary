@@ -17,7 +17,8 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.3.1",
     "react": "17.0.0",
-    "react-dom": "17.0.0"
+    "react-dom": "17.0.0",
+    "react-tooltip": "^5.28.0"
   },
   "devDependencies": {
     "@microsoft/eslint-plugin-power-apps": "^0.2.51",

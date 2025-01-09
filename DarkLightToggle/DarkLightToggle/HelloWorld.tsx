@@ -1,14 +1,9 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { useRef, useState, useEffect } from 'react';
-
+import Switch from '@mui/material/Switch';
+import { createTheme } from '@mui/material/styles';
+import { useRef } from 'react';
+import { Tooltip } from 'react-tooltip'
 
 export interface MaterialUISwitchProps {
   useDarkMode: boolean;
@@ -116,9 +111,17 @@ const handleModeChange = () => {
 
 
     return (
+
+      <div>
+
+
       <MaterialUISwitch sx={{ m: 1 }} defaultChecked = {darkMode.current} onChange={(e) => {console.log("MODE CHANGED"); handleModeChange()}} />
        
+        <Tooltip anchorSelect='.MuiSwitch-input' place='bottom'>
+        {darkMode.current ? "Blinded by the light" : "Bravo six, going dark"}
+      </Tooltip>
       
+      </div>
     )
   
 

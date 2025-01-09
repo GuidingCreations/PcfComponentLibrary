@@ -8,6 +8,7 @@ module.exports = {
     './ModernComboBox/ModernComboBox/ModernCombo.tsx',
     './Chip/Chip/Chip.tsx',
     './ChipList/ChipList/ChipList.tsx',
+    './TextField/TextFieldMUI/TextField.tsx',
 
   ],
   theme: {
