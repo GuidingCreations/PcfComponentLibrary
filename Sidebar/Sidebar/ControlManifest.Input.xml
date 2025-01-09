@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="HunterMcCarthysNS" constructor="Sidebar" version="0.0.6" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
+
+    <external-service-usage enabled="false">
+ 
+    </external-service-usage>
+    <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+     
+    </data-set>
+  <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
+    <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path = "../../dist/output.css"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+      
+    </resources>
+  
+  </control>
+</manifest>
