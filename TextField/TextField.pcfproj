@@ -11,6 +11,7 @@
     <Name>TextField</Name>
     <ProjectGuid>f6ba50cb-9846-4cda-94ab-2d1cc9a49b84</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+     <PcfBuildMode>production</PcfBuildMode>
   </PropertyGroup>
 
   <PropertyGroup>

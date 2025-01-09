@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.0.1" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.0.38" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
 
     <external-service-usage enabled="false">
   
     </external-service-usage>
-    <property name="variantType" display-name-key="variantType" description-key="Outlined, Filled, or Standard" of-type="SingleLine.Text" usage="input" required="false" default-value = "outlined" />
-    <property name="inputType" display-name-key="inputType" description-key="text, password, or number" of-type="SingleLine.Text" usage="input" required="false" default-value = "text" />
-    <property name="isRequired" display-name-key="isRequired" of-type="TwoOptions" usage="input" hidden="false" default-value= "false"/>
-    <property name="isEditable" display-name-key="isEditable" of-type="TwoOptions" usage="input" hidden="false" default-value= "true"/>
-<property name="Placeholder" display-name-key="Placeholder" description-key="Placeholder" of-type="SingleLine.Text" usage="input" required="false" />   
+
+  <!-- Text params -->
+
 <property name="labelText" display-name-key="labelText" description-key="labelText" of-type="SingleLine.Text" usage="input" required="false" />   
+<property name="outputValue" display-name-key="outputValue" description-key="outputValue" of-type="SingleLine.Text" usage="output" required="false" />   
+
+<!-- Boolean params -->
+
 <property name="useDarkMode" display-name-key = "useDarkMode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
-<property name="accentColor" display-name-key="accentColor" description-key="Placeholder" of-type="SingleLine.Text" usage="input" required="false" />
+<property name="isErrored" display-name-key="isErrored" description-key="isErrored" of-type="TwoOptions" usage="output" required="true" default-value = "false" />   
+
+<!-- Number properties -->
+
+<property name="minLength" display-name-key="minLength" description-key="minLength" of-type="Whole.None" usage="input" required="false" default-value="0"/>   
+
 
 
 

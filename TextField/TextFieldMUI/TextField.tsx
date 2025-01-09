@@ -1,61 +1,73 @@
 import * as React from 'react';
 
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+// import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useRef, useState } from 'react';
+// import SearchIcon from '@mui/icons-material/Search';
+// import { InputAdornment, Box } from '@mui/material';
+// import {makeStyles} from '@mui/styles'
 
 export interface TextInputProps {
   darkMode: boolean;
-  Required: boolean;
-  inputType: string;
-  variantType: string;
-  placeholderText: string;
   labelText: string;
-  accentColor: string;
+  updateOutput: (value: any, hasError: boolean) => void;
+  minLength: number;
+
 }
 
 export default function TextInput(props : TextInputProps) {
+  
+  const renderCount = useRef(0)
+  renderCount.current++
 
-const [isError, setIsError] = useState(false)
-
-const handleChange = (e: any) => {
-  const value = e.target.value
-  console.log(value);
-  if (value.length < 6 ) {
-    setIsError(true)
-  } else {
-    setIsError(false)
+  const minLength = useRef(props.minLength);
+  minLength.current = props.minLength
+  
+  const isErrored = useRef(minLength.current > 0)
+  
+  const outputValue = useRef<any>("")
+  console.log("vala", outputValue.current)
+  if (outputValue.current.length < minLength.current) {
+    isErrored.current = true
+    props.updateOutput(outputValue.current, isErrored.current)
   }
-}
+    
+    
+    console.log("IS ERRORED", isErrored)
+  const handleTextChange = (newValue: any) => {
+    console.log("OLD VALUE", outputValue.current);
+    outputValue.current = newValue
+    console.log(outputValue.current)
+    if (outputValue.current.length < props.minLength) {
+      isErrored.current = true
+    } else {
+      isErrored.current = false
+    }
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-});
+    props.updateOutput(outputValue.current, isErrored.current)
 
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-  },
-});
+  }
 
 
+  const theme = createTheme({
+    palette: {
+      mode: props.darkMode ? 'dark': "light",
+    },
+  });
 
 
   return (
-<ThemeProvider theme={props.darkMode ? darkTheme : lightTheme}>
-<CssBaseline />
-    <TextField id="TextInput" 
-      label = {props.labelText} 
-      error = {isError}
-      variant = {props.variantType == "outlined" ? "outlined" : props.variantType == "filled" ?  "filled" : "standard"}
-      required = {props.Required}
-      type= {props.inputType || "text"}
-      placeholder= {props.placeholderText}
-      onChange={ (e) => handleChange(e)}
-      />
+
+
+    <ThemeProvider theme={theme }>
+      <CssBaseline />
+       <TextField id="TextInput" 
+      label = {props.labelText}
+      variant='outlined'
+      onChange={(e) => {console.log("TRIGGERING OUTPUT CHANGE FROM COMP: ","e", e,"targ", e.target,"val", e.target.value);   handleTextChange(e.target.value)}}
+      />       
   </ThemeProvider>
       
   )
