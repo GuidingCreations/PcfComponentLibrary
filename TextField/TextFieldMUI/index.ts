@@ -49,7 +49,9 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
             updateOutput: this.updateOutputValue,
             darkMode: context.parameters.useDarkMode.raw || false,
             labelText: context.parameters.labelText.raw || "Label text",
-            minLength: context.parameters.minLength.raw || 0
+            minLength: context.parameters.minLength.raw || 0,
+            useSearchIcon: context.parameters.useSearchIcon.raw,
+            accentColor: context.parameters.accentColor.raw ? context.parameters.accentColor.raw : ''
             
          };
 
