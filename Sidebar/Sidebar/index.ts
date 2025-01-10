@@ -7,7 +7,16 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 export class Sidebar implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
+    public _compDarkMode : boolean;
+    public _defaultDarkMode: boolean;
 
+    
+    toggleMode = (newValue: boolean) => {
+        console.log("TRANSFERRING TO NEW VALUE")
+        this._compDarkMode = newValue
+        console.log("NOTIFYING OUTPUT", this._compDarkMode)
+        this.notifyOutputChanged()
+    }
     /**
      * Empty constructor.
      */
@@ -35,9 +44,14 @@ export class Sidebar implements ComponentFramework.ReactControl<IInputs, IOutput
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        
+
         const props : SidebarProps = {
             height: context.parameters.containerHeight.raw || 700,
-            width: context.parameters.containerWidth.raw || 250
+            width: context.parameters.containerWidth.raw || 250,
+            defaultDarkMode: context.parameters.useDarkMode.raw,
+            useDarkMode: this._compDarkMode,
+            handleToggleChange: this.toggleMode
         }
 
         return React.createElement(
@@ -50,7 +64,9 @@ export class Sidebar implements ComponentFramework.ReactControl<IInputs, IOutput
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        return {
+            darkModeEnabled: this._compDarkMode
+        };
     }
 
     /**

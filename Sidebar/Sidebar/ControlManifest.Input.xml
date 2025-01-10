@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="Sidebar" version="0.0.6" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Sidebar" version="0.0.8" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
 
     <external-service-usage enabled="false">
  
@@ -10,7 +10,13 @@
     </data-set>
   <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+<property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="darkModeEnabled" display-name-key="darkModeEnabled" of-type="TwoOptions" usage="output" hidden="false" default-value="true"/>
 
+    <event name="OnChangeMode"
+   pfx-default-value='Set(varDarkMode, Self.darkModeEnabled)'
+   display-name-key="OnChangeMode"
+   description-key="OnChangeMode" />
     <resources>
       <code path="index.ts" order="1"/>
       <css path = "../../dist/output.css"/>
