@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="Sidebar2" version="0.1.51" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Sidebar2" version="0.1.54" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
 
     <external-service-usage enabled="false">
  
@@ -19,7 +19,7 @@
 
   <property name="darkModeEnabled" display-name-key="darkModeEnabled" of-type="TwoOptions" usage="output" hidden="false" default-value="true"/>
 
-  <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output" hidden="false" default-value="TEST DEFAULT"/>
+  <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output" hidden="false" default-value="App.ActiveScreen.Name"/>
 
   <event name="OnChangeMode"
     pfx-default-value='Set(varDarkMode, Self.darkModeEnabled)'

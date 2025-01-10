@@ -130,7 +130,7 @@ const handleModeChange = () => {
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
                     {props.navItems.map((item) => (
-                      <li key={item.screenName} onClick={() => { props.adjustScreenName(item.screenName); props.changeScreen() }} className={
+                      <li key={item.screenName} onClick={() => { props.adjustScreenName(item.screenName); }} className={
                             
                         darkMode.current ? 
                         

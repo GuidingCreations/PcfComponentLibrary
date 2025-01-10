@@ -57,6 +57,8 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        
+
         // Loop through data source to populate the nav items data
         this._navItems = []
         
