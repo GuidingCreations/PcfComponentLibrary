@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<manifest>
+
+  <control namespace="HunterMcCarthysNS" constructor="Sidebar2" version="0.1.51" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
+
+    <external-service-usage enabled="false">
+ 
+    </external-service-usage>
+    <data-set name="navItems" display-name-key="navItems">
+     
+    </data-set>
+
+  <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
+  
+  <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+
+  <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+
+  <property name="darkModeEnabled" display-name-key="darkModeEnabled" of-type="TwoOptions" usage="output" hidden="false" default-value="true"/>
+
+  <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output" hidden="false" default-value="TEST DEFAULT"/>
+
+  <event name="OnChangeMode"
+    pfx-default-value='Set(varDarkMode, Self.darkModeEnabled)'
+    display-name-key="OnChangeMode"
+    description-key="OnChangeMode" />
+  
+
+  
+  <event name="OnChangeScreen"
+    pfx-default-value=''
+    display-name-key="OnChangeScreen"
+    description-key="OnChangeScreen" />
+  
+  
+  <resources>
+      <code path="index.ts" order="1"/>
+      <css path = "../../dist/output.css"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />    
+  </resources>
+  
+  </control>
+</manifest>
