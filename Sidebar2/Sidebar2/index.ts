@@ -6,26 +6,24 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
+    context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: () => void;
     public _compDarkMode : boolean;
     public _defaultDarkMode: boolean;
-    private _navItems : any[] = []
-    private _outputScreenName = ""
-    context: ComponentFramework.Context<IInputs>;
+    private _navItems : any[] = [];
+    private _outputScreenName = "";
+    private _changeType : string = "";
 
 
     updateScreenName = (newScreenName: string) => {
         this._outputScreenName = newScreenName
-        
+        this._changeType = "screen"
         this.notifyOutputChanged()
-     
-        console.log("RETURNED FROM OUTPUTS")
     }
 
     toggleMode = (newValue: boolean) => {
-        console.log("TRANSFERRING TO NEW VALUE")
         this._compDarkMode = newValue
-        console.log("NOTIFYING OUTPUT", this._compDarkMode)
+        this._changeType = "toggle"
         this.notifyOutputChanged()
     }
     /**
@@ -83,7 +81,8 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
             handleToggleChange: this.toggleMode,
             navItems: this._navItems,
             adjustScreenName: this.updateScreenName,
-            changeScreen: context.events.OnChangeScreen
+            changeScreen: context.events.OnChangeScreen,
+            activeScreen: context.parameters.activeScreen.raw || ""
         }
 
         console.log("props", props)
@@ -100,7 +99,8 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
     public getOutputs(): IOutputs {
         return {
             outputScreenName: this._outputScreenName,
-            darkModeEnabled: this._compDarkMode
+            darkModeEnabled: this._compDarkMode,
+            changeType: this._changeType
         };
     }
 

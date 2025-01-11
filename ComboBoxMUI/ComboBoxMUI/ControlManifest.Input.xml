@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="testNS" constructor="ComboBoxMUI" version="0.6.89" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
+  <control namespace="testNS" constructor="ComboBoxMUI" version="0.6.90" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
    
     <external-service-usage enabled="false">
      
@@ -16,6 +16,9 @@
 
     <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
     <property name="labelText" display-name-key="Label text" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
+    <property name="borderStyle" display-name-key="borderStyle" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='solid'/>
+    <property name="borderWidth" display-name-key="borderWidth" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='1px'/>
+    <property name="borderColor" display-name-key="borderColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='white'/>
     <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
     <property name="AllowMultipleSelect" display-name-key="Allow multiple selection?" of-type="TwoOptions" usage="input" hidden="false"/>

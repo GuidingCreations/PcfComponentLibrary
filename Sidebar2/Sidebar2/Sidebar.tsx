@@ -8,7 +8,6 @@ import {
   FolderIcon,
   HomeIcon,
   UsersIcon,
-  XMarkIcon,
 } from '@heroicons/react/24/outline'
 import * as React from 'react'
 
@@ -37,7 +36,8 @@ export interface SidebarProps {
   height: number;
   width: number;
   useDarkMode: boolean;
-  defaultDarkMode: boolean
+  defaultDarkMode: boolean;
+  activeScreen: string;
   handleToggleChange: (newValue: boolean) => void
   navItems: any[],
   adjustScreenName: (newScreenName: any) => void;
@@ -98,7 +98,7 @@ const handleModeChange = () => {
         <div className="lg:inset-y-0 lg:z-50 lg:flex lg:flex-col w-full h-full overflow-hidden">
           
           
-          <div className={`flex grow flex-col gap-y-5 rounded-tr-md border border-solid border-slate-900 overflow-hidden  px-6 ${!darkMode.current ? "bg-gray-100" : "bg-gray-900"}`}>
+          <div className={`flex grow flex-col gap-y-5 h-full rounded-tr-md border border-solid border-slate-900 overflow-hidden  px-6 ${!darkMode.current ? "bg-gray-100" : "bg-gray-900"}`}>
           
           {/* top row of header where icon and dark/light toggle are */}
             
@@ -136,14 +136,14 @@ const handleModeChange = () => {
                         
                         classNames(
                         item.current
-                          ? 'bg-gray-800 text-white'
-                          : 'text-gray-400 hover:bg-gray-800 hover:text-white',
-                        'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                          ? 'bg-gray-800 text-white '
+                          : ` text-gray-400 hover:bg-gray-800 hover:text-white ${props.activeScreen == item.screenName ? "bg-gray-800" : 0}`,
+                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                       ) : classNames(
                         item.current
-                          ? 'bg-slate-900 text-white border-l-blue-500 border border-l-4'
-                          : 'text-slate-900 hover:bg-gray-800 hover:text-white',
-                        'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                          ? ' bg-slate-900 text-white border-l-blue-500 border border-l-4'
+                          : ' text-slate-900 hover:bg-gray-800 hover:text-white',
+                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                       )
                     
                     
@@ -152,9 +152,9 @@ const handleModeChange = () => {
                           
                           
                        
-                          <img src = {renderSvgUrl(item.svgData)}  className= "size-8 shrink-0">
+                          <img src = {renderSvgUrl(item.svgData)}  className= "size-8 shrink-0 ">
                           </img>
-                          <h2 className='text-white mt-auto mb-auto font-semibold'>{item.screenName}</h2>
+                          <h2 className={ `${darkMode.current ? "text-white" : "text-slate-900"} mt-auto mb-auto font-semibold`}>{item.screenName}</h2>
                        
                       </li>
                     ))}

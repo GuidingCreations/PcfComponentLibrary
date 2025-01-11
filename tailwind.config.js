@@ -9,6 +9,7 @@ module.exports = {
     './Chip/Chip/Chip.tsx',
     './ChipList/ChipList/ChipList.tsx',
     './TextField/TextFieldMUI/TextField.tsx',
+    './Sidebar/Sidebar/Sidebar.tsx',
 
   ],
   theme: {

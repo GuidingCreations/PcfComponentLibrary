@@ -116,7 +116,9 @@ console.log("HAS CHANGED", hasChanged)
        <TextField id="TextInput" 
       label = {props.labelText}
       variant='outlined'
-      helperText = {isErrored ? errorText.current : ""}
+      fullWidth
+      className='h-full'
+      helperText = {isErrored.current ? errorText.current : ""}
       onChange={(e) => {console.log("TRIGGERING OUTPUT CHANGE FROM COMP: ","e", e,"targ", e.target,"val", e.target.value);   handleTextChange(e.target.value)}}
       error = {renderCount.current > 0 && isErrored.current && hasChanged.current}
       slotProps={{

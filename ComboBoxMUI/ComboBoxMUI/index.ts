@@ -109,7 +109,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             updateDefaultSelectedValues();
 
 
-        const props = {
+        const props : ComboBoxProps = {
             displayColumn: context.parameters.displayField.raw || "label",
             useTestData: context.parameters.useTestData.raw || false,
             Items: this._items,
@@ -119,8 +119,10 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             allowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false,
             setSelectedRecords: this.setSelectedRecords.bind(this),
             defaultValues: this._defaultSelectedItems,
-            darkMode: context.parameters.DarkMode.raw || false
-            
+            darkMode: context.parameters.DarkMode.raw || false,
+            borderStyle: context.parameters.borderStyle.raw || 'none',
+            borderColor: context.parameters.borderColor.raw || 'white',
+            borderWidth: context.parameters.borderWidth.raw || "1px"
         }
 
         console.log("PROPS", props)

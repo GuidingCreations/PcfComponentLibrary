@@ -23,6 +23,9 @@ export interface ComboBoxProps {
   setSelectedRecords: (selectedRecords : any[]) => void
   defaultValues: any[];
   darkMode: boolean;
+  borderStyle: string;
+  borderWidth: string;
+  borderColor: string
 }
 
 
@@ -115,6 +118,17 @@ export default function CheckboxesTags(props: ComboBoxProps) {
     palette: {
       mode:  props.darkMode ? 'dark' : 'light'
     },
+    components: {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          root: {
+            borderStyle: props.borderStyle,
+            borderWidth:props.borderWidth,
+            borderColor: props.borderColor,
+          } 
+        }
+      }
+    }
   });
   
 
