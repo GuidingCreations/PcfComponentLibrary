@@ -8,15 +8,26 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { useRef } from 'react';
 
-export default function AccordionComponent() {
+export interface AccordionProps {
+  darkMode: boolean;
+}
+
+export default function AccordionComponent(props: AccordionProps) {
+  
+  const darkMode = useRef(props.darkMode);
+  if (props.darkMode != darkMode.current) {
+    darkMode.current = props.darkMode
+  }
 
   const theme = createTheme({
     palette: {
-      mode:  'dark'
+      mode: darkMode.current ? 'dark' : 'light'
     }
     
   });
+
 
   return (
 

@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import AccordionComponent from "./Accordion";
+import AccordionComponent, { AccordionProps } from "./Accordion";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -35,8 +35,12 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        const props : AccordionProps = {
+            darkMode: context.parameters.DarkMode.raw
+        }
+
         return React.createElement(
-            AccordionComponent
+            AccordionComponent, props
         );
     }
 
