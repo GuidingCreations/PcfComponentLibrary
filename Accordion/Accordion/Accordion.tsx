@@ -12,10 +12,16 @@ import { useRef } from 'react';
 
 export interface AccordionProps {
   darkMode: boolean;
+  accordionData: any[];
+  useTestData: boolean;
+  height: number;
+  width: number;
 }
 
 export default function AccordionComponent(props: AccordionProps) {
   
+console.log("PROPS RECEIVED", props)
+
   const darkMode = useRef(props.darkMode);
   if (props.darkMode != darkMode.current) {
     darkMode.current = props.darkMode
@@ -29,56 +35,52 @@ export default function AccordionComponent(props: AccordionProps) {
   });
 
 
+  const testData = [
+    {
+      Title: "Read me",
+      bodyContent: `This is some example content for an accordion body. Make sure your Items property has the schema format of [{Title: "Title text", bodyContent: "BodyContentText"}]`
+    },
+    {
+      Title: "Read me too",
+      bodyContent: `You just lost the game`
+    }
+  ]
+
+  const accordionRecords = props.useTestData ? testData : props.accordionData
+
+  console.log("DATA", accordionRecords)
   return (
 
 
     <ThemeProvider theme={theme}>
 <CssBaseline />
 
-    <div>
-      <Accordion>
+    <div style={{width: props.width, height: props.height, padding: '8px'}}>
+      
+      { accordionRecords.map( (record) => {
+
+      return (
+
+        
+        <Accordion key={record.Title} style={{width: '!00%'}}>
+        
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
           >
-          <Typography component="span">Accordion 1</Typography>
+          <Typography component="span">{record.Title}</Typography>
         </AccordionSummary>
+        
         <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
+          {record.bodyContent}
         </AccordionDetails>
+      
       </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2-content"
-          id="panel2-header"
-          >
-          <Typography component="span">Accordion 2</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
-        </AccordionDetails>
-      </Accordion>
-      <Accordion defaultExpanded>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-          >
-          <Typography component="span">Accordion Actions</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          malesuada lacus ex, sit amet blandit leo lobortis eget.
-        </AccordionDetails>
-        <AccordionActions>
-          <Button>Cancel</Button>
-          <Button>Agree</Button>
-        </AccordionActions>
-      </Accordion>
+    )        
+      })}
+      
+      
     </div>
           </ThemeProvider>
   );

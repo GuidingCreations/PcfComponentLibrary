@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="Accordion" version="0.0.1" display-name-key="Accordion" description-key="Accordion description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Accordion" version="0.0.6" display-name-key="Accordion" description-key="Accordion description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
     </external-service-usage>
-    <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+
+    <data-set name="accordionData" display-name-key="accordionData">
       
     </data-set>
 
     <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
-
+    <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
+    <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
+    <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+    
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />
       <platform-library name="Fluent" version="9.46.2" />
     </resources>
+  
   </control>
+
 </manifest>

@@ -7,7 +7,7 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
-
+    private _data : any[] = []
     /**
      * Empty constructor.
      */
@@ -35,8 +35,22 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        this._data = []
+
+        context.parameters.accordionData.sortedRecordIds.forEach( (recordID) => {
+            const objToAdd : any = {}
+            objToAdd.Title = context.parameters.accordionData.records[recordID].getFormattedValue("Title"),
+            objToAdd.bodyContent = context.parameters.accordionData.records[recordID].getFormattedValue("bodyContent")
+            this._data.push(objToAdd)
+        })
+        
+
         const props : AccordionProps = {
-            darkMode: context.parameters.DarkMode.raw
+            darkMode: context.parameters.DarkMode.raw,
+            accordionData: this._data,
+            useTestData: context.parameters.useTestData.raw,
+            height: context.parameters.containerHeight.raw || 250,
+            width: context.parameters.containerWidth.raw || 400
         }
 
         return React.createElement(
