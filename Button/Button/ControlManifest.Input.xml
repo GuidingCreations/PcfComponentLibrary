@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.0.1" display-name-key="Button" description-key="Button description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+    </external-service-usage>
+      <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "true"/>
+        <property name="buttonText" display-name-key="buttonText" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Click me'/>
+        <property name="sizeVariant" display-name-key="sizeVariant" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='small'/>
+        <property name="typeVariant" display-name-key="typeVariant" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='contained'/>
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+    
+    </resources>
+    
+  </control>
+</manifest>
