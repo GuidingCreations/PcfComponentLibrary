@@ -16,7 +16,8 @@ export interface TextInputProps {
   minLength: number;
   useSearchIcon: boolean;
   accentColor?: string;
-
+  height: number;
+  
 }
 
 export default function TextInput(props : TextInputProps) {
@@ -102,8 +103,21 @@ export default function TextInput(props : TextInputProps) {
           },
         
         },
+        
+
               }
-    }
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          height: `${props.height}px`
+        },
+        input: {
+          marginBottom: 'auto'
+        }
+      }
+    },
+  
 }});
 
 console.log("HAS CHANGED", hasChanged)
@@ -117,7 +131,8 @@ console.log("HAS CHANGED", hasChanged)
       label = {props.labelText}
       variant='outlined'
       fullWidth
-      className='h-full'
+      multiline
+      className='h-full '
       helperText = {isErrored.current ? errorText.current : ""}
       onChange={(e) => {console.log("TRIGGERING OUTPUT CHANGE FROM COMP: ","e", e,"targ", e.target,"val", e.target.value);   handleTextChange(e.target.value)}}
       error = {renderCount.current > 0 && isErrored.current && hasChanged.current}

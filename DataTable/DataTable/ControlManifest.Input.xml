@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="HunterMcCarthysNS" constructor="DataTable" version="0.0.21" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+    <data-set name="tableData" display-name-key="tableData">
+    
+    </data-set>
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      
+    </resources>
+  
+  </control>
+</manifest>

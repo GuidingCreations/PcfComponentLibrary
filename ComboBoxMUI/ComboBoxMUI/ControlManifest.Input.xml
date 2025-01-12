@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="testNS" constructor="ComboBoxMUI" version="0.6.90" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
+  <control namespace="testNS" constructor="ComboBoxMUI" version="0.6.92" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
    
     <external-service-usage enabled="false">
      

@@ -1,0 +1,104 @@
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import DataTableComponent, { DataTableProps } from "./DataTable";
+import * as React from "react";
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import { GridColDef } from '@mui/x-data-grid';
+type DataSet = ComponentFramework.PropertyTypes.DataSet;
+
+export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
+    private notifyOutputChanged: () => void;
+    private _tableData : any[] = []
+   
+
+    constructor() { }
+
+    /**
+     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
+     * Data-set values are not initialized here, use updateView.
+     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
+     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
+     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
+     */
+    public init(
+        context: ComponentFramework.Context<IInputs>,
+        notifyOutputChanged: () => void,
+        state: ComponentFramework.Dictionary
+    ): void {
+        this.notifyOutputChanged = notifyOutputChanged;
+    }
+
+    /**
+     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+     * @returns ReactElement root react element for the control
+     */
+    public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+
+        
+        this._tableData = [];
+
+ 
+
+    
+
+
+        console.log("ATTEMPTING TO ADD NUMBER OF RECORDS :", context.parameters.tableData.sortedRecordIds.length )
+
+        context.parameters.tableData.sortedRecordIds.forEach( (recordID) => {
+            console.log("HIT RECORD MAP")
+            const recordToAdd : any = {};
+
+            context.parameters.tableData.columns.map( (column) => {
+                const propName : string = column.name;
+                console.log("ALIAS ", column.alias, context.parameters.tableData.records[recordID].getFormattedValue(column.alias));
+                console.log("displayName ", column.displayName, context.parameters.tableData.records[recordID].getFormattedValue(column.displayName));
+                console.log("column name ", column.name, context.parameters.tableData.records[recordID].getFormattedValue(column.name));
+        
+
+
+                console.log("ADDING PROPERTY OF ", propName, " to record with a value of ", context.parameters.tableData.records[recordID].getFormattedValue(propName))
+                recordToAdd[propName] = context.parameters.tableData.records[recordID].getFormattedValue(`${column.name}`);
+                console.log("RECORD TO ADD")
+            })
+
+            this._tableData.push(recordToAdd)
+            
+        })
+
+        const tableColumns : GridColDef<typeof this._tableData>[] =[];
+
+        context.parameters.tableData.columns.map( (column) => {
+            const columnToAdd : any = {};
+            columnToAdd.field = column.name;
+            columnToAdd.headerName = column.displayName;
+            columnToAdd.width = 150;
+            tableColumns.push(columnToAdd)
+        });
+
+        console.log("COMP ITEMS COLUMNS", context.parameters.tableData.columns)
+        console.log("COLUMNS", tableColumns);
+        console.log("DATA");
+        console.table(this._tableData)
+
+        const props : DataTableProps = {
+            tableData: this._tableData,
+            tableColumns: tableColumns
+        }
+
+
+        return React.createElement(
+            DataTableComponent, props
+        );
+    }
+
+    /**
+     * It is called by the framework prior to a control receiving new data.
+     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
+     */
+    public getOutputs(): IOutputs {
+        return {};
+    }
+    public destroy(): void {
+    }
+}

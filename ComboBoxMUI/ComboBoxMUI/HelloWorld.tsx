@@ -119,13 +119,16 @@ export default function CheckboxesTags(props: ComboBoxProps) {
       mode:  props.darkMode ? 'dark' : 'light'
     },
     components: {
-      MuiOutlinedInput: {
+      MuiInputBase: {
         styleOverrides: {
           root: {
-            borderStyle: props.borderStyle,
-            borderWidth:props.borderWidth,
-            borderColor: props.borderColor,
-          } 
+          '& .MuiOutlinedInput-notchedOutline': {
+
+              borderStyle: props.borderStyle,
+              borderWidth: props.borderWidth,
+              borderColor: props.borderColor,
+            },
+          }
         }
       }
     }

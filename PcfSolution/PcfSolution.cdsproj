@@ -59,6 +59,7 @@
     <ProjectReference Include="..\DarkLightToggle\DarkLightToggle.pcfproj" />
     <ProjectReference Include="..\TextField\TextField.pcfproj" />
     <ProjectReference Include="..\Sidebar2\Sidebar2.pcfproj" />
+    <ProjectReference Include="..\Accordion\Accordion.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
