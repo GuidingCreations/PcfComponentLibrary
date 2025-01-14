@@ -9,7 +9,20 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
     private _tableData : any[] = []
-   
+    private _selectedRecords : any[] = [];
+    context: ComponentFramework.Context<IInputs>
+
+    setSelectedRecords = (selectedRecordIDS: any[]) => {
+        console.log("PARAMS", this.context.parameters)
+        console.log("SELECTED RECORD IDS", selectedRecordIDS)
+        this._selectedRecords = []
+        this.context.parameters.tableData.setSelectedRecordIds(selectedRecordIDS)
+        
+        
+        
+        this.notifyOutputChanged()
+    }
+
 
     constructor() { }
 
@@ -26,6 +39,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this.context = context;
     }
 
     /**
@@ -38,16 +52,17 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         
         this._tableData = [];
 
- 
-
-    
+        const totalCount = context.parameters.tableData.paging.totalResultCount
+        console.log("TOTAL COUNT", context.parameters.tableData.paging.totalResultCount) 
+        context.parameters.tableData.paging.setPageSize(2000);
+        console.log("page size", context.parameters.tableData.paging.pageSize)
 
 
         console.log("ATTEMPTING TO ADD NUMBER OF RECORDS :", context.parameters.tableData.sortedRecordIds.length )
 
         context.parameters.tableData.sortedRecordIds.forEach( (recordID) => {
             console.log("HIT RECORD MAP")
-            const recordToAdd : any = {};
+            const recordToAdd : any = {recordID: context.parameters.tableData.records[recordID].getRecordId()};
 
             context.parameters.tableData.columns.map( (column) => {
                 const propName : string = column.name;
@@ -69,12 +84,19 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         const tableColumns : GridColDef<typeof this._tableData>[] =[];
 
         context.parameters.tableData.columns.map( (column) => {
-            const columnToAdd : any = {};
-            columnToAdd.field = column.name;
-            columnToAdd.headerName = column.displayName;
-            columnToAdd.width = 150;
-            tableColumns.push(columnToAdd)
+            if (column.name != "id") {
+
+                const columnToAdd : any = {};
+                columnToAdd.field = column.name;
+                columnToAdd.headerName = column.displayName;
+                columnToAdd.width = 150;
+                columnToAdd.display = 'flex'
+                tableColumns.push(columnToAdd)
+            }
         });
+
+        tableColumns.push({field: "recordID", headerName: "recordID", width: 50})
+
 
         console.log("COMP ITEMS COLUMNS", context.parameters.tableData.columns)
         console.log("COLUMNS", tableColumns);
@@ -83,7 +105,10 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
         const props : DataTableProps = {
             tableData: this._tableData,
-            tableColumns: tableColumns
+            tableColumns: tableColumns,
+            height: context.parameters.containerHeight.raw || 500,
+            width: context.parameters.containerWidth.raw || 500,
+            setSelectedRecords: this.setSelectedRecords
         }
 
 

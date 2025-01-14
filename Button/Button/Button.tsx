@@ -8,6 +8,9 @@ export interface ButtonProps {
   useDarkMode: boolean;
   size: string;
   typeVariant: string;
+  onClick: () => void;
+  width: number;
+  height: number;
 }
 
 export default function ButtonComponent(props: ButtonProps) {
@@ -27,7 +30,7 @@ export default function ButtonComponent(props: ButtonProps) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <Button size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
+      <Button style={{width: `${props.width}px`, height: `${props.height}px`}} onClick={props.onClick} size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
     </ThemeProvider>
   );
 }

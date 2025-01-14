@@ -24,7 +24,7 @@ const MuiSwitch = (props: MaterialUISwitchProps) => {
   console.log("RENDER COUNT", renderCount.current)
   const darkMode = useRef(true);
 
-  if (renderCount.current == 3) {
+  if (renderCount.current <= 3 && props.defaultDarkMode) {
     console.log("SETTING STATE")
     darkMode.current = props.defaultDarkMode
   }

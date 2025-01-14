@@ -42,14 +42,12 @@ export interface SidebarProps {
   navItems: any[],
   adjustScreenName: (newScreenName: any) => void;
   changeScreen: () => void;
+  userImage: string;
+  userName: string;
+  iconColor: string;
 }
 
-function renderSvgUrl(svgData: string) {
-  const source = svgData;
-  
-  return "data:image/svg+xml;base64," + btoa(source);
 
-}
 
 
 // Start component
@@ -85,9 +83,26 @@ export default function SidebarTW(props : SidebarProps) {
   // Handle change in dark/light mode
 
 const handleModeChange = () => {
-  darkMode.current = !darkMode.current
-  props.handleToggleChange(darkMode.current)  
+  if (renderCount.current >= 3) {
+
+    console.log("CHANGING CURRENT DARK MODE")
+    darkMode.current = !darkMode.current;
+    console.log("NEW DARK MODE", darkMode.current)
+    props.handleToggleChange(darkMode.current)  
+  }
 }
+
+
+
+function renderSvgUrl(svgData: string) {
+  const source = svgData.replace("iconColor", props.iconColor || 'white')
+  
+  return "data:image/svg+xml;base64," + btoa(source);
+
+}
+
+
+console.log("PROPS", props)
 
   return (
     <>
@@ -98,7 +113,7 @@ const handleModeChange = () => {
         <div className="lg:inset-y-0 lg:z-50 lg:flex lg:flex-col w-full h-full overflow-hidden">
           
           
-          <div className={`flex grow flex-col gap-y-5 h-full rounded-tr-md border border-solid border-slate-900 overflow-hidden  px-6 ${!darkMode.current ? "bg-gray-100" : "bg-gray-900"}`}>
+          <div className={`flex grow flex-col gap-y-5 h-full rounded-tr-md border border-solid border-slate-900 overflow-hidden  px-6 ${!darkMode.current ? "bg-white" : "bg-gray-900"}`}>
           
           {/* top row of header where icon and dark/light toggle are */}
             
@@ -135,15 +150,15 @@ const handleModeChange = () => {
                         darkMode.current ? 
                         
                         classNames(
-                        item.current
-                          ? 'bg-gray-800 text-white '
-                          : ` text-gray-400 hover:bg-gray-800 hover:text-white ${props.activeScreen == item.screenName ? "bg-gray-800" : 0}`,
+                          props.activeScreen == item.screenName
+                          ? 'bg-gray-800 text-white'
+                          : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
                         'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
                       ) : classNames(
-                        item.current
-                          ? ' bg-slate-900 text-white border-l-blue-500 border border-l-4'
-                          : ' text-slate-900 hover:bg-gray-800 hover:text-white',
-                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                        props.activeScreen == item.screenName
+                        ? 'bg-gray-100 text-indigo-600'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+                      'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
                       )
                     
                     
@@ -154,7 +169,37 @@ const handleModeChange = () => {
                        
                           <img src = {renderSvgUrl(item.svgData)}  className= "size-8 shrink-0 ">
                           </img>
-                          <h2 className={ `${darkMode.current ? "text-white" : "text-slate-900"} mt-auto mb-auto font-semibold`}>{item.screenName}</h2>
+                          <h2 
+                          
+                          className={
+                            
+                            darkMode.current ? 
+                            
+                            classNames(
+                              props.activeScreen == item.screenName
+                              ? 'bg-gray-800 text-white'
+                              : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
+                            'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                          ) : classNames(
+                            props.activeScreen == item.screenName
+                            ? 'bg-gray-100 text-indigo-600'
+                            : 'text-gray-700 hover:bg-gray-100 hover:text-indigo-600',
+                          'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
+                          )
+                        
+                        
+                        } 
+                          // className={
+                          //    `${darkMode.current ? 
+                          //    "text-white" : 
+                          //    "text-slate-900"
+                          //   } mt-auto mb-auto font-semibold`}
+                            
+                            
+                            
+                            >
+                              
+                              {item.screenName}</h2>
                        
                       </li>
                     ))}
@@ -170,11 +215,12 @@ const handleModeChange = () => {
                   >
                     <img
                       alt=""
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={props.userImage || "https://res.cloudinary.com/dsvmviwkc/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724713434/kfrdtkueqel1bqm9ie2y.jpg"}
                       className="size-8 rounded-full bg-gray-800"
+                      color='pink'
                     />
                     <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
+                    <span aria-hidden="true">{props.userName}</span>
                   </a>
                 </li>
               </ul>

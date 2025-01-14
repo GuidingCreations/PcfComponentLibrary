@@ -20,7 +20,7 @@ export interface ComboBoxProps {
   height: number;
   width: number;
   allowSelectMultiple: boolean;
-  setSelectedRecords: (selectedRecords : any[]) => void
+  setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void
   defaultValues: any[];
   darkMode: boolean;
   borderStyle: string;
@@ -39,7 +39,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   const defaultValues = useRef<any>([])
   renderCountRef.current++
   const comboBoxRef = useRef(null)
-  const [height, setHeight] = useState(0);
+  const height = useRef(65)
 
 
   console.log("RENDER COUNT", renderCountRef.current)
@@ -135,7 +135,6 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   });
   
 
-
   const handleOptionSelect = (e : any, value : any[]) => {
     console.log(e);
     console.log(value);
@@ -144,8 +143,16 @@ export default function CheckboxesTags(props: ComboBoxProps) {
       setSelectedValues(value)
     } else {
       console.log("ISARRAY !mult: ", Array.isArray(value))
-      setSelectedValues([value]);
-      console.log("sel Values at end of !mult handleOptionSelect", selectedValues)
+      
+      if (value == null) {
+        setSelectedValues([]);
+        console.log("RETURN FROM PASSING EMPTY ARR")
+      } else {
+        setSelectedValues([value]);
+        console.log("sel Values at end of !mult handleOptionSelect", selectedValues)
+      }
+
+      
     }
   }
   const displayColumn : string = props.displayColumn;
@@ -153,16 +160,31 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   emptyLabel.label = ""
   const optionsList = props.useTestData ? top100Films :  props.Items
 
+  const autoRef = useRef<any>(null)
+
   useEffect(() => {
     console.log("BEFORE SEL", selectedValues)
+    if (autoRef.current) {
+     height.current = autoRef.current.getBoundingClientRect().height
+    }
+    
+    console.log("AUTO HEIGHT", height)
     setSelectedValues(selectedValues)
     console.log("AFTER SEL", selectedValues)
-    props.setSelectedRecords(selectedValues)
+    props.setSelectedRecords(selectedValues, height.current)
   }, [selectedValues])
+
+
+
   console.log("PROP DEFAULTS", props.defaultValues)
   const multDefaults = props.defaultValues
 console.log("MULT DEFAULTS", multDefaults)
-  return (
+  
+return (
+
+    <div  style={{position: "relative", height: "auto", minHeight: '100%'}}>
+{
+
 
     props.allowSelectMultiple ? 
     <ThemeProvider theme={theme}>
@@ -176,6 +198,7 @@ console.log("MULT DEFAULTS", multDefaults)
       defaultValue={multDefaults}
       isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
       disableCloseOnSelect
+      ref = {autoRef}
       getOptionLabel={(option : any) => option[displayColumn]}
       renderOption={(props, option : any, { selected }) => {
         const { key, ...optionProps } = props;
@@ -186,13 +209,13 @@ console.log("MULT DEFAULTS", multDefaults)
               checkedIcon={checkedIcon}
               style={{ marginRight: 8 }}
               checked={selected}
-
+              
               />
             {option[displayColumn]}
           </li>
         );
       }}
-      style={{ width: props.width , maxWidth: props.width, maxHeight : props.height}}
+      style={{ width: props.width , maxWidth: props.width}}
       renderInput={(params) => (
         <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
       )}
@@ -211,7 +234,7 @@ console.log("MULT DEFAULTS", multDefaults)
   getOptionLabel={(option : any) => option[displayColumn]}
   value={selectedValues[0] || emptyLabel}
   isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
-
+  
   renderOption={(props, option : any, { selected }) => {
     const { key, ...optionProps } = props;
     return (
@@ -221,7 +244,7 @@ console.log("MULT DEFAULTS", multDefaults)
           checkedIcon={checkedIcon}
           style={{ marginRight: 8 }}
           checked={selected}
-
+          
           />
         {option[displayColumn]}
       </li>
@@ -233,7 +256,8 @@ console.log("MULT DEFAULTS", multDefaults)
   )}
   />
 </ThemeProvider>
-
+}
+  </div>
 
 );
 }

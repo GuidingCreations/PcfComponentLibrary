@@ -11,30 +11,34 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
     public _data : any[] = [];
     public _defaultSelectedItems : any = []
     public _selectedRecords : any[] = [];
+    private _outputHeight : number = 65;
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>
 
-    setSelectedRecords = (selectedRecords: any[]) => {
+    setSelectedRecords = (selectedRecords: any[], outputHeight: number) => {
         console.log("SET SELECTED RECORDS TRIGGERED WITH : ", selectedRecords);
         this._selectedRecords = [];
-        const arrSelected : any[] = [];
-        console.log("_DATA", this._data)
         
-        selectedRecords.map((selectedRecord : any) => {
-            const label = selectedRecord.label    
-            console.log("CHECKING SELECTED RECORD: ", selectedRecord);
-            console.log("CHECKING SELECTED RECORD LABEL: ", label);
+        if (selectedRecords.length > 0) {
+
+            const arrSelected : any[] = [];
+            console.log("_DATA", this._data)
             
-            this._items.map((record) => {
+            selectedRecords.map((selectedRecord : any) => {
+                const label = selectedRecord.label    
+                console.log("CHECKING SELECTED RECORD: ", selectedRecord);
+                console.log("CHECKING SELECTED RECORD LABEL: ", label);
+                
+                this._items.map((record) => {
                 console.log("RECORD TO CHECK SEL", record)
                 console.log("COMPARE SELECTED RECORD LABEL VALUE: ", label, " WITH RECORD LABEL: ", record.label);
                 if (label == record.label) {
                     console.log("RECORD MATCHED")
                     arrSelected.push(record.id)
                 }  
-
+                
             })
-
+            
             
             
         })
@@ -42,14 +46,22 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         if (selectedRecords.length == 0) {
             this._selectedRecords = [{label: ""}]
         } else {
-
+            
             this._selectedRecords = selectedRecords;
         }
-
+        
         this.context.parameters.Items.setSelectedRecordIds(arrSelected)
-        console.log("EXIT SELECT RECORDS")
+        console.log("EXIT SELECT RECORDS");
+        this._outputHeight = outputHeight;
+        console.log("NEW OUTPUT HEIGHT", this._outputHeight)
+        this.notifyOutputChanged()
+    } else {
+        console.log("OTHER SET SELECTED RECORDS TRIGGERED")
+        this._outputHeight = outputHeight
+        this.context.parameters.Items.setSelectedRecordIds([]);
         this.notifyOutputChanged()
     }
+}
 
 
     constructor() { }
@@ -137,7 +149,9 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        return {
+            outputHeight: this._outputHeight
+        };
     }
 
     /**

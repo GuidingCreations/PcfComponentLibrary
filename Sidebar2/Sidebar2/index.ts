@@ -8,7 +8,7 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: () => void;
-    public _compDarkMode : boolean;
+    public _compDarkMode : boolean = true;
     public _defaultDarkMode: boolean;
     private _navItems : any[] = [];
     private _outputScreenName = "";
@@ -77,12 +77,15 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
             height: context.parameters.containerHeight.raw || 700,
             width: context.parameters.containerWidth.raw || 250,
             defaultDarkMode: context.parameters.useDarkMode.raw,
-            useDarkMode: this._compDarkMode,
-            handleToggleChange: this.toggleMode,
+            useDarkMode: this._compDarkMode == undefined ? true :  this._compDarkMode,
+            handleToggleChange:  this.toggleMode,
             navItems: this._navItems,
             adjustScreenName: this.updateScreenName,
             changeScreen: context.events.OnChangeScreen,
-            activeScreen: context.parameters.activeScreen.raw || ""
+            activeScreen: context.parameters.activeScreen.raw || "",
+            userImage: context.parameters.userImage.raw || "https://res.cloudinary.com/dsvmviwkc/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724713434/kfrdtkueqel1bqm9ie2y.jpg",
+            userName: context.parameters.userName.raw || "User name here",
+            iconColor: context.parameters.iconColor.raw || 'white'
         }
 
         console.log("props", props)

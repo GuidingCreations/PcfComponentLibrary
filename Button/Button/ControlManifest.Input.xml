@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.0.1" display-name-key="Button" description-key="Button description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.0.2" display-name-key="Button" description-key="Button description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     </external-service-usage>
@@ -8,6 +8,14 @@
         <property name="buttonText" display-name-key="buttonText" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Click me'/>
         <property name="sizeVariant" display-name-key="sizeVariant" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='small'/>
         <property name="typeVariant" display-name-key="typeVariant" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='contained'/>
+        <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
+        <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+    
+    <event name="OnClick"
+   pfx-default-value='Notify("No button event", NotificationType.Error, 2000)'
+   display-name-key="OnClick"
+   description-key="OnClick" />
+    
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />

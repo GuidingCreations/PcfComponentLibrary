@@ -25,7 +25,10 @@ export class Button implements ComponentFramework.ReactControl<IInputs, IOutputs
             ButtonText: context.parameters.buttonText.raw || "Click me",
             useDarkMode: context.parameters.DarkMode.raw,
             size: context.parameters.sizeVariant.raw || "small",
-            typeVariant: context.parameters.typeVariant.raw || "contained"
+            typeVariant: context.parameters.typeVariant.raw || "contained",
+            onClick: () => context.events.OnClick(),
+            height: context.parameters.containerHeight.raw || 50,
+            width: context.parameters.containerWidth.raw || 125
         }
 
         return React.createElement(

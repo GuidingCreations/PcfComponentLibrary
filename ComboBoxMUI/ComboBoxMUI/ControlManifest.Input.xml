@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="testNS" constructor="ComboBoxMUI" version="0.6.92" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
+  <control namespace="testNS" constructor="ComboBoxMUI" version="0.10.9" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
    
     <external-service-usage enabled="false">
      
@@ -21,6 +21,7 @@
     <property name="borderColor" display-name-key="borderColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='white'/>
     <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+    <property name="outputHeight" display-name-key="outputHeight" of-type="Whole.None" usage="output" hidden="false" default-value ='65'/>
     <property name="AllowMultipleSelect" display-name-key="Allow multiple selection?" of-type="TwoOptions" usage="input" hidden="false"/>
     <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
     <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
@@ -28,6 +29,7 @@
     <resources>
       <code path="index.ts" order="1"/>
       <css path= "../../dist/output.css" order='1'/>
+      <css path = "./input.css" order='1'/>
       <platform-library name="React" version="16.14.0" />
       <platform-library name="Fluent" version="9.46.2" />
      

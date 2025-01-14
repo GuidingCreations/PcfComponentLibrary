@@ -1,9 +1,10 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import type {} from '@mui/x-data-grid/themeAugmentation';
 
 import CssBaseline from "@mui/material/CssBaseline";
+import { useState } from "react";
 
 const testRows: GridRowsProp = [
   { id: 1, col1: "Hello", col2: "World" },
@@ -13,15 +14,35 @@ const testRows: GridRowsProp = [
 
 const testColumns: GridColDef[] = [
   { field: "col1", headerName: "Column 1", width: 150 },
-  { field: "col2", headerName: "Column 2", width: 150 },
+  { field: "col2", headerName: "Column 2", width: 150, display: 'flex' },
 ];
 
 export interface DataTableProps {
   tableData: any[];
   tableColumns: GridColDef[];
+  height: number;
+  width: number;
+  setSelectedRecords: (selectedRecordIDs: any[]) => void
 }
 
 export default function DataTableComponent(props: DataTableProps) {
+
+  const [selectedRecordIDs, setSelectedRecordsIDs] = useState<any[]>([])
+  const apiRef = useGridApiRef();
+
+  const updateSelectedRecordIDs = (IDs : any) => {
+    console.log("ITEMS", IDs)
+    const selected  = apiRef.current?.getSelectedRows()
+    console.log(selected)
+    console.log("SELECTED ROWS", apiRef.current?.getSelectedRows() )
+    props.setSelectedRecords(IDs)
+  }
+
+
+  function getRowId(row : any) {
+    console.log("ROW ID: ", row.recordID)
+    return row.recordID
+  }
 
   console.log("PROPPY : ", props)
 
@@ -37,12 +58,22 @@ export default function DataTableComponent(props: DataTableProps) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <div style={{ height: 300, width: "100%" }}>
+      <div style={{ height: props.height, width: "100%" , maxWidth: `${props.width}px`}}>
         <DataGrid 
         rows={data} 
         columns={columns} 
         checkboxSelection
-        
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+              recordID: false
+            }
+          }
+        }}
+        getRowHeight={() => 'auto'}
+        apiRef={apiRef}
+        onRowSelectionModelChange={(e) => {console.log("EVENT", e); const items = e;  updateSelectedRecordIDs(items)}}
+        getRowId={getRowId}
         />
       </div>
     </ThemeProvider>

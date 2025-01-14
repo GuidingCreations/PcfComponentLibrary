@@ -49,7 +49,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\ComboBox\ComboBox.pcfproj" />
     <ProjectReference Include="..\Header\Header.pcfproj" />
     <ProjectReference Include="..\Loader\Loader.pcfproj" />
     <ProjectReference Include="..\Modal\Modal.pcfproj" />
@@ -60,6 +59,9 @@
     <ProjectReference Include="..\TextField\TextField.pcfproj" />
     <ProjectReference Include="..\Sidebar2\Sidebar2.pcfproj" />
     <ProjectReference Include="..\Accordion\Accordion.pcfproj" />
+    <ProjectReference Include="..\ComboBoxMUI\testComp.pcfproj" />
+    <ProjectReference Include="..\DataTable\DataTable.pcfproj" />
+    <ProjectReference Include="..\Button\Button.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
