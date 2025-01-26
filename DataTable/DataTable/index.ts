@@ -10,6 +10,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     private notifyOutputChanged: () => void;
     private _tableData : any[] = []
     private _selectedRecords : any[] = [];
+    private _columnWidthTable: any[] = [];
     context: ComponentFramework.Context<IInputs>
 
     setSelectedRecords = (selectedRecordIDS: any[]) => {
@@ -81,15 +82,36 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             
         })
 
+        this._columnWidthTable = [];
+
+        context.parameters.columnWidthTable.sortedRecordIds.forEach((id) => {
+            const objToAdd : any = {};
+            objToAdd.columnName = context.parameters.columnWidthTable.records[id].getFormattedValue("columnName");
+            objToAdd.columnWidth = context.parameters.columnWidthTable.records[id].getFormattedValue("columnWidth");
+
+            this._columnWidthTable.push(objToAdd)
+        })
+        
         const tableColumns : GridColDef<typeof this._tableData>[] =[];
 
         context.parameters.tableData.columns.map( (column) => {
+
+            const matchingObjs = this._columnWidthTable.filter((columnFilter) => {
+                return column.name == columnFilter.columnName
+            })
+
+            
+
+                const colWidth = matchingObjs.length > 0 ?  matchingObjs[0].columnWidth : 250
+            
+
+
             if (column.name != "id") {
 
                 const columnToAdd : any = {};
                 columnToAdd.field = column.name;
                 columnToAdd.headerName = column.displayName;
-                columnToAdd.width = 150;
+                columnToAdd.width = colWidth;
                 columnToAdd.display = 'flex'
                 tableColumns.push(columnToAdd)
             }
@@ -103,12 +125,18 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         console.log("DATA");
         console.table(this._tableData)
 
+        
+
+
+
+
         const props : DataTableProps = {
             tableData: this._tableData,
             tableColumns: tableColumns,
             height: context.parameters.containerHeight.raw || 500,
             width: context.parameters.containerWidth.raw || 500,
-            setSelectedRecords: this.setSelectedRecords
+            setSelectedRecords: this.setSelectedRecords,
+            defaultColumnWidths: this._columnWidthTable
         }
 
 

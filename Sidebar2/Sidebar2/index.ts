@@ -1,6 +1,9 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import SidebarTW, {SidebarProps} from "./Sidebar";
 import * as React from "react";
+
+
+
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -63,7 +66,9 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
         context.parameters.navItems.sortedRecordIds.forEach( (record) => {
             const objToAdd : any = {};
             objToAdd.screenName = context.parameters.navItems.records[record].getFormattedValue("screenName");
-            objToAdd.svgData = context.parameters.navItems.records[record].getFormattedValue("svgData")
+            objToAdd.svgData = context.parameters.navItems.records[record].getFormattedValue("svgData");
+            objToAdd.children = context.parameters.navItems.records[record].getValue("children");
+            objToAdd.isExpanded = false;
             this._navItems.push(objToAdd)
             
         }
@@ -85,7 +90,8 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
             activeScreen: context.parameters.activeScreen.raw || "",
             userImage: context.parameters.userImage.raw || "https://res.cloudinary.com/dsvmviwkc/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724713434/kfrdtkueqel1bqm9ie2y.jpg",
             userName: context.parameters.userName.raw || "User name here",
-            iconColor: context.parameters.iconColor.raw || 'white'
+            iconColor: context.parameters.iconColor.raw || 'white',
+            navItemHeight: context.parameters.navItemHeight.raw || 35
         }
 
         console.log("props", props)

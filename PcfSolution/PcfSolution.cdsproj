@@ -54,7 +54,6 @@
     <ProjectReference Include="..\Modal\Modal.pcfproj" />
     <ProjectReference Include="..\AutoComplete\AutoComplete.pcfproj" />
     <ProjectReference Include="..\Tree\Tree.pcfproj" />
-    <ProjectReference Include="..\ModernComboBox\ModernComboBox.pcfproj" />
     <ProjectReference Include="..\DarkLightToggle\DarkLightToggle.pcfproj" />
     <ProjectReference Include="..\TextField\TextField.pcfproj" />
     <ProjectReference Include="..\Sidebar2\Sidebar2.pcfproj" />

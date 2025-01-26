@@ -25,7 +25,8 @@ export interface ComboBoxProps {
   darkMode: boolean;
   borderStyle: string;
   borderWidth: string;
-  borderColor: string
+  borderColor: string;
+  backgroundColor?: string;
 }
 
 
@@ -215,7 +216,7 @@ return (
           </li>
         );
       }}
-      style={{ width: props.width , maxWidth: props.width}}
+      style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
         <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
       )}
@@ -234,7 +235,7 @@ return (
   getOptionLabel={(option : any) => option[displayColumn]}
   value={selectedValues[0] || emptyLabel}
   isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
-  
+  ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {
     const { key, ...optionProps } = props;
     return (
@@ -250,9 +251,9 @@ return (
       </li>
     );
   }}
-  style={{ width: props.width , maxWidth: props.width, maxHeight : props.height}}
+  style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
   renderInput={(params) => (
-    <TextField {...params} label= {props.labelText || 'Label'} placeholder="Favorites" />
+    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
   )}
   />
 </ThemeProvider>

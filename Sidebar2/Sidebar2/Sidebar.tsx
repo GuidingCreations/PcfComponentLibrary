@@ -8,10 +8,12 @@ import {
   FolderIcon,
   HomeIcon,
   UsersIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline'
 import * as React from 'react'
 
-// Establish testData
+
 
 const testData = {
   navigation: [
@@ -45,6 +47,7 @@ export interface SidebarProps {
   userImage: string;
   userName: string;
   iconColor: string;
+  navItemHeight: number;
 }
 
 
@@ -63,6 +66,7 @@ export default function SidebarTW(props : SidebarProps) {
   const renderCount = useRef(0);
   renderCount.current++;
   const darkMode = useRef(true);
+  
 
 // On the third render (when the data actually comes through - thanks pcf * eye roll *), set the state of dark mode to the value passed in from props
 
@@ -101,6 +105,15 @@ function renderSvgUrl(svgData: string) {
 
 }
 
+const itemRef = useRef<any>(null)
+const [isExpanded, setIsExpanded] = useState<boolean>(false)
+
+const switchExpanded = (item : any) => {
+  itemRef.current = item;
+  console.log("IS EQUAL", itemRef.current == item);
+  isExpanded ? setIsExpanded(false) : setIsExpanded(true);
+  console.log("IS EXPANDED", isExpanded)
+}
 
 console.log("PROPS", props)
 
@@ -145,16 +158,21 @@ console.log("PROPS", props)
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
                     {props.navItems.map((item) => (
-                      <li key={item.screenName} onClick={() => { props.adjustScreenName(item.screenName); }} className={
-                            
-                        darkMode.current ? 
-                        
-                        classNames(
-                          props.activeScreen == item.screenName
-                          ? 'bg-gray-800 text-white'
-                          : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
-                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                      ) : classNames(
+                    
+                    !item.children ?
+                      
+                      <li 
+                      key={item.screenName} 
+                      style={{height: `${props.navItemHeight}px`}}
+                      onClick={() => { itemRef.current = item;   props.adjustScreenName(item.screenName); }} 
+                      ref = {itemRef}
+                      className={
+                            darkMode.current ? classNames(
+                              props.activeScreen == item.screenName
+                              ? 'bg-gray-800 text-white'
+                              : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
+                              'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                            ) : classNames(
                         props.activeScreen == item.screenName
                         ? 'bg-gray-100 text-indigo-600'
                         : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
@@ -202,6 +220,84 @@ console.log("PROPS", props)
                               {item.screenName}</h2>
                        
                       </li>
+                    : 
+                    
+                    <div className='flex flex-col' key={item.name}>
+                    
+
+                      <li 
+                      className={
+                        darkMode.current ? classNames(
+                          props.activeScreen == item.screenName
+                        ? 'text-white'
+                        : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
+                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                      ) : classNames(
+                  props.activeScreen == item.screenName
+                  ? 'text-indigo-600'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
+                )
+              
+                
+              }  
+                      id= {item.screenName} 
+                      key={item.screenName} 
+                      ref = {itemRef} 
+                      onClick={() => { 
+                        itemRef.current = item; console.log(itemRef.current) 
+                      }}
+                      style={{height: `${props.navItemHeight}px`}}
+                      >
+                      <img src = {renderSvgUrl(item.svgData)}  className= "size-8 shrink-0 ">
+                      </img>
+                      <h2 className='text-white' style={{ marginTop: 'auto', marginBottom: 'auto'}}> {item.screenName} </h2>
+                      {
+                        
+                        itemRef.current == item && isExpanded ?
+                        <ChevronUpIcon color='white' className='h-full' style={{width: '1.5rem'}} onClick={()=> {switchExpanded(item)}} cursor={'pointer'}/> :
+                        <ChevronDownIcon color='white' className='h-full' style={{width: '1.5rem'}} onClick={()=> {switchExpanded(item)}} cursor={'pointer'}/>
+                      }
+                    </li>
+
+                  
+                      {
+                        item.children.map((child: any) => (
+<li key={child.screenName} className={
+                        darkMode.current ? classNames(
+                          props.activeScreen == child.screenName
+                        ? 'bg-gray-800 text-white'
+                        : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
+                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
+                      ) : classNames(
+                  props.activeScreen == child.screenName
+                  ? 'bg-gray-100 text-indigo-600'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
+                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
+                )
+              
+                
+              }  style={{display: itemRef.current == item && isExpanded ? 'block' : 'none'}}>
+                        <h2 
+                          style={{textAlign: 'center'}}
+                          className='text-red-300'
+                          
+                        
+                        >{child.screenName}</h2>
+                      </li>
+
+                        ))
+                      }
+                    
+                      
+                    </div>
+                  
+                  
+                  
+                    
+                    
+
+
                     ))}
                   </ul>
                 </li>

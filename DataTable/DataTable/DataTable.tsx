@@ -14,7 +14,7 @@ const testRows: GridRowsProp = [
 
 const testColumns: GridColDef[] = [
   { field: "col1", headerName: "Column 1", width: 150 },
-  { field: "col2", headerName: "Column 2", width: 150, display: 'flex' },
+  { field: "col2", headerName: "Column 2", width: 150, display: 'flex' }
 ];
 
 export interface DataTableProps {
@@ -22,6 +22,7 @@ export interface DataTableProps {
   tableColumns: GridColDef[];
   height: number;
   width: number;
+  defaultColumnWidths: any[];
   setSelectedRecords: (selectedRecordIDs: any[]) => void
 }
 

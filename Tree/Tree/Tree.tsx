@@ -1,9 +1,9 @@
-import React, {  useRef, useEffect} from "react";
+import React, {  useRef, useEffect, useState} from "react";
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
 
-const treeData: any[] = [
+const treeData: TreeDataNode[] = [
   {
     title: 'parent 1',
     key: '0-0',
@@ -55,24 +55,75 @@ const treeData: any[] = [
 ];
 
 export interface TreeComponentProps {
-  showLine: boolean
+  showLine: boolean;
+  isCheckable: boolean;
+  useTestData: boolean;
+  treeData: TreeDataNode[];
+  fieldName: string;
+  keyColumn: string;
+  setSelectedRecords: (selectedIDs : any[]) => void
 }
 
 const TreeComponent = (props: TreeComponentProps) => {
 
-  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>(['0-0-0', '0-0-1']);
+  const checkedKeys = useRef<any[]>([]);
+  const selectedKeys = useRef<any[]>([]);
+  const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
+  const data = useRef<TreeDataNode[]>(treeData)
+  
+  const onExpand: TreeProps['onExpand'] = (expandedKeysValue) => {
+    console.log('onExpand', expandedKeysValue);
+    // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+    // or, you can remove all expanded children keys.
+    setExpandedKeys(expandedKeysValue);
+    setAutoExpandParent(false);
   };
 
 
+
+
+  const onCheck: TreeProps['onCheck'] = (checkedKeysValue) => {
+    console.log('onCheck', checkedKeysValue);
+    checkedKeys.current = checkedKeysValue as React.Key[];
+    props.setSelectedRecords(checkedKeys.current)
+    
+  };
+
+
+  if (!props.useTestData && data.current != props.treeData) {
+    data.current = props.treeData
+    console.log("CURRENT TREE DATA", data.current)
+  }
+
+  console.log("PROPS TREE DATA", props.treeData)
+
   return (
-    <Tree
+
+    <div>
+
+    
+      
+      <Tree
       showLine
       switcherIcon={<DownOutlined />}
       defaultExpandedKeys={['0-0-0']}
-      onSelect={onSelect}
-      treeData={treeData}
-    />
+      treeData={data.current}
+      checkable = {props.isCheckable}
+      onCheck={onCheck}
+      onExpand={onExpand}
+      fieldNames={{
+        key: props.keyColumn,
+        title: props.fieldName
+      }}
+      />
+     
+
+
+
+    
+    
+    </div>
   );
 }
 

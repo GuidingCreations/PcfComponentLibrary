@@ -52,7 +52,10 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
             minLength: context.parameters.minLength.raw || 0,
             useSearchIcon: context.parameters.useSearchIcon.raw,
             accentColor: context.parameters.accentColor.raw ? context.parameters.accentColor.raw : '',
-            height: context.parameters.containerHeight.raw || 50
+            height: context.parameters.containerHeight.raw || 50,
+            backgroundColor: context.parameters.backgroundColor.raw || '',
+            labelColor: context.parameters.labelColor.raw || '',
+            inputType: context.parameters.inputType.raw || ''
             
          };
 

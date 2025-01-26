@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HuntersNS" constructor="Tree" version="0.0.3" display-name-key="Tree" description-key="Tree description" control-type="virtual" >
+  <control namespace="HuntersNS" constructor="Tree" version="0.0.17" display-name-key="Tree" description-key="Tree description" control-type="virtual" >
   
     <external-service-usage enabled="false">
      
@@ -13,10 +13,18 @@
     <property name="Checkable" display-name-key = "Checkable" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
     <property name="expandAllByDefault" display-name-key = "ExpandAllByDefault" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
     <property name="disabled" display-name-key = "disabled" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
+    <property name="displayColumn" display-name-key = "displayColumn" of-type = "SingleLine.Text" usage = "input" hidden = "false" default-value = "Title"/>
+    <property name="keyColumn" display-name-key = "keyColumn" of-type = "SingleLine.Text" usage = "input" hidden = "false" default-value = "id"/>
+    <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
     <property name="showLine" display-name-key = "showLine" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
     <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
-    
+    <property name="outputSelectedItems" display-name-key="outputSelectedItems" of-type="Object" usage="output"/>
+    <property name="outputItemsSchema" display-name-key="outputItemsSchema" of-type="Object" usage="bound" hidden="true"/>
+    <property-dependencies>
+      <property-dependency input="outputItemsSchema" output="outputSelectedItems" required-for="schema" />
+    </property-dependencies>
+
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />

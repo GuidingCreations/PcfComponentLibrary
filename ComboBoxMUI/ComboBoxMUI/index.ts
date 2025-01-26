@@ -1,7 +1,7 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import CheckboxesTags from "./HelloWorld";
+import CheckboxesTags from "./ComboBox";
 import * as React from "react";
-import { ComboBoxProps } from "./HelloWorld";
+import { ComboBoxProps } from "./ComboBox";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -134,7 +134,8 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             darkMode: context.parameters.DarkMode.raw || false,
             borderStyle: context.parameters.borderStyle.raw || 'none',
             borderColor: context.parameters.borderColor.raw || 'white',
-            borderWidth: context.parameters.borderWidth.raw || "1px"
+            borderWidth: context.parameters.borderWidth.raw || "1px",
+            backgroundColor: context.parameters.backgroundColor.raw || ''
         }
 
         console.log("PROPS", props)

@@ -17,6 +17,9 @@ export interface TextInputProps {
   useSearchIcon: boolean;
   accentColor?: string;
   height: number;
+  backgroundColor: string;
+  labelColor: string;
+  inputType: string;
   
 }
 
@@ -76,12 +79,25 @@ export default function TextInput(props : TextInputProps) {
     palette: {
       mode: props.darkMode ? 'dark': "light",
       
+      
     },
+
     components: {
       MuiOutlinedInput: {
         styleOverrides : {
 
           root: {
+            backgroundColor:  props.backgroundColor ? props.backgroundColor : '',
+            
+
+            "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        color: 'red'
+      }
+    },
+
+            
+
             '& .MuiOutlinedInput-notchedOutline': {
 
               borderStyle: 'solid',
@@ -110,13 +126,26 @@ export default function TextInput(props : TextInputProps) {
     MuiInputBase: {
       styleOverrides: {
         root: {
-          height: `${props.height}px`
+          height: `${props.height}px`,
+        
         },
         input: {
           marginBottom: 'auto'
         }
       }
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: props.labelColor ? props.labelColor : '',
+          '& .Mui-focused': {
+            color: 'red'
+          }
+        },
+    
+        
+      }
+    }
   
 }});
 
@@ -127,11 +156,12 @@ console.log("HAS CHANGED", hasChanged)
 
     <ThemeProvider theme={theme }>
       <CssBaseline />
+           
        <TextField id="TextInput" 
       label = {props.labelText}
       variant='outlined'
       fullWidth
-      multiline
+      multiline = {props.inputType == 'text' || props.inputType == ''}
       className='h-full '
       helperText = {isErrored.current ? errorText.current : ""}
       onChange={(e) => {console.log("TRIGGERING OUTPUT CHANGE FROM COMP: ","e", e,"targ", e.target,"val", e.target.value);   handleTextChange(e.target.value)}}
@@ -142,10 +172,18 @@ console.log("HAS CHANGED", hasChanged)
             <InputAdornment position="start">
               <SearchIcon />
             </InputAdornment>
-          ) : ('')
+          ) : (''),
+          type: props.inputType || 'text'
+        },
+        inputLabel: {
+          color: props.labelColor ? props.labelColor : 'white'
         }
       }}
-      />       
+      />
+
+
+
+
   </ThemeProvider>
       
   )
