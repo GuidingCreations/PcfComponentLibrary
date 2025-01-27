@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.2.49" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.3.50" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
 
     <external-service-usage enabled="false">
   
@@ -9,6 +9,9 @@
   <!-- Text params -->
 
 <property name="labelText" display-name-key="labelText" description-key="labelText" of-type="SingleLine.Text" usage="input" required="false" />   
+<property name="isDisabled" display-name-key="isDisabled" description-key="isDisabled" of-type="TwoOptions" usage="input" default-value="false"/> 
+  
+<property name="defaultValue" display-name-key="defaultValue" description-key="defaultValue" of-type="SingleLine.Text" usage="input" required="false" />   
 <property name="outputValue" display-name-key="outputValue" description-key="outputValue" of-type="SingleLine.Text" usage="output" required="false" />   
 <property name="accentColor" display-name-key="accentColor" description-key="accentColor" of-type="SingleLine.Text" usage="input" required="false"  default-value = "white"/>   
 <property name="backgroundColor" display-name-key="backgroundColor" description-key="backgroundColor" of-type="SingleLine.Text" usage="input" required="false" />   

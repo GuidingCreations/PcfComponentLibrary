@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="Sidebar2" version="0.3.133" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Sidebar2" version="0.5.147" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
     <external-service-usage enabled="false">
  
     </external-service-usage>
@@ -21,7 +21,7 @@
 
   <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output" hidden="false" default-value="App.ActiveScreen.Name"/>
   <property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output" hidden="false" default-value=""/>
-  <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" hidden="false" default-value="App.ActiveScreen.Name"/>
+  <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" hidden="false" default-value = "App.ActiveScreen.Name"/>
   <property name="userImage" display-name-key="userImage" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
   <property name="userName" display-name-key="userName" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
   <property name="iconColor" display-name-key="iconColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>

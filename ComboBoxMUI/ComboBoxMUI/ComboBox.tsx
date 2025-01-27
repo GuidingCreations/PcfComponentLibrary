@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { createFilterOptions } from '@mui/material/Autocomplete';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -27,6 +28,7 @@ export interface ComboBoxProps {
   borderWidth: string;
   borderColor: string;
   backgroundColor?: string;
+  isDisabled: boolean;
 }
 
 
@@ -180,7 +182,19 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   console.log("PROP DEFAULTS", props.defaultValues)
   const multDefaults = props.defaultValues
 console.log("MULT DEFAULTS", multDefaults)
-  
+
+// const defaultFilterOptions = createFilterOptions();
+
+// const filterOptions = (options : any, state : any) => {
+
+//   return defaultFilterOptions(options, state).slice(0, 100)
+
+// }
+
+const filterOptions = {
+  limit: 100
+}
+
 return (
 
     <div  style={{position: "relative", height: "auto", minHeight: '100%'}}>
@@ -196,6 +210,7 @@ return (
       value={ selectedValuesRef.current || [{title: ""}]}
       id="checkboxes-tags-demo"
       options={optionsList}
+      filterOptions={createFilterOptions(filterOptions)}
       defaultValue={multDefaults}
       isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
       disableCloseOnSelect
@@ -231,7 +246,9 @@ return (
  
   onChange={handleOptionSelect}
   id="checkboxes-tags-demo"
+  disabled = {props.isDisabled}
   options={optionsList}
+  filterOptions={createFilterOptions(filterOptions)}
   getOptionLabel={(option : any) => option[displayColumn]}
   value={selectedValues[0] || emptyLabel}
   isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}

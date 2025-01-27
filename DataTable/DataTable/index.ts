@@ -136,7 +136,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             height: context.parameters.containerHeight.raw || 500,
             width: context.parameters.containerWidth.raw || 500,
             setSelectedRecords: this.setSelectedRecords,
-            defaultColumnWidths: this._columnWidthTable
+            defaultColumnWidths: this._columnWidthTable,
+            useDarkMode: context.parameters.useDarkMode.raw
         }
 
 

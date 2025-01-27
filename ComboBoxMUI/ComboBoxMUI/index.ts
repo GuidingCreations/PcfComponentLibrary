@@ -89,6 +89,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        context.parameters.Items.paging.setPageSize(2000);
         this._items = []
 
         context.parameters.Items.sortedRecordIds.map( (recordId : any) => {
@@ -135,7 +136,8 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             borderStyle: context.parameters.borderStyle.raw || 'none',
             borderColor: context.parameters.borderColor.raw || 'white',
             borderWidth: context.parameters.borderWidth.raw || "1px",
-            backgroundColor: context.parameters.backgroundColor.raw || ''
+            backgroundColor: context.parameters.backgroundColor.raw || '',
+            isDisabled: context.parameters.isDisabled.raw || false
         }
 
         console.log("PROPS", props)

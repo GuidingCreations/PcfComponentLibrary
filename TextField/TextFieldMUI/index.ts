@@ -55,7 +55,9 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
             height: context.parameters.containerHeight.raw || 50,
             backgroundColor: context.parameters.backgroundColor.raw || '',
             labelColor: context.parameters.labelColor.raw || '',
-            inputType: context.parameters.inputType.raw || ''
+            inputType: context.parameters.inputType.raw || '',
+            defaultValue: context.parameters.defaultValue.raw || '',
+            isDisabled: context.parameters.isDisabled.raw
             
          };
 

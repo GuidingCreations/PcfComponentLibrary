@@ -20,6 +20,8 @@ export interface TextInputProps {
   backgroundColor: string;
   labelColor: string;
   inputType: string;
+  defaultValue?: string;
+  isDisabled: boolean
   
 }
 
@@ -158,6 +160,8 @@ console.log("HAS CHANGED", hasChanged)
       <CssBaseline />
            
        <TextField id="TextInput" 
+       disabled = {props.isDisabled}
+       defaultValue={props.defaultValue}
       label = {props.labelText}
       variant='outlined'
       fullWidth

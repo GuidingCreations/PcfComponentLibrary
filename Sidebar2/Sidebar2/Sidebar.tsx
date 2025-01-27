@@ -1,6 +1,7 @@
+// Imports
 
-import { useRef, useState } from 'react'
-import DarkLightToggle from "../../DarkLightToggle/DarkLightToggle/HelloWorld"
+import { useRef, useState } from "react";
+import DarkLightToggle from "../../DarkLightToggle/DarkLightToggle/HelloWorld";
 import {
   CalendarIcon,
   ChartPieIcon,
@@ -9,27 +10,32 @@ import {
   HomeIcon,
   UsersIcon,
   ChevronDownIcon,
-  ChevronUpIcon
-} from '@heroicons/react/24/outline'
-import * as React from 'react'
+  ChevronUpIcon,
+} from "@heroicons/react/24/outline";
+import * as React from "react";
 
-
+//Test data
 
 const testData = {
   navigation: [
-    { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-    { name: 'Team', href: '#Team', icon: UsersIcon, current: false },
-    { name: 'Projects', href: '#Projects', icon: FolderIcon, current: false },
-    { name: 'Calendar', href: '#Calendar', icon: CalendarIcon, current: false },
-    { name: 'Documents', href: '#Documents', icon: DocumentDuplicateIcon, current: false },
-    { name: 'Reports', href: '#Reports', icon: ChartPieIcon, current: false },
-  ]
-}
+    { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+    { name: "Team", href: "#Team", icon: UsersIcon, current: false },
+    { name: "Projects", href: "#Projects", icon: FolderIcon, current: false },
+    { name: "Calendar", href: "#Calendar", icon: CalendarIcon, current: false },
+    {
+      name: "Documents",
+      href: "#Documents",
+      icon: DocumentDuplicateIcon,
+      current: false,
+    },
+    { name: "Reports", href: "#Reports", icon: ChartPieIcon, current: false },
+  ],
+};
 
 // Function for concatting class names with ' '
 
-function classNames(...classes : any) {
-  return classes.filter(Boolean).join(' ')
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ");
 }
 
 // Establish props
@@ -40,8 +46,8 @@ export interface SidebarProps {
   useDarkMode: boolean;
   defaultDarkMode: boolean;
   activeScreen: string;
-  handleToggleChange: (newValue: boolean) => void
-  navItems: any[],
+  handleToggleChange: (newValue: boolean) => void;
+  navItems: any[];
   adjustScreenName: (newScreenName: any) => void;
   changeScreen: () => void;
   userImage: string;
@@ -50,270 +56,298 @@ export interface SidebarProps {
   navItemHeight: number;
 }
 
-
-
-
 // Start component
 
-export default function SidebarTW(props : SidebarProps) {
-  
+export default function SidebarTW(props: SidebarProps) {
   /* Establish states: 
   
   1. renderCount - we need this because pcf components don't pass data in on first render, so we need to count renders to pass in data on the render which the data actually comes through
   2. darkMode - establishes whether to display dark or light version of sidebar 
   */
-  
+
   const renderCount = useRef(0);
   renderCount.current++;
   const darkMode = useRef(true);
-  
 
-// On the third render (when the data actually comes through - thanks pcf * eye roll *), set the state of dark mode to the value passed in from props
+  // On the third render (when the data actually comes through - thanks pcf * eye roll *), set the state of dark mode to the value passed in from props
 
   if (renderCount.current == 3) {
-    console.log("SETTING STATE")
-    darkMode.current = props.defaultDarkMode
+    console.log("SETTING STATE");
+    darkMode.current = props.defaultDarkMode;
   }
-  
+
   // for the initial render, pass the props back up to the parent so it generates the output property needed to be accessible by other controls in power apps
 
-  if(renderCount.current == 1) {
-    console.log("HANDLE INITIAL RENDER")
+  if (renderCount.current == 1) {
+    console.log("HANDLE INITIAL RENDER");
     props.handleToggleChange(props.useDarkMode);
-    console.log("End INITIAL RENDER")
-
+    console.log("End INITIAL RENDER");
   }
 
   // Handle change in dark/light mode
 
-const handleModeChange = () => {
-  if (renderCount.current >= 3) {
+  const handleModeChange = () => {
+    if (renderCount.current >= 3) {
+      console.log("CHANGING CURRENT DARK MODE");
+      darkMode.current = !darkMode.current;
+      console.log("NEW DARK MODE", darkMode.current);
+      props.handleToggleChange(darkMode.current);
+    }
+  };
 
-    console.log("CHANGING CURRENT DARK MODE")
-    darkMode.current = !darkMode.current;
-    console.log("NEW DARK MODE", darkMode.current)
-    props.handleToggleChange(darkMode.current)  
+// Render svg
+
+  function renderSvgUrl(svgData: string) {
+    const source = svgData.replace("iconColor", props.iconColor || "white");
+
+    return "data:image/svg+xml;base64," + btoa(source);
   }
-}
 
+  const itemRef = useRef<any>(null);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
+  const switchExpanded = (item: any) => {
+    itemRef.current = item;
+    console.log("IS EQUAL", itemRef.current == item);
+    isExpanded ? setIsExpanded(false) : setIsExpanded(true);
+    console.log("IS EXPANDED", isExpanded);
+  };
 
-function renderSvgUrl(svgData: string) {
-  const source = svgData.replace("iconColor", props.iconColor || 'white')
-  
-  return "data:image/svg+xml;base64," + btoa(source);
-
-}
-
-const itemRef = useRef<any>(null)
-const [isExpanded, setIsExpanded] = useState<boolean>(false)
-
-const switchExpanded = (item : any) => {
-  itemRef.current = item;
-  console.log("IS EQUAL", itemRef.current == item);
-  isExpanded ? setIsExpanded(false) : setIsExpanded(true);
-  console.log("IS EXPANDED", isExpanded)
-}
-
-console.log("PROPS", props)
+  console.log("PROPS", props);
 
   return (
     <>
-      
-      <div style={{width: `${props.width}px`, height: `${props.height}px`}}>
-       
-      
+
+{/* Start sidebar */}
+
+      <div style={{ width: `${props.width}px`, height: `${props.height}px` }}>
         <div className="lg:inset-y-0 lg:z-50 lg:flex lg:flex-col w-full h-full overflow-hidden">
-          
-          
-          <div className={`flex grow flex-col gap-y-5 h-full rounded-tr-md border border-solid border-slate-900 overflow-hidden  px-6 ${!darkMode.current ? "bg-white" : "bg-gray-900"}`}>
-          
-          {/* top row of header where icon and dark/light toggle are */}
-            
-            <div className="flex h-16 shrink-0 items-center justify-between">
-          
-          {/* main icon */}
-          
+          <div
+            className={`flex grow flex-col gap-y-5 h-full rounded-tr-md border border-solid border-slate-900 overflow-hidden  px-6 ${
+              !darkMode.current ? "bg-white" : "bg-gray-900"
+            }`}
+          >
+            {/* top row of header where icon and dark/light toggle are */}
+
+            <div className="flex h-16 shrink-0 items-center justify-between" style={{maxHeight: '50px'}}>
+              {/* main icon */}
+
               <img
                 alt="Your Company"
-                src= {`https://tailwindui.com/plus/img/logos/mark.svg?color=${darkMode.current ? "indigo&shade=500" : "black"}`}
-                className="h-8 w-auto"
-                />
-                
-              {/* dark/light toggle */}
-              
-               <div >
-                    <DarkLightToggle
-                    defaultDarkMode = {true}
-                    useDarkMode = {true}
-                    handleToggleChange={() => handleModeChange()}
-                    />
-                </div>
+                src={`https://tailwindui.com/plus/img/logos/mark.svg?color=${
+                  darkMode.current ? "indigo&shade=500" : "black"
+                }`}
+                className=""
+                style={{height: '50px', width: '50px'}}
+              />
 
+              {/* dark/light toggle */}
+
+              <div>
+                <DarkLightToggle
+                  defaultDarkMode={true}
+                  useDarkMode={true}
+                  handleToggleChange={() => handleModeChange()}
+                />
+              </div>
             </div>
 
+{/* Screen list */}
 
             <nav className="flex flex-1 flex-col">
+              
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              
                 <li>
+              
                   <ul role="list" className="-mx-2 space-y-1">
-                    {props.navItems.map((item) => (
-                    
-                    !item.children ?
-                      
-                      <li 
-                      key={item.screenName} 
-                      style={{height: `${props.navItemHeight}px`}}
-                      onClick={() => { itemRef.current = item;   props.adjustScreenName(item.screenName); }} 
-                      ref = {itemRef}
-                      className={
-                            darkMode.current ? classNames(
-                              props.activeScreen == item.screenName
-                              ? 'bg-gray-800 text-white'
-                              : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
-                              'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                            ) : classNames(
-                        props.activeScreen == item.screenName
-                        ? 'bg-gray-100 text-indigo-600'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
-                      'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
-                      )
-                    
-                    
-                    }  >
-                        
-                          
-                          
-                       
-                          <img src = {renderSvgUrl(item.svgData)}  className= "size-8 shrink-0 ">
-                          </img>
-                          <h2 
-                          
+              
+{/* Map through screens */}
+
+                    {props.navItems.map((item) =>
+
+
+// If there are no child screens
+
+                      !item.children ? 
+                      (
+                        <li
+                          key={item.screenName}
+                          style={{ height: `${props.navItemHeight}px` }}
+                          onClick={() => {
+                            itemRef.current = item;
+                            props.adjustScreenName(item.screenName);
+                          }}
+                          ref={itemRef}
                           className={
-                            
-                            darkMode.current ? 
-                            
-                            classNames(
-                              props.activeScreen == item.screenName
-                              ? 'bg-gray-800 text-white'
-                              : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
-                            'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                          ) : classNames(
-                            props.activeScreen == item.screenName
-                            ? 'bg-gray-100 text-indigo-600'
-                            : 'text-gray-700 hover:bg-gray-100 hover:text-indigo-600',
-                          'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
-                          )
-                        
-                        
-                        } 
-                          // className={
-                          //    `${darkMode.current ? 
-                          //    "text-white" : 
-                          //    "text-slate-900"
-                          //   } mt-auto mb-auto font-semibold`}
-                            
-                            
-                            
-                            >
-                              
-                              {item.screenName}</h2>
-                       
-                      </li>
-                    : 
+                            darkMode.current
+                              ? classNames(
+                                  props.activeScreen == item.screenName
+                                    ? "bg-gray-800 text-white"
+                                    : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
+                                  "cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                                )
+                              : classNames(
+                                  props.activeScreen == item.screenName
+                                    ? "bg-gray-100 text-indigo-600"
+                                    : "text-gray-700 hover:bg-gray-50 group-hover:text-indigo-600",
+                                  "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                                )
+                          }
+                        >
                     
-                    <div className='flex flex-col' key={item.name}>
-                    
-
-                      <li 
-                      className={
-                        darkMode.current ? classNames(
-                          props.activeScreen == item.screenName
-                        ? 'text-white'
-                        : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
-                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                      ) : classNames(
-                  props.activeScreen == item.screenName
-                  ? 'text-indigo-600'
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
-                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
-                )
-              
-                
-              }  
-                      id= {item.screenName} 
-                      key={item.screenName} 
-                      ref = {itemRef} 
-                      onClick={() => { 
-                        itemRef.current = item; console.log(itemRef.current) 
-                      }}
-                      style={{height: `${props.navItemHeight}px`}}
-                      >
-                      <img src = {renderSvgUrl(item.svgData)}  className= "size-8 shrink-0 ">
-                      </img>
-                      <h2 className='text-white' style={{ marginTop: 'auto', marginBottom: 'auto'}}> {item.screenName} </h2>
-                      {
-                        
-                        itemRef.current == item && isExpanded ?
-                        <ChevronUpIcon color='white' className='h-full' style={{width: '1.5rem'}} onClick={()=> {switchExpanded(item)}} cursor={'pointer'}/> :
-                        <ChevronDownIcon color='white' className='h-full' style={{width: '1.5rem'}} onClick={()=> {switchExpanded(item)}} cursor={'pointer'}/>
-                      }
-                    </li>
-
-                  
-                      {
-                        item.children.map((child: any) => (
-<li key={child.screenName} className={
-                        darkMode.current ? classNames(
-                          props.activeScreen == child.screenName
-                        ? 'bg-gray-800 text-white'
-                        : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
-                        'cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
-                      ) : classNames(
-                  props.activeScreen == child.screenName
-                  ? 'bg-gray-100 text-indigo-600'
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-indigo-600',
-                'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold'
-                )
-              
-                
-              }  style={{display: itemRef.current == item && isExpanded ? 'block' : 'none'}}>
-                        <h2 
-                          style={{textAlign: 'center'}}
-                          className='text-red-300'
+                          
+                          <img
+                            src={renderSvgUrl(item.svgData)}
+                            className="size-8 shrink-0 mt-0 mb-0"
+                          ></img>
+                          
+                           <h2 style={{marginTop: 'auto', marginBottom: 'auto'}}>
+                           {item.screenName}
+                            </h2> 
                           
                         
-                        >{child.screenName}</h2>
-                      </li>
-
-                        ))
-                      }
-                    
+                        </li>
+                      ) : 
                       
-                    </div>
-                  
-                  
-                  
-                    
-                    
+// If there are child screens
+                      
+                      (
+                        <div className="flex flex-col" key={item.name}>
+                       
+{/* Parent screen */}
 
+                          <li
+                            className={ darkMode.current ? classNames(
+                                      item.children.some((child : any) =>  child.screenName == props.activeScreen) || item.screenName == props.activeScreen
+                                      ? "text-white bg-gray-800"
+                                      : ` text-gray-400 hover:bg-gray-800`,
+                                        "cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                                    ) : classNames(
+                                    
+                                      item.children.some((child : any) =>  child.screenName == props.activeScreen) || item.screenName == props.activeScreen
+                                      ? "text-black bg-gray-100"
+                                      : "text-black hover:bg-gray-50 hover:text-indigo-600",
+                                        "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                                  )
+                            }
+                            id={item.screenName}
+                            key={item.screenName}
+                            ref={itemRef}
+                            onClick={() => { itemRef.current = item } }
+                            style={{ height: `${props.navItemHeight}px` }}
+                          >
+                            <img
+                              src={renderSvgUrl(item.svgData)}
+                              className="size-8 shrink-0 "
+                            ></img>
+                            <h2
+                              className=""
+                              style={{
+                                marginTop: "auto",
+                                marginBottom: "auto",
+                              }}
+                            >
+                              {" "}
+                              {item.screenName}{" "}
+                            </h2>
+                            {itemRef.current == item && isExpanded ? (
+                              <ChevronUpIcon
+                                color = {darkMode.current ? "white" : "black"}
+                                className="h-full"
+                                style={{ width: "1.5rem" }}
+                                onClick={() => {
+                                  switchExpanded(item);
+                                }}
+                                cursor={"pointer"}
+                              />
+                            ) : (
+                              <ChevronDownIcon
+                                color = {darkMode.current ? "white" : "black"}
+                                className="h-full"
+                                style={{ width: "1.5rem" }}
+                                onClick={() => {
+                                  switchExpanded(item);
+                                }}
+                                cursor={"pointer"}
+                              />
+                            )}
+                          </li>
 
-                    ))}
+{/* Child screens */}
+                 
+                 
+                          {item.children.map((child: any) => (
+                         
+                         <li
+                              key={child.screenName}
+                              className={
+                                darkMode.current
+                                  ? classNames(
+                                      props.activeScreen == child.screenName
+                                        ? "bg-gray-800 text-white"
+                                        : ` text-gray-400 hover:bg-gray-800 hover:text-white `,
+                                      "cursor-pointer group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                                    )
+                                  : classNames(
+                                      props.activeScreen == child.screenName
+                                        ? "bg-gray-100"
+                                        : " hover:bg-gray-50 hover:text-indigo-600",
+                                      "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-black"
+                                    )
+                              }
+                              style={{
+                                display:
+                                  itemRef.current == item && isExpanded
+                                    ? "block"
+                                    : "none",
+                              }}
+                              onClick={() => {
+                                itemRef.current = item;
+                                props.adjustScreenName(child.screenName);
+                              }}
+                            >
+                              <h2
+                                style={{ textAlign: "center" }}
+                                className = {
+                                  props.activeScreen == child.screenName
+                                  ?   darkMode.current ? 'text-white' : 'text-black'
+                                  :   darkMode.current ? 'text-white' : 'text-black'
+                                
+                                
+                                }
+                              >
+                                {child.screenName}
+                              </h2>
+                            </li>
+                          ))}
+                        </div>
+                      )
+                    )}
                   </ul>
                 </li>
-                
 
 
-               <li className="-mx-6 mt-auto">
+{/* User profile/image section */}
+
+
+                <li className="-mx-6 mt-auto">
                   <a
                     href="#"
-                    className={`flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold  ${ darkMode.current ? " text-white bg-slate-900" : "text-white bg-slate-900"}  text-white hover:bg-gray-800`}
+                    className={`flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold  ${
+                      darkMode.current
+                        ? " text-white bg-slate-900"
+                        : "text-slate-900 bg-white"
+                    }`}
                   >
                     <img
                       alt=""
-                      src={props.userImage || "https://res.cloudinary.com/dsvmviwkc/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724713434/kfrdtkueqel1bqm9ie2y.jpg"}
+                      src={
+                        props.userImage ||
+                        "https://res.cloudinary.com/dsvmviwkc/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724713434/kfrdtkueqel1bqm9ie2y.jpg"
+                      }
                       className="size-8 rounded-full bg-gray-800"
-                      color='pink'
+                      color="pink"
                     />
                     <span className="sr-only">Your profile</span>
                     <span aria-hidden="true">{props.userName}</span>
@@ -328,5 +362,5 @@ console.log("PROPS", props)
         </main>
       </div>
     </>
-  )
+  );
 }

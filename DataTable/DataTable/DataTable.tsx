@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import type {} from '@mui/x-data-grid/themeAugmentation';
 
 import CssBaseline from "@mui/material/CssBaseline";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const testRows: GridRowsProp = [
   { id: 1, col1: "Hello", col2: "World" },
@@ -23,14 +23,13 @@ export interface DataTableProps {
   height: number;
   width: number;
   defaultColumnWidths: any[];
+  useDarkMode: boolean;
   setSelectedRecords: (selectedRecordIDs: any[]) => void
 }
 
 export default function DataTableComponent(props: DataTableProps) {
 
-  const [selectedRecordIDs, setSelectedRecordsIDs] = useState<any[]>([])
   const apiRef = useGridApiRef();
-
   const updateSelectedRecordIDs = (IDs : any) => {
     console.log("ITEMS", IDs)
     const selected  = apiRef.current?.getSelectedRows()
@@ -52,7 +51,7 @@ export default function DataTableComponent(props: DataTableProps) {
   
   const theme = createTheme({
     palette: {
-      mode: "dark",
+      mode: props.useDarkMode ? "dark" : "light",
     },
   });
 
@@ -61,6 +60,7 @@ export default function DataTableComponent(props: DataTableProps) {
       <CssBaseline/>
       <div style={{ height: props.height, width: "100%" , maxWidth: `${props.width}px`}}>
         <DataGrid 
+        sx={{color: props.useDarkMode ? 'white' : 'black'}}
         rows={data} 
         columns={columns} 
         checkboxSelection
