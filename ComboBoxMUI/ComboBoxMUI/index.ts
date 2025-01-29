@@ -7,36 +7,45 @@ import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
+// Start component
+
 export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOutputs> {
-    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
+    
+// Create variables 
+    
     public _items : any[] = [];
     public _data : any[] = [];
     public _defaultSelectedItems : any = []
     public _selectedRecords : any[] = [];
     private _outputHeight : number = 65;
+    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>
 
+
+// Formula to update the selected records in the component
+
     setSelectedRecords = (selectedRecords: any[], outputHeight: number) => {
-        console.log("SET SELECTED RECORDS TRIGGERED WITH : ", selectedRecords);
-        this._selectedRecords = [];
-        
+
+        this._selectedRecords = selectedRecords;
+
+        // If new selection is not an empty array
+
         if (selectedRecords.length > 0) {
 
-            const arrSelected : any[] = [];
-            console.log("_DATA", this._data)
-            
+
+// Loop through the selected records from tsx and search the passed in table for matching id, then append the matching id to arrSelected 
+
+            const arrSelected : any[] = [];            
             selectedRecords.map((selectedRecord : any) => {
-                const label = selectedRecord.label    
-                console.log("CHECKING SELECTED RECORD: ", selectedRecord);
-                console.log("CHECKING SELECTED RECORD LABEL: ", label);
                 
+                const label = selectedRecord.label    
                 this._items.map((record) => {
-                console.log("RECORD TO CHECK SEL", record)
-                console.log("COMPARE SELECTED RECORD LABEL VALUE: ", label, " WITH RECORD LABEL: ", record.label);
+                
                 if (label == record.label) {
-                    console.log("RECORD MATCHED")
+            
                     arrSelected.push(record.id)
+            
                 }  
                 
             })
@@ -44,37 +53,27 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             
             
         })
-        console.log("SELECTED ARRAY IDS", arrSelected);
-        if (selectedRecords.length == 0) {
-            this._selectedRecords = [{label: ""}]
-        } else {
-            
-            this._selectedRecords = selectedRecords;
-        }
+
+// Update the components output items
         
         this.context.parameters.Items.setSelectedRecordIds(arrSelected)
-        console.log("EXIT SELECT RECORDS");
         this._outputHeight = outputHeight;
-        console.log("NEW OUTPUT HEIGHT", this._outputHeight)
         this.notifyOutputChanged()
+
     } else {
-        console.log("OTHER SET SELECTED RECORDS TRIGGERED")
+
+// If selected records array is empty, update the output properties directly
+
         this._outputHeight = outputHeight
         this.context.parameters.Items.setSelectedRecordIds([]);
         this.notifyOutputChanged()
+    
     }
 }
 
 
     constructor() { }
 
-    /**
-     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
-     * Data-set values are not initialized here, use updateView.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
-     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
-     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
-     */
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
@@ -84,45 +83,50 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         this.context = context;
     }
 
-    /**
-     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-     * @returns ReactElement root react element for the control
-     */
+//Update view stage of component lifecycle
+
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        context.parameters.Items.paging.setPageSize(2000);
-        this._items = []
+// Set max page size to 2000
 
+        context.parameters.Items.paging.setPageSize(2000);
+        
+// Loop through table items and create an object with properties of label and id for each item
+
+        this._items = []
         context.parameters.Items.sortedRecordIds.map( (recordId : any) => {
+        
             const objToAdd : any = {
-               label: context.parameters.Items.records[recordId].getFormattedValue("label"),
-               id: context.parameters.Items.records[recordId].getRecordId()
-                    }
-                this._items.push(objToAdd)
-            })
+                label: context.parameters.Items.records[recordId].getFormattedValue(context.parameters.displayField.raw || "label"),
+                id: context.parameters.Items.records[recordId].getRecordId()
+            }
+                
+            this._items.push(objToAdd)
+            
+        }
+        )
+
+// Loop through defaults items passed from power apps and create objects with schema that will match the format from above
 
             const updateDefaultSelectedValues = () => {
                 
-                console.log("starting DEFAULTS")
                 this._defaultSelectedItems = []
 
                 this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
                     const valueToAdd : any = {
-                        label: context.parameters.DefaultSelectedItems.records[item].getFormattedValue("label"),
+                        label: context.parameters.DefaultSelectedItems.records[item].getFormattedValue(context.parameters.displayField.raw ||"label"),
                         id: context.parameters.DefaultSelectedItems.records[item].getRecordId()
                     }
-                    console.log("ADDING DEFAULT: ", valueToAdd)
                         this._defaultSelectedItems.push(valueToAdd)
                     
                     
 
                 })
-                console.log("new DEFAULTS", this._defaultSelectedItems)
             }
 
             updateDefaultSelectedValues();
 
+// Establish props
 
         const props : ComboBoxProps = {
             displayColumn: context.parameters.displayField.raw || "label",
@@ -142,28 +146,23 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             isDisabled: context.parameters.isDisabled.raw || false
         }
 
-        console.log("PROPS", props)
+        console.log("PROPS - ComboBoxMUI", props)
 
         return React.createElement(
             CheckboxesTags, props
         );
     }
 
-    /**
-     * It is called by the framework prior to a control receiving new data.
-     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
-     */
+    
     public getOutputs(): IOutputs {
+
+// Return output height (will be updated based on how large the component grows with additional selection tags based on user's selections)
+
         return {
             outputHeight: this._outputHeight
         };
     }
 
-    /**
-     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-     * i.e. cancelling any pending remote calls, removing listeners, etc.
-     */
     public destroy(): void {
-        // Add code to cleanup control if necessary
     }
 }

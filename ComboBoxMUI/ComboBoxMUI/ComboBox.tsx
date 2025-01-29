@@ -1,3 +1,5 @@
+// Imports
+
 import * as React from 'react';
 import { createFilterOptions } from '@mui/material/Autocomplete';
 import Checkbox from '@mui/material/Checkbox';
@@ -12,6 +14,7 @@ import useState from 'react-usestateref'
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
+// Create interface for props
 
 export interface ComboBoxProps {
   displayColumn: string;
@@ -36,16 +39,20 @@ export interface ComboBoxProps {
 
 
 export default function CheckboxesTags(props: ComboBoxProps) {
-  
-  const renderCountRef = useRef(0)
+
+  // Create refs / states (we need ref for render count since pcf components don't pass in tabular data on first render)
+
+  const renderCountRef = useRef(0);
+  renderCountRef.current++;
+  const autoRef = useRef<any>(null);
   const [selectedValues, setSelectedValues, selectedValuesRef] = useState<any[]>([])
   const defaultValues = useRef<any>([])
-  renderCountRef.current++
-  const comboBoxRef = useRef(null)
   const height = useRef(65)
 
 
-  console.log("RENDER COUNT", renderCountRef.current)
+  console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
+
+// Establish test data
 
   const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -97,25 +104,35 @@ export default function CheckboxesTags(props: ComboBoxProps) {
     { title: 'Interstellar', year: 2014 },
   ];
 
+/* 
+
+Formula for evaluating whether the default values have changed. Returns true if the current value of the defaultValues ref doesn't match the default values passed in from props. We will use this later to control when to force a new state for the combobox selected values. This is necessary because in canvas apps you will often dynamically change the items a combobox has selected by default based on a gallery item. When we select a new gallery item in power apps, we want to force an update to the state that will reflect the new values.
+
+*/
+
   const compareDefaults = () => {
-    console.log("comparing defaults", JSON.stringify(defaultValues.current), "to ", JSON.stringify(props.defaultValues));
+
     const hasChanged = JSON.stringify(defaultValues.current) != JSON.stringify(props.defaultValues)
-    console.log("has changed? ", hasChanged);
-    
     return hasChanged
+
   }
 
+//Formula for checking the default values, and updating the current ref for defaultValues if they've changed to reflect the new def values from props. Will also update state for combobox to reflect new selected values
+
   const updateDefaults = () => {
+
     if(compareDefaults()) {
-      console.log("default values have changed, setting selected values to new state of default values");
+
       defaultValues.current = props.defaultValues
       setSelectedValues(props.defaultValues)
-      console.log("NEW SELECTED VALUES", selectedValuesRef.current)
+
     }
+
   };
 
   updateDefaults();
 
+// Establish theme
 
   const theme = createTheme({
     palette: {
@@ -137,59 +154,50 @@ export default function CheckboxesTags(props: ComboBoxProps) {
     }
   });
   
+// Formula to handle whenever a user changes their selection
 
   const handleOptionSelect = (e : any, value : any[]) => {
-    console.log(e);
-    console.log(value);
+
+// If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
+
     if (props.allowSelectMultiple) {
-      console.log("IS OF ARRAY TYPE? ", Array.isArray(value) )
+
       setSelectedValues(value)
+
     } else {
-      console.log("ISARRAY !mult: ", Array.isArray(value))
-      
+   
+// If combobox is not set up to allow multiple selections, check to see if the array is empty. If empty, pass in an empty array, if not, pass in an array with the singular record
+
       if (value == null) {
         setSelectedValues([]);
-        console.log("RETURN FROM PASSING EMPTY ARR")
       } else {
         setSelectedValues([value]);
-        console.log("sel Values at end of !mult handleOptionSelect", selectedValues)
       }
-
-      
     }
   }
+
   const displayColumn : string = props.displayColumn;
   const emptyLabel : any = {}
   emptyLabel.label = ""
   const optionsList = props.useTestData ? top100Films :  props.Items
 
-  const autoRef = useRef<any>(null)
+//Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
 
   useEffect(() => {
-    console.log("BEFORE SEL", selectedValues)
+
     if (autoRef.current) {
      height.current = autoRef.current.getBoundingClientRect().height
     }
     
-    console.log("AUTO HEIGHT", height)
     setSelectedValues(selectedValues)
-    console.log("AFTER SEL", selectedValues)
     props.setSelectedRecords(selectedValues, height.current)
+
   }, [selectedValues])
 
 
 
-  console.log("PROP DEFAULTS", props.defaultValues)
   const multDefaults = props.defaultValues
-console.log("MULT DEFAULTS", multDefaults)
 
-// const defaultFilterOptions = createFilterOptions();
-
-// const filterOptions = (options : any, state : any) => {
-
-//   return defaultFilterOptions(options, state).slice(0, 100)
-
-// }
 
 const filterOptions = {
   limit: 100
@@ -203,7 +211,7 @@ return (
 
     props.allowSelectMultiple ? 
     <ThemeProvider theme={theme}>
-<CssBaseline />
+    <CssBaseline />
     <Autocomplete
       multiple = {props.allowSelectMultiple}
       onChange={handleOptionSelect}
