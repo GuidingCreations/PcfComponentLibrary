@@ -203,7 +203,8 @@ const filterOptions = {
   limit: 100
 }
 
-console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList)
+console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList);
+
 
 return (
 
@@ -222,7 +223,7 @@ return (
       options={optionsList}
       filterOptions={createFilterOptions(filterOptions)}
       defaultValue={multDefaults}
-      isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
+      isOptionEqualToValue={(option, value) => {console.log("OPTION, ", option, " value, ", value); return option.label == value.label}}
       disableCloseOnSelect
       ref = {autoRef}
       getOptionLabel={(option : any) => option.label}
