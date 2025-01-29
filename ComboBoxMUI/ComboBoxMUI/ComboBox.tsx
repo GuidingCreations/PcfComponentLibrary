@@ -203,6 +203,8 @@ const filterOptions = {
   limit: 100
 }
 
+console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList)
+
 return (
 
     <div  style={{position: "relative", height: "auto", minHeight: '100%'}}>
@@ -223,7 +225,7 @@ return (
       isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
       disableCloseOnSelect
       ref = {autoRef}
-      getOptionLabel={(option : any) => option[displayColumn]}
+      getOptionLabel={(option : any) => option.label}
       renderOption={(props, option : any, { selected }) => {
         const { key, ...optionProps } = props;
         return (
@@ -235,7 +237,7 @@ return (
               checked={selected}
               
               />
-            {option[displayColumn]}
+            {option.label}
           </li>
         );
       }}
@@ -257,9 +259,9 @@ return (
   disabled = {props.isDisabled}
   options={optionsList}
   filterOptions={createFilterOptions(filterOptions)}
-  getOptionLabel={(option : any) => option[displayColumn]}
+  getOptionLabel={(option : any) => option.label}
   value={selectedValues[0] || emptyLabel}
-  isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
+  isOptionEqualToValue={(option, value) => option.label == value.label}
   ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {
     const { key, ...optionProps } = props;
@@ -272,7 +274,7 @@ return (
           checked={selected}
           
           />
-        {option[displayColumn]}
+        {option.label}
       </li>
     );
   }}
