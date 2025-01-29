@@ -7,7 +7,7 @@ This is a clean, aesthetically pleasing plug-and-play ComboBox PCF component to 
 ## Table of Contents
 
 - [Demo](#Demo)
-- [InputProperties](#Input properties)
+- [<Input Properties>](<#input-properties>)
 - [Output properties](#Output properties)
 
 
@@ -26,6 +26,6 @@ Dark mode multiple select empty state
 ![Dark mode multi-select selected state](./images/Dark%20combo%20box%20demo%20multi-select%20selected%20state.png)
 
 
-## Input properties
+## Input Properties
 
 - Items: This property is the input property for the list of items you want to appear as options in the ComboBox. There is no specific format required for these, but Power Apps will expect it to be a table.
