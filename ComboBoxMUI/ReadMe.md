@@ -7,7 +7,7 @@ This is a clean, aesthetically pleasing plug-and-play ComboBox PCF component to 
 ## Table of Contents
 
 - [Demo](#Demo)
-- [<Input Properties>](<#input-properties>)
+- [Input Properties](<#input-properties>)
 - [Output properties](#Output properties)
 
 
