@@ -91,7 +91,8 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
             userImage: context.parameters.userImage.raw || "https://res.cloudinary.com/dsvmviwkc/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1724713434/kfrdtkueqel1bqm9ie2y.jpg",
             userName: context.parameters.userName.raw || "User name here",
             iconColor: context.parameters.iconColor.raw || 'white',
-            navItemHeight: context.parameters.navItemHeight.raw || 35
+            navItemHeight: context.parameters.navItemHeight.raw || 35,
+            mainLogo: context.parameters.mainLogo.raw || ''
         }
 
         console.log("props", props)

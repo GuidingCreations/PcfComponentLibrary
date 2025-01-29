@@ -1,7 +1,9 @@
+// Imports
+
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import { ComboBoxProps } from "./ComboBox";
 import CheckboxesTags from "./ComboBox";
 import * as React from "react";
-import { ComboBoxProps } from "./ComboBox";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 

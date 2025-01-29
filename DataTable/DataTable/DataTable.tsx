@@ -23,6 +23,7 @@ export interface DataTableProps {
   height: number;
   width: number;
   defaultColumnWidths: any[];
+  allowSelectMultiple: boolean;
   useDarkMode: boolean;
   setSelectedRecords: (selectedRecordIDs: any[]) => void
 }
@@ -37,6 +38,11 @@ export default function DataTableComponent(props: DataTableProps) {
     console.log("SELECTED ROWS", apiRef.current?.getSelectedRows() )
     props.setSelectedRecords(IDs)
   }
+
+  const renderCount = useRef(0)
+  renderCount.current++
+
+  const selectionModel = useRef<any>([])
 
 
   function getRowId(row : any) {
@@ -61,6 +67,7 @@ export default function DataTableComponent(props: DataTableProps) {
       <div style={{ height: props.height, width: "100%" , maxWidth: `${props.width}px`}}>
         <DataGrid 
         sx={{color: props.useDarkMode ? 'white' : 'black'}}
+        disableMultipleRowSelection = {!props.allowSelectMultiple}
         rows={data} 
         columns={columns} 
         checkboxSelection

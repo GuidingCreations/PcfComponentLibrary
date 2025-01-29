@@ -46,6 +46,7 @@ export interface SidebarProps {
   useDarkMode: boolean;
   defaultDarkMode: boolean;
   activeScreen: string;
+  mainLogo: string;
   handleToggleChange: (newValue: boolean) => void;
   navItems: any[];
   adjustScreenName: (newScreenName: any) => void;
@@ -67,7 +68,7 @@ export default function SidebarTW(props: SidebarProps) {
 
   const renderCount = useRef(0);
   renderCount.current++;
-  const darkMode = useRef(true);
+  const darkMode = useRef(props.defaultDarkMode);
 
   // On the third render (when the data actually comes through - thanks pcf * eye roll *), set the state of dark mode to the value passed in from props
 
@@ -78,11 +79,6 @@ export default function SidebarTW(props: SidebarProps) {
 
   // for the initial render, pass the props back up to the parent so it generates the output property needed to be accessible by other controls in power apps
 
-  if (renderCount.current == 1) {
-    console.log("HANDLE INITIAL RENDER");
-    props.handleToggleChange(props.useDarkMode);
-    console.log("End INITIAL RENDER");
-  }
 
   // Handle change in dark/light mode
 
@@ -132,22 +128,26 @@ export default function SidebarTW(props: SidebarProps) {
             <div className="flex h-16 shrink-0 items-center justify-between" style={{maxHeight: '50px'}}>
               {/* main icon */}
 
+              {props.mainLogo ? 
+              
               <img
-                alt="Your Company"
-                src={`https://tailwindui.com/plus/img/logos/mark.svg?color=${
-                  darkMode.current ? "indigo&shade=500" : "black"
-                }`}
-                className=""
-                style={{height: '50px', width: '50px'}}
-              />
+              alt="Your Company"
+              src={props.mainLogo}
+              className=""
+              style={{height: '100%'}}
+            /> : ''
+            
+            }
+              
+              
 
               {/* dark/light toggle */}
 
               <div>
                 <DarkLightToggle
-                  defaultDarkMode={true}
-                  useDarkMode={true}
-                  handleToggleChange={() => handleModeChange()}
+                  defaultDarkMode={darkMode.current}
+                  useDarkMode={darkMode.current}
+                  handleToggleChange={() => {handleModeChange()}}
                 />
               </div>
             </div>
@@ -200,6 +200,7 @@ export default function SidebarTW(props: SidebarProps) {
                           <img
                             src={renderSvgUrl(item.svgData)}
                             className="size-8 shrink-0 mt-0 mb-0"
+                            style={{marginTop: 'auto', marginBottom: 'auto'}}
                           ></img>
                           
                            <h2 style={{marginTop: 'auto', marginBottom: 'auto'}}>
@@ -234,12 +235,13 @@ export default function SidebarTW(props: SidebarProps) {
                             id={item.screenName}
                             key={item.screenName}
                             ref={itemRef}
-                            onClick={() => { itemRef.current = item } }
+                            onClick={() => { itemRef.current = item;  switchExpanded(item); } }
                             style={{ height: `${props.navItemHeight}px` }}
                           >
                             <img
                               src={renderSvgUrl(item.svgData)}
-                              className="size-8 shrink-0 "
+                              className="size-8 shrink-0"
+                              style={{marginTop: 'auto', marginBottom: 'auto'}}
                             ></img>
                             <h2
                               className=""
@@ -255,9 +257,9 @@ export default function SidebarTW(props: SidebarProps) {
                               <ChevronUpIcon
                                 color = {darkMode.current ? "white" : "black"}
                                 className="h-full"
-                                style={{ width: "1.5rem" }}
+                                style={{ width: "1.5rem", marginLeft: 'auto'}}
                                 onClick={() => {
-                                  switchExpanded(item);
+                                 
                                 }}
                                 cursor={"pointer"}
                               />
@@ -265,7 +267,7 @@ export default function SidebarTW(props: SidebarProps) {
                               <ChevronDownIcon
                                 color = {darkMode.current ? "white" : "black"}
                                 className="h-full"
-                                style={{ width: "1.5rem" }}
+                                style={{ width: "1.5rem", marginLeft: 'auto' }}
                                 onClick={() => {
                                   switchExpanded(item);
                                 }}

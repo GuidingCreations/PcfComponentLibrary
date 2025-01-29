@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.0.2" display-name-key="Button" description-key="Button description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.0.3" display-name-key="Button" description-key="Button description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     </external-service-usage>
       <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "true"/>
+      <property name="isDisabled" display-name-key = "isDisabled" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = 'false'/>
         <property name="buttonText" display-name-key="buttonText" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Click me'/>
         <property name="sizeVariant" display-name-key="sizeVariant" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='small'/>
         <property name="typeVariant" display-name-key="typeVariant" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='contained'/>

@@ -6,7 +6,9 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@mui/x-date-pickers": "^7.24.1",
     "@tailwindcss/cli": "^4.0.0",
+    "dayjs": "^1.11.13",
     "uninstall": "^0.0.0"
   }
 }

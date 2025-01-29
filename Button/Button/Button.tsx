@@ -11,6 +11,7 @@ export interface ButtonProps {
   onClick: () => void;
   width: number;
   height: number;
+  isDisabled: boolean;
 }
 
 export default function ButtonComponent(props: ButtonProps) {
@@ -30,7 +31,7 @@ export default function ButtonComponent(props: ButtonProps) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <Button style={{width: `${props.width}px`, height: `${props.height}px`}} onClick={props.onClick} size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
+      <Button disabled = {props.isDisabled} style={{width: `${props.width}px`, height: `${props.height}px`}} onClick={props.onClick} size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
     </ThemeProvider>
   );
 }

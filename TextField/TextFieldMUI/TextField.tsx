@@ -33,10 +33,20 @@ export default function TextInput(props : TextInputProps) {
   const outputValue = useRef<any>("")
   const minLength = useRef(props.minLength);
   minLength.current = props.minLength
-  const isErrored = useRef(minLength.current > 0)
+  const isErrored = useRef(minLength.current > 0);
+  const defaultValue = useRef(props.defaultValue)
+  const newText = useRef<any>(props.defaultValue)
+  const [textValue, setTextValue] = useState<any>(props.defaultValue)
   const hasChanged = useRef(false)
-  const errorText = useRef("")
+  const errorText = useRef("");
   // On each render, check if the output value is less than the minimum length, and set isErrored if true. This is because component can re-render when a new minimum length is passed in, and the error state would not be updated otherwise
+  
+  
+  if (props.defaultValue != defaultValue.current && props.defaultValue != '') {
+    defaultValue.current = props.defaultValue;
+    setTextValue(props.defaultValue)
+    newText.current = defaultValue.current
+  }
   
   console.log("vala", outputValue.current)
   if (outputValue.current.length < minLength.current) {
@@ -53,7 +63,10 @@ export default function TextInput(props : TextInputProps) {
   //When the value in the text field changes, check to see if it is less than the minimum length. If it is, set the error state. It also always passed the new value to the PCF components output properties.
   
   const handleTextChange = (newValue: any) => {
-
+    console.log("CHANGING NEW TEXT, orig: ", newText.current)
+    setTextValue(newValue)
+    newText.current = newValue;
+    console.log("NEW NEWTEXT", newText.current)
     if (newValue != "") {
       console.log("CHANGING TO HAS CHANGED")
       hasChanged.current = true
@@ -153,6 +166,16 @@ export default function TextInput(props : TextInputProps) {
 
 console.log("HAS CHANGED", hasChanged)
 
+const GenerateInputText = () => {
+  if (newText.current == ' ') {
+    return props.defaultValue
+  } else {
+    return newText.current
+  }
+}
+
+console.log("PROPS IN TEXT FIELD", props)
+
   return (
 
 
@@ -160,10 +183,12 @@ console.log("HAS CHANGED", hasChanged)
       <CssBaseline />
            
        <TextField id="TextInput" 
+      
        disabled = {props.isDisabled}
-       defaultValue={props.defaultValue}
+       defaultValue={defaultValue.current || ''}
       label = {props.labelText}
       variant='outlined'
+      value = {textValue}
       fullWidth
       multiline = {props.inputType == 'text' || props.inputType == ''}
       className='h-full '

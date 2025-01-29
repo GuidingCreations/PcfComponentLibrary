@@ -28,7 +28,8 @@ export class Button implements ComponentFramework.ReactControl<IInputs, IOutputs
             typeVariant: context.parameters.typeVariant.raw || "contained",
             onClick: () => context.events.OnClick(),
             height: context.parameters.containerHeight.raw || 50,
-            width: context.parameters.containerWidth.raw || 125
+            width: context.parameters.containerWidth.raw || 125,
+            isDisabled: context.parameters.isDisabled.raw
         }
 
         return React.createElement(

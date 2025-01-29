@@ -16,8 +16,13 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     setSelectedRecords = (selectedRecordIDS: any[]) => {
         console.log("PARAMS", this.context.parameters)
         console.log("SELECTED RECORD IDS", selectedRecordIDS)
-        this._selectedRecords = []
-        this.context.parameters.tableData.setSelectedRecordIds(selectedRecordIDS)
+        this._selectedRecords = [];
+        if(selectedRecordIDS.length > 0) {
+
+            this.context.parameters.tableData.setSelectedRecordIds(selectedRecordIDS)
+        } else {
+            this.context.parameters.tableData.clearSelectedRecordIds()
+        }
         
         
         
@@ -67,15 +72,10 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
             context.parameters.tableData.columns.map( (column) => {
                 const propName : string = column.name;
-                console.log("ALIAS ", column.alias, context.parameters.tableData.records[recordID].getFormattedValue(column.alias));
-                console.log("displayName ", column.displayName, context.parameters.tableData.records[recordID].getFormattedValue(column.displayName));
-                console.log("column name ", column.name, context.parameters.tableData.records[recordID].getFormattedValue(column.name));
-        
+              
 
 
-                console.log("ADDING PROPERTY OF ", propName, " to record with a value of ", context.parameters.tableData.records[recordID].getFormattedValue(propName))
                 recordToAdd[propName] = context.parameters.tableData.records[recordID].getFormattedValue(`${column.name}`);
-                console.log("RECORD TO ADD")
             })
 
             this._tableData.push(recordToAdd)
@@ -123,7 +123,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         console.log("COMP ITEMS COLUMNS", context.parameters.tableData.columns)
         console.log("COLUMNS", tableColumns);
         console.log("DATA");
-        console.table(this._tableData)
+       
 
         
 
@@ -137,7 +137,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             width: context.parameters.containerWidth.raw || 500,
             setSelectedRecords: this.setSelectedRecords,
             defaultColumnWidths: this._columnWidthTable,
-            useDarkMode: context.parameters.useDarkMode.raw
+            useDarkMode: context.parameters.useDarkMode.raw,
+            allowSelectMultiple: context.parameters.allowSelectMultiple.raw
         }
 
 
@@ -151,7 +152,9 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        return {
+            outputTest: this.context.parameters.tableData.getSelectedRecordIds()[0]
+        };
     }
     public destroy(): void {
     }

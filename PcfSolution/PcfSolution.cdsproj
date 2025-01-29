@@ -61,6 +61,7 @@
     <ProjectReference Include="..\ComboBoxMUI\testComp.pcfproj" />
     <ProjectReference Include="..\DataTable\DataTable.pcfproj" />
     <ProjectReference Include="..\Button\Button.pcfproj" />
+    <ProjectReference Include="..\DatePicker\DatePicker.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
