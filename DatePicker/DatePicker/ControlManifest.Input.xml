@@ -8,6 +8,9 @@
       
     </external-service-usage>
 
+
+  <!-- Properties -->
+
     <property name="labelText" display-name-key="labelText" description-key="labelText" of-type="SingleLine.Text" usage="input"/>
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
     <property name="outputDate" display-name-key="outputDate" of-type="SingleLine.Text" usage="output" hidden="false" default-value=""/>
@@ -17,6 +20,7 @@
     <property name="componentWidth" display-name-key="componentWidth" of-type="Whole.None" usage="input" default-value=""/>
     <property name="componentHeight" display-name-key="componentHeight" of-type="Whole.None" usage="input" default-value=""/>
 
+<!-- Resources -->
 
     <resources>
 

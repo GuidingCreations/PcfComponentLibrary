@@ -8,7 +8,7 @@ This is a clean, aesthetically pleasing plug-and-play ComboBox PCF component to 
 
 - [Demo](#Demo)
 - [Input Properties](<#input-properties>)
-- [Output properties](#Output properties)
+- [Output properties](#output-properties)
 
 
 ## Demo
@@ -37,3 +37,12 @@ Dark mode multiple select empty state
 - borderStyle: This will control the border style. Accepts the following values: solid, dashed, none, dotted, inset, dashed solid
 - borderWidth: This will control how large the border is. Accepts various web development values for width, such as pixels (1px would be one pixel wide), rem (responsive property), and vh or vw (viewport height and width). It is recommended to just use pixels.
 - borderColor: Color of the border. This accepts the same values as backgroundColor
+- Allow multiple select: This property controls whether the end user can select multiple values or only one value. Boolean property, accepts either true or false
+- Dark mode: This property controls whether or not Dark mode is enabled. When toggled on, will change the look of the component to match a dark theme. It's important to note that for this to look good, the background of the container/app will need to be dark as well. Boolean property, accepts true or false value
+- useTestData
+
+## Output properties
+
+- Selected:
+- SelectedItems:
+- outputHeight:

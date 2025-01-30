@@ -5,7 +5,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CssBaseline from "@mui/material/CssBaseline";
 import dayjs from 'dayjs';
-import { useRef, useState } from "react";
+import { useRef } from "react";
+
+// Create type interface for props
 
 export interface DatePickerComponentProps {
   useDarkMode: boolean;
@@ -18,47 +20,68 @@ export interface DatePickerComponentProps {
   height: number;
 }
 
+// Start component
 
 const DatePickerComponent = (props: DatePickerComponentProps) => {
+
+// Establish refs for default and selected date. 
 
   const defaultDate = useRef<string>(props.defaultDate)
   const selectedDate = useRef<any>(dayjs(props.defaultDate))
 
+// Check on each render to see if current value of default ref is different than value passed in from props. If so, adjust the ref and selected date accordingly. We need this to reflect changes whenever a dynamic value changes from power apps
+
   if (defaultDate.current != props.defaultDate) {
+    
     defaultDate.current = props.defaultDate
     selectedDate.current = dayjs(defaultDate.current)
+  
   }
+
+// Create theme
 
   const theme = createTheme({
     palette: {
-      mode: props.useDarkMode ? "dark" : "light",
-      
 
+      mode: props.useDarkMode ? "dark" : "light",
+    
     },
+
     components: {
+    
       MuiInputBase: {
+    
         styleOverrides: {
+    
           root: {
+    
             color: props.fontColor,
             height: props.height
+    
           }
+    
         }
+    
       },
       MuiInputLabel: {
+    
         styleOverrides: {
+    
           root: {
+    
             color: props.fontColor
+    
           }
+    
         }
       }
     }
   });
 
 
+// Function to handle any change in date in the control
+
   const handleDateChange = (e: any) => {
-    console.log("DAY", e.$D)
-    console.log("Month", e.$M + 1)
-    console.log("DAY", e.$y)
     selectedDate.current = e
     props.handleChange(`${e.$M + 1}/${e.$D}/${e.$y}`)
 
@@ -67,6 +90,8 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
 console.log("PROPS - datepicker", props);
 console.log("THEME", theme)
 
+
+// Render component
 
   return (
     <ThemeProvider theme={theme}>
