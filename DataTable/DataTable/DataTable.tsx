@@ -1,6 +1,7 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Chip } from "@mui/material";
 import type {} from '@mui/x-data-grid/themeAugmentation';
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -55,12 +56,49 @@ export default function DataTableComponent(props: DataTableProps) {
   const data = props.tableData ? props.tableData : testRows;
   const columns = props.tableColumns ? props.tableColumns : testColumns
 
+  console.log("COLUMNS in data table before custom render", columns)
+
+// Map through columns to generate overrides
+
   columns.map((column : any) => {
-    column?.matchingOverride?.columnName ? column.renderCell = () => (<h1>CUSTOM RENDER</h1>) : null
+    column?.matchingOverride?.columnName ? column.renderCell = (params: GridRenderCellParams<any>) => (<>
+    
+    {
+    
+    // if component type is chip
+
+    column?.matchingOverride?.componentType == 'chip' ? 
+    <Chip 
+      label = {params.formattedValue}
+      sx={{
+        backgroundColor: 
+          column?.matchingOverride?.backgroundColor 
+            ? column.matchingOverride.backgroundColor 
+            : props.useDarkMode 
+              ? 'white' 
+              : "black",
+        fontColor:
+          column?.matchingOverride?.fontColor
+            ? column.matchingOverride.fontColor
+            : props.useDarkMode
+              ? 'black'
+              : "white"
+
+      }}
+      
+      /> 
+    
+    
+    
+    
+    
+    : <h2></h2>}
+    
+    </>) : null
     
   })
 
-  console.log("COLUMNS AFTER APPENDING RENDER")
+  console.log("COLUMNS AFTER APPENDING RENDER", columns)
 
   const theme = createTheme({
     palette: {

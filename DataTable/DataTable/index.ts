@@ -37,6 +37,10 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     
     }
 
+// Function to dynamically generate any data source
+
+
+
 // Empty constructor
 
     constructor() { }
@@ -118,18 +122,35 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             // Search for matching record in columnOverrides table
 
           // Generate columnOverrides table from dataset
-        
-          this._columnOverrides = [];
+          this._columnOverrides = []
 
-            context.parameters.columnOverrides.sortedRecordIds.forEach((id) => {
-            
-            const objToAdd : any = {};
-            
-            objToAdd.componentType = context.parameters.columnOverrides.records[id].getFormattedValue("componentType");
-            objToAdd.columnName = context.parameters.columnOverrides.records[id].getFormattedValue("columnName")
 
-            this._columnOverrides.push(objToAdd)
-        })  
+          context.parameters.columnOverrides.sortedRecordIds.forEach( ( recordID : any ) => {
+      
+            const _record = context.parameters.columnOverrides.records[recordID]
+
+            const acceptableFields = [
+                "columnName",
+                "backgroundColor",
+                "componentType",
+                "fontColor"
+            ]
+
+          const recordToAdd : any = {recordID: context.parameters.columnOverrides.records[recordID].getRecordId()};
+          
+          acceptableFields.map((field) => {
+            
+            
+            recordToAdd[field] = _record.getFormattedValue(field)
+
+          })
+          
+          
+      
+          this._columnOverrides.push(recordToAdd)
+
+            console.log("GENERATED COLUMN OVERRIDES", this._columnOverrides)
+        })
 
         // Search for matching column override
 

@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="DataTable" version="0.6.50" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="DataTable" version="0.6.62" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
