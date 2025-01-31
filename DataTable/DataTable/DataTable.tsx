@@ -54,7 +54,14 @@ export default function DataTableComponent(props: DataTableProps) {
 
   const data = props.tableData ? props.tableData : testRows;
   const columns = props.tableColumns ? props.tableColumns : testColumns
-  
+
+  columns.map((column : any) => {
+    column?.matchingOverride?.columnName ? column.renderCell = () => (<h1>CUSTOM RENDER</h1>) : null
+    
+  })
+
+  console.log("COLUMNS AFTER APPENDING RENDER")
+
   const theme = createTheme({
     palette: {
       mode: props.useDarkMode ? "dark" : "light",
