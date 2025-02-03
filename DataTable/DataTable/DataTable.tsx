@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiCon
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Chip } from "@mui/material";
 import type {} from '@mui/x-data-grid/themeAugmentation';
-
+import { chipRender } from "../renderOptions/chipRender";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useRef, useState } from "react";
 
@@ -61,42 +61,38 @@ export default function DataTableComponent(props: DataTableProps) {
 // Map through columns to generate overrides
 
   columns.map((column : any) => {
-    column?.matchingOverride?.columnName ? column.renderCell = (params: GridRenderCellParams<any>) => (<>
+  
+    column?.matchingOverride?.columnName ? column.renderCell = 
+    
+    
+    (params: GridRenderCellParams<any>) =>  { 
+
+      const matchingColorRecord = column?.matchingOverride?.colorGenerator.filter((record : any) => record.matchingValue == params.row[params.field])[0]
+      
+      return (<>
     
     {
-    
+   
     // if component type is chip
 
     column?.matchingOverride?.componentType == 'chip' ? 
-    <Chip 
-      label = {params.formattedValue}
-      sx={{
-        backgroundColor: 
-          column?.matchingOverride?.backgroundColor 
-            ? column.matchingOverride.backgroundColor 
-            : props.useDarkMode 
-              ? 'white' 
-              : "black",
-        fontColor:
-          column?.matchingOverride?.fontColor
-            ? column.matchingOverride.fontColor
-            : props.useDarkMode
-              ? 'black'
-              : "white"
-
-      }}
-      
-      /> 
+    chipRender( {backgroundColor: matchingColorRecord?.backgroundColor, label: params.row[params.field], testObj: params.field,  fontColor: matchingColorRecord?.fontColor})
     
-    
-    
-    
+  
     
     : <h2></h2>}
     
-    </>) : null
+    </>) 
     
-  })
+      
+    
+    
+  }
+  : null
+}
+
+
+)
 
   console.log("COLUMNS AFTER APPENDING RENDER", columns)
 

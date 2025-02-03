@@ -4,7 +4,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import DataTableComponent, { DataTableProps } from "./DataTable";
 import * as React from "react";
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Button } from "@mui/material";
+import { Button, colors } from "@mui/material";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
 export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -77,9 +77,13 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             context.parameters.tableData.columns.map( (column) => {
                 
                 const propName : string = column.name;
-                recordToAdd[propName] = context.parameters.tableData.records[recordID].getFormattedValue(`${column.name}`);
-            
+                recordToAdd[propName] = context.parameters.tableData.records[recordID].getValue(`${column.name}`);
+                const isAnObject = (typeof context.parameters.tableData.records[recordID].getValue(`${column.name}`) == 'object')
+                console.log(column.name, " is an object? : ", isAnObject);
+                console.log("GENERATED VALUE FOR ", column.name, " : ", context.parameters.tableData.records[recordID].getValue(`${column.name}`))
             })
+
+            
 
 // Push record to tableData
 
@@ -133,15 +137,16 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
                 "columnName",
                 "backgroundColor",
                 "componentType",
-                "fontColor"
+                "fontColor",
+                "isDisabled",
+                "colorGenerator"
             ]
 
           const recordToAdd : any = {recordID: context.parameters.columnOverrides.records[recordID].getRecordId()};
           
           acceptableFields.map((field) => {
-            
-            
-            recordToAdd[field] = _record.getFormattedValue(field)
+              
+            recordToAdd[field] = _record.getValue(field)
 
           })
           
@@ -184,7 +189,9 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         console.log("DATA");
        
 
-        
+        context.parameters.tableData.columns.map( (column : any) => {
+            console.log("COLUMN NAME MAPPING - NAME: ", column.name)
+        })
 
 
 
@@ -200,6 +207,22 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             allowSelectMultiple: context.parameters.allowSelectMultiple.raw
         }
 
+        console.log("CONTEXT", context)
+        console.log("PARAMS", context.parameters)
+        console.log("TABLE DATA", context.parameters.tableData)
+        console.log("COLUMNS", context.parameters.tableData.columns)
+        console.log("RECORDS", context.parameters.tableData.records)
+        
+        if(context.parameters.tableData.records) {
+
+            context.parameters.tableData.sortedRecordIds.map( (id) => {
+                console.log("CRITICALITY", context.parameters.tableData.records[id].getValue("cr7de_appcriticality") );
+                console.log("desc", context.parameters.tableData.records[id].getValue("cr7de_appdescription"));
+                console.log("APP NAME", context.parameters.tableData.records[id].getValue("cr7de_appname"))
+            })
+        }
+    
+    
 
         return React.createElement(
             DataTableComponent, props
