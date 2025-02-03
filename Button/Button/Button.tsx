@@ -22,6 +22,17 @@ export default function ButtonComponent(props: ButtonProps) {
     palette: {
       mode: props.useDarkMode ? "dark" : "light" ,
     },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            backgroundColor: props.typeVariant == 'outlined' ? '' : 'blue',
+            color: 'white',
+            borderColor: props.typeVariant == 'outlined' ? 'blue' : 'white'
+          }
+        }
+      }
+    }
   });
 
   const buttonSize = props.size == "small" ? "small" : props.size == "medium" ? "medium" : props.size == "large" ? "large" : "small"
