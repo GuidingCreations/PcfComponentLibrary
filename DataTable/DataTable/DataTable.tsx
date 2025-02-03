@@ -62,12 +62,29 @@ export default function DataTableComponent(props: DataTableProps) {
 
   columns.map((column : any) => {
   
-    column?.matchingOverride?.columnName ? column.renderCell = 
+    const matchingOverride = column.matchingOverride
+    matchingOverride?.columnName ? column.renderCell = 
     
     
     (params: GridRenderCellParams<any>) =>  { 
 
-      const matchingColorRecord = column?.matchingOverride?.colorGenerator.filter((record : any) => record.matchingValue == params.row[params.field])[0]
+      const matchingColorRecord = column?.matchingOverride?.colorGenerator?.filter((record : any) => record.matchingValue == params.row[params.field])[0]
+
+      const backgroundColor = matchingOverride?.backgroundColor 
+        ? matchingOverride?.backgroundColor 
+        : matchingColorRecord?.backgroundColor 
+          ? matchingColorRecord?.backgroundColor 
+          : props.useDarkMode 
+            ? "#ABACB0" 
+            : "black";
+
+      const fontColor = matchingOverride?.fontColor
+        ? matchingOverride?.fontColor
+        : matchingColorRecord?.fontColor
+          ? matchingColorRecord?.fontColor
+            : "white"
+
+
       
       return (<>
     
@@ -76,7 +93,7 @@ export default function DataTableComponent(props: DataTableProps) {
     // if component type is chip
 
     column?.matchingOverride?.componentType == 'chip' ? 
-    chipRender( {backgroundColor: matchingColorRecord?.backgroundColor, label: params.row[params.field], testObj: params.field,  fontColor: matchingColorRecord?.fontColor})
+    chipRender( {backgroundColor: backgroundColor, label: params.row[params.field], testObj: params.field,  fontColor: fontColor})
     
   
     

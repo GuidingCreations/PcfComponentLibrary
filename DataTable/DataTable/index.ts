@@ -77,8 +77,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             context.parameters.tableData.columns.map( (column) => {
                 
                 const propName : string = column.name;
-                recordToAdd[propName] = context.parameters.tableData.records[recordID].getValue(`${column.name}`);
                 const isAnObject = (typeof context.parameters.tableData.records[recordID].getValue(`${column.name}`) == 'object')
+                recordToAdd[propName] = isAnObject ? context.parameters.tableData.records[recordID].getValue(`${column.name}`) : context.parameters.tableData.records[recordID].getFormattedValue(`${column.name}`)  
                 console.log(column.name, " is an object? : ", isAnObject);
                 console.log("GENERATED VALUE FOR ", column.name, " : ", context.parameters.tableData.records[recordID].getValue(`${column.name}`))
             })
