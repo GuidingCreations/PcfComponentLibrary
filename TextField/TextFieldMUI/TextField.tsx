@@ -21,7 +21,8 @@ export interface TextInputProps {
   labelColor: string;
   inputType: string;
   defaultValue?: string;
-  isDisabled: boolean
+  isDisabled: boolean;
+  isCurrency: boolean;
   
 }
 
@@ -166,13 +167,6 @@ export default function TextInput(props : TextInputProps) {
 
 console.log("HAS CHANGED", hasChanged)
 
-const GenerateInputText = () => {
-  if (newText.current == ' ') {
-    return props.defaultValue
-  } else {
-    return newText.current
-  }
-}
 
 console.log("PROPS IN TEXT FIELD", props)
 
@@ -188,6 +182,7 @@ console.log("PROPS IN TEXT FIELD", props)
        defaultValue={defaultValue.current || ''}
       label = {props.labelText}
       variant='outlined'
+      sx={{m: 1}}
       value = {textValue}
       fullWidth
       multiline = {props.inputType == 'text' || props.inputType == ''}
@@ -201,8 +196,17 @@ console.log("PROPS IN TEXT FIELD", props)
             <InputAdornment position="start">
               <SearchIcon />
             </InputAdornment>
-          ) : (''),
-          type: props.inputType || 'text'
+          ) : 
+          
+          props.isCurrency ?
+          
+          (
+          <InputAdornment position='start' sx={{marginTop: '4px'}}>
+            $
+          </InputAdornment>
+          
+        ) : null,
+          type: props.inputType == 'number' || props.isCurrency ? 'number' : props.inputType == 'password' ? 'password' : 'text'
         },
         inputLabel: {
           color: props.labelColor ? props.labelColor : 'white'
