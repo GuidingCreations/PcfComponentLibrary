@@ -27,25 +27,34 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     setSelectedRecords = (selectedRecords: any[], outputHeight: number) => {
 
+        const displayColumn = this.context.parameters.displayField.raw || 'label'
+        console.log("DISPLAY COLUMNN: ", displayColumn)
+        console.log("TRIGGERED SELECTED RECORDS INDEX.TS COMBOBOX MUI ")
         this._selectedRecords = selectedRecords;
 
+        console.log("SELECTED VALS", this._selectedRecords)
         // If new selection is not an empty array
 
         if (selectedRecords.length > 0) {
 
-
+            console.log("More than0 records")
 // Loop through the selected records from tsx and search the passed in table for matching id, then append the matching id to arrSelected 
 
             const arrSelected : any[] = [];            
             selectedRecords.map((selectedRecord : any) => {
                 
-                const label = selectedRecord.label    
+                const value = selectedRecord.label
+                console.log("VALUE FROM MAP", value)   ;
+                console.log("LOOP THROUGH ITEMS", this._items)
                 this._items.map((record) => {
                 
-                if (label == record.label) {
-            
+                    console.log("COMPARING ", value, " to ", record.label)
+                if (value == record.label) {
+                    console.log("MATCHED VALUE!")
                     arrSelected.push(record.id)
             
+                } else {
+                    console.log("VALUE NOT MATCHED")
                 }  
                 
             })
@@ -55,8 +64,9 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         })
 
 // Update the components output items
-        
+        console.log("SETTING SELECTED RECORDS COMBO BOX MUI WITH ", arrSelected)
         this.context.parameters.Items.setSelectedRecordIds(arrSelected)
+        console.log("NEW COMP SELECTED VALUE COMBO BOX MUI ", this.context.parameters.Items.getSelectedRecordIds)
         this._outputHeight = outputHeight;
         this.notifyOutputChanged()
 
@@ -87,6 +97,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        console.log("UPDATE VIEW TRIGGERED COMBO BOX MUI")
 // Set max page size to 2000
 
         context.parameters.Items.paging.setPageSize(2000);

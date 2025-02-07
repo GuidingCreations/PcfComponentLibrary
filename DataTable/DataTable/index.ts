@@ -17,6 +17,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     private _selectedRecords : any[] = [];
     private _columnWidthTable: any[] = [];
     private _columnOverrides: any[] = [];
+    private _totalRowCount = 0;
+    private _pageNumber = 0
     context: ComponentFramework.Context<IInputs>
 
 // Function to update the selected records when useEffect is triggered from TSX
@@ -35,6 +37,16 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
          
         this.notifyOutputChanged()
     
+    }
+
+    updatePageSize = (newPageSize : number) => {
+        this.context.parameters.tableData.paging.setPageSize(newPageSize);
+        this.context.parameters.tableData.paging.loadExactPage(1);
+    };
+
+    setPage = (pageNumber : number) => {
+        this._pageNumber = pageNumber;
+        this.context.parameters.tableData.paging.loadExactPage(pageNumber)
     }
 
 // Function to dynamically generate any data source
@@ -62,9 +74,11 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
 // Set page size to 2000. Temporary measure, will eventually include more advanced pagination.
 
-        context.parameters.tableData.paging.setPageSize(2000);
+        context.parameters.tableData.paging.setPageSize(50);
 
 //  Loop through each id in sortedRecordsIds
+
+console.log("LOADED PAGE", this._pageNumber)
 
         context.parameters.tableData.sortedRecordIds.forEach( (recordID) => {
  
@@ -79,8 +93,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
                 const propName : string = column.name;
                 const isAnObject = (typeof context.parameters.tableData.records[recordID].getValue(`${column.name}`) == 'object')
                 recordToAdd[propName] = isAnObject ? context.parameters.tableData.records[recordID].getValue(`${column.name}`) : context.parameters.tableData.records[recordID].getFormattedValue(`${column.name}`)  
-                console.log(column.name, " is an object? : ", isAnObject);
-                console.log("GENERATED VALUE FOR ", column.name, " : ", context.parameters.tableData.records[recordID].getValue(`${column.name}`))
             })
 
             
@@ -154,7 +166,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       
           this._columnOverrides.push(recordToAdd)
 
-            console.log("GENERATED COLUMN OVERRIDES", this._columnOverrides)
         })
 
         // Search for matching column override
@@ -163,7 +174,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             return column.name == override.columnName
         })
 
-        console.log("MATCHING OVERRIDE - ", matchingOverride)
             
             // If the column name is not id, add the field, headerName, width, and display to columnToAdd object
 
@@ -184,17 +194,12 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         tableColumns.push({field: "recordID", headerName: "recordID", width: 50})
 
 
-        console.log("COMP ITEMS COLUMNS", context.parameters.tableData.columns)
-        console.log("COLUMNS", tableColumns);
-        console.log("DATA");
-       
-
-        context.parameters.tableData.columns.map( (column : any) => {
-            console.log("COLUMN NAME MAPPING - NAME: ", column.name)
-        })
+    
 
 
 
+        this._totalRowCount = context.parameters.tableData.paging.totalResultCount
+        console.log('totalResultCount', context.parameters.tableData.paging.totalResultCount)
 
         const props : DataTableProps = {
             tableData: this._tableData,
@@ -204,25 +209,15 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             setSelectedRecords: this.setSelectedRecords,
             defaultColumnWidths: this._columnWidthTable,
             useDarkMode: context.parameters.useDarkMode.raw,
-            allowSelectMultiple: context.parameters.allowSelectMultiple.raw
+            allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
+            updatePageSize: this.updatePageSize,
+            setPage: this.setPage,
+            pageSize: context.parameters.tableData.paging.pageSize,
+            pageNumber: this._pageNumber,
+            totalRowCount: context.parameters.tableData.paging.totalResultCount
         }
 
-        console.log("CONTEXT", context)
-        console.log("PARAMS", context.parameters)
-        console.log("TABLE DATA", context.parameters.tableData)
-        console.log("COLUMNS", context.parameters.tableData.columns)
-        console.log("RECORDS", context.parameters.tableData.records)
-        
-        if(context.parameters.tableData.records) {
-
-            context.parameters.tableData.sortedRecordIds.map( (id) => {
-                console.log("CRITICALITY", context.parameters.tableData.records[id].getValue("cr7de_appcriticality") );
-                console.log("desc", context.parameters.tableData.records[id].getValue("cr7de_appdescription"));
-                console.log("APP NAME", context.parameters.tableData.records[id].getValue("cr7de_appname"))
-            })
-        }
-    
-    
+        console.log("DATA TABLE PROPS", props)
 
         return React.createElement(
             DataTableComponent, props

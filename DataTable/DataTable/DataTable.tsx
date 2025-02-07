@@ -27,16 +27,18 @@ export interface DataTableProps {
   allowSelectMultiple: boolean;
   useDarkMode: boolean;
   setSelectedRecords: (selectedRecordIDs: any[]) => void
+  updatePageSize: (newPageSize: number) => void
+  setPage: (pageNumber: number) => void
+  pageSize: number;
+  pageNumber: number;
+  totalRowCount: number;
 }
 
 export default function DataTableComponent(props: DataTableProps) {
 
   const apiRef = useGridApiRef();
   const updateSelectedRecordIDs = (IDs : any) => {
-    console.log("ITEMS", IDs)
     const selected  = apiRef.current?.getSelectedRows()
-    console.log(selected)
-    console.log("SELECTED ROWS", apiRef.current?.getSelectedRows() )
     props.setSelectedRecords(IDs)
   }
 
@@ -45,18 +47,43 @@ export default function DataTableComponent(props: DataTableProps) {
 
   const selectionModel = useRef<any>([])
 
+  const pageSize = useRef(props.pageSize)
+
+  if (props.pageSize != pageSize.current) {
+    pageSize.current = props.pageSize
+  }
+
+  const pageNumber = useRef(props.pageNumber)
+
+  if (props.pageNumber != pageNumber.current) {
+    pageNumber.current = props.pageNumber
+  }
+
+  apiRef.current?.setPageSize ? apiRef.current.setPageSize(props.pageSize) : null
+  apiRef.current?.setPage ? apiRef.current.setPage(props.pageNumber) : null
 
   function getRowId(row : any) {
-    console.log("ROW ID: ", row.recordID)
     return row.recordID
   }
 
-  console.log("PROPPY : ", props)
+
+  const handlePaginationModelChange = (e: any) => {
+
+    console.log("EVENT IN HANDLE PAGINATION CHANGE DATA TABLE", e)
+    if (e.pageSize != pageSize.current) {
+
+      props.updatePageSize(e.pageSize)
+
+    } else {
+      props.setPage(e.page)
+    }
+
+  }
+
 
   const data = props.tableData ? props.tableData : testRows;
   const columns = props.tableColumns ? props.tableColumns : testColumns
 
-  console.log("COLUMNS in data table before custom render", columns)
 
 // Map through columns to generate overrides
 
@@ -113,6 +140,8 @@ export default function DataTableComponent(props: DataTableProps) {
 
   console.log("COLUMNS AFTER APPENDING RENDER", columns)
 
+  
+
   const theme = createTheme({
     palette: {
       mode: props.useDarkMode ? "dark" : "light",
@@ -124,9 +153,12 @@ export default function DataTableComponent(props: DataTableProps) {
       <CssBaseline/>
       <div style={{ height: props.height, width: "100%" , maxWidth: `${props.width}px`}}>
         <DataGrid 
+        onPaginationModelChange={(e) => handlePaginationModelChange(e)}
         sx={{color: props.useDarkMode ? 'white' : 'black'}}
         disableMultipleRowSelection = {!props.allowSelectMultiple}
-        rows={data} 
+        rows={data}
+        paginationMode="server"
+        rowCount={props.totalRowCount} 
         columns={columns} 
         checkboxSelection
         initialState={{

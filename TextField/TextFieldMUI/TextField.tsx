@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 // import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, Box } from '@mui/material';
 // import {makeStyles} from '@mui/styles'
@@ -35,18 +35,24 @@ export default function TextInput(props : TextInputProps) {
   const minLength = useRef(props.minLength);
   minLength.current = props.minLength
   const isErrored = useRef(minLength.current > 0);
-  const defaultValue = useRef(props.defaultValue)
-  const newText = useRef<any>(props.defaultValue)
+  const defaultValue = useRef<any>("")
+  const newText = useRef<any>("")
   const [textValue, setTextValue] = useState<any>(props.defaultValue)
   const hasChanged = useRef(false)
   const errorText = useRef("");
+
+
+  useEffect(() => {
+    props.updateOutput(newText.current, isErrored.current)
+  }, [newText.current])
+
   // On each render, check if the output value is less than the minimum length, and set isErrored if true. This is because component can re-render when a new minimum length is passed in, and the error state would not be updated otherwise
   
   
   if (props.defaultValue != defaultValue.current && props.defaultValue != '') {
     defaultValue.current = props.defaultValue;
     setTextValue(props.defaultValue)
-    newText.current = defaultValue.current
+    newText.current = props.defaultValue
   }
   
   console.log("vala", outputValue.current)
@@ -59,7 +65,8 @@ export default function TextInput(props : TextInputProps) {
     }
   }
   console.log("IS ERRORED", isErrored)
-    
+  
+
     
   //When the value in the text field changes, check to see if it is less than the minimum length. If it is, set the error state. It also always passed the new value to the PCF components output properties.
   
@@ -69,7 +76,6 @@ export default function TextInput(props : TextInputProps) {
     newText.current = newValue;
     console.log("NEW NEWTEXT", newText.current)
     if (newValue != "") {
-      console.log("CHANGING TO HAS CHANGED")
       hasChanged.current = true
 
     } 
@@ -85,7 +91,6 @@ export default function TextInput(props : TextInputProps) {
       console.log("NOT ERRORED FOR MIN TEXT")
     }
 
-    props.updateOutput(outputValue.current, isErrored.current)
 
   }
 
@@ -99,13 +104,27 @@ export default function TextInput(props : TextInputProps) {
     },
 
     components: {
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            margin: '0px'
+          }
+        }
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            margin: '0px'
+          }
+        }
+      },
       MuiOutlinedInput: {
         styleOverrides : {
 
           root: {
             backgroundColor:  props.backgroundColor ? props.backgroundColor : '',
             
-
+            margin: '0px',
             "& .MuiOutlinedInput-root": {
       "&.Mui-focused fieldset": {
         color: 'red'
@@ -165,6 +184,7 @@ export default function TextInput(props : TextInputProps) {
   
 }});
 
+
 console.log("HAS CHANGED", hasChanged)
 
 
@@ -182,7 +202,6 @@ console.log("PROPS IN TEXT FIELD", props)
        defaultValue={defaultValue.current || ''}
       label = {props.labelText}
       variant='outlined'
-      sx={{m: 1}}
       value = {textValue}
       fullWidth
       multiline = {props.inputType == 'text' || props.inputType == ''}

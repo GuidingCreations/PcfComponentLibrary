@@ -12,6 +12,11 @@ export interface ButtonProps {
   width: number;
   height: number;
   isDisabled: boolean;
+  backgroundColor: string;
+  borderColor: string;
+  fontColor: string;
+  borderWidth: number;
+  textAlign: string;
 }
 
 export default function ButtonComponent(props: ButtonProps) {
@@ -26,9 +31,12 @@ export default function ButtonComponent(props: ButtonProps) {
       MuiButton: {
         styleOverrides: {
           root: {
-            backgroundColor: props.typeVariant == 'outlined' ? '' : 'blue',
-            color: 'white',
-            borderColor: props.typeVariant == 'outlined' ? 'blue' : 'white'
+            backgroundColor: props.backgroundColor,
+            color: props.fontColor,
+            borderColor: props.borderColor,
+            borderWidth: `${props.borderWidth}px`,
+            borderStyle: 'solid',
+            justifyContent: props.textAlign == 'left' ? 'flex-start' : props.textAlign == 'right' ? 'flex-end' : 'center'
           }
         }
       }

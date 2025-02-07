@@ -45,14 +45,31 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   const renderCountRef = useRef(0);
   renderCountRef.current++;
   const autoRef = useRef<any>(null);
-  const [selectedValues, setSelectedValues, selectedValuesRef] = useState<any[]>([])
+  const selectedValues = useRef<any[]>([])
   const defaultValues = useRef<any>([])
   const height = useRef(65)
 
 
   console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
 
-// Establish test data
+
+
+  //Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
+
+  useEffect(() => {
+
+    if (autoRef.current) {
+     height.current = autoRef.current.getBoundingClientRect().height
+    }
+    
+      console.log("TRIGGERING OUTPUT from useEffect WITH ", selectedValues.current)
+        props.setSelectedRecords(selectedValues.current, height.current)
+
+  }, [selectedValues.current])
+
+
+
+  // Establish test data
 
   const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -112,8 +129,14 @@ Formula for evaluating whether the default values have changed. Returns true if 
 
   const compareDefaults = () => {
 
+
     const hasChanged = JSON.stringify(defaultValues.current) != JSON.stringify(props.defaultValues)
-    return hasChanged
+    if (props.Items.length > 0) {
+      console.log("OVER 0 records on hasChanged")
+      return hasChanged
+    } else {
+      return false
+    }
 
   }
 
@@ -122,15 +145,19 @@ Formula for evaluating whether the default values have changed. Returns true if 
   const updateDefaults = () => {
 
     if(compareDefaults()) {
-
-      defaultValues.current = props.defaultValues
-      setSelectedValues(props.defaultValues)
-
+      console.log(" DEFAULTS HAS CHANGED")
+      defaultValues.current = props.defaultValues;
+      console.log("NEW DEFAULTS", defaultValues.current)
+      selectedValues.current = props.defaultValues
+      console.log("NEW SELECTED VALUES", selectedValues.current)
+      props.setSelectedRecords(selectedValues.current, height.current)
     }
 
   };
 
-  updateDefaults();
+ 
+    updateDefaults();
+  
 
 // Establish theme
 
@@ -158,41 +185,35 @@ Formula for evaluating whether the default values have changed. Returns true if 
 
   const handleOptionSelect = (e : any, value : any[]) => {
 
+  
+console.log("HANDLE OPTION SELECT TRIGGERED")
+    
 // If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
 
     if (props.allowSelectMultiple) {
 
-      setSelectedValues(value)
-
+      selectedValues.current = value
+      console.log("NEW MULT VALUE", selectedValues.current)
     } else {
    
 // If combobox is not set up to allow multiple selections, check to see if the array is empty. If empty, pass in an empty array, if not, pass in an array with the singular record
 
       if (value == null) {
-        setSelectedValues([]);
+        console.log("EMPTY ARR VAL")
+        selectedValues.current = [];
       } else {
-        setSelectedValues([value]);
+        console.log("NOT EMPTY ARR VAL")
+        selectedValues.current = [value];
+        props.setSelectedRecords(selectedValues.current, height.current)
       }
     }
-  }
+  
+}
 
-  const displayColumn : string = props.displayColumn;
   const emptyLabel : any = {}
   emptyLabel.label = ""
   const optionsList = props.useTestData ? top100Films :  props.Items
 
-//Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
-
-  useEffect(() => {
-
-    if (autoRef.current) {
-     height.current = autoRef.current.getBoundingClientRect().height
-    }
-    
-    setSelectedValues(selectedValues)
-    props.setSelectedRecords(selectedValues, height.current)
-
-  }, [selectedValues])
 
 
 
@@ -218,7 +239,7 @@ return (
     <Autocomplete
       multiple = {props.allowSelectMultiple}
       onChange={handleOptionSelect}
-      value={ selectedValuesRef.current || [{title: ""}]}
+      value={ selectedValues.current || [{title: ""}]}
       id="checkboxes-tags-demo"
       options={optionsList}
       filterOptions={createFilterOptions(filterOptions)}
@@ -261,7 +282,7 @@ return (
   options={optionsList}
   filterOptions={createFilterOptions(filterOptions)}
   getOptionLabel={(option : any) => option.label}
-  value={selectedValues[0] || emptyLabel}
+  value={selectedValues.current[0] || emptyLabel}
   isOptionEqualToValue={(option, value) => option.label == value.label}
   ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {

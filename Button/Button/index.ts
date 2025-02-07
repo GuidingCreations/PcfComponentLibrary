@@ -29,7 +29,13 @@ export class Button implements ComponentFramework.ReactControl<IInputs, IOutputs
             onClick: () => context.events.OnClick(),
             height: context.parameters.containerHeight.raw || 50,
             width: context.parameters.containerWidth.raw || 125,
-            isDisabled: context.parameters.isDisabled.raw
+            isDisabled: context.parameters.isDisabled.raw,
+            backgroundColor: context.parameters.backgroundColor.raw || 'blue',
+            fontColor: context.parameters.fontColor.raw || 'white',
+            borderColor: context.parameters.borderColor.raw || 'white',
+            borderWidth: context.parameters.borderWidth.raw || 1,
+            textAlign: context.parameters.textAlign.raw || 'center'
+        
         }
 
         return React.createElement(

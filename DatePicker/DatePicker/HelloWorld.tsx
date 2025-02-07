@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CssBaseline from "@mui/material/CssBaseline";
 import dayjs from 'dayjs';
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 // Create type interface for props
 
@@ -18,16 +18,27 @@ export interface DatePickerComponentProps {
   backgroundColor: string;
   width: number;
   height: number;
+  isDisabled: boolean;
 }
 
 // Start component
 
 const DatePickerComponent = (props: DatePickerComponentProps) => {
 
-// Establish refs for default and selected date. 
+// Establish refs for default and selected date. We leave the selected date null so we can trigger the useEffect to update our output state on default render 
 
   const defaultDate = useRef<string>(props.defaultDate)
-  const selectedDate = useRef<any>(dayjs(props.defaultDate))
+  const selectedDate = useRef<any>(props.defaultDate ? dayjs(props.defaultDate) : null)
+
+// Use effect hook for whenever the selected date changes
+
+ useEffect(() => {
+  
+  const date = selectedDate.current
+  date ? props.handleChange(`${date.$M + 1}/${date.$D}/${date.$y}`) : ''
+
+ }, [selectedDate.current])
+
 
 // Check on each render to see if current value of default ref is different than value passed in from props. If so, adjust the ref and selected date accordingly. We need this to reflect changes whenever a dynamic value changes from power apps
 
@@ -83,7 +94,6 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
 
   const handleDateChange = (e: any) => {
     selectedDate.current = e
-    props.handleChange(`${e.$M + 1}/${e.$D}/${e.$y}`)
 
   }
 
@@ -101,7 +111,7 @@ console.log("THEME", theme)
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     
     <DatePicker 
-      value={selectedDate.current}  
+      value={selectedDate.current ? selectedDate.current : null}  
       onChange={(e) => {console.log("EVENT", e); handleDateChange(e)}} 
       label = {props.labelText}
       sx={{
@@ -109,6 +119,7 @@ console.log("THEME", theme)
         minHeight: `${props.height}px`,
         width: `${props.width}px`
       }}
+      disabled = {props.isDisabled}
    
       />
   

@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="DatePicker" version="0.3.3" display-name-key="DatePicker" description-key="DatePicker        description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="DatePicker" version="0.5.5" display-name-key="DatePicker" description-key="DatePicker        description" control-type="virtual" >
 
     <external-service-usage enabled="false">
       
@@ -11,12 +11,21 @@
 
   <!-- Properties -->
 
-    <property name="labelText" display-name-key="labelText" description-key="labelText" of-type="SingleLine.Text" usage="input"/>
+    <!-- Booleans -->
+    
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="isDisabled" display-name-key="isDisabled" of-type="TwoOptions" usage="input" hidden="false" default-value="false"/>
+
+    <!-- Strings -->
+
+    <property name="labelText" display-name-key="labelText" description-key="labelText" of-type="SingleLine.Text" usage="input"/>
     <property name="outputDate" display-name-key="outputDate" of-type="SingleLine.Text" usage="output" hidden="false" default-value=""/>
     <property name="defaultDate" display-name-key="defaultDate" of-type="SingleLine.Text" usage="input" hidden="false"  required = 'false'/>
     <property name="fontColor" display-name-key="fontColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
     <property name="backgroundColor" display-name-key="backgroundColor" of-type="SingleLine.Text" usage="input" default-value=""/>
+    
+    <!-- Numbers -->
+    
     <property name="componentWidth" display-name-key="componentWidth" of-type="Whole.None" usage="input" default-value=""/>
     <property name="componentHeight" display-name-key="componentHeight" of-type="Whole.None" usage="input" default-value=""/>
 
