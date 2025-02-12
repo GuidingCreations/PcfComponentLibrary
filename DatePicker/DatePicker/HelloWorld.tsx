@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CssBaseline from "@mui/material/CssBaseline";
 import dayjs from 'dayjs';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Create type interface for props
 
@@ -30,29 +30,29 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
 
 // Establish refs for default and selected date. We leave the selected date null so we can trigger the useEffect to update our output state on default render 
 
-  const defaultDate = useRef<string>(props.defaultDate)
-  const selectedDate = useRef<any>(props.defaultDate ? dayjs(props.defaultDate) : null)
+  const [defaultDate, setDefaultDate] = useState<string>(props.defaultDate)
+  const [selectedDate, setSelectedDate] = useState<any>(props.defaultDate ? dayjs(props.defaultDate) : null)
 
 // Use effect hook for whenever the selected date changes
 
  useEffect(() => {
   
-   const date = selectedDate.current
+   const date = selectedDate
   
   
   date ? props.handleChange(`${date.$M + 1}/${date.$D}/${date.$y}`) : ''
 
- }, [selectedDate.current])
+ }, [selectedDate])
 
 
 // Check on each render to see if current value of default ref is different than value passed in from props. If so, adjust the ref and selected date accordingly. We need this to reflect changes whenever a dynamic value changes from power apps
 
-  if (defaultDate.current != props.defaultDate) {
+  if (defaultDate != props.defaultDate) {
     
     console.log("GENERATING NEW DEFAULT")
-    defaultDate.current = props.defaultDate
-    selectedDate.current = dayjs(defaultDate.current)
-    console.log("NEW DAYJS", selectedDate.current)
+    setDefaultDate(props.defaultDate)
+    setSelectedDate(dayjs(props.defaultDate))
+    console.log("NEW DAYJS", selectedDate)
   
   }
 
@@ -102,13 +102,13 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
   const handleDateChange = (e: any) => {
     
   
-    selectedDate.current = e
+    setSelectedDate(e)
 
   }
 
 console.log("PROPS - datepicker", props);
 console.log("THEME", theme)
-console.log("SELECTED DATE", selectedDate.current)
+console.log("SELECTED DATE", selectedDate)
 
 
 // Render component
@@ -121,7 +121,7 @@ console.log("SELECTED DATE", selectedDate.current)
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     
     <DatePicker 
-      value={selectedDate.current ? selectedDate.current : null}  
+      value={selectedDate ? selectedDate : null}  
       onChange={(e) => {console.log("EVENT", e); handleDateChange(e)}}
       label = {props.labelText}
       sx={{
