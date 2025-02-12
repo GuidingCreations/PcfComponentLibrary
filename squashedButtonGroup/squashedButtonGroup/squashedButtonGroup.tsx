@@ -8,38 +8,49 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
+import { useRef } from "react";
 
 export interface squashedBgProps {
   options: any[]
-  onOptionSelect: () => void
+  onOptionSelect: (option: string) => void
+  width: number;
+  height: number;
 }
 
-const testOptions = [
+const width = 200
+
+const options = [
   "Copy",
   "Print",
   "Save",
   "Delete"
 ]
 
-const squashedBG = () => {
-  const [open, setOpen] = React.useState(false);
+
+const SquashedBG = (props: squashedBgProps) => {
+
+  const optionsList = props.options.length ? props.options : options
+  const isOpen = useRef<boolean>(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const selectedIndex = useRef<number>(0);
 
   const handleClick = () => {
-    console.info(`You clicked ${testOptions[selectedIndex]}`);
+    console.info(`You clicked ${options[selectedIndex.current]}`);
+    props.onOptionSelect(optionsList[selectedIndex.current])
+
   };
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number,
   ) => {
-    setSelectedIndex(index);
-    setOpen(false);
+    console.log("EVENT FROM SQUASHED BUTTON", event)
+    selectedIndex.current = index;
+    isOpen.current = false 
   };
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    isOpen.current = !isOpen.current
   };
 
   const handleClose = (event: Event) => {
@@ -50,7 +61,7 @@ const squashedBG = () => {
       return;
     }
 
-    setOpen(false);
+    isOpen.current = false;
   };
 
   return (
@@ -59,12 +70,23 @@ const squashedBG = () => {
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"
+        sx={{width: props.width, height: props.height, padding: '.5rem'}}
+        className="flex"
       >
-        <Button onClick={handleClick}>{testOptions[selectedIndex]}</Button>
+        <Button 
+        
+          onClick={handleClick} 
+          className="flex-grow"
+          sx={{whiteSpace: 'nowrap'}}  
+        >
+            {optionsList[selectedIndex.current]}
+          
+        </Button>
+        
         <Button
           size="small"
-          aria-controls={open ? 'split-button-menu' : undefined}
-          aria-expanded={open ? 'true' : undefined}
+          aria-controls={isOpen.current ? 'split-button-menu' : undefined}
+          aria-expanded={isOpen.current ? 'true' : undefined}
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
@@ -73,12 +95,13 @@ const squashedBG = () => {
         </Button>
       </ButtonGroup>
       <Popper
-        sx={{ zIndex: 1 }}
-        open={open}
+        sx={{ zIndex: 1, width: width }}
+        open={isOpen.current}
         anchorEl={anchorRef.current}
         role={undefined}
         transition
         disablePortal
+        className="popper"
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -91,14 +114,14 @@ const squashedBG = () => {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
-                  {testOptions.map((option, index) => (
+                  {optionsList.map((option, index) => (
                     <MenuItem
                       key={option}
-                      disabled={index === 2}
-                      selected={index === selectedIndex}
+                      
+                      selected={index === selectedIndex.current}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >
-                      {option}
+                      {typeof option == 'string' ? option : option.Value  }
                     </MenuItem>
                   ))}
                 </MenuList>
@@ -111,5 +134,4 @@ const squashedBG = () => {
   );
 }
 
-
-export default squashedBG
+export default SquashedBG

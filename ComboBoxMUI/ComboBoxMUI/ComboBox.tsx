@@ -45,12 +45,12 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   const renderCountRef = useRef(0);
   renderCountRef.current++;
   const autoRef = useRef<any>(null);
-  const selectedValues = useRef<any[]>([])
-  const defaultValues = useRef<any>([])
+  const [selectedValues, setSelectedValues] = useState<any[]>([])
   const height = useRef(65)
-
+  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
 
   console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
+
 
 
 
@@ -62,10 +62,10 @@ export default function CheckboxesTags(props: ComboBoxProps) {
      height.current = autoRef.current.getBoundingClientRect().height
     }
     
-      console.log("TRIGGERING OUTPUT from useEffect WITH ", selectedValues.current)
-        props.setSelectedRecords(selectedValues.current, height.current)
+      console.log("TRIGGERING OUTPUT from useEffect WITH ", selectedValues)
+        props.setSelectedRecords(selectedValues, height.current)
 
-  }, [selectedValues.current])
+  }, [selectedValues])
 
 
 
@@ -130,7 +130,7 @@ Formula for evaluating whether the default values have changed. Returns true if 
   const compareDefaults = () => {
 
 
-    const hasChanged = JSON.stringify(defaultValues.current) != JSON.stringify(props.defaultValues)
+    const hasChanged = JSON.stringify(defaultValues) != JSON.stringify(props.defaultValues)
     if (props.Items.length > 0) {
       console.log("OVER 0 records on hasChanged")
       return hasChanged
@@ -146,11 +146,11 @@ Formula for evaluating whether the default values have changed. Returns true if 
 
     if(compareDefaults()) {
       console.log(" DEFAULTS HAS CHANGED")
-      defaultValues.current = props.defaultValues;
-      console.log("NEW DEFAULTS", defaultValues.current)
-      selectedValues.current = props.defaultValues
-      console.log("NEW SELECTED VALUES", selectedValues.current)
-      props.setSelectedRecords(selectedValues.current, height.current)
+      setDefaultValues(props.defaultValues);
+      console.log("NEW DEFAULTS", defaultValues)
+      setSelectedValues(props.defaultValues);
+      console.log("NEW SELECTED VALUES", selectedValues)
+      props.setSelectedRecords(selectedValues, height.current)
     }
 
   };
@@ -183,31 +183,28 @@ Formula for evaluating whether the default values have changed. Returns true if 
   
 // Formula to handle whenever a user changes their selection
 
-  const handleOptionSelect = (e : any, value : any[]) => {
+  const handleMultiOptionSelect = (e : any, value : any[]) => {
 
   
-console.log("HANDLE OPTION SELECT TRIGGERED")
+console.log("HANDLE OPTION SELECT TRIGGERED", value)
     
 // If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
 
-    if (props.allowSelectMultiple) {
+ 
+      setSelectedValues(value)
+      console.log("NEW MULT VALUE", selectedValues)
+}
 
-      selectedValues.current = value
-      console.log("NEW MULT VALUE", selectedValues.current)
-    } else {
-   
-// If combobox is not set up to allow multiple selections, check to see if the array is empty. If empty, pass in an empty array, if not, pass in an array with the singular record
 
-      if (value == null) {
-        console.log("EMPTY ARR VAL")
-        selectedValues.current = [];
-      } else {
-        console.log("NOT EMPTY ARR VAL")
-        selectedValues.current = [value];
-        props.setSelectedRecords(selectedValues.current, height.current)
-      }
-    }
-  
+const handleSingleOptionSelect = (e: any, value: any) => {
+  if (value == null) {
+    console.log("EMPTY ARR VAL")
+    setSelectedValues([]);
+  } else {
+    console.log("NOT EMPTY ARR VAL")
+    setSelectedValues([value]);
+    props.setSelectedRecords(selectedValues, height.current)
+  }
 }
 
   const emptyLabel : any = {}
@@ -238,9 +235,9 @@ return (
     <CssBaseline />
     <Autocomplete
       multiple = {props.allowSelectMultiple}
-      onChange={handleOptionSelect}
-      value={ selectedValues.current || [{title: ""}]}
-      id="checkboxes-tags-demo"
+      onChange={handleMultiOptionSelect}
+      disabled = {props.isDisabled}
+      value={ selectedValues}
       options={optionsList}
       filterOptions={createFilterOptions(filterOptions)}
       defaultValue={multDefaults}
@@ -276,13 +273,12 @@ return (
 <CssBaseline />
 <Autocomplete
  
-  onChange={handleOptionSelect}
-  id="checkboxes-tags-demo"
+  onChange={handleSingleOptionSelect}
   disabled = {props.isDisabled}
   options={optionsList}
   filterOptions={createFilterOptions(filterOptions)}
   getOptionLabel={(option : any) => option.label}
-  value={selectedValues.current[0] || emptyLabel}
+  value={selectedValues[0] || emptyLabel}
   isOptionEqualToValue={(option, value) => option.label == value.label}
   ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {

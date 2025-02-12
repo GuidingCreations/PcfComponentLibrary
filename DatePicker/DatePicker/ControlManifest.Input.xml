@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="DatePicker" version="0.5.5" display-name-key="DatePicker" description-key="DatePicker        description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="DatePicker" version="0.5.9" display-name-key="DatePicker" description-key="DatePicker        description" control-type="virtual" >
 
     <external-service-usage enabled="false">
       
@@ -23,6 +23,9 @@
     <property name="defaultDate" display-name-key="defaultDate" of-type="SingleLine.Text" usage="input" hidden="false"  required = 'false'/>
     <property name="fontColor" display-name-key="fontColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
     <property name="backgroundColor" display-name-key="backgroundColor" of-type="SingleLine.Text" usage="input" default-value=""/>
+    <property name="borderColor" display-name-key="borderColor" of-type="SingleLine.Text" usage="input" default-value="white"/>
+    <property name="borderStyle" display-name-key="borderStyle" of-type="SingleLine.Text" usage="input" default-value="solid"/>
+    <property name="borderWidth" display-name-key="borderWidth" of-type="Whole.None" usage="input" default-value="1"/>
     
     <!-- Numbers -->
     

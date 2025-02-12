@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import squashedBG, {squashedBgProps} from "./squashedButtonGroup";
+import SquashedBG, {squashedBgProps} from "./SquashedButtonGroup";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -42,11 +42,13 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
         
         const props : squashedBgProps  = {
             options: [],
-            onOptionSelect: this.onOptionSelect
+            onOptionSelect: this.onOptionSelect,
+            width: context.parameters.containerWidth.raw || 150,
+            height: context.parameters.containerHeight.raw || 50
         }
         
         return React.createElement(
-            squashedBG, props
+            SquashedBG, props
         );
     }
 
@@ -66,3 +68,5 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
         // Add code to cleanup control if necessary
     }
 }
+
+export { SquashedBG };

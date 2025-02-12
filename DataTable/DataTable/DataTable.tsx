@@ -1,8 +1,8 @@
 import * as React from "react";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { Chip } from "@mui/material";
 import type {} from '@mui/x-data-grid/themeAugmentation';
+import {SquashedBG} from '../../squashedButtonGroup/squashedButtonGroup';
 import { chipRender } from "../renderOptions/chipRender";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useRef, useState } from "react";
@@ -32,20 +32,19 @@ export interface DataTableProps {
   pageSize: number;
   pageNumber: number;
   totalRowCount: number;
+  onOptionSelect: (outputType: string, recordID: any, optionValue: string) => void
 }
 
 export default function DataTableComponent(props: DataTableProps) {
 
   const apiRef = useGridApiRef();
   const updateSelectedRecordIDs = (IDs : any) => {
-    const selected  = apiRef.current?.getSelectedRows()
     props.setSelectedRecords(IDs)
   }
 
   const renderCount = useRef(0)
   renderCount.current++
 
-  const selectionModel = useRef<any>([])
 
   const pageSize = useRef(props.pageSize)
 
@@ -84,7 +83,7 @@ export default function DataTableComponent(props: DataTableProps) {
   const data = props.tableData ? props.tableData : testRows;
   const columns = props.tableColumns ? props.tableColumns : testColumns
 
-
+  console.log("COLUMNSSSSS", columns)
 // Map through columns to generate overrides
 
   columns.map((column : any) => {
@@ -124,7 +123,22 @@ export default function DataTableComponent(props: DataTableProps) {
     
   
     
-    : <h2></h2>}
+    : 
+    
+    column?.matchingOverride?.componentType == 'squashedButtonGroup' ?
+    <SquashedBG 
+      options={ 
+        column?.matchingOverride?.optionsList ? column.matchingOverride.optionsList.map((option : any) => option.Value ) : ["No options passed"]
+      }
+      onOptionSelect={
+        (option: string) => { console.log("OPTIONNN", option); props.onOptionSelect(params.row.recordID, "selectedOption", option)}
+      }
+      width = {column?.matchingOverride?.componentWidth || 150}
+      height = {column?.matchingOverride?.componentHeight || 50}
+    
+  /> : <></>
+
+    }
     
     </>) 
     

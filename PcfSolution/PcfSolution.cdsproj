@@ -62,6 +62,7 @@
     <ProjectReference Include="..\DataTable\DataTable.pcfproj" />
     <ProjectReference Include="..\Button\Button.pcfproj" />
     <ProjectReference Include="..\DatePicker\DatePicker.pcfproj" />
+    <ProjectReference Include="..\squashedButtonGroup\squashedButtonGroup.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

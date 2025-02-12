@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="DataTable" version="0.9.105" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="DataTable" version="0.12.131" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -29,6 +29,13 @@
     
     <property name="allowSelectMultiple" display-name-key="allowSelectMultiple" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
 
+<!-- Output properties -->
+
+<property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output" hidden="false"/>
+<property name="outputValue" display-name-key="outputValue" of-type="SingleLine.Text" usage="output" hidden="false"/>
+<property name="outputObject" display-name-key="outputObject" of-type="Object" usage="output" hidden="false"/>
+<property name="outputObjectSchema" display-name-key="outputObjectSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
+
 <!-- Resources -->
 
     <resources>
@@ -37,6 +44,12 @@
       <platform-library name="React" version="16.14.0" />
       
     </resources>
+
+    <!-- Property dependencies -->
+
+    <property-dependencies>
+      <property-dependency input = "outputObjectSchema" output = "outputObject" required-for = "schema"/>
+    </property-dependencies>
   
   </control>
 

@@ -18,6 +18,9 @@ export interface DatePickerComponentProps {
   backgroundColor: string;
   width: number;
   height: number;
+  borderColor: string;
+  borderStyle: string;
+  borderWidth: number;
   isDisabled: boolean;
 }
 
@@ -34,7 +37,9 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
 
  useEffect(() => {
   
-  const date = selectedDate.current
+   const date = selectedDate.current
+  
+  
   date ? props.handleChange(`${date.$M + 1}/${date.$D}/${date.$y}`) : ''
 
  }, [selectedDate.current])
@@ -44,8 +49,10 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
 
   if (defaultDate.current != props.defaultDate) {
     
+    console.log("GENERATING NEW DEFAULT")
     defaultDate.current = props.defaultDate
     selectedDate.current = dayjs(defaultDate.current)
+    console.log("NEW DAYJS", selectedDate.current)
   
   }
 
@@ -93,12 +100,15 @@ const DatePickerComponent = (props: DatePickerComponentProps) => {
 // Function to handle any change in date in the control
 
   const handleDateChange = (e: any) => {
+    
+  
     selectedDate.current = e
 
   }
 
 console.log("PROPS - datepicker", props);
 console.log("THEME", theme)
+console.log("SELECTED DATE", selectedDate.current)
 
 
 // Render component
@@ -112,12 +122,15 @@ console.log("THEME", theme)
     
     <DatePicker 
       value={selectedDate.current ? selectedDate.current : null}  
-      onChange={(e) => {console.log("EVENT", e); handleDateChange(e)}} 
+      onChange={(e) => {console.log("EVENT", e); handleDateChange(e)}}
       label = {props.labelText}
       sx={{
         backgroundColor: props.backgroundColor || '',
         minHeight: `${props.height}px`,
-        width: `${props.width}px`
+        width: `${props.width}px`,
+        borderColor: props.borderColor,
+        borderStyle: props.borderStyle,
+        borderWidth: `${props.borderWidth}px`
       }}
       disabled = {props.isDisabled}
    

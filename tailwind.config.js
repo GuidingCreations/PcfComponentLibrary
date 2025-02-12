@@ -10,6 +10,7 @@ module.exports = {
       './ChipList/ChipList/ChipList.tsx',
       './TextField/TextFieldMUI/TextField.tsx',
       './Sidebar2/Sidebar2/Sidebar.tsx',
+      './squashedButtonGroup/SquashedButtonGroup.tsx'
   
     ],
     theme: {

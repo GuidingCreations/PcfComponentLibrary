@@ -51,7 +51,10 @@ export class DatePicker implements ComponentFramework.ReactControl<IInputs, IOut
             backgroundColor: context.parameters.backgroundColor.raw || '',
             height: context.parameters.componentHeight.raw || 50,
             width: context.parameters.componentWidth.raw || 350,
-            isDisabled: context.parameters.isDisabled.raw
+            isDisabled: context.parameters.isDisabled.raw,
+            borderColor: context.parameters.borderColor.raw || 'white',
+            borderStyle: context.parameters.borderStyle.raw || 'solid',
+            borderWidth: context.parameters.borderWidth.raw || 0
         }
 
 // Render element

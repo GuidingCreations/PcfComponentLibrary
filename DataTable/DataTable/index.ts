@@ -6,6 +6,7 @@ import * as React from "react";
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Button, colors } from "@mui/material";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import { JSONSchema4 } from "json-schema";
 
 export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutputs> {
 
@@ -19,7 +20,39 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     private _columnOverrides: any[] = [];
     private _totalRowCount = 0;
     private _pageNumber = 0
+    private outputType : string = '';
+    private outputValue : string = '';
+    private compOutputObj : any = {};
+    private inputSchema : string = '';
+    private columnProperties : Record<string, JSONSchema4>
     context: ComponentFramework.Context<IInputs>
+
+// Get obj output schema
+onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
+    const outputObj : any = {}
+    const dataset = this.context.parameters.tableData;
+    console.log("OUTPUT TYPE DATA TABLE SELECTED", outputType, "RECORD ID DATA TABLE SELECTED", recordID)
+
+    this.outputType = outputType
+    this.outputValue = optionValue
+    this.context.parameters.tableData.columns.map((column: any) => {
+        outputObj[column.name] = this.context.parameters.tableData.records[recordID].getValue(column.name)
+    })
+
+    this.compOutputObj = this.getOutputObjectRecord(dataset.records[recordID]);
+
+
+    console.log(" COMP OUTPUT OBJECT DATA TABLE: ", this.compOutputObj);
+    console.log("INPUT SCHEMA DATA TABLE", this.inputSchema)
+
+    this.notifyOutputChanged()
+}
+
+
+// When an option from a custom render is selected
+
+
+
 
 // Function to update the selected records when useEffect is triggered from TSX
 
@@ -64,12 +97,14 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
         this.context = context;
+        
     }
 
 // Update view portion of component lifecycle. Called when any property is changed. Causes re-render.
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        this.updateInputSchemaIfChanged();
         this._tableData = [];
 
 // Set page size to 2000. Temporary measure, will eventually include more advanced pagination.
@@ -151,7 +186,10 @@ console.log("LOADED PAGE", this._pageNumber)
                 "componentType",
                 "fontColor",
                 "isDisabled",
-                "colorGenerator"
+                "colorGenerator",
+                "optionsList",
+                "componentWidth",
+                "componentHeight"
             ]
 
           const recordToAdd : any = {recordID: context.parameters.columnOverrides.records[recordID].getRecordId()};
@@ -214,7 +252,9 @@ console.log("LOADED PAGE", this._pageNumber)
             setPage: this.setPage,
             pageSize: context.parameters.tableData.paging.pageSize,
             pageNumber: this._pageNumber,
-            totalRowCount: context.parameters.tableData.paging.totalResultCount
+            totalRowCount: context.parameters.tableData.paging.totalResultCount,
+            onOptionSelect: this.onOptionSelect
+
         }
 
         console.log("DATA TABLE PROPS", props)
@@ -229,9 +269,169 @@ console.log("LOADED PAGE", this._pageNumber)
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
+        console.log("INPUT SCHEMA on get outputs", this.inputSchema)
         return {
+            changeType: this.outputType,
+            outputObject: this.compOutputObj,
+            outputObjectSchema: this.inputSchema,
+            outputValue: this.outputValue
         };
     }
     public destroy(): void {
     }
+
+
+    public async getOutputSchema(context: ComponentFramework.Context<IInputs>): Promise<Record<string, unknown>> {
+        const outputObjectSchema: JSONSchema4 = {
+            $schema: 'http://json-schema.org/draft-04/schema#',
+            title: 'outputObject',
+            type: 'object',
+            properties: this.columnProperties || this.getInputSchema(context),
+        };
+
+        return Promise.resolve({
+            outputObject: outputObjectSchema,
+        });
+    }
+
+private updateInputSchemaIfChanged() {
+        console.log("TESTING SCHEMA UPDATE")
+        const newSchema = JSON.stringify(this.getInputSchema(this.context));
+        if (newSchema !== this.inputSchema) {
+            console.log("NEW SCHEMA", newSchema)
+            this.inputSchema = newSchema;
+            //this.compOutputObj = undefined;
+            this.notifyOutputChanged();
+        }
+    }
+    
+    private getInputSchema(context: ComponentFramework.Context<IInputs>) {
+        const dataset = context.parameters.tableData;
+        const columnProperties: Record<string, any> = {};
+        dataset.columns
+            .filter((c) => !c.isHidden && (c.displayName || c.name))
+            .forEach((c) => {
+                const properties = this.getColumnSchema(c);
+                columnProperties[c.displayName || c.name] = properties;
+            });
+        this.columnProperties = columnProperties;
+        return columnProperties;
+        }
+        
+
+  private getColumnSchema(column: ComponentFramework.PropertyHelper.DataSetApi.Column): JSONSchema4 {
+    switch (column.dataType) {
+        // Number Types
+        case 'TwoOptions':
+            return { type: 'boolean' };
+        case 'Whole.None':
+            return { type: 'integer' };
+        case 'Currency':
+        case 'Decimal':
+        case 'FP':
+        case 'Whole.Duration':
+            return { type: 'number' };
+        // String Types
+        case 'SingleLine.Text':
+        case 'SingleLine.Email':
+        case 'SingleLine.Phone':
+        case 'SingleLine.Ticker':
+        case 'SingleLine.URL':
+        case 'SingleLine.TextArea':
+        case 'Multiple':
+            return { type: 'string' };
+        // Other Types
+        case 'DateAndTime.DateOnly':
+        case 'DateAndTime.DateAndTime':
+            return {
+                type: 'string',
+                format: 'date-time',
+            };
+        // Choice Types
+        case 'OptionSet':
+            // TODO: Can we return an enum type dynamically?
+            return { type: 'string' };
+        case 'MultiSelectPicklist':
+            return {
+                type: 'array',
+                items: {
+                    type: 'number',
+                },
+            };
+        // Lookup Types
+        case 'Lookup.Simple':
+        case 'Lookup.Customer':
+        case 'Lookup.Owner':
+            // TODO: What is the schema for lookups?
+            return { type: 'string' };
+        // Other Types
+        case 'Whole.TimeZone':
+        case 'Whole.Language':
+            return { type: 'string' };
+    }
+    return { type: 'string' };
+}
+
+private getOutputObjectRecord(row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord) {
+    const outputObject: Record<string, string | number | boolean | number[] | undefined> = {};
+    this.context.parameters.tableData.columns.forEach((c) => {
+        
+        const value = this.getRowValue(row, c);
+        outputObject[c.displayName || c.name] = value;
+    });
+    return outputObject;
+    }
+
+
+private getRowValue(
+row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord,
+column: ComponentFramework.PropertyHelper.DataSetApi.Column,
+) {
+    console.log("ROW getRowValue: ", row);
+    console.log("COLUMN getRowValue: ", column);
+    console.log("COLUMN DATA TYPE", column.dataType)
+switch (column.dataType) {
+    // Number Types
+    case 'TwoOptions':
+        return row.getValue(column.name) as boolean;
+    case 'Whole.None':
+    case 'Currency':
+    case 'Decimal':
+    case 'FP':
+    case 'Whole.Duration':
+        return row.getValue(column.name) as number;
+    // String Types
+    case 'SingleLine.Text':
+    case 'SingleLine.Email':
+    case 'SingleLine.Phone':
+    case 'SingleLine.Ticker':
+    case 'SingleLine.URL':
+    case 'SingleLine.TextArea':
+    case 'Multiple':
+        return row.getFormattedValue(column.name);
+    // Date Types
+    case 'DateAndTime.DateOnly':
+    case 'DateAndTime.DateAndTime':
+        return (row.getValue(column.name) as Date)?.toISOString();
+    // Choice Types
+    case 'OptionSet':
+        // TODO: Can we return an enum?
+        return row.getFormattedValue(column.name) as string;
+    case 'MultiSelectPicklist':
+        return row.getValue(column.name) as number[];
+    // Lookup Types
+    case 'Lookup.Simple':
+    case 'Lookup.Customer':
+    case 'Lookup.Owner':
+    case 'Whole.TimeZone':
+    case 'Whole.Language':
+        return row.getFormattedValue(column.name);
+}
+}
+
+
+
+
+
+
 }
