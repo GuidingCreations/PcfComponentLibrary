@@ -27,15 +27,24 @@ export interface DataTableProps {
   allowSelectMultiple: boolean;
   useDarkMode: boolean;
   setSelectedRecords: (selectedRecordIDs: any[]) => void
-  updatePageSize: (newPageSize: number) => void
-  setPage: (pageNumber: number) => void
   pageSize: number;
   pageNumber: number;
   totalRowCount: number;
-  onOptionSelect: (outputType: string, recordID: any, optionValue: string) => void
+  onOptionSelect: (outputType: string, recordID: any, optionValue: string) => void;
+  columnVisibility: any;
 }
 
 export default function DataTableComponent(props: DataTableProps) {
+
+
+  const [defaultVisibilityModel, setDefaultVisibilityModel] = useState<any>(props.columnVisibility);
+  const [visibilityModel, setVisibilityModel] = useState<any>(props.columnVisibility)
+
+  if (props.columnVisibility != defaultVisibilityModel) {
+    setDefaultVisibilityModel(props.columnVisibility);
+    setVisibilityModel(props.columnVisibility)
+  }
+
 
   const apiRef = useGridApiRef();
   const updateSelectedRecordIDs = (IDs : any) => {
@@ -46,38 +55,14 @@ export default function DataTableComponent(props: DataTableProps) {
   renderCount.current++
 
 
-  const pageSize = useRef(props.pageSize)
 
-  if (props.pageSize != pageSize.current) {
-    pageSize.current = props.pageSize
-  }
-
-  const pageNumber = useRef(props.pageNumber)
-
-  if (props.pageNumber != pageNumber.current) {
-    pageNumber.current = props.pageNumber
-  }
-
-  apiRef.current?.setPageSize ? apiRef.current.setPageSize(props.pageSize) : null
-  apiRef.current?.setPage ? apiRef.current.setPage(props.pageNumber) : null
 
   function getRowId(row : any) {
     return row.recordID
   }
 
 
-  const handlePaginationModelChange = (e: any) => {
 
-    console.log("EVENT IN HANDLE PAGINATION CHANGE DATA TABLE", e)
-    if (e.pageSize != pageSize.current) {
-
-      props.updatePageSize(e.pageSize)
-
-    } else {
-      props.setPage(e.page)
-    }
-
-  }
 
 
   const data = props.tableData ? props.tableData : testRows;
@@ -167,24 +152,21 @@ export default function DataTableComponent(props: DataTableProps) {
       <CssBaseline/>
       <div style={{ height: props.height, width: "100%" , maxWidth: `${props.width}px`}}>
         <DataGrid 
-        onPaginationModelChange={(e) => handlePaginationModelChange(e)}
         sx={{color: props.useDarkMode ? 'white' : 'black'}}
         disableMultipleRowSelection = {!props.allowSelectMultiple}
+        columnVisibilityModel={visibilityModel}
+        onColumnVisibilityModelChange={(newModel) => setVisibilityModel(newModel)}
         rows={data}
-        paginationMode="server"
-        rowCount={props.totalRowCount} 
         columns={columns} 
         checkboxSelection
         initialState={{
           columns: {
-            columnVisibilityModel: {
-              recordID: false
-            }
+            columnVisibilityModel: defaultVisibilityModel
           }
         }}
         getRowHeight={() => 'auto'}
         apiRef={apiRef}
-        onRowSelectionModelChange={(e) => {console.log("EVENT", e); const items = e;  updateSelectedRecordIDs(items)}}
+        onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}
         getRowId={getRowId}
         />
       </div>
