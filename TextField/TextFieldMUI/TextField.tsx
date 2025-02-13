@@ -1,13 +1,12 @@
 import * as React from 'react';
 
 import TextField from '@mui/material/TextField';
-// import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { useEffect, useRef, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, Box } from '@mui/material';
-// import {makeStyles} from '@mui/styles'
+import CssBaseline from '@mui/material/CssBaseline';
+import SearchIcon from '@mui/icons-material/Search';
+
 
 export interface TextInputProps {
   darkMode: boolean;
@@ -23,7 +22,7 @@ export interface TextInputProps {
   defaultValue?: string;
   isDisabled: boolean;
   isCurrency: boolean;
-  
+  isMultiLine: boolean;  
 }
 
 export default function TextInput(props : TextInputProps) {
@@ -35,7 +34,7 @@ export default function TextInput(props : TextInputProps) {
   const minLength = useRef(props.minLength);
   minLength.current = props.minLength
   const isErrored = useRef(minLength.current > 0);
-  const defaultValue = useRef<any>("")
+  const [defaultValue, setDefaultValue] = useState<any>("")
   const newText = useRef<any>("")
   const [textValue, setTextValue] = useState<any>(props.defaultValue)
   const hasChanged = useRef(false)
