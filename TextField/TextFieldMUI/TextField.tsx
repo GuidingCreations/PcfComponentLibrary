@@ -30,63 +30,74 @@ export default function TextInput(props : TextInputProps) {
   
   const renderCount = useRef(0)
   renderCount.current++
-  const outputValue = useRef<any>("")
-  const minLength = useRef(props.minLength);
-  minLength.current = props.minLength
-  const isErrored = useRef(minLength.current > 0);
+ 
+  const [outputValue, setOutputValue] = useState<any>("")
+  
+  const [minLength, setMinLength] = useState(props.minLength);
+  
+  const [isErrored, setIsErrored] = useState(minLength > 0);
+  
   const [defaultValue, setDefaultValue] = useState<any>("")
-  const newText = useRef<any>("")
+  
+  const [newText, setNewText] = useState<any>("")
+  
   const [textValue, setTextValue] = useState<any>(props.defaultValue)
-  const hasChanged = useRef(false)
-  const errorText = useRef("");
+  
+  const [hasChanged, setHasChanged] = useState(false)
+  
+  const [errorText, setErrorText] = useState("");
 
 
   useEffect(() => {
-    props.updateOutput(newText.current, isErrored.current)
-  }, [newText.current])
+    props.updateOutput(newText, isErrored)
+  }, [newText])
+
+  if (minLength !== props.minLength) {
+    
+    setMinLength(props.minLength)
+  
+  }
 
   // On each render, check if the output value is less than the minimum length, and set isErrored if true. This is because component can re-render when a new minimum length is passed in, and the error state would not be updated otherwise
   
   
-  if (props.defaultValue != defaultValue.current && props.defaultValue != '') {
-    defaultValue.current = props.defaultValue;
+  if (props.defaultValue != defaultValue && props.defaultValue != '') {
+    setDefaultValue(props.defaultValue);
     setTextValue(props.defaultValue)
-    newText.current = props.defaultValue
+    setNewText(props.defaultValue)
   }
   
-  console.log("vala", outputValue.current)
-  if (outputValue.current.length < minLength.current) {
+  if (outputValue.length < minLength) {
 
-    if (isErrored.current == false) {
-      isErrored.current = true
-      props.updateOutput(outputValue.current, isErrored.current)
+    if (!isErrored) {
+      setIsErrored(true);
+      props.updateOutput(outputValue, isErrored)
 
     }
   }
-  console.log("IS ERRORED", isErrored)
   
 
     
   //When the value in the text field changes, check to see if it is less than the minimum length. If it is, set the error state. It also always passed the new value to the PCF components output properties.
   
   const handleTextChange = (newValue: any) => {
-    console.log("CHANGING NEW TEXT, orig: ", newText.current)
+    console.log("CHANGING NEW TEXT, orig: ", newText)
     setTextValue(newValue)
-    newText.current = newValue;
-    console.log("NEW NEWTEXT", newText.current)
+    setNewText(newValue);
+    console.log("NEW NEWTEXT", newText)
     if (newValue != "") {
-      hasChanged.current = true
+      setHasChanged(true)
 
     } 
    
-    console.log("OLD VALUE", outputValue.current);
-    outputValue.current = newValue
-    console.log(outputValue.current)
-    if (outputValue.current.length < props.minLength) {
-      isErrored.current = true;
-      errorText.current = `Minimum length is ${props.minLength}`
+    console.log("OLD VALUE", outputValue);
+    setOutputValue(newValue);
+    console.log(outputValue)
+    if (outputValue.length < props.minLength) {
+      setIsErrored(true);
+      setErrorText(`Minimum length is ${props.minLength}`)
     } else {
-      isErrored.current = false;
+      setIsErrored(false);
       console.log("NOT ERRORED FOR MIN TEXT")
     }
 
@@ -139,20 +150,25 @@ export default function TextInput(props : TextInputProps) {
               borderColor: props.accentColor,
             },
             '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: isErrored.current && hasChanged.current ?  'red' : props.accentColor 
+            borderColor: isErrored && hasChanged ?  'red' : props.accentColor 
           },
           '&:focus .MuiOutlinedInput-notchedOutline': {
             borderColor: props.accentColor
           },
           '&:hasfocus .MuiOutlinedInput-notchedOutline': {
-            borderColor: isErrored.current && hasChanged.current ? 'red' : props.accentColor
+            borderColor: isErrored && hasChanged ? 'red' : props.accentColor
           },
 
           '&:hover:hasfocus .MuiOutlinedInput-notchedOutline': {
-            borderColor: isErrored.current && hasChanged.current ? 'red' : props.accentColor
+            borderColor: isErrored && hasChanged ? 'red' : props.accentColor
           },
         
         },
+        input: {
+          marginTop: !props.isMultiLine ? 'auto' : '',
+          marginBottom: !props.isMultiLine ? 'auto' : ''
+
+        }
         
 
               }
@@ -198,16 +214,16 @@ console.log("PROPS IN TEXT FIELD", props)
        <TextField id="TextInput" 
       
        disabled = {props.isDisabled}
-       defaultValue={defaultValue.current || ''}
+       defaultValue={defaultValue || ''}
       label = {props.labelText}
       variant='outlined'
       value = {textValue}
       fullWidth
-      multiline = {props.inputType == 'text' || props.inputType == ''}
+      multiline = {props.isMultiLine}
       className='h-full '
-      helperText = {isErrored.current ? errorText.current : ""}
+      helperText = {isErrored ? errorText : ""}
       onChange={(e) => {console.log("TRIGGERING OUTPUT CHANGE FROM COMP: ","e", e,"targ", e.target,"val", e.target.value);   handleTextChange(e.target.value)}}
-      error = {renderCount.current > 0 && isErrored.current && hasChanged.current}
+      error = {renderCount.current > 0 && isErrored && hasChanged}
       slotProps={{
         input: {
           startAdornment : props.useSearchIcon ? (

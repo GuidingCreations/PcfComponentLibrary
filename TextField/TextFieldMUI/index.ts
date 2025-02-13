@@ -58,7 +58,8 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
             inputType: context.parameters.inputType.raw || '',
             defaultValue: context.parameters.defaultValue.raw || '',
             isDisabled: context.parameters.isDisabled.raw,
-            isCurrency: context.parameters.isCurrency.raw
+            isCurrency: context.parameters.isCurrency.raw,
+            isMultiLine: context.parameters.isMultiLine.raw
             
          };
 

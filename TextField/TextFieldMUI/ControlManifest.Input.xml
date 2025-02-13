@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.9.65" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.9.68" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
 
     <external-service-usage enabled="false">
   
@@ -29,7 +29,7 @@
 
 <!-- Boolean params -->
 
-<property name="isMultiLine" display-name-key="isMultiLine" description-key="isMultiLine" of-type="TwoOptions" usage="input"/>
+<property name="isMultiLine" display-name-key="isMultiLine" description-key="isMultiLine" of-type="TwoOptions" usage="input" default-value= "false"/>
 
 <property name="useDarkMode" display-name-key = "useDarkMode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
 
