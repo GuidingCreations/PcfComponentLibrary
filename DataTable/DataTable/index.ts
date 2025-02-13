@@ -20,12 +20,15 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     private _columnOverrides: any[] = [];
     private _totalRowCount = 0;
     private _pageNumber = 0
+    private _columnVisibility : any = {}
     private outputType : string = '';
     private outputValue : string = '';
     private compOutputObj : any = {};
     private inputSchema : string = '';
     private columnProperties : Record<string, JSONSchema4>
     context: ComponentFramework.Context<IInputs>
+
+   
 
 // Get obj output schema
 onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
@@ -77,10 +80,6 @@ onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
         this.context.parameters.tableData.paging.loadExactPage(1);
     };
 
-    setPage = (pageNumber : number) => {
-        this._pageNumber = pageNumber;
-        this.context.parameters.tableData.paging.loadExactPage(pageNumber)
-    }
 
 // Function to dynamically generate any data source
 
@@ -107,9 +106,23 @@ onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
         this.updateInputSchemaIfChanged();
         this._tableData = [];
 
+       
+        const colVis : any = {
+            recordID: false
+        }
+
+        context.parameters.columnVisibility.sortedRecordIds.map((recordID: any) => {
+            
+            colVis[context.parameters.columnVisibility.records[recordID].getFormattedValue("columnName")] = context.parameters.columnVisibility.records[recordID].getValue("isVisible")
+            console.log("COL VISI", colVis)
+            
+        })
+        this._columnVisibility = colVis
+        console.log("COLUMN VISIBILITY OBJECT: ", colVis)
+
 // Set page size to 2000. Temporary measure, will eventually include more advanced pagination.
 
-        context.parameters.tableData.paging.setPageSize(50);
+        context.parameters.tableData.paging.setPageSize(2000);
 
 //  Loop through each id in sortedRecordsIds
 
@@ -248,12 +261,11 @@ console.log("LOADED PAGE", this._pageNumber)
             defaultColumnWidths: this._columnWidthTable,
             useDarkMode: context.parameters.useDarkMode.raw,
             allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
-            updatePageSize: this.updatePageSize,
-            setPage: this.setPage,
             pageSize: context.parameters.tableData.paging.pageSize,
             pageNumber: this._pageNumber,
             totalRowCount: context.parameters.tableData.paging.totalResultCount,
-            onOptionSelect: this.onOptionSelect
+            onOptionSelect: this.onOptionSelect,
+            columnVisibility: this._columnVisibility
 
         }
 
