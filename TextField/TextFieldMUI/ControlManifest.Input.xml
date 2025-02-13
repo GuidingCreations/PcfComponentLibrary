@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.9.65" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.9.68" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
 
     <external-service-usage enabled="false">
   
@@ -9,21 +9,32 @@
   <!-- Text params -->
 
 <property name="labelText" display-name-key="labelText" description-key="labelText" of-type="SingleLine.Text" usage="input" required="false" />   
+
 <property name="isDisabled" display-name-key="isDisabled" description-key="isDisabled" of-type="TwoOptions" usage="input" default-value="false"/> 
+
 <property name="isCurrency" display-name-key="isCurrency" description-key="isCurrency" of-type="TwoOptions" usage="input" default-value="false"/> 
   
-<property name="defaultValue" display-name-key="defaultValue" description-key="defaultValue" of-type="SingleLine.Text" usage="input" required="false" />   
-<property name="outputValue" display-name-key="outputValue" description-key="outputValue" of-type="SingleLine.Text" usage="output" required="false" />   
-<property name="accentColor" display-name-key="accentColor" description-key="accentColor" of-type="SingleLine.Text" usage="input" required="false"  default-value = "white"/>   
-<property name="backgroundColor" display-name-key="backgroundColor" description-key="backgroundColor" of-type="SingleLine.Text" usage="input" required="false" />   
+<property name="defaultValue" display-name-key="defaultValue" description-key="defaultValue" of-type="SingleLine.Text" usage="input"/>   
+
+<property name="outputValue" display-name-key="outputValue" description-key="outputValue" of-type="SingleLine.Text" usage="output"/>   
+
+<property name="accentColor" display-name-key="accentColor" description-key="accentColor" of-type="SingleLine.Text" usage="input" default-value = "white"/>   
+
+<property name="backgroundColor" display-name-key="backgroundColor" description-key="backgroundColor" of-type="SingleLine.Text" usage="input"/>   
+
 <property name="labelColor" display-name-key="labelColor" description-key="labelColor" of-type="SingleLine.Text" usage="input" required="false" />
-<property name="inputType" display-name-key="inputType" description-key="inputType" of-type="SingleLine.Text" usage="input" required="false" default-value = "text"/>
+
+<property name="inputType" display-name-key="inputType" description-key="inputType" of-type="SingleLine.Text" usage="input" default-value="text"/>
 
 
 <!-- Boolean params -->
 
+<property name="isMultiLine" display-name-key="isMultiLine" description-key="isMultiLine" of-type="TwoOptions" usage="input" default-value= "false"/>
+
 <property name="useDarkMode" display-name-key = "useDarkMode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
+
 <property name="isErrored" display-name-key="isErrored" description-key="isErrored" of-type="TwoOptions" usage="output" required="true" default-value = "false" />   
+
 <property name="useSearchIcon" display-name-key="useSearchIcon" description-key="useSearchIcon" of-type="TwoOptions" usage="input" required="true" default-value = "false" />   
 
 <!-- Number properties -->
