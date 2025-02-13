@@ -32,6 +32,8 @@ export interface DataTableProps {
   totalRowCount: number;
   onOptionSelect: (outputType: string, recordID: any, optionValue: string) => void;
   columnVisibility: any;
+  hideFooter: boolean;
+  showCheckboxes: boolean;
 }
 
 export default function DataTableComponent(props: DataTableProps) {
@@ -158,7 +160,8 @@ export default function DataTableComponent(props: DataTableProps) {
         onColumnVisibilityModelChange={(newModel) => setVisibilityModel(newModel)}
         rows={data}
         columns={columns} 
-        checkboxSelection
+        checkboxSelection = {props.showCheckboxes}
+        hideFooter = {props.hideFooter}
         initialState={{
           columns: {
             columnVisibilityModel: defaultVisibilityModel
