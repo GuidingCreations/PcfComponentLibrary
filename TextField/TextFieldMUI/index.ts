@@ -13,7 +13,6 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
     private _isErrored : boolean = false
 
     updateOutputValue = (value: any, hasError: boolean) => {
-        console.log("STARTING OUTPUT UPDATE", value);
         this._outputValue = value;
         this._isErrored = hasError
         this.notifyOutputChanged()
@@ -44,7 +43,6 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
      * @returns ReactElement root react element for the control
      */
         public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        console.log("UDPATE VIEW")
         const props : TextInputProps = { 
             updateOutput: this.updateOutputValue,
             darkMode: context.parameters.useDarkMode.raw || false,
@@ -62,8 +60,6 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
             isMultiLine: context.parameters.isMultiLine.raw
             
          };
-
-         console.log("PASSING PROPS", props)
 
         return React.createElement(
             TextInput, props

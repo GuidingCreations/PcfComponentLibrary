@@ -81,24 +81,19 @@ export default function TextInput(props : TextInputProps) {
   //When the value in the text field changes, check to see if it is less than the minimum length. If it is, set the error state. It also always passed the new value to the PCF components output properties.
   
   const handleTextChange = (newValue: any) => {
-    console.log("CHANGING NEW TEXT, orig: ", newText)
     setTextValue(newValue)
     setNewText(newValue);
-    console.log("NEW NEWTEXT", newText)
     if (newValue != "") {
       setHasChanged(true)
 
     } 
    
-    console.log("OLD VALUE", outputValue);
     setOutputValue(newValue);
-    console.log(outputValue)
     if (outputValue.length < props.minLength) {
       setIsErrored(true);
       setErrorText(`Minimum length is ${props.minLength}`)
     } else {
       setIsErrored(false);
-      console.log("NOT ERRORED FOR MIN TEXT")
     }
 
 
@@ -200,7 +195,6 @@ export default function TextInput(props : TextInputProps) {
 }});
 
 
-console.log("HAS CHANGED", hasChanged)
 
 
 console.log("PROPS IN TEXT FIELD", props)
@@ -222,7 +216,7 @@ console.log("PROPS IN TEXT FIELD", props)
       multiline = {props.isMultiLine}
       className='h-full '
       helperText = {isErrored ? errorText : ""}
-      onChange={(e) => {console.log("TRIGGERING OUTPUT CHANGE FROM COMP: ","e", e,"targ", e.target,"val", e.target.value);   handleTextChange(e.target.value)}}
+      onChange={(e) => {handleTextChange(e.target.value)}}
       error = {renderCount.current > 0 && isErrored && hasChanged}
       slotProps={{
         input: {
