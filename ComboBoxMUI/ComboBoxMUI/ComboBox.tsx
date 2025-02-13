@@ -44,6 +44,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
   const renderCountRef = useRef(0);
   renderCountRef.current++;
+  const elementRef = useRef<any>(null)
   const autoRef = useRef<any>(null);
   const [selectedValues, setSelectedValues] = useState<any[]>([])
   const height = useRef(65)
@@ -58,6 +59,8 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
   useEffect(() => {
 
+
+    
     if (autoRef.current) {
      height.current = autoRef.current.getBoundingClientRect().height
     }
@@ -166,6 +169,19 @@ Formula for evaluating whether the default values have changed. Returns true if 
       mode:  props.darkMode ? 'dark' : 'light'
     },
     components: {
+
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            top: 'auto',
+            bottom: '50%'
+          },
+          shrink: {
+            top: 0
+                    }
+        }
+      },
+
       MuiInputBase: {
         styleOverrides: {
           root: {
@@ -175,6 +191,7 @@ Formula for evaluating whether the default values have changed. Returns true if 
               borderWidth: props.borderWidth,
               borderColor: props.borderColor,
             },
+            height:  `${props.height}px`
           }
         }
       }
@@ -262,7 +279,7 @@ return (
       }}
       style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
+        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef}/>
       )}
       />
   </ThemeProvider>

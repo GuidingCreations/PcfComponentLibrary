@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="testNS" constructor="ComboBoxMUI" version="0.18.25" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
+  <control namespace="testNS" constructor="ComboBoxMUI" version="0.20.26" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
    
     <external-service-usage enabled="false">
      
