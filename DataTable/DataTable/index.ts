@@ -265,7 +265,9 @@ console.log("LOADED PAGE", this._pageNumber)
             pageNumber: this._pageNumber,
             totalRowCount: context.parameters.tableData.paging.totalResultCount,
             onOptionSelect: this.onOptionSelect,
-            columnVisibility: this._columnVisibility
+            columnVisibility: this._columnVisibility,
+            hideFooter: context.parameters.hideFooter.raw,
+            showCheckboxes: context.parameters.showCheckboxes.raw
 
         }
 
