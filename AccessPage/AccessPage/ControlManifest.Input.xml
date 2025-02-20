@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="HunterMcCarthysNS" constructor="AccessPage" version="0.0.54" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+
+    <data-set name="groupMembers" display-name-key="groupMembers">
+    
+    </data-set>
+
+    <data-set name="groupOwners" display-name-key="groupOwners">
+    
+    </data-set>
+
+    <data-set name="navItems" display-name-key="navItems">
+     
+    </data-set>
+
+    <property name="sidebarWidth" display-name-key="sidebarWidth" of-type="Whole.None" usage="input" pfx-default-value ='App.Width * .1'/>
+    <property name="headerText" display-name-key="headerText" of-type="SingleLine.Text" usage="input" default-value = "Access control for"/>
+
+    
+
+    <event name="onDeleteUserFromGroup"
+   pfx-default-value=''
+   display-name-key="onDeleteUserFromGroup"
+   description-key="onDeleteUserFromGroup"/>
+
+    <event name="onAddMemberToGroup"
+   pfx-default-value=''
+   display-name-key="onAddMemberToGroup"
+   description-key="onAddMemberToGroup"/>
+
+     <event name="onAddOwnerToGroup"
+   pfx-default-value=''
+   display-name-key="onAddOwnerToGroup"
+   description-key="onAddOwnerToGroup"/>
+
+
+    <property name="containerWidth" display-name-key = "containerWidth" of-type="Whole.None" usage="input" pfx-default-value ='Self.Width'/>
+    <property name="containerHeight" display-name-key = "containerHeight" of-type="Whole.None" usage="input" pfx-default-value ='Self.Height'/>
+
+    
+
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <css path = "../../dist/output.css" order = "1"/>
+      
+    </resources>
+    
+  </control>
+</manifest>

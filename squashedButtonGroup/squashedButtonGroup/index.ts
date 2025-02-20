@@ -69,4 +69,3 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
     }
 }
 
-export { SquashedBG };

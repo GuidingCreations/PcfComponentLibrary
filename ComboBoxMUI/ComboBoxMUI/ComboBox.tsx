@@ -21,15 +21,15 @@ export interface ComboBoxProps {
   useTestData: boolean;
   Items: any[];
   labelText: string;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
   allowSelectMultiple: boolean;
   setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void
   defaultValues: any[];
   darkMode: boolean;
-  borderStyle: string;
-  borderWidth: string;
-  borderColor: string;
+  borderStyle?: string;
+  borderWidth?: string;
+  borderColor?: string;
   backgroundColor?: string;
   isDisabled: boolean;
 }
@@ -38,7 +38,7 @@ export interface ComboBoxProps {
 
 
 
-export default function CheckboxesTags(props: ComboBoxProps) {
+export default function ComboBox(props: ComboBoxProps) {
 
   // Create refs / states (we need ref for render count since pcf components don't pass in tabular data on first render)
 
@@ -75,53 +75,53 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   // Establish test data
 
   const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
+    { label: 'The Shawshank Redemption', year: 1994 },
+    { label: 'The Godfather', year: 1972 },
+    { label: 'The Godfather: Part II', year: 1974 },
+    { label: 'The Dark Knight', year: 2008 },
+    { label: '12 Angry Men', year: 1957 },
+    { label: "Schindler's List", year: 1993 },
+    { label: 'Pulp Fiction', year: 1994 },
     {
-      title: 'The Lord of the Rings: The Return of the King',
+      label: 'The Lord of the Rings: The Return of the King',
       year: 2003,
     },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 },
+    { label: 'The Good, the Bad and the Ugly', year: 1966 },
+    { label: 'Fight Club', year: 1999 },
     {
-      title: 'The Lord of the Rings: The Fellowship of the Ring',
+      label: 'The Lord of the Rings: The Fellowship of the Ring',
       year: 2001,
     },
     {
-      title: 'Star Wars: Episode V - The Empire Strikes Back',
+      label: 'Star Wars: Episode V - The Empire Strikes Back',
       year: 1980,
     },
-    { title: 'Forrest Gump', year: 1994 },
-    { title: 'Inception', year: 2010 },
+    { label: 'Forrest Gump', year: 1994 },
+    { label: 'Inception', year: 2010 },
     {
-      title: 'The Lord of the Rings: The Two Towers',
+      label: 'The Lord of the Rings: The Two Towers',
       year: 2002,
     },
-    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { title: 'Goodfellas', year: 1990 },
-    { title: 'The Matrix', year: 1999 },
-    { title: 'Seven Samurai', year: 1954 },
+    { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
+    { label: 'Goodfellas', year: 1990 },
+    { label: 'The Matrix', year: 1999 },
+    { label: 'Seven Samurai', year: 1954 },
     {
-      title: 'Star Wars: Episode IV - A New Hope',
+      label: 'Star Wars: Episode IV - A New Hope',
       year: 1977,
     },
-    { title: 'City of God', year: 2002 },
-    { title: 'Se7en', year: 1995 },
-    { title: 'The Silence of the Lambs', year: 1991 },
-    { title: "It's a Wonderful Life", year: 1946 },
-    { title: 'Life Is Beautiful', year: 1997 },
-    { title: 'The Usual Suspects', year: 1995 },
-    { title: 'Léon: The Professional', year: 1994 },
-    { title: 'Spirited Away', year: 2001 },
-    { title: 'Saving Private Ryan', year: 1998 },
-    { title: 'Once Upon a Time in the West', year: 1968 },
-    { title: 'American History X', year: 1998 },
-    { title: 'Interstellar', year: 2014 },
+    { label: 'City of God', year: 2002 },
+    { label: 'Se7en', year: 1995 },
+    { label: 'The Silence of the Lambs', year: 1991 },
+    { label: "It's a Wonderful Life", year: 1946 },
+    { label: 'Life Is Beautiful', year: 1997 },
+    { label: 'The Usual Suspects', year: 1995 },
+    { label: 'Léon: The Professional', year: 1994 },
+    { label: 'Spirited Away', year: 2001 },
+    { label: 'Saving Private Ryan', year: 1998 },
+    { label: 'Once Upon a Time in the West', year: 1968 },
+    { label: 'American History X', year: 1998 },
+    { label: 'Interstellar', year: 2014 },
   ];
 
 /* 

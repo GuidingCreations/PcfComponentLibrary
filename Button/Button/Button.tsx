@@ -9,14 +9,14 @@ export interface ButtonProps {
   size: string;
   typeVariant: string;
   onClick: () => void;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   isDisabled: boolean;
-  backgroundColor: string;
-  borderColor: string;
-  fontColor: string;
-  borderWidth: number;
-  textAlign: string;
+  backgroundColor?: string;
+  borderColor?: string;
+  fontColor?: string;
+  borderWidth?: number;
+  textAlign?: string;
 }
 
 export default function ButtonComponent(props: ButtonProps) {
@@ -50,7 +50,7 @@ export default function ButtonComponent(props: ButtonProps) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <Button disabled = {props.isDisabled} style={{width: `${props.width}px`, height: `${props.height}px`}} onClick={props.onClick} size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
+      <Button disabled = {props.isDisabled} style={{width: `${props.width}px`, height: `${props.height}px`}} onClick={() => {console.log("BUTTON CLICKED"); props.onClick()}} size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
     </ThemeProvider>
   );
 }

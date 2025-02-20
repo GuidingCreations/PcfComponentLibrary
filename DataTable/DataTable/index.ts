@@ -267,7 +267,8 @@ console.log("LOADED PAGE", this._pageNumber)
             onOptionSelect: this.onOptionSelect,
             columnVisibility: this._columnVisibility,
             hideFooter: context.parameters.hideFooter.raw,
-            showCheckboxes: context.parameters.showCheckboxes.raw
+            showCheckboxes: context.parameters.showCheckboxes.raw,
+            noRowsText: context.parameters.noRowsText.raw ||  "No results found"
 
         }
 

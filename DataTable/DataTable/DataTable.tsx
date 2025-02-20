@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import type {} from '@mui/x-data-grid/themeAugmentation';
-import {SquashedBG} from '../../squashedButtonGroup/squashedButtonGroup';
+import SquashedBG from '../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup';
 import { chipRender } from "../renderOptions/chipRender";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useRef, useState } from "react";
@@ -34,9 +34,12 @@ export interface DataTableProps {
   columnVisibility: any;
   hideFooter: boolean;
   showCheckboxes: boolean;
+  fullWidth?: boolean;
+  classes?: string;
+  noRowsText? : string
 }
 
-export default function DataTableComponent(props: DataTableProps) {
+const  DataTableComponent = (props: DataTableProps) => {
 
 
   const [defaultVisibilityModel, setDefaultVisibilityModel] = useState<any>(props.columnVisibility);
@@ -149,12 +152,30 @@ export default function DataTableComponent(props: DataTableProps) {
     },
   });
 
+
+  console.log("ROWS IN DAT TAB: ", data);
+  console.log("COLS IN DAT TAB: ", columns)
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <div style={{ height: props.height, width: "100%" , maxWidth: `${props.width}px`}}>
+      <div style={
+        { 
+          height: props.height, 
+          width: props.width
+        }
+      }>
         <DataGrid 
-        sx={{color: props.useDarkMode ? 'white' : 'black'}}
+        sx={
+          {
+            color: props.useDarkMode ? 'white' : 'black',
+            width: props.width - 16
+           
+          }
+        }
+        localeText={{
+          noRowsLabel: props.noRowsText ? props.noRowsText : "No results found"
+        }}
         disableMultipleRowSelection = {!props.allowSelectMultiple}
         columnVisibilityModel={visibilityModel}
         onColumnVisibilityModelChange={(newModel) => setVisibilityModel(newModel)}
@@ -167,12 +188,16 @@ export default function DataTableComponent(props: DataTableProps) {
             columnVisibilityModel: defaultVisibilityModel
           }
         }}
-        getRowHeight={() => 'auto'}
+        getRowHeight={(params) => 'auto'}
         apiRef={apiRef}
         onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}
         getRowId={getRowId}
+        className = {props.classes}
         />
       </div>
     </ThemeProvider>
   );
 }
+
+ 
+export default DataTableComponent

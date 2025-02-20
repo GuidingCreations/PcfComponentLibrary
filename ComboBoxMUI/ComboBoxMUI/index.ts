@@ -2,7 +2,7 @@
 
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { ComboBoxProps } from "./ComboBox";
-import CheckboxesTags from "./ComboBox";
+import ComboBox from "./ComboBox";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -160,7 +160,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         console.log("PROPS - ComboBoxMUI", props)
 
         return React.createElement(
-            CheckboxesTags, props
+            ComboBox, props
         );
     }
 
