@@ -9,8 +9,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useEffect, useRef } from 'react';
-import useState from 'react-usestateref'
+import { useEffect, useRef, useState } from 'react';
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -32,13 +32,15 @@ export interface ComboBoxProps {
   borderColor?: string;
   backgroundColor?: string;
   isDisabled: boolean;
+  handleSearchTextChange: (searchText: string) => void;
+  defaultSearchText: string;
 }
 
 
 
 
 
-export default function ComboBox(props: ComboBoxProps) {
+const ComboBox = (props: ComboBoxProps) => {
 
   // Create refs / states (we need ref for render count since pcf components don't pass in tabular data on first render)
 
@@ -46,9 +48,11 @@ export default function ComboBox(props: ComboBoxProps) {
   renderCountRef.current++;
   const elementRef = useRef<any>(null)
   const autoRef = useRef<any>(null);
-  const [selectedValues, setSelectedValues] = useState<any[]>([])
   const height = useRef(65)
-  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
+  const [selectedValues, setSelectedValues] = useState<any[]>([])
+  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || []);
+  const [searchText, setSearchText] = useState<string>('')
+  const [comboBoxSearchText, setComboBoxSearchText] = useState('')
 
   console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
 
@@ -240,6 +244,19 @@ const filterOptions = {
 
 console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList);
 
+const handleSearchTextChange = (newText: string) => {
+  console.log("NEW TEXT: ", newText)
+}
+
+useEffect(() => {
+console.log("USE EFFECT TRIGGERED", searchText)
+
+  props.handleSearchTextChange(searchText);
+  
+}, [searchText])
+
+console.log("PROPS< ", props);
+console.log("SEARCH TEXT", comboBoxSearchText)
 
 return (
 
@@ -279,7 +296,7 @@ return (
       }}
       style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef}/>
+        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef} defaultValue={props.defaultSearchText} onChange={(e) => props.handleSearchTextChange(e.target.value)}/>
       )}
       />
   </ThemeProvider>
@@ -315,7 +332,8 @@ return (
   }}
   style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
   renderInput={(params) => (
-    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
+    <TextField {...params} label= {`${props.labelText || "Label"}`} placeholder = {props.labelText || "Search text here"} defaultValue={props.defaultSearchText} onChange={(e) => props.handleSearchTextChange(e.target.value)}/>
+    
   )}
   />
 </ThemeProvider>
@@ -324,5 +342,7 @@ return (
 
 );
 }
+
+export default ComboBox
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

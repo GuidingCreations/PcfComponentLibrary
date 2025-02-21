@@ -12,6 +12,9 @@ export interface AccesPageProps {
   sidebarWidth: number;
   containerHeight: number;
   headerText: string;
+  usersList: any[];
+  useTestData: boolean;
+  handleNewUserSearchText: (newSearchText: string) => void
 }
 import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
 import Stack from "@mui/material/Stack";
@@ -21,6 +24,7 @@ import Button from '../../Button/Button/Button'
 
 const HelloWorld = (props: AccesPageProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [userSearchText, setUserSearchText] = useState<string>('')
 
   if (isLoading && props.columns.length > 0) {
     setIsLoading(false);
@@ -78,8 +82,21 @@ const HelloWorld = (props: AccesPageProps) => {
     console.log("NEW VAL: ", showAddUserForm);
   };
 
+  const handleNewUserSelection = (e: any) => {
+    console.log("E:: ", e)
+    console.log("TARgeT val: ", e.target.value);
+
+  }
+
+  useEffect(() => {console.log("NEW USER SER TRIGGERED: ", userSearchText); props.handleNewUserSearchText(userSearchText)}, [userSearchText])
+
+
   const rows = props.columns.length > 0 ? props.Users : testRows;
   const columns = props.columns.length > 0 ? props.columns : testCols;
+  
+  const handleNewSearchText = (newSearchText : string) => {
+    setUserSearchText(newSearchText)
+  }
 
   console.log("ROWS IN ACC: ", rows);
   console.log("COLS in ACC: ", columns);
@@ -104,15 +121,17 @@ const HelloWorld = (props: AccesPageProps) => {
                 </Typography>
 
                 <ComboBox
-                  useTestData
+                  useTestData = {props.useTestData}
                   displayColumn="label"
-                  Items={[]}
+                  Items={props.usersList}
                   labelText="User"
                   allowSelectMultiple={false}
                   defaultValues={[]}
                   isDisabled={false}
                   darkMode
-                  setSelectedRecords={() => {}}
+                  setSelectedRecords={(selectedRecords : any[], outputHeight: number) => {console.log("SEL RECS", selectedRecords)}}
+                  handleSearchTextChange={(searchText: string) => {handleNewSearchText(searchText)}}
+                  defaultSearchText = {userSearchText}
                 />
 
                 <ComboBox
@@ -132,9 +151,22 @@ const HelloWorld = (props: AccesPageProps) => {
                   isDisabled={false}
                   darkMode
                   setSelectedRecords={() => {}}
+                  handleSearchTextChange={() => {}}
+                  defaultSearchText=""
                 />
 
+
               <Stack direction={'row'} spacing={2}>
+              
+                  <Button 
+                    ButtonText="Add user"
+                    useDarkMode
+                    isDisabled = {false}
+                    onClick={() => {}}
+                    size = "medium"
+                    typeVariant="contained"
+                  />
+                  
                   <Button 
                     ButtonText="Cancel"
                     useDarkMode
@@ -144,20 +176,13 @@ const HelloWorld = (props: AccesPageProps) => {
                     typeVariant="outlined"
                   />
 
-                  <Button 
-                    ButtonText="Add user"
-                    useDarkMode
-                    isDisabled = {false}
-                    onClick={() => {}}
-                    size = "medium"
-                    typeVariant="contained"
-                  />
+                  
               </Stack>
 
               </Stack>
             </div>
           ) : (
-            <div className="flex flex-row gap-1">
+            <div className="flex flex-row">
               <Sidebar
                 height={props.containerHeight}
                 width={props.sidebarWidth}
@@ -176,7 +201,7 @@ const HelloWorld = (props: AccesPageProps) => {
                 iconColor="white"
                 navItemHeight={70}
               />
-              <div className="flex flex-col" style={{ justifyContent: "start" }}>
+              <div className="flex flex-col ml-3" style={{ justifyContent: "start" }}>
                 {/* Container for the add user and delete selected button
             horizontal container
             */}
@@ -225,7 +250,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   hideFooter={false}
                   showCheckboxes={true}
                   fullWidth
-                  classes="mb-2 mt-2"
+                  classes="mb-1 mt-2"
                 />
               </div>
             </div>

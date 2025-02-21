@@ -6,15 +6,23 @@ import * as React from "react";
 import { GridColDef } from '@mui/x-data-grid';
 
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import { PublicClientApplication } from "@azure/msal-browser";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+
     context: ComponentFramework.Context<IInputs>
+
+    
     private notifyOutputChanged: () => void;
+    private _newUserMail : any = ''
     private groupOwners : any[] = [];
     private groupMembers: any[] = [];
     private allUsers: any[] = [];
-    private _navItems: any[] = []
+    private _usersList : any[] = []
+    private _navItems: any[] = [];
+    private _userSearchText : string = ''
+    
     private userFields : any[] =  [
         {
             field: "displayName",
@@ -69,7 +77,7 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         
         
         
-    ]
+    ]  
     
     private getGroupOwners = () => {
         
@@ -90,7 +98,7 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             this.groupOwners.push(recordToAdd)
        })
 
-    }
+    }   
     
     private getGroupMembers = () => {
         
@@ -111,6 +119,22 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             this.groupMembers.push(recordToAdd)
        })
 
+    }
+
+    private handleNewUserSelection = (newUserMail : string) => {
+        if (newUserMail) {
+            this._newUserMail = newUserMail
+        } else {
+            this._newUserMail =''
+        }
+
+        this.notifyOutputChanged()
+    }
+
+    private handleNewSearchText = (newSearchText: string) => {
+        console.log("NEW USER SE TExT: ", newSearchText)
+        this._userSearchText = newSearchText;
+        this.notifyOutputChanged()
     }
 
     constructor() {
@@ -151,7 +175,20 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         console.log("MEMBERS: ", this.groupMembers);
        
         this.allUsers = this.groupOwners.concat(this.groupMembers)
-        
+       
+        this._usersList = []
+
+        context.parameters.usersList.sortedRecordIds.map((recordID) => {
+
+            const userToAdd : any = {}
+            const userName = `${context.parameters.usersList.records[recordID].getValue("GivenName")} ${context.parameters.usersList.records[recordID].getValue("Surname")}`
+            const userMail = context.parameters.usersList.records[recordID].getValue("Mail")
+            userToAdd.label = userName
+            userToAdd.Mail =  userMail
+
+            console.log("USer to ADD: ", userToAdd)
+            this._usersList.push(userToAdd)
+        })
 
 
         
@@ -167,7 +204,10 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             navItems: this._navItems,
             sidebarWidth: context.parameters.sidebarWidth.raw || 300,
             containerHeight: context.parameters.containerHeight.raw || 500,
-            headerText: context.parameters.headerText.raw || "Access Control"
+            headerText: context.parameters.headerText.raw || "Access Control",
+            usersList: this._usersList,
+            useTestData: context.parameters.useTestData.raw,
+            handleNewUserSearchText: this.handleNewSearchText
 
         };
         
@@ -183,7 +223,10 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        return {
+            selectedNewUserMail: this._newUserMail,
+            userSearchText: this._userSearchText
+        };
     }
 
     /**
