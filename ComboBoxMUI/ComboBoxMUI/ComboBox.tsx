@@ -9,8 +9,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useEffect, useRef, useState } from 'react';
-
+import { useEffect, useRef } from 'react';
+import useState from 'react-usestateref'
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -21,26 +21,24 @@ export interface ComboBoxProps {
   useTestData: boolean;
   Items: any[];
   labelText: string;
-  height?: number;
-  width?: number;
+  height: number;
+  width: number;
   allowSelectMultiple: boolean;
   setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void
   defaultValues: any[];
   darkMode: boolean;
-  borderStyle?: string;
-  borderWidth?: string;
-  borderColor?: string;
+  borderStyle: string;
+  borderWidth: string;
+  borderColor: string;
   backgroundColor?: string;
   isDisabled: boolean;
-  handleSearchTextChange: (searchText: string) => void;
-  defaultSearchText: string;
 }
 
 
 
 
 
-const ComboBox = (props: ComboBoxProps) => {
+export default function CheckboxesTags(props: ComboBoxProps) {
 
   // Create refs / states (we need ref for render count since pcf components don't pass in tabular data on first render)
 
@@ -48,11 +46,9 @@ const ComboBox = (props: ComboBoxProps) => {
   renderCountRef.current++;
   const elementRef = useRef<any>(null)
   const autoRef = useRef<any>(null);
-  const height = useRef(65)
   const [selectedValues, setSelectedValues] = useState<any[]>([])
-  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || []);
-  const [searchText, setSearchText] = useState<string>('')
-  const [comboBoxSearchText, setComboBoxSearchText] = useState('')
+  const height = useRef(65)
+  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
 
   console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
 
@@ -79,53 +75,53 @@ const ComboBox = (props: ComboBoxProps) => {
   // Establish test data
 
   const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 },
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 },
+    { title: 'The Dark Knight', year: 2008 },
+    { title: '12 Angry Men', year: 1957 },
+    { title: "Schindler's List", year: 1993 },
+    { title: 'Pulp Fiction', year: 1994 },
     {
-      label: 'The Lord of the Rings: The Return of the King',
+      title: 'The Lord of the Rings: The Return of the King',
       year: 2003,
     },
-    { label: 'The Good, the Bad and the Ugly', year: 1966 },
-    { label: 'Fight Club', year: 1999 },
+    { title: 'The Good, the Bad and the Ugly', year: 1966 },
+    { title: 'Fight Club', year: 1999 },
     {
-      label: 'The Lord of the Rings: The Fellowship of the Ring',
+      title: 'The Lord of the Rings: The Fellowship of the Ring',
       year: 2001,
     },
     {
-      label: 'Star Wars: Episode V - The Empire Strikes Back',
+      title: 'Star Wars: Episode V - The Empire Strikes Back',
       year: 1980,
     },
-    { label: 'Forrest Gump', year: 1994 },
-    { label: 'Inception', year: 2010 },
+    { title: 'Forrest Gump', year: 1994 },
+    { title: 'Inception', year: 2010 },
     {
-      label: 'The Lord of the Rings: The Two Towers',
+      title: 'The Lord of the Rings: The Two Towers',
       year: 2002,
     },
-    { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { label: 'Goodfellas', year: 1990 },
-    { label: 'The Matrix', year: 1999 },
-    { label: 'Seven Samurai', year: 1954 },
+    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
+    { title: 'Goodfellas', year: 1990 },
+    { title: 'The Matrix', year: 1999 },
+    { title: 'Seven Samurai', year: 1954 },
     {
-      label: 'Star Wars: Episode IV - A New Hope',
+      title: 'Star Wars: Episode IV - A New Hope',
       year: 1977,
     },
-    { label: 'City of God', year: 2002 },
-    { label: 'Se7en', year: 1995 },
-    { label: 'The Silence of the Lambs', year: 1991 },
-    { label: "It's a Wonderful Life", year: 1946 },
-    { label: 'Life Is Beautiful', year: 1997 },
-    { label: 'The Usual Suspects', year: 1995 },
-    { label: 'Léon: The Professional', year: 1994 },
-    { label: 'Spirited Away', year: 2001 },
-    { label: 'Saving Private Ryan', year: 1998 },
-    { label: 'Once Upon a Time in the West', year: 1968 },
-    { label: 'American History X', year: 1998 },
-    { label: 'Interstellar', year: 2014 },
+    { title: 'City of God', year: 2002 },
+    { title: 'Se7en', year: 1995 },
+    { title: 'The Silence of the Lambs', year: 1991 },
+    { title: "It's a Wonderful Life", year: 1946 },
+    { title: 'Life Is Beautiful', year: 1997 },
+    { title: 'The Usual Suspects', year: 1995 },
+    { title: 'Léon: The Professional', year: 1994 },
+    { title: 'Spirited Away', year: 2001 },
+    { title: 'Saving Private Ryan', year: 1998 },
+    { title: 'Once Upon a Time in the West', year: 1968 },
+    { title: 'American History X', year: 1998 },
+    { title: 'Interstellar', year: 2014 },
   ];
 
 /* 
@@ -244,19 +240,6 @@ const filterOptions = {
 
 console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList);
 
-const handleSearchTextChange = (newText: string) => {
-  console.log("NEW TEXT: ", newText)
-}
-
-useEffect(() => {
-console.log("USE EFFECT TRIGGERED", searchText)
-
-  props.handleSearchTextChange(searchText);
-  
-}, [searchText])
-
-console.log("PROPS< ", props);
-console.log("SEARCH TEXT", comboBoxSearchText)
 
 return (
 
@@ -296,7 +279,7 @@ return (
       }}
       style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef} defaultValue={props.defaultSearchText} onChange={(e) => props.handleSearchTextChange(e.target.value)}/>
+        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef}/>
       )}
       />
   </ThemeProvider>
@@ -332,8 +315,7 @@ return (
   }}
   style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
   renderInput={(params) => (
-    <TextField {...params} label= {`${props.labelText || "Label"}`} placeholder = {props.labelText || "Search text here"} defaultValue={props.defaultSearchText} onChange={(e) => props.handleSearchTextChange(e.target.value)}/>
-    
+    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
   )}
   />
 </ThemeProvider>
@@ -342,7 +324,5 @@ return (
 
 );
 }
-
-export default ComboBox
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

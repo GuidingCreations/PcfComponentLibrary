@@ -1,8 +1,10 @@
 /* eslint-disable */
 
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DataTableComponent from "../../DataTable/DataTable/DataTable";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { GridColDef } from "@mui/x-data-grid";
 export interface AccesPageProps {
   Users: any[];
@@ -14,17 +16,53 @@ export interface AccesPageProps {
   headerText: string;
   usersList: any[];
   useTestData: boolean;
-  handleNewUserSearchText: (newSearchText: string) => void
+  handleNewUserSearchText: (newSearchText: string) => void;
+  userSearchText: string
 }
 import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
 import Stack from "@mui/material/Stack";
 import ComboBox from "../../ComboBoxMUI/ComboBoxMUI/ComboBox";
-import { Typography } from "@mui/material";
+import { Autocomplete, Checkbox, createFilterOptions, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from "@mui/material";
 import Button from '../../Button/Button/Button'
 
 const HelloWorld = (props: AccesPageProps) => {
+  const theme = createTheme({
+    palette: {
+      mode:  'dark'
+    },
+    components: {
+
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            top: 'auto',
+            bottom: '50%'
+          },
+          shrink: {
+            top: 0
+                    }
+        }
+      },
+
+      MuiInputBase: {
+        styleOverrides: {
+          root: {
+          '& .MuiOutlinedInput-notchedOutline': {
+
+              borderStyle: 'solid',
+              borderWidth: '1px',
+              borderColor: 'white',
+            },
+            height:  `50px`
+          }
+        }
+      }
+    }
+  });
+  
   const [isLoading, setIsLoading] = useState(true);
-  const [userSearchText, setUserSearchText] = useState<string>('')
+  const [userSearchText, setUserSearchText] = useState<string>('');
+
 
   if (isLoading && props.columns.length > 0) {
     setIsLoading(false);
@@ -82,25 +120,31 @@ const HelloWorld = (props: AccesPageProps) => {
     console.log("NEW VAL: ", showAddUserForm);
   };
 
-  const handleNewUserSelection = (e: any) => {
-    console.log("E:: ", e)
-    console.log("TARgeT val: ", e.target.value);
-
-  }
-
-  useEffect(() => {console.log("NEW USER SER TRIGGERED: ", userSearchText); props.handleNewUserSearchText(userSearchText)}, [userSearchText])
-
-
-  const rows = props.columns.length > 0 ? props.Users : testRows;
-  const columns = props.columns.length > 0 ? props.columns : testCols;
-  
-  const handleNewSearchText = (newSearchText : string) => {
+  const handleSearchTextChange = (newSearchText: string) => {
     setUserSearchText(newSearchText)
   }
 
+  useEffect( () => {
+
+    const timeoutID = setTimeout(() => {
+
+      props.handleNewUserSearchText(userSearchText)
+      
+    }, 500);
+
+    return () => clearTimeout(timeoutID)
+    
+  }, [userSearchText])
+
+  const rows = props.columns.length > 0 ? props.Users : testRows;
+  const columns = props.columns.length > 0 ? props.columns : testCols;
+
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
   console.log("ROWS IN ACC: ", rows);
   console.log("COLS in ACC: ", columns);
-
+  console.log("ACCESS PAGE PROPS: ", props)
   return (
     <>
       {isLoading ? (
@@ -120,22 +164,48 @@ const HelloWorld = (props: AccesPageProps) => {
                   Add User
                 </Typography>
 
-                <ComboBox
-                  useTestData = {props.useTestData}
-                  displayColumn="label"
-                  Items={props.usersList}
-                  labelText="User"
-                  allowSelectMultiple={false}
-                  defaultValues={[]}
-                  isDisabled={false}
-                  darkMode
-                  setSelectedRecords={(selectedRecords : any[], outputHeight: number) => {console.log("SEL RECS", selectedRecords)}}
-                  handleSearchTextChange={(searchText: string) => {handleNewSearchText(searchText)}}
-                  defaultSearchText = {userSearchText}
-                />
+<ThemeProvider theme={theme}>
+<CssBaseline />
+<Autocomplete
+ 
+  onChange={(e:any) => {}}
+  options={props.usersList}
+  filterOptions={createFilterOptions({
+    limit: 100
+  })}
+  inputValue = {userSearchText}
+  getOptionLabel={(option : any) => option.label}
+  isOptionEqualToValue={(option, value) => option.label == value.label}
+  renderOption={(props, option : any, { selected }) => {
+    const { key, ...optionProps } = props;
+    return (
+      <li key={key} {...optionProps}>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          style={{ marginRight: 8 }}
+          checked={selected}
+          
+          />
+        {option.label}
+      </li>
+    );
+  }}
+  style={{ width: `400px`}}
+  renderInput={(params) => (
+    <TextField {...params} label= {`User`} placeholder = {"User"} onChange={(e) => {handleSearchTextChange(e.target.value)}}/>
+    
+  )}
+  />
+</ThemeProvider>
 
                 <ComboBox
                   useTestData = {false}
+                  height={50}
+                  width = {400}
+                  borderColor="white"
+                  borderStyle="solid"
+                  borderWidth="1px"
                   displayColumn="label"
                   Items={[
                     {
@@ -151,8 +221,6 @@ const HelloWorld = (props: AccesPageProps) => {
                   isDisabled={false}
                   darkMode
                   setSelectedRecords={() => {}}
-                  handleSearchTextChange={() => {}}
-                  defaultSearchText=""
                 />
 
 

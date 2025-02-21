@@ -207,7 +207,8 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             headerText: context.parameters.headerText.raw || "Access Control",
             usersList: this._usersList,
             useTestData: context.parameters.useTestData.raw,
-            handleNewUserSearchText: this.handleNewSearchText
+            handleNewUserSearchText: this.handleNewSearchText,
+            userSearchText: this._userSearchText
 
         };
         

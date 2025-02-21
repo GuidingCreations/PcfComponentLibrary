@@ -25,6 +25,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
 
     handleSearchTextChange = (searchText: string) => {
+        console.log("UPDATING SEARCH TEXT OUTPUT")
         this._searchText = searchText
         this.notifyOutputChanged()
     }
@@ -162,8 +163,6 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             borderWidth: context.parameters.borderWidth.raw || "1px",
             backgroundColor: context.parameters.backgroundColor.raw || '',
             isDisabled: context.parameters.isDisabled.raw || false,
-            handleSearchTextChange : this.handleSearchTextChange,
-            defaultSearchText: ''
         }
 
         console.log("PROPS - ComboBoxMUI", props)
