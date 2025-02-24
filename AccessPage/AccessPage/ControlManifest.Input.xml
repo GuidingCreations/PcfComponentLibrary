@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="AccessPage" version="0.0.106" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="AccessPage" version="0.0.111" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     

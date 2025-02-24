@@ -17,6 +17,8 @@ export interface ButtonProps {
   fontColor?: string;
   borderWidth?: number;
   textAlign?: string;
+  className?: string;
+  styles?: any
 }
 
 export default function ButtonComponent(props: ButtonProps) {
@@ -45,12 +47,20 @@ export default function ButtonComponent(props: ButtonProps) {
 
   const buttonSize = props.size == "small" ? "small" : props.size == "medium" ? "medium" : props.size == "large" ? "large" : "small"
   const buttonVariant = props.typeVariant == "contained" ? "contained" : props.typeVariant == "outlined" ? "outlined" : "contained"
-
+  const styles = Object.assign({}, {width: `${props.width}px`, height: `${props.height}px`}, props.styles)
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <Button disabled = {props.isDisabled} style={{width: `${props.width}px`, height: `${props.height}px`}} onClick={() => {console.log("BUTTON CLICKED"); props.onClick()}} size = {  buttonSize }  variant = {buttonVariant}> {props.ButtonText} </Button>
+      <Button 
+        disabled = {props.isDisabled} 
+        className={`${props.className}`}
+        style={styles}  
+        onClick={() => {console.log("BUTTON CLICKED"); props.onClick()}} 
+        size = {  buttonSize }  
+        variant = {buttonVariant}> 
+        {props.ButtonText} 
+      </Button>
     </ThemeProvider>
   );
 }

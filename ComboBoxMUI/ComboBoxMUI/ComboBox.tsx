@@ -22,7 +22,7 @@ export interface ComboBoxProps {
   Items: any[];
   labelText: string;
   height: number;
-  width: number;
+  width: any;
   allowSelectMultiple: boolean;
   setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void
   defaultValues: any[];
@@ -32,6 +32,7 @@ export interface ComboBoxProps {
   borderColor: string;
   backgroundColor?: string;
   isDisabled: boolean;
+  className?: string
 }
 
 
@@ -243,7 +244,7 @@ console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList);
 
 return (
 
-    <div  style={{position: "relative", height: "auto", minHeight: '100%'}}>
+    <div  style={{position: "relative", height: "auto", minHeight: '100%', width: props.width}}>
 {
 
 
@@ -256,6 +257,7 @@ return (
       disabled = {props.isDisabled}
       value={ selectedValues}
       options={optionsList}
+      className={props.className}
       filterOptions={createFilterOptions(filterOptions)}
       defaultValue={multDefaults}
       isOptionEqualToValue={(option, value) => {console.log("OPTION, ", option, " value, ", value); return option.label == value.label}}
@@ -277,7 +279,7 @@ return (
           </li>
         );
       }}
-      style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
+      style={{ width: '100%' , backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
         <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef}/>
       )}
@@ -296,6 +298,7 @@ return (
   filterOptions={createFilterOptions(filterOptions)}
   getOptionLabel={(option : any) => option.label}
   value={selectedValues[0] || emptyLabel}
+  className = {props.className}
   isOptionEqualToValue={(option, value) => option.label == value.label}
   ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {
@@ -313,7 +316,7 @@ return (
       </li>
     );
   }}
-  style={{ width: props.width , maxWidth: props.width, backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
+  style={{ width: '100%', backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
   renderInput={(params) => (
     <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
   )}

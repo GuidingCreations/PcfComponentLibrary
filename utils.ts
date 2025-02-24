@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { JSONSchema4 } from "json-schema";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 type DataSetInterfaces = ComponentFramework.PropertyTypes.DataSet
 export function cn(...inputs: ClassValue[]) {
@@ -201,4 +203,17 @@ export function generateOutputObject(row: ComponentFramework.PropertyHelper.Data
   }
   
   
+export function determineScreenSize() {
+
+    const theme = useTheme();
     
+    const matchesXL = useMediaQuery(theme.breakpoints.up('xl'));
+    const matchesL = useMediaQuery(theme.breakpoints.up('lg'));
+    const matchesMedium = useMediaQuery(theme.breakpoints.up('md'));
+    const matchesSmall = useMediaQuery(theme.breakpoints.up('sm'));
+
+    const screenSize = matchesXL ? 'xl' : matchesL ? 'lg' : matchesMedium ? 'md' : matchesSmall ? 'sm' : 'xs'
+
+    return screenSize
+
+}

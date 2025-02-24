@@ -94,7 +94,9 @@ export default function SidebarTW(props: SidebarProps) {
 // Render svg
 
   function renderSvgUrl(svgData: string) {
-    const source = svgData.replace("iconColor", props.iconColor || "white");
+    
+    
+    const source = svgData ? svgData.replace("iconColor", props.iconColor || "white") : ''
 
     return "data:image/svg+xml;base64," + btoa(source);
   }

@@ -1,7 +1,7 @@
 /* eslint-disable */ 
 
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import HelloWorld, {AccesPageProps} from "./HelloWorld";
+import HelloWorld, {AccesPageProps} from "./AccessPage";
 import * as React from "react";
 import { GridColDef } from '@mui/x-data-grid';
 

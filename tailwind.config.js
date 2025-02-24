@@ -11,7 +11,7 @@ module.exports = {
       './TextField/TextFieldMUI/TextField.tsx',
       './Sidebar2/Sidebar2/Sidebar.tsx',
       './squashedButtonGroup/SquashedButtonGroup.tsx',
-      './AcessPage/AccessPage/HelloWorld.tsx',
+      './AccessPage/AccessPage/AccessPage.tsx',
       './TestHarness/pcf-test-harness/app/page.tsx',
       './DataTable/TestButton.tsx',
       './*/*/*.tsx'

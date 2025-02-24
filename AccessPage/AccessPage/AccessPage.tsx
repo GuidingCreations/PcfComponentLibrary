@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useEffect, useState, useRef } from "react";
+import {determineScreenSize} from '../../utils'
 import DataTableComponent from "../../DataTable/DataTable/DataTable";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -56,12 +57,27 @@ const HelloWorld = (props: AccesPageProps) => {
             height:  `50px`
           }
         }
+      },
+      MuiStack: {
+        styleOverrides: {
+          root: {
+            alignItems: 'center',
+            justifyContent: 'center'
+          }
+        }
       }
     }
   });
   
   const [isLoading, setIsLoading] = useState(true);
   const [userSearchText, setUserSearchText] = useState<string>('');
+  const [selectedUser, setSelectedUser] = useState<any>({})
+
+  const handleNewSelectedUser = (newSelectedUser: any) => {
+    console.log("NEW SEL USER: ", newSelectedUser);
+    setSelectedUser(newSelectedUser)
+  }
+
 
 
   if (isLoading && props.columns.length > 0) {
@@ -141,7 +157,7 @@ const HelloWorld = (props: AccesPageProps) => {
 
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
+  const screenSize = determineScreenSize()
   console.log("ROWS IN ACC: ", rows);
   console.log("COLS in ACC: ", columns);
   console.log("ACCESS PAGE PROPS: ", props)
@@ -158,18 +174,24 @@ const HelloWorld = (props: AccesPageProps) => {
               className="w-full flex"
               style={{ justifyContent: "center", alignItems: "center" }}
             >
-              <Stack spacing={2} width={props.width * .5}>
+<ThemeProvider theme={theme}>
+              <Stack spacing={2} width={
+                screenSize == 'xl' ? props.width * .25
+                : screenSize == 'lg' ? props.width * .5 
+                : screenSize == 'md' ? props.width * .75 
+                : props.width * .25}>
 
+                <h1>{screenSize}</h1>
                 <Typography variant="h5" color="white" gutterBottom>
                   Add User
                 </Typography>
 
-<ThemeProvider theme={theme}>
 <CssBaseline />
 <Autocomplete
  
-  onChange={(e:any) => {}}
+  onChange={(e:any) => {handleNewSelectedUser(e.target.value)}}
   options={props.usersList}
+  sx={{width: '100%'}}
   filterOptions={createFilterOptions({
     limit: 100
   })}
@@ -191,18 +213,17 @@ const HelloWorld = (props: AccesPageProps) => {
       </li>
     );
   }}
-  style={{ width: `400px`}}
   renderInput={(params) => (
     <TextField {...params} label= {`User`} placeholder = {"User"} onChange={(e) => {handleSearchTextChange(e.target.value)}}/>
     
   )}
   />
-</ThemeProvider>
 
                 <ComboBox
                   useTestData = {false}
                   height={50}
-                  width = {400}
+                  
+                  width={'100%'}
                   borderColor="white"
                   borderStyle="solid"
                   borderWidth="1px"
@@ -221,10 +242,10 @@ const HelloWorld = (props: AccesPageProps) => {
                   isDisabled={false}
                   darkMode
                   setSelectedRecords={() => {}}
-                />
+                  />
 
 
-              <Stack direction={'row'} spacing={2}>
+              <Stack alignItems={'stretch'} justifyContent={'center'} direction={'row'} spacing={2} width={'100%'} sx={{alignItems: 'center', justifyContent: 'center'}}>
               
                   <Button 
                     ButtonText="Add user"
@@ -233,21 +254,26 @@ const HelloWorld = (props: AccesPageProps) => {
                     onClick={() => {}}
                     size = "medium"
                     typeVariant="contained"
-                  />
+                    className="flex-grow"
+                    />
                   
                   <Button 
                     ButtonText="Cancel"
                     useDarkMode
+                    borderColor="red"
+                    fontColor="red"
                     isDisabled = {false}
                     onClick={() => {handleShowUserFormChange()}}
                     size = "medium"
+                    className="flex-grow"
                     typeVariant="outlined"
-                  />
+                    />
 
                   
               </Stack>
 
               </Stack>
+              </ThemeProvider>
             </div>
           ) : (
             <div className="flex flex-row">
