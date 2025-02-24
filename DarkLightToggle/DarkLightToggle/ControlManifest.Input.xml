@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNamespace" constructor="DarkLightToggle" version="0.2.7" display-name-key="DarkLightToggle" description-key="DarkLightToggle description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DarkLightToggle" version="0.2.8" display-name-key="DarkLightToggle" description-key="DarkLightToggle description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     

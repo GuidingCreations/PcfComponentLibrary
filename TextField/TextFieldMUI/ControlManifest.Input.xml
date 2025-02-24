@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="TextFieldMUI" version="0.9.68" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="TextFieldMUI" version="0.9.69" display-name-key="TextFieldMUI" description-key="TextFieldMUI description" control-type="virtual" >
 
     <external-service-usage enabled="false">
   

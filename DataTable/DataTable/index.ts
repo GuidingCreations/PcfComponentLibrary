@@ -32,6 +32,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
 // Get obj output schema
 onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
+    
     const outputObj : any = {}
     const dataset = this.context.parameters.tableData;
     console.log("OUTPUT TYPE DATA TABLE SELECTED", outputType, "RECORD ID DATA TABLE SELECTED", recordID)

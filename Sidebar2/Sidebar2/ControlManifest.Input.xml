@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="Sidebar2" version="0.6.160" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Sidebar2" version="0.6.161" display-name-key="Sidebar" description-key="Sidebar description" control-type="virtual" >
     <external-service-usage enabled="false">
  
     </external-service-usage>

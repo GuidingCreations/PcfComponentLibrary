@@ -8,7 +8,7 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.props')" />
 
   <PropertyGroup>
-    <ProjectGuid>83f0177d-d1e8-4a02-b8a3-083d400dfa79</ProjectGuid>
+    <ProjectGuid>8f65dd06-5366-4f86-8254-5e5534528be9</ProjectGuid>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <!--Remove TargetFramework when this is available in 16.1-->
     <TargetFramework>net462</TargetFramework>
@@ -49,23 +49,16 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\AccessPage\AccessPage.pcfproj" />
-    <ProjectReference Include="..\Accordion\Accordion.pcfproj" />
-    <ProjectReference Include="..\AutoComplete\AutoComplete.pcfproj" />
-    <ProjectReference Include="..\Button\Button.pcfproj" />
-    <ProjectReference Include="..\Chip\Chip.pcfproj" />
     <ProjectReference Include="..\ComboBoxMUI\testComp.pcfproj" />
-    <ProjectReference Include="..\DataTable\DataTable.pcfproj" />
+    <ProjectReference Include="..\Accordion\Accordion.pcfproj" />
+    <ProjectReference Include="..\Chip\Chip.pcfproj" />
     <ProjectReference Include="..\DarkLightToggle\DarkLightToggle.pcfproj" />
-    <ProjectReference Include="..\DatePicker\DatePicker.pcfproj" />
-    <ProjectReference Include="..\Header\Header.pcfproj" />
-    <ProjectReference Include="..\Loader\Loader.pcfproj" />
+    <ProjectReference Include="..\DataTable\DataTable.pcfproj" />
     <ProjectReference Include="..\Modal\Modal.pcfproj" />
+    <ProjectReference Include="..\Loader\Loader.pcfproj" />
     <ProjectReference Include="..\Sidebar2\Sidebar2.pcfproj" />
-    <ProjectReference Include="..\squashedButtonGroup\squashedButtonGroup.pcfproj" />
     <ProjectReference Include="..\Stepper\Stepper.pcfproj" />
     <ProjectReference Include="..\TextField\TextField.pcfproj" />
-    <ProjectReference Include="..\Tree\Tree.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -102,7 +104,8 @@ const  DataTableComponent = (props: DataTableProps) => {
 
 
       
-      return (<>
+      return (
+      <>
     
     {
    
@@ -157,6 +160,9 @@ const  DataTableComponent = (props: DataTableProps) => {
   console.log("COLS IN DAT TAB: ", columns)
 
   return (
+
+
+    
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <div style={
@@ -196,6 +202,9 @@ const  DataTableComponent = (props: DataTableProps) => {
         />
       </div>
     </ThemeProvider>
+    
+
+    
   );
 }
 

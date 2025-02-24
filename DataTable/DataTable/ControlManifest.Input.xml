@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="HunterMcCarthysNS" constructor="DataTable" version="0.15.160" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.15.165" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -54,21 +54,24 @@
 <property name="outputObject" display-name-key="outputObject" of-type="Object" usage="output" hidden="false"/>
 <property name="outputObjectSchema" display-name-key="outputObjectSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
 
+    <!-- Property dependencies -->
+
+ <property-dependencies>
+      <property-dependency input = "outputObjectSchema" output = "outputObject" required-for = "schema"/>
+  </property-dependencies>
+  
+
+
 <!-- Resources -->
 
     <resources>
     
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />
-      
+      <css path= "../../dist/output.css" order = "1"/>
     </resources>
 
-    <!-- Property dependencies -->
-
-    <property-dependencies>
-      <property-dependency input = "outputObjectSchema" output = "outputObject" required-for = "schema"/>
-    </property-dependencies>
-  
+   
   </control>
 
 </manifest>

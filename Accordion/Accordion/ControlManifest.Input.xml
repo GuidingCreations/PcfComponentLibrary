@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="Accordion" version="0.1.7" display-name-key="Accordion" description-key="Accordion description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Accordion" version="0.1.8" display-name-key="Accordion" description-key="Accordion description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       

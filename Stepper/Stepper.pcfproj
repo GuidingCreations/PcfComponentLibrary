@@ -8,8 +8,8 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')" />
 
   <PropertyGroup>
-    <Name>ComboBox</Name>
-    <ProjectGuid>af64bbf4-46ef-44eb-8493-361e5e812826</ProjectGuid>
+    <Name>Stepper</Name>
+    <ProjectGuid>653a1f55-f777-46b7-9b39-57fa7b4704f8</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 

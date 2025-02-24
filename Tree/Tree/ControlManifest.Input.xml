@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HuntersNS" constructor="Tree" version="0.0.17" display-name-key="Tree" description-key="Tree description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Tree" version="0.0.18" display-name-key="Tree" description-key="Tree description" control-type="virtual" >
   
     <external-service-usage enabled="false">
      

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PcfComponentLibrary" constructor="Header" version="0.2.2" display-name-key="Header" description-key="Header description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Header" version="0.2.3" display-name-key="Header" description-key="Header description" control-type="virtual" >
   
     <external-service-usage enabled="false">
     </external-service-usage>

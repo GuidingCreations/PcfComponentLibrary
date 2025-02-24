@@ -1,8 +1,0 @@
-::placeholder {
-    color: var(--placeholder-color)
-}
-
-#OPTION:hover {
-    background-color: var(--background-color);
-    color: var(--hover-text-color)
-}
