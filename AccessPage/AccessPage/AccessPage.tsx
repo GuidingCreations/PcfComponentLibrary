@@ -18,7 +18,12 @@ export interface AccesPageProps {
   usersList: any[];
   useTestData: boolean;
   handleNewUserSearchText: (newSearchText: string) => void;
+  handleNewUserSelection : (newUser: any) => void
   userSearchText: string
+  addMemberToGroup: () => void
+  addOwnerToGroup: () => void
+  handleDataTableSelection: (recordIDs: any[]) => void
+  handleDeleteUsers: () => void
 }
 import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
 import Stack from "@mui/material/Stack";
@@ -71,14 +76,29 @@ const HelloWorld = (props: AccesPageProps) => {
   
   const [isLoading, setIsLoading] = useState(true);
   const [userSearchText, setUserSearchText] = useState<string>('');
-  const [selectedUser, setSelectedUser] = useState<any>({})
+  const [selectedUser, setSelectedUser] = useState<any>({});
+  const [changeType, setChangeType] = useState<string>('');
 
   const handleNewSelectedUser = (newSelectedUser: any) => {
     console.log("NEW SEL USER: ", newSelectedUser);
-    setSelectedUser(newSelectedUser)
+
+    if (newSelectedUser !== undefined) {
+
+      
+      setSelectedUser(newSelectedUser[0])
+    }
   }
 
+  useEffect(() => {
 
+    console.log("TRYING NEW USER FROM USE EFFECT", selectedUser)
+    if (selectedUser !== undefined) {
+
+      console.log("HANDLE NEW USER SEL IN TSX")
+      props.handleNewUserSelection(selectedUser)
+    
+    }
+  }, [selectedUser])
 
   if (isLoading && props.columns.length > 0) {
     setIsLoading(false);
@@ -137,20 +157,40 @@ const HelloWorld = (props: AccesPageProps) => {
   };
 
   const handleSearchTextChange = (newSearchText: string) => {
-    setUserSearchText(newSearchText)
+    console.log("NEW SE TEXT PASSED: ", newSearchText)
+    setUserSearchText(newSearchText);
+    console.log("NEW SE TTEXT: ", userSearchText)
   }
 
   useEffect( () => {
+    console.log("NEW SE TTEXT in useEFF: ", userSearchText)
 
     const timeoutID = setTimeout(() => {
 
       props.handleNewUserSearchText(userSearchText)
       
-    }, 500);
+    }, 300);
 
     return () => clearTimeout(timeoutID)
     
   }, [userSearchText])
+
+  useEffect(() => {
+    console.log("NEW CH TY: ", changeType)
+  }, [changeType])
+
+  const handleNewChangeType  = (e: any) => {
+    console.log("EVENT ", e); 
+    const newValue = e[0];
+    console.log("NEW VAL", newValue)
+    if (e.length > 0) {
+      setChangeType(e[0].label);
+    } else {
+      setChangeType('')
+    }
+   
+  }
+
 
   const rows = props.columns.length > 0 ? props.Users : testRows;
   const columns = props.columns.length > 0 ? props.columns : testCols;
@@ -179,50 +219,41 @@ const HelloWorld = (props: AccesPageProps) => {
                 screenSize == 'xl' ? props.width * .25
                 : screenSize == 'lg' ? props.width * .5 
                 : screenSize == 'md' ? props.width * .75 
-                : props.width * .25}>
+                : screenSize == 'sm' ? props.width * .8
+                :  props.width}>
 
-                <h1>{screenSize}</h1>
                 <Typography variant="h5" color="white" gutterBottom>
                   Add User
                 </Typography>
 
 <CssBaseline />
-<Autocomplete
- 
-  onChange={(e:any) => {handleNewSelectedUser(e.target.value)}}
-  options={props.usersList}
-  sx={{width: '100%'}}
-  filterOptions={createFilterOptions({
-    limit: 100
-  })}
-  inputValue = {userSearchText}
-  getOptionLabel={(option : any) => option.label}
-  isOptionEqualToValue={(option, value) => option.label == value.label}
-  renderOption={(props, option : any, { selected }) => {
-    const { key, ...optionProps } = props;
-    return (
-      <li key={key} {...optionProps}>
-        <Checkbox
-          icon={icon}
-          checkedIcon={checkedIcon}
-          style={{ marginRight: 8 }}
-          checked={selected}
-          
-          />
-        {option.label}
-      </li>
-    );
-  }}
-  renderInput={(params) => (
-    <TextField {...params} label= {`User`} placeholder = {"User"} onChange={(e) => {handleSearchTextChange(e.target.value)}}/>
-    
-  )}
-  />
+
+
 
                 <ComboBox
                   useTestData = {false}
                   height={50}
                   
+                  width={'100%'}
+                  borderColor="white"
+                  borderStyle="solid"
+                  borderWidth="1px"
+                  displayColumn="label"
+                  Items={props.usersList}
+                  labelText="New user"
+                  handleNewUserSearchText={(newSearchText: string) => {console.log("TRYING NEW USER SEARCH TEXT"); handleSearchTextChange(newSearchText)}}
+                  allowSelectMultiple={false}
+                  defaultValues={[]}
+                  isDisabled={false}
+                  darkMode
+                  setSelectedRecords={(e: any) => {console.log("EVENTT: ", e, "EVENT TARGET: ", e.target); handleNewSelectedUser(e)}}
+                  />
+
+
+    
+                <ComboBox
+                  useTestData = {false}
+                  height={50}
                   width={'100%'}
                   borderColor="white"
                   borderStyle="solid"
@@ -241,7 +272,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   defaultValues={[]}
                   isDisabled={false}
                   darkMode
-                  setSelectedRecords={() => {}}
+                  setSelectedRecords={(e: any) => {handleNewChangeType(e)}}
                   />
 
 
@@ -251,7 +282,7 @@ const HelloWorld = (props: AccesPageProps) => {
                     ButtonText="Add user"
                     useDarkMode
                     isDisabled = {false}
-                    onClick={() => {}}
+                    onClick={() => { console.log("ADDING NEW MEM: "), changeType == '' ? alert('Access type is required') :  changeType == "Member" ?  props.addMemberToGroup() : props.addOwnerToGroup() }}
                     size = "medium"
                     typeVariant="contained"
                     className="flex-grow"
@@ -260,8 +291,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   <Button 
                     ButtonText="Cancel"
                     useDarkMode
-                    borderColor="red"
-                    fontColor="red"
+                    
                     isDisabled = {false}
                     onClick={() => {handleShowUserFormChange()}}
                     size = "medium"
@@ -322,8 +352,7 @@ const HelloWorld = (props: AccesPageProps) => {
                     ButtonText="Delete selected"
                     useDarkMode
                     isDisabled = {false}
-                    onClick={() => {
-                    }}
+                    onClick={() => {props.handleDeleteUsers()}}
                   />
                 </div>
 
@@ -335,12 +364,12 @@ const HelloWorld = (props: AccesPageProps) => {
                   defaultColumnWidths={[]}
                   allowSelectMultiple={true}
                   useDarkMode={true}
-                  setSelectedRecords={() => console.log("hi")}
+                  setSelectedRecords={(selectedRecordIDs: any[]) => props.handleDataTableSelection(selectedRecordIDs)}
                   pageSize={2000}
                   pageNumber={1}
                   totalRowCount={2000}
                   onOptionSelect={() => console.log("hi")}
-                  columnVisibility={[]}
+                  columnVisibility={{id: false}}
                   hideFooter={false}
                   showCheckboxes={true}
                   fullWidth

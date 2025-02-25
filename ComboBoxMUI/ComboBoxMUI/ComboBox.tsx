@@ -24,7 +24,8 @@ export interface ComboBoxProps {
   height: number;
   width: any;
   allowSelectMultiple: boolean;
-  setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void
+  setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void;
+  handleNewUserSearchText?: (newSearchText: string) => void
   defaultValues: any[];
   darkMode: boolean;
   borderStyle: string;
@@ -32,7 +33,8 @@ export interface ComboBoxProps {
   borderColor: string;
   backgroundColor?: string;
   isDisabled: boolean;
-  className?: string
+  className?: string;
+  searchText?: string
 }
 
 
@@ -50,10 +52,17 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   const [selectedValues, setSelectedValues] = useState<any[]>([])
   const height = useRef(65)
   const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
+  const searchText = useRef<string>(props.searchText ||'')
 
   console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
 
 
+  const handleSearchTextChange = (newSearchText: string) => {
+    console.log("NEW SEARCH TEXT TRIGGERED FROM REF")  
+    searchText.current = newSearchText;
+    console.log("AFTER CHANGE: ", searchText.current);
+    props.handleNewUserSearchText ? props.handleNewUserSearchText(searchText.current) : ''
+  }
 
 
   //Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
@@ -240,7 +249,10 @@ const filterOptions = {
 }
 
 console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList);
+console.log("PROPS COMBO BOX MUI: ", props);
+console.log("SEARCH TEXT COMBO MUJI: ", searchText.current)
 
+const displayColumn = props.displayColumn
 
 return (
 
@@ -260,10 +272,10 @@ return (
       className={props.className}
       filterOptions={createFilterOptions(filterOptions)}
       defaultValue={multDefaults}
-      isOptionEqualToValue={(option, value) => {console.log("OPTION, ", option, " value, ", value); return option.label == value.label}}
+      isOptionEqualToValue={(option, value) => {console.log("OPTION, ", option, " value, ", value); return option[displayColumn] == value[displayColumn]}}
       disableCloseOnSelect
       ref = {autoRef}
-      getOptionLabel={(option : any) => option.label}
+      getOptionLabel={(option : any) => option[displayColumn]}
       renderOption={(props, option : any, { selected }) => {
         const { key, ...optionProps } = props;
         return (
@@ -275,13 +287,13 @@ return (
               checked={selected}
               
               />
-            {option.label}
+            {option[displayColumn]}
           </li>
         );
       }}
       style={{ width: '100%' , backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef}/>
+        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef} onChange={(e: any) => {props.handleNewUserSearchText ? props.handleNewUserSearchText(e.target.value) : ''}}/>
       )}
       />
   </ThemeProvider>
@@ -295,11 +307,12 @@ return (
   onChange={handleSingleOptionSelect}
   disabled = {props.isDisabled}
   options={optionsList}
+  inputValue = {searchText.current}
   filterOptions={createFilterOptions(filterOptions)}
-  getOptionLabel={(option : any) => option.label}
+  getOptionLabel={(option : any) => option[displayColumn]}
   value={selectedValues[0] || emptyLabel}
   className = {props.className}
-  isOptionEqualToValue={(option, value) => option.label == value.label}
+  isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
   ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {
     const { key, ...optionProps } = props;
@@ -312,13 +325,13 @@ return (
           checked={selected}
           
           />
-        {option.label}
+        {option[displayColumn]}
       </li>
     );
   }}
   style={{ width: '100%', backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
   renderInput={(params) => (
-    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} />
+    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} onChange={(e: any) => {e.target.value != searchText.current ? handleSearchTextChange(e.target.value) : ''}}/>
   )}
   />
 </ThemeProvider>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.2.6" display-name-key="Button" description-key="Button description" control-type="virtual" >
+  <control namespace="HunterMcCarthysNS" constructor="Button" version="0.2.7" display-name-key="Button" description-key="Button description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     </external-service-usage>

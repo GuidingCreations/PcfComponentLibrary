@@ -15,12 +15,15 @@ export function populateDataset(dataset: DataSet) {
 
   const items : any[] = []
   
+  console.log("MAPPING THROUGH ROWS")
   dataset.sortedRecordIds.map( (recordID) => {
     
     const recordToAdd : any = {}
 
+    console.log("COLLS: ", dataset.columns)
     dataset.columns.map( (column : any) => {
     
+        console.log("COLL: ", column)
       recordToAdd[column.name] = dataset.records[recordID].getValue(column.name)
       
     })
@@ -30,6 +33,7 @@ export function populateDataset(dataset: DataSet) {
     
   })
 
+  console.log("Returning items from populate dataset: ", items)
   return items
 
 }

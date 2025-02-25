@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="AccessPage" version="0.0.111" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="AccessPage" version="0.0.154" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -22,16 +22,19 @@
      
     </data-set>
 
+
     <property name="sidebarWidth" display-name-key="sidebarWidth" of-type="Whole.None" usage="input" pfx-default-value ='App.Width * .1'/>
     <property name="headerText" display-name-key="headerText" of-type="SingleLine.Text" usage="input" default-value = "Access control for"/>
+    <property name="selectedNewUserID" display-name-key="selectedNewUserID" of-type="SingleLine.Text" usage="output" default-value = ""/>
     <property name="selectedNewUserMail" display-name-key="selectedNewUserMail" of-type="SingleLine.Text" usage="output" default-value = ""/>
+    <property name="groupID" display-name-key="groupID" of-type="SingleLine.Text" usage="input" default-value = ""/>
 
    
 
-    <event name="onDeleteUserFromGroup"
+    <event name="onDeleteUsersFromGroup"
    pfx-default-value=''
-   display-name-key="onDeleteUserFromGroup"
-   description-key="onDeleteUserFromGroup"/>
+   display-name-key="onDeleteUsersFromGroup"
+   description-key="onDeleteUsersFromGroup"/>
 
     <event name="onAddMemberToGroup"
    pfx-default-value=''

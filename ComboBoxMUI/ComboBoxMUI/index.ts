@@ -4,6 +4,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { ComboBoxProps } from "./ComboBox";
 import ComboBox from "./ComboBox";
 import * as React from "react";
+import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -112,18 +113,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         
 // Loop through table items and create an object with properties of label and id for each item
 
-        this._items = []
-        context.parameters.Items.sortedRecordIds.map( (recordId : any) => {
-        
-            const objToAdd : any = {
-                label: context.parameters.Items.records[recordId].getFormattedValue(context.parameters.displayField.raw || "label"),
-                id: context.parameters.Items.records[recordId].getRecordId()
-            }
-                
-            this._items.push(objToAdd)
-            
-        }
-        )
+        this._items = populateDataset(this.context.parameters.Items)
 
 // Loop through defaults items passed from power apps and create objects with schema that will match the format from above
 

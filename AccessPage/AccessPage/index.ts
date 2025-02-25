@@ -4,7 +4,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import HelloWorld, {AccesPageProps} from "./AccessPage";
 import * as React from "react";
 import { GridColDef } from '@mui/x-data-grid';
-
+import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { PublicClientApplication } from "@azure/msal-browser";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -15,14 +15,15 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     
     private notifyOutputChanged: () => void;
-    private _newUserMail : any = ''
+    private _newUserMail : string = ''
+    private _newUserID : string = ''
     private groupOwners : any[] = [];
     private groupMembers: any[] = [];
     private allUsers: any[] = [];
     private _usersList : any[] = []
     private _navItems: any[] = [];
     private _userSearchText : string = ''
-    
+    private _selectedRecords: any[] = []
     private userFields : any[] =  [
         {
             field: "displayName",
@@ -68,6 +69,13 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             field: "userType",
             align: "center",
             headerName: "User type",
+            display: 'flex',
+            headerAlign: 'center' 
+        },
+        {
+            field: "id",
+            align: "center",
+            headerName: "id",
             display: 'flex',
             headerAlign: 'center' 
         }
@@ -121,21 +129,88 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     }
 
-    private handleNewUserSelection = (newUserMail : string) => {
-        if (newUserMail) {
-            this._newUserMail = newUserMail
-        } else {
-            this._newUserMail =''
-        }
-
+    private handleNewUserSelection = (newUser : any) => {
+      
+        console.log("INDEX NEW USER: ", newUser)
+        this._newUserID = newUser.id
+        this._newUserMail = newUser.Mail
+        console.log("TRIGGERING NEW OUTPUT: ", this._newUserID, this._newUserMail)
         this.notifyOutputChanged()
     }
 
     private handleNewSearchText = (newSearchText: string) => {
         console.log("NEW USER SE TExT: ", newSearchText)
         this._userSearchText = newSearchText;
+        console.log("UPDATED TEXT: ", this._userSearchText)
         this.notifyOutputChanged()
     }
+
+    private handleAddOwnerToGroup = () => {
+        
+        console.log("Adding owner: ", this._newUserID, " to group ", this.context.parameters.groupID)
+        this.context.events.onAddOwnerToGroup()
+    }
+
+    private handleAddMemberToGroup = () => {
+        
+        console.log("Adding Member: ", this._newUserMail, " to group ", this.context.parameters.groupID)
+        this.context.events.onAddMemberToGroup()
+    }
+
+    private handleDataTableSelection = (selectedRecordIDs: any[]) => {
+
+        console.log("SELRECS: ", selectedRecordIDs)
+
+        const ownerIDs : any[] = []
+        const memberIDs: any[] = []
+        selectedRecordIDs.map((recordID) => {
+
+            console.log("owners: ", this.groupOwners);
+            console.log("members: ", this.groupMembers);
+            const matchingOwners = this.groupOwners.filter((owner : any) => {console.log("COMPARING ownerID ", owner.recordID, " to ", recordID);  return owner.recordID == recordID});
+            const matchingMembers = this.groupMembers.filter((member : any) => {console.log("COMPARING ownerID ", member.recordID, " to ", recordID); return member.recordID == recordID})
+            console.log("MATCHING OWNS: ", matchingOwners);
+            console.log("MATCHING members: ", matchingMembers);
+            const accessType = matchingOwners.length > 0 ? "Owner" : "Member"
+            console.log("Access type", accessType, recordID)
+            if (accessType == "Owner") {
+                ownerIDs.push(recordID)
+            } else {
+                memberIDs.push(recordID)
+            }
+        }
+
+        
+    )
+
+    if (memberIDs.length > 0) {
+
+        this.context.parameters.groupMembers.setSelectedRecordIds(memberIDs);
+    } else {
+        this.context.parameters.groupMembers.clearSelectedRecordIds()
+    }
+
+    if (ownerIDs.length > 0) {
+
+        this.context.parameters.groupOwners.setSelectedRecordIds(ownerIDs)
+    } else {
+        this.context.parameters.groupOwners.clearSelectedRecordIds()
+    }
+
+
+    console.log("Sel owners: ", ownerIDs)
+        
+
+
+
+                this.notifyOutputChanged()
+    }
+
+    private handleDeleteUsers = () => {
+        console.log("HANDLING DELETE USERS")
+        this.context.events.onDeleteUsersFromGroup()
+    }
+
 
     constructor() {
     }
@@ -185,7 +260,8 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             const userMail = context.parameters.usersList.records[recordID].getValue("Mail")
             userToAdd.label = userName
             userToAdd.Mail =  userMail
-
+            userToAdd.recordID = context.parameters.usersList.records[recordID].getRecordId()
+            userToAdd.id = context.parameters.usersList.records[recordID].getFormattedValue('Id')
             console.log("USer to ADD: ", userToAdd)
             this._usersList.push(userToAdd)
         })
@@ -208,7 +284,12 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             usersList: this._usersList,
             useTestData: context.parameters.useTestData.raw,
             handleNewUserSearchText: this.handleNewSearchText,
-            userSearchText: this._userSearchText
+            userSearchText: this._userSearchText,
+            handleNewUserSelection: this.handleNewUserSelection,
+            addOwnerToGroup: this.handleAddOwnerToGroup,
+            addMemberToGroup: this.handleAddMemberToGroup,
+            handleDataTableSelection: this.handleDataTableSelection,
+            handleDeleteUsers: this.handleDeleteUsers
 
         };
         
@@ -224,8 +305,11 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
+
+        console.log("PASSING NEW OUTPUTS - mail: ", this._newUserMail, " id: ", this._newUserID, " search text: ", this._userSearchText)
         return {
             selectedNewUserMail: this._newUserMail,
+            selectedNewUserID: this._newUserID,
             userSearchText: this._userSearchText
         };
     }
