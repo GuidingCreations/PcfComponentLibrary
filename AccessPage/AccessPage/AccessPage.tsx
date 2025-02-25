@@ -3,10 +3,11 @@
 import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import {determineScreenSize} from '../../utils'
+import { GridColDef } from "@mui/x-data-grid";
 import DataTableComponent from "../../DataTable/DataTable/DataTable";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { GridColDef } from "@mui/x-data-grid";
+
 export interface AccesPageProps {
   Users: any[];
   columns: any[];
@@ -17,25 +18,33 @@ export interface AccesPageProps {
   headerText: string;
   usersList: any[];
   useTestData: boolean;
+  userSearchText: string
   handleNewUserSearchText: (newSearchText: string) => void;
   handleNewUserSelection : (newUser: any) => void
-  userSearchText: string
   addMemberToGroup: () => void
   addOwnerToGroup: () => void
   handleDataTableSelection: (recordIDs: any[]) => void
   handleDeleteUsers: () => void
 }
+
 import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
 import Stack from "@mui/material/Stack";
 import ComboBox from "../../ComboBoxMUI/ComboBoxMUI/ComboBox";
-import { Autocomplete, Checkbox, createFilterOptions, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import Button from '../../Button/Button/Button'
 
 const HelloWorld = (props: AccesPageProps) => {
+  
+  // Generate theme
+
   const theme = createTheme({
+    
     palette: {
+    
       mode:  'dark'
+    
     },
+    
     components: {
 
       MuiInputLabel: {
@@ -73,36 +82,40 @@ const HelloWorld = (props: AccesPageProps) => {
       }
     }
   });
+
+  // Establish states
   
   const [isLoading, setIsLoading] = useState(true);
   const [userSearchText, setUserSearchText] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<any>({});
   const [changeType, setChangeType] = useState<string>('');
 
+  
+  // Function to call when new user is selected on add user section
+  
   const handleNewSelectedUser = (newSelectedUser: any) => {
-    console.log("NEW SEL USER: ", newSelectedUser);
 
     if (newSelectedUser !== undefined) {
-
       
       setSelectedUser(newSelectedUser[0])
+    
     }
   }
 
+  // UseEffect handler to call back to index.ts and update output properties when selectedUser state changes
+
   useEffect(() => {
 
-    console.log("TRYING NEW USER FROM USE EFFECT", selectedUser)
     if (selectedUser !== undefined) {
 
-      console.log("HANDLE NEW USER SEL IN TSX")
       props.handleNewUserSelection(selectedUser)
     
     }
   }, [selectedUser])
 
-  if (isLoading && props.columns.length > 0) {
-    setIsLoading(false);
-  }
+  // End 
+
+  
 
   const testCols: GridColDef<(typeof testRows)[number]>[] = [
     { field: "id", headerName: "ID", width: 90 },
@@ -202,10 +215,7 @@ const HelloWorld = (props: AccesPageProps) => {
   console.log("COLS in ACC: ", columns);
   console.log("ACCESS PAGE PROPS: ", props)
   return (
-    <>
-      {isLoading ? (
-        <></>
-      ) : (
+    
         <>
           {/* If showAddUserForm is true, display the user form and hide everything else */}
 
@@ -241,7 +251,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   displayColumn="label"
                   Items={props.usersList}
                   labelText="New user"
-                  handleNewUserSearchText={(newSearchText: string) => {console.log("TRYING NEW USER SEARCH TEXT"); handleSearchTextChange(newSearchText)}}
+                  handleNewUserSearchText={(newSearchText: string) => {console.log("TRYING NEW USER SEARCH TEXT", newSearchText); handleSearchTextChange(newSearchText)}}
                   allowSelectMultiple={false}
                   defaultValues={[]}
                   isDisabled={false}
@@ -382,8 +392,6 @@ const HelloWorld = (props: AccesPageProps) => {
           {/* Sidebar and main content container */}
         </>
       )}
-    </>
-  );
-};
+    
 
 export default HelloWorld;

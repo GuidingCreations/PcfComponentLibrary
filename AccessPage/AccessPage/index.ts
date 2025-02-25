@@ -1,18 +1,22 @@
 /* eslint-disable */ 
 
-import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import HelloWorld, {AccesPageProps} from "./AccessPage";
+// imports
+
 import * as React from "react";
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { GridColDef } from '@mui/x-data-grid';
 import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { PublicClientApplication } from "@azure/msal-browser";
+import HelloWorld, {AccesPageProps} from "./AccessPage";
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
+
 
 export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOutputs> {
 
     context: ComponentFramework.Context<IInputs>
 
+    // Establish variables
     
     private notifyOutputChanged: () => void;
     private _newUserMail : string = ''
@@ -24,6 +28,9 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
     private _navItems: any[] = [];
     private _userSearchText : string = ''
     private _selectedRecords: any[] = []
+    
+    // Fields that will be mapped through to populate group owners array (at the time of writing this, only the first dataset in PCF populates column info, so can't populate it through util as normal)
+
     private userFields : any[] =  [
         {
             field: "displayName",
@@ -87,32 +94,40 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         
     ]  
     
+    // Populate group owners
+
     private getGroupOwners = () => {
         
         this.groupOwners = [];
         
-       this.context.parameters.groupOwners.sortedRecordIds.map( (recordID) => {
+        // Map through sorted record IDs, with inner map to user fields
+
+        this.context.parameters.groupOwners.sortedRecordIds.map( (recordID) => {
 
             const recordToAdd : any = {}
             
             this.userFields.map( (userField) => {
+
                 recordToAdd[userField.field] = this.context.parameters.groupOwners.records[recordID].getFormattedValue(userField.field)    
+
             })
 
             recordToAdd.recordID = this.context.parameters.groupOwners.records[recordID].getRecordId()
             recordToAdd.userType = "Owner"
-
-            console.log("ADDING OWNER TO priv variable: ", recordToAdd);
             this.groupOwners.push(recordToAdd)
-       })
+       
+        })
 
     }   
     
+
+    // Populate group members
+
     private getGroupMembers = () => {
         
         this.groupMembers = [];
         
-       this.context.parameters.groupMembers.sortedRecordIds.map( (recordID) => {
+        this.context.parameters.groupMembers.sortedRecordIds.map( (recordID) => {
 
             const recordToAdd : any = {}
             
@@ -122,93 +137,107 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
             recordToAdd.recordID = this.context.parameters.groupMembers.records[recordID].getRecordId()
             recordToAdd.userType = "Member"
-
-            console.log("ADDING Member TO priv variable: ", recordToAdd);
             this.groupMembers.push(recordToAdd)
-       })
+       
+        })
 
     }
+
+    // Formula to be called when a new user is selected from combo box in add user section
 
     private handleNewUserSelection = (newUser : any) => {
       
-        console.log("INDEX NEW USER: ", newUser)
         this._newUserID = newUser.id
         this._newUserMail = newUser.Mail
-        console.log("TRIGGERING NEW OUTPUT: ", this._newUserID, this._newUserMail)
+        this.notifyOutputChanged()
+
+    }
+
+    // Formula to be called to pass the search text to an output property. This is useful in situations such as when you want re-query with new search text, for example you want to re-load the search query to the office users API SearchUserV2. 
+
+    private handleNewSearchText = (newSearchText: string) => {
+        this._userSearchText = newSearchText;
         this.notifyOutputChanged()
     }
 
-    private handleNewSearchText = (newSearchText: string) => {
-        console.log("NEW USER SE TExT: ", newSearchText)
-        this._userSearchText = newSearchText;
-        console.log("UPDATED TEXT: ", this._userSearchText)
-        this.notifyOutputChanged()
-    }
+    // Event to be called when someone tries to add an owner to the group 
 
     private handleAddOwnerToGroup = () => {
         
-        console.log("Adding owner: ", this._newUserID, " to group ", this.context.parameters.groupID)
         this.context.events.onAddOwnerToGroup()
+   
     }
+
+    // Event to be called when someone tries to add a member to the group 
 
     private handleAddMemberToGroup = () => {
         
-        console.log("Adding Member: ", this._newUserMail, " to group ", this.context.parameters.groupID)
         this.context.events.onAddMemberToGroup()
+
     }
+
+    // Event to be called when a row is selected / unselected from data table. 
 
     private handleDataTableSelection = (selectedRecordIDs: any[]) => {
 
-        console.log("SELRECS: ", selectedRecordIDs)
 
         const ownerIDs : any[] = []
         const memberIDs: any[] = []
+
         selectedRecordIDs.map((recordID) => {
 
-            console.log("owners: ", this.groupOwners);
-            console.log("members: ", this.groupMembers);
-            const matchingOwners = this.groupOwners.filter((owner : any) => {console.log("COMPARING ownerID ", owner.recordID, " to ", recordID);  return owner.recordID == recordID});
-            const matchingMembers = this.groupMembers.filter((member : any) => {console.log("COMPARING ownerID ", member.recordID, " to ", recordID); return member.recordID == recordID})
-            console.log("MATCHING OWNS: ", matchingOwners);
-            console.log("MATCHING members: ", matchingMembers);
+            // Will search for selected record id in owners list, if not found then they are member by default
+
+
+            const matchingOwners = this.groupOwners.filter((owner : any) => { return owner.recordID == recordID });
             const accessType = matchingOwners.length > 0 ? "Owner" : "Member"
-            console.log("Access type", accessType, recordID)
+
             if (accessType == "Owner") {
+                
                 ownerIDs.push(recordID)
+            
             } else {
+            
                 memberIDs.push(recordID)
+            
             }
         }
 
         
     )
 
+    // Will loop through both members and owners to set selected values if array is not empty. If it is empty, invoke the clearSelectedRecordIDs method
+
     if (memberIDs.length > 0) {
 
         this.context.parameters.groupMembers.setSelectedRecordIds(memberIDs);
+    
     } else {
+    
         this.context.parameters.groupMembers.clearSelectedRecordIds()
+    
     }
 
     if (ownerIDs.length > 0) {
 
         this.context.parameters.groupOwners.setSelectedRecordIds(ownerIDs)
+    
     } else {
+    
         this.context.parameters.groupOwners.clearSelectedRecordIds()
+    
     }
 
+    this.notifyOutputChanged()
+    
+}
 
-    console.log("Sel owners: ", ownerIDs)
-        
-
-
-
-                this.notifyOutputChanged()
-    }
+    // Event to call when delete selected button is selected
 
     private handleDeleteUsers = () => {
-        console.log("HANDLING DELETE USERS")
+
         this.context.events.onDeleteUsersFromGroup()
+
     }
 
 
@@ -228,8 +257,10 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
        
         this.allUsers = []
-
         this._navItems = []
+        this._usersList = []
+        
+        // Generate sidebar items
         
         context.parameters.navItems.sortedRecordIds.forEach( (record) => {
             const objToAdd : any = {};
@@ -242,16 +273,15 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         }
     
     )
+        // Populate owners and members, then mash them together into one table for data grid
         
         this.getGroupOwners();
-        console.log("OWNERS: ", this.groupOwners);
         
         this.getGroupMembers();
-        console.log("MEMBERS: ", this.groupMembers);
        
         this.allUsers = this.groupOwners.concat(this.groupMembers)
        
-        this._usersList = []
+        // Generate user list (to be used in combo box on add user section as a list of users to choose from)
 
         context.parameters.usersList.sortedRecordIds.map((recordID) => {
 
@@ -262,16 +292,10 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             userToAdd.Mail =  userMail
             userToAdd.recordID = context.parameters.usersList.records[recordID].getRecordId()
             userToAdd.id = context.parameters.usersList.records[recordID].getFormattedValue('Id')
-            console.log("USer to ADD: ", userToAdd)
             this._usersList.push(userToAdd)
         })
 
-
-        
-        const cols : GridColDef<typeof this.userFields>[] = this.userFields
-       
-       
-       
+        const cols : GridColDef<typeof this.userFields>[] = this.userFields       
         const props: AccesPageProps = { 
         
             Users: this.allUsers,
@@ -283,8 +307,8 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             headerText: context.parameters.headerText.raw || "Access Control",
             usersList: this._usersList,
             useTestData: context.parameters.useTestData.raw,
-            handleNewUserSearchText: this.handleNewSearchText,
             userSearchText: this._userSearchText,
+            handleNewUserSearchText: this.handleNewSearchText,
             handleNewUserSelection: this.handleNewUserSelection,
             addOwnerToGroup: this.handleAddOwnerToGroup,
             addMemberToGroup: this.handleAddMemberToGroup,
@@ -300,25 +324,21 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         );
     }
 
-    /**
-     * It is called by the framework prior to a control receiving new data.
-     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
-     */
     public getOutputs(): IOutputs {
 
-        console.log("PASSING NEW OUTPUTS - mail: ", this._newUserMail, " id: ", this._newUserID, " search text: ", this._userSearchText)
-        return {
+        const outputs = {
             selectedNewUserMail: this._newUserMail,
             selectedNewUserID: this._newUserID,
-            userSearchText: this._userSearchText
-        };
+            userSearchString: this._userSearchText        };
+
+
+        console.log("OUTPUTS FROM ACCESS PAGE INDEX.TS: ", outputs)
+        return outputs
+
+        
     }
 
-    /**
-     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-     * i.e. cancelling any pending remote calls, removing listeners, etc.
-     */
     public destroy(): void {
-        // Add code to cleanup control if necessary
+
     }
 }
