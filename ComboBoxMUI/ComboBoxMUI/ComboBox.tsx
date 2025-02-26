@@ -58,10 +58,10 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
 
   const handleSearchTextChange = (newSearchText: string) => {
-    console.log("NEW SEARCH TEXT TRIGGERED FROM REF")  
+  
     searchText.current = newSearchText;
-    console.log("AFTER CHANGE: ", searchText.current);
     props.handleNewUserSearchText ? props.handleNewUserSearchText(searchText.current) : ''
+  
   }
 
 
@@ -70,12 +70,12 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   useEffect(() => {
 
 
-    console.log("use ff8")
     if (autoRef.current) {
-     height.current = autoRef.current.getBoundingClientRect().height
+    
+      height.current = autoRef.current.getBoundingClientRect().height
+    
     }
     
-      console.log("TRIGGERING OUTPUT from useEffect WITH ", selectedValues)
         props.setSelectedRecords(selectedValues, height.current)
 
   }, [selectedValues])
@@ -144,11 +144,16 @@ Formula for evaluating whether the default values have changed. Returns true if 
 
 
     const hasChanged = JSON.stringify(defaultValues) != JSON.stringify(props.defaultValues)
+  
     if (props.Items.length > 0) {
+  
       console.log("OVER 0 records on hasChanged")
       return hasChanged
+  
     } else {
+  
       return false
+  
     }
 
   }
@@ -157,13 +162,12 @@ Formula for evaluating whether the default values have changed. Returns true if 
 
   const updateDefaults = () => {
 
-    if(compareDefaults()) {
-      console.log(" DEFAULTS HAS CHANGED")
+    if( compareDefaults() ) {
+
       setDefaultValues(props.defaultValues);
-      console.log("NEW DEFAULTS", defaultValues)
       setSelectedValues(props.defaultValues);
-      console.log("NEW SELECTED VALUES", selectedValues)
       props.setSelectedRecords(selectedValues, height.current)
+
     }
 
   };
@@ -208,32 +212,26 @@ Formula for evaluating whether the default values have changed. Returns true if 
     }
   });
   
-// Formula to handle whenever a user changes their selection
 
+  // If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
+  
   const handleMultiOptionSelect = (e : any, value : any[]) => {
 
-  
-console.log("HANDLE OPTION SELECT TRIGGERED", value)
-    
-// If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
-
- 
       setSelectedValues(value)
-      console.log("NEW MULT VALUE", selectedValues)
 }
 
 
 const handleSingleOptionSelect = (e: any, value: any) => {
 
-  console.log("VA LE: ", value)
   if (value == null) {
-    console.log("EMPTY ARR VAL")
+
     setSelectedValues([]);
+
   } else {
-    console.log("NOT EMPTY ARR VAL", [value])
+
     setSelectedValues([value]);
-    console.log("NEW SL VAL ARR", selectedValues)
     props.setSelectedRecords(selectedValues, height.current)
+
   }
 }
 
@@ -251,10 +249,6 @@ const filterOptions = {
   limit: 100
 }
 
-console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList, props.displayColumn);
-console.log("PROPS COMBO BOX MUI: ", props);
-console.log("SEARCH TEXT COMBO MUJI: ", searchText.current);
-console.log("SINGLE SELECTED: ", selectedValues[0])
 
 const displayColumn = props.displayColumn
 

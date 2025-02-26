@@ -42,12 +42,14 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         this._selectedRecords = selectedRecords;
 
         console.log("SELECTED VALS", this._selectedRecords)
+    
         // If new selection is not an empty array
 
         if (selectedRecords.length > 0) {
 
             console.log("More than0 records")
-// Loop through the selected records from tsx and search the passed in table for matching id, then append the matching id to arrSelected 
+
+            // Loop through the selected records from tsx and search the passed in table for matching id, then append the matching id to arrSelected 
 
             const arrSelected : any[] = [];            
             selectedRecords.map((selectedRecord : any) => {
@@ -72,7 +74,8 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             
         })
 
-// Update the components output items
+    // Update the components output items
+
         console.log("SETTING SELECTED RECORDS COMBO BOX MUI WITH ", arrSelected)
         this.context.parameters.Items.setSelectedRecordIds(arrSelected)
         console.log("NEW COMP SELECTED VALUE COMBO BOX MUI ", this.context.parameters.Items.getSelectedRecordIds)
@@ -106,7 +109,6 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("UPDATE VIEW TRIGGERED COMBO BOX MUI")
 // Set max page size to 2000
 
         context.parameters.Items.paging.setPageSize(2000);
@@ -146,6 +148,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             height: context.parameters.containerHeight.raw || 40,
             allowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false,
             setSelectedRecords: this.setSelectedRecords.bind(this),
+            handleNewUserSearchText: this.handleSearchTextChange,
             defaultValues: this._defaultSelectedItems,
             darkMode: context.parameters.DarkMode.raw || false,
             borderStyle: context.parameters.borderStyle.raw || 'none',

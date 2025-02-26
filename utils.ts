@@ -126,9 +126,7 @@ export function generateOutputObject(row: ComponentFramework.PropertyHelper.Data
           properties: getInputSchema(context,  outputDataset),
       };
 
-      return Promise.resolve({
-          outputObject: outputObjectSchema,
-      });
+      return Promise.resolve(outputObjectSchema);
   }
 
 

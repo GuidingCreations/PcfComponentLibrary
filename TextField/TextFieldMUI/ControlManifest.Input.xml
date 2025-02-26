@@ -40,8 +40,8 @@
 <!-- Number properties -->
 
 <property name="minLength" display-name-key="minLength" description-key="minLength" of-type="Whole.None" usage="input" required="false" default-value="0"/>   
-<property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
-<property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+<property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Height'/>
+<property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Width'/>
 
 
 

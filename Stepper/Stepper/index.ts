@@ -3,7 +3,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import StepperComponent, { StepperProps } from "./HelloWorld";
 import * as React from "react";
 import { JSONSchema4 } from "json-schema";
-import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
+import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema, generateOutputSchema } from "../../utils";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -18,10 +18,7 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
     
     handleStepChange = (newStepNumber: number, newStepID: any) => {
         this._currentStepNumber = newStepNumber
-        console.log("NEW STEP NUMBER", this._currentStepNumber)
-        console.log("NEW STEP ID: ", newStepID)
         this._currentStep = generateOutputObject(this.context.parameters.steps.records[newStepID], this.context.parameters.steps);
-        console.log("CURRENT STEP: ", this._currentStep);
         this.notifyOutputChanged()
     }
 
@@ -42,14 +39,11 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
          this._inputSchema = generateOutputObjectSchema(context, context.parameters.steps, this._inputSchema)
-        console.log("RETURNED INPUT SCHEMA: ", this._inputSchema)
         const params = context.parameters
         this._steps = populateDataset(context.parameters.steps);
-        console.log("STEPS: ", this._steps)
 
         if (this._currentStepNumber == -1) {
             
-            console.log("GENERATING INITIAL STEP")
             this.handleStepChange(0, context.parameters.steps.sortedRecordIds[0])
         }
 
@@ -64,7 +58,6 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
             handleStepChange: this.handleStepChange 
         }
 
-        console.log('STEPPER INDEX.TS PROPS: ', props)
 
         return React.createElement(
             StepperComponent, props
@@ -74,7 +67,6 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
   
     public getOutputs(): IOutputs {
 
-        console.log("triggered output change - current step: ", this._currentStep, " currentStepSchema: ", this._inputSchema)
 
         return {
             currentStep: this._currentStep,
@@ -84,6 +76,7 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
 
 
     public async getOutputSchema(context: ComponentFramework.Context<IInputs>): Promise<Record<string, unknown>> {
+       
         const outputObjectSchema: JSONSchema4 = {
             $schema: 'http://json-schema.org/draft-04/schema#',
             title: 'outputObject',
@@ -91,9 +84,12 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
             properties:  getInputSchema(context, context.parameters.steps),
         };
 
-        return Promise.resolve({
+        const response =  await Promise.resolve({
             currentStep: outputObjectSchema,
         });
+
+        return response
+
     }
 
 
