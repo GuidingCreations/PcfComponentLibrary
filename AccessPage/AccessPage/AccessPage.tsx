@@ -87,7 +87,7 @@ const HelloWorld = (props: AccesPageProps) => {
   
   const [isLoading, setIsLoading] = useState(true);
   const [userSearchText, setUserSearchText] = useState<string>('');
-  const [selectedUser, setSelectedUser] = useState<any>({});
+  const [selectedUser, setSelectedUser] = useState<any>( null);
   const [changeType, setChangeType] = useState<string>('');
 
   
@@ -106,7 +106,8 @@ const HelloWorld = (props: AccesPageProps) => {
 
   useEffect(() => {
 
-    if (selectedUser !== undefined) {
+    console.log("sss", selectedUser)
+    if (selectedUser) {
 
       props.handleNewUserSelection(selectedUser)
     
@@ -214,12 +215,14 @@ const HelloWorld = (props: AccesPageProps) => {
   console.log("ROWS IN ACC: ", rows);
   console.log("COLS in ACC: ", columns);
   console.log("ACCESS PAGE PROPS: ", props)
+  
   return (
     
         <>
           {/* If showAddUserForm is true, display the user form and hide everything else */}
 
           {showAddUserForm ? (
+            
             <div
               className="w-full flex"
               style={{ justifyContent: "center", alignItems: "center" }}
@@ -253,13 +256,12 @@ const HelloWorld = (props: AccesPageProps) => {
                   labelText="New user"
                   handleNewUserSearchText={(newSearchText: string) => {console.log("TRYING NEW USER SEARCH TEXT", newSearchText); handleSearchTextChange(newSearchText)}}
                   allowSelectMultiple={false}
-                  defaultValues={[]}
+                  defaultValues={[{label: ''}]}
                   isDisabled={false}
+
                   darkMode
-                  setSelectedRecords={(e: any) => {console.log("EVENTT: ", e, "EVENT TARGET: ", e.target); handleNewSelectedUser(e)}}
+                  setSelectedRecords={(value: any, height: number) => {console.log("EVENTT mk: ", value, height); handleNewSelectedUser(value)}}
                   />
-
-
     
                 <ComboBox
                   useTestData = {false}
@@ -279,7 +281,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   ]}
                   labelText="Access type"
                   allowSelectMultiple={false}
-                  defaultValues={[]}
+                  defaultValues={[{label: ''}]}
                   isDisabled={false}
                   darkMode
                   setSelectedRecords={(e: any) => {handleNewChangeType(e)}}
@@ -315,7 +317,9 @@ const HelloWorld = (props: AccesPageProps) => {
               </Stack>
               </ThemeProvider>
             </div>
-          ) : (
+        
+        ) : (
+
             <div className="flex flex-row">
               <Sidebar
                 height={props.containerHeight}
@@ -339,6 +343,8 @@ const HelloWorld = (props: AccesPageProps) => {
                 {/* Container for the add user and delete selected button
             horizontal container
             */}
+
+
 
                 <Typography variant="h5" color="white" style={{marginTop: '5%'}}>
                   {props.headerText}
@@ -387,6 +393,7 @@ const HelloWorld = (props: AccesPageProps) => {
                 />
               </div>
             </div>
+          
           )}
 
           {/* Sidebar and main content container */}

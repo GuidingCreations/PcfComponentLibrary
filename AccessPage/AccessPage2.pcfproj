@@ -8,8 +8,8 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')" />
 
   <PropertyGroup>
-    <Name>AccessPage</Name>
-    <ProjectGuid>a9a0cdde-da0f-4601-ad87-5274a999ad7f</ProjectGuid>
+    <Name>AccessPage2</Name>
+    <ProjectGuid>4691d7dd-649f-43fe-bbc6-a0e7fdebcae2</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 

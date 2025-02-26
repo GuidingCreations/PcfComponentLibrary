@@ -52,7 +52,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   const [selectedValues, setSelectedValues] = useState<any[]>([])
   const height = useRef(65)
   const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
-  const searchText = useRef<string>(props.searchText ||'')
+  const searchText = useRef<string>('')
 
   console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
 
@@ -70,7 +70,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   useEffect(() => {
 
 
-    
+    console.log("use ff8")
     if (autoRef.current) {
      height.current = autoRef.current.getBoundingClientRect().height
     }
@@ -224,12 +224,15 @@ console.log("HANDLE OPTION SELECT TRIGGERED", value)
 
 
 const handleSingleOptionSelect = (e: any, value: any) => {
+
+  console.log("VA LE: ", value)
   if (value == null) {
     console.log("EMPTY ARR VAL")
     setSelectedValues([]);
   } else {
-    console.log("NOT EMPTY ARR VAL")
+    console.log("NOT EMPTY ARR VAL", [value])
     setSelectedValues([value]);
+    console.log("NEW SL VAL ARR", selectedValues)
     props.setSelectedRecords(selectedValues, height.current)
   }
 }
@@ -248,9 +251,10 @@ const filterOptions = {
   limit: 100
 }
 
-console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList);
+console.log("OPTIONS LIST COMBO BOX MUI: ", optionsList, props.displayColumn);
 console.log("PROPS COMBO BOX MUI: ", props);
-console.log("SEARCH TEXT COMBO MUJI: ", searchText.current)
+console.log("SEARCH TEXT COMBO MUJI: ", searchText.current);
+console.log("SINGLE SELECTED: ", selectedValues[0])
 
 const displayColumn = props.displayColumn
 
@@ -305,12 +309,12 @@ return (
 <Autocomplete
  
   onChange={handleSingleOptionSelect}
+  onInputChange={(e: any) => { handleSearchTextChange(e.target.value)}}
   disabled = {props.isDisabled}
   options={optionsList}
-  inputValue = {searchText.current}
+  value={selectedValues[0] || null}
   filterOptions={createFilterOptions(filterOptions)}
   getOptionLabel={(option : any) => option[displayColumn]}
-  value={selectedValues[0] || emptyLabel}
   className = {props.className}
   isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
   ref = {autoRef}
@@ -331,7 +335,7 @@ return (
   }}
   style={{ width: '100%', backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
   renderInput={(params) => (
-    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} onChange={(e: any) => {e.target.value != searchText.current ? handleSearchTextChange(e.target.value) : ''}}/>
+    <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"}/>
   )}
   />
 </ThemeProvider>

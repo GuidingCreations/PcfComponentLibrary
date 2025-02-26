@@ -147,6 +147,7 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     private handleNewUserSelection = (newUser : any) => {
       
+        console.log("TRIGGERING NEW USER SEL OM", newUser)
         this._newUserID = newUser.id
         this._newUserMail = newUser.Mail
         this.notifyOutputChanged()
@@ -329,11 +330,17 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         const outputs = {
             selectedNewUserMail: this._newUserMail,
             selectedNewUserID: this._newUserID,
-            userSearchString: this._userSearchText        };
+            userSearchString: this._userSearchText        
+        };
 
 
-        console.log("OUTPUTS FROM ACCESS PAGE INDEX.TS: ", outputs)
-        return outputs
+            console.log("TYPE OF USER SEARCH TEXT: ", typeof this._userSearchText)
+        console.log("OUTPUTS FROM ACCESS PAGE INDEX.TS : ", outputs)
+        return {
+            selectedNewUserMail: this._newUserMail,
+            selectedNewUserID: this._newUserID,
+            userSearchString: this._userSearchText
+        };
 
         
     }
