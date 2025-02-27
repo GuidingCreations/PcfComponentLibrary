@@ -1,10 +1,16 @@
-"use client"
+"use client";
 
 import * as React from "react";
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridRowsProp,
+  useGridApiRef,
+} from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import type {} from '@mui/x-data-grid/themeAugmentation';
-import SquashedBG from '../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup';
+import type {} from "@mui/x-data-grid/themeAugmentation";
+import SquashedBG from "../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup";
 import { chipRender } from "../renderOptions/chipRender";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useRef, useState } from "react";
@@ -17,7 +23,7 @@ const testRows: GridRowsProp = [
 
 const testColumns: GridColDef[] = [
   { field: "col1", headerName: "Column 1", width: 150 },
-  { field: "col2", headerName: "Column 2", width: 150, display: 'flex' }
+  { field: "col2", headerName: "Column 2", width: 150, display: "flex" },
 ];
 
 export interface DataTableProps {
@@ -28,126 +34,121 @@ export interface DataTableProps {
   defaultColumnWidths: any[];
   allowSelectMultiple: boolean;
   useDarkMode: boolean;
-  setSelectedRecords: (selectedRecordIDs: any[]) => void
+  setSelectedRecords: (selectedRecordIDs: any[]) => void;
   pageSize: number;
   pageNumber: number;
   totalRowCount: number;
-  onOptionSelect: (outputType: string, recordID: any, optionValue: string) => void;
+  onOptionSelect: (
+    outputType: string,
+    recordID: any,
+    optionValue: string
+  ) => void;
   columnVisibility: any;
   hideFooter: boolean;
   showCheckboxes: boolean;
   fullWidth?: boolean;
   classes?: string;
-  noRowsText? : string
+  noRowsText?: string;
 }
 
-const  DataTableComponent = (props: DataTableProps) => {
-
-
-  const [defaultVisibilityModel, setDefaultVisibilityModel] = useState<any>(props.columnVisibility);
-  const [visibilityModel, setVisibilityModel] = useState<any>(props.columnVisibility)
+const DataTableComponent = (props: DataTableProps) => {
+  const [defaultVisibilityModel, setDefaultVisibilityModel] = useState<any>(
+    props.columnVisibility
+  );
+  const [visibilityModel, setVisibilityModel] = useState<any>(
+    props.columnVisibility
+  );
 
   if (props.columnVisibility != defaultVisibilityModel) {
     setDefaultVisibilityModel(props.columnVisibility);
-    setVisibilityModel(props.columnVisibility)
+    setVisibilityModel(props.columnVisibility);
   }
-
 
   const apiRef = useGridApiRef();
-  const updateSelectedRecordIDs = (IDs : any) => {
-    props.setSelectedRecords(IDs)
+  const updateSelectedRecordIDs = (IDs: any) => {
+    props.setSelectedRecords(IDs);
+  };
+
+  const renderCount = useRef(0);
+  renderCount.current++;
+
+  function getRowId(row: any) {
+    return row.recordID;
   }
-
-  const renderCount = useRef(0)
-  renderCount.current++
-
-
-
-
-  function getRowId(row : any) {
-    return row.recordID
-  }
-
-
-
-
 
   const data = props.tableData ? props.tableData : testRows;
-  const columns = props.tableColumns ? props.tableColumns : testColumns
+  const columns = props.tableColumns ? props.tableColumns : testColumns;
 
-  console.log("COLUMNSSSSS", columns)
-// Map through columns to generate overrides
+  console.log("COLUMNSSSSS", columns);
+  // Map through columns to generate overrides
 
-  columns.map((column : any) => {
-  
-    const matchingOverride = column.matchingOverride
-    matchingOverride?.columnName ? column.renderCell = 
-    
-    
-    (params: GridRenderCellParams<any>) =>  { 
+  columns.map((column: any) => {
+    const matchingOverride = column.matchingOverride;
+    matchingOverride?.columnName
+      ? (column.renderCell = (params: GridRenderCellParams<any>) => {
+          const matchingColorRecord =
+            column?.matchingOverride?.colorGenerator?.filter(
+              (record: any) => record.matchingValue == params.row[params.field]
+            )[0];
 
-      const matchingColorRecord = column?.matchingOverride?.colorGenerator?.filter((record : any) => record.matchingValue == params.row[params.field])[0]
-
-      const backgroundColor = matchingOverride?.backgroundColor 
-        ? matchingOverride?.backgroundColor 
-        : matchingColorRecord?.backgroundColor 
-          ? matchingColorRecord?.backgroundColor 
-          : props.useDarkMode 
-            ? "#ABACB0" 
+          const backgroundColor = matchingOverride?.backgroundColor
+            ? matchingOverride?.backgroundColor
+            : matchingColorRecord?.backgroundColor
+            ? matchingColorRecord?.backgroundColor
+            : props.useDarkMode
+            ? "#ABACB0"
             : "black";
 
-      const fontColor = matchingOverride?.fontColor
-        ? matchingOverride?.fontColor
-        : matchingColorRecord?.fontColor
-          ? matchingColorRecord?.fontColor
-            : "white"
+          const fontColor = matchingOverride?.fontColor
+            ? matchingOverride?.fontColor
+            : matchingColorRecord?.fontColor
+            ? matchingColorRecord?.fontColor
+            : "white";
 
+          return (
+            <>
+              {
+                // if component type is chip
 
-      
-      return (
-      <>
-    
-    {
-   
-    // if component type is chip
+                column?.matchingOverride?.componentType == "chip" ? (
+                  chipRender({
+                    backgroundColor: backgroundColor,
+                    label: params.row[params.field],
+                    testObj: params.field,
+                    fontColor: fontColor,
+                  })
+                ) : column?.matchingOverride?.componentType ==
+                  "squashedButtonGroup" ? (
+                  <SquashedBG
+                    options={
+                      column?.matchingOverride?.optionsList
+                        ? column.matchingOverride.optionsList.map(
+                            (option: any) => option.Value
+                          )
+                        : ["No options passed"]
+                    }
+                    onOptionSelect={(option: string) => {
+                      console.log("OPTIONNN", option);
+                      props.onOptionSelect(
+                        params.row.recordID,
+                        "selectedOption",
+                        option
+                      );
+                    }}
+                    width={column?.matchingOverride?.componentWidth || 150}
+                    height={column?.matchingOverride?.componentHeight || 50}
+                  />
+                ) : (
+                  <></>
+                )
+              }
+            </>
+          );
+        })
+      : null;
+  });
 
-    column?.matchingOverride?.componentType == 'chip' ? 
-    chipRender( {backgroundColor: backgroundColor, label: params.row[params.field], testObj: params.field,  fontColor: fontColor})
-    
-  
-    
-    : 
-    
-    column?.matchingOverride?.componentType == 'squashedButtonGroup' ?
-    <SquashedBG 
-      options={ 
-        column?.matchingOverride?.optionsList ? column.matchingOverride.optionsList.map((option : any) => option.Value ) : ["No options passed"]
-      }
-      onOptionSelect={
-        (option: string) => { console.log("OPTIONNN", option); props.onOptionSelect(params.row.recordID, "selectedOption", option)}
-      }
-      width = {column?.matchingOverride?.componentWidth || 150}
-      height = {column?.matchingOverride?.componentHeight || 50}
-    
-  /> : <></>
-
-    }
-    
-    </>) 
-    
-      
-    
-    
-  }
-  : null
-}
-
-
-)
-
-  console.log("COLUMNS AFTER APPENDING RENDER", columns)
-
-  
+  console.log("COLUMNS AFTER APPENDING RENDER", columns);
 
   const theme = createTheme({
     palette: {
@@ -155,58 +156,51 @@ const  DataTableComponent = (props: DataTableProps) => {
     },
   });
 
-
   console.log("ROWS IN DAT TAB: ", data);
-  console.log("COLS IN DAT TAB: ", columns)
+  console.log("COLS IN DAT TAB: ", columns);
 
   return (
-
-
-    
     <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <div style={
-        { 
-          height: props.height, 
-          width: props.width
-        }
-      }>
-        <DataGrid 
-        sx={
-          {
-            color: props.useDarkMode ? 'white' : 'black',
-            width: props.width - 16
-           
-          }
-        }
-        localeText={{
-          noRowsLabel: props.noRowsText ? props.noRowsText : "No results found"
+      <CssBaseline />
+      <div
+        style={{
+          height: props.height,
+          width: props.width,
         }}
-        disableMultipleRowSelection = {!props.allowSelectMultiple}
-        columnVisibilityModel={visibilityModel}
-        onColumnVisibilityModelChange={(newModel) => setVisibilityModel(newModel)}
-        rows={data}
-        columns={columns} 
-        checkboxSelection = {props.showCheckboxes}
-        hideFooter = {props.hideFooter}
-        initialState={{
-          columns: {
-            columnVisibilityModel: defaultVisibilityModel
+      >
+        <DataGrid
+          sx={{
+            color: props.useDarkMode ? "white" : "black",
+            width: props.width - 16,
+          }}
+          localeText={{
+            noRowsLabel: props.noRowsText
+              ? props.noRowsText
+              : "No results found",
+          }}
+          disableMultipleRowSelection={!props.allowSelectMultiple}
+          columnVisibilityModel={visibilityModel}
+          onColumnVisibilityModelChange={(newModel) =>
+            setVisibilityModel(newModel)
           }
-        }}
-        getRowHeight={(params) => 'auto'}
-        apiRef={apiRef}
-        onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}
-        getRowId={getRowId}
-        className = {props.classes}
+          rows={data}
+          columns={columns}
+          checkboxSelection={props.showCheckboxes}
+          hideFooter={props.hideFooter}
+          initialState={{
+            columns: {
+              columnVisibilityModel: defaultVisibilityModel,
+            },
+          }}
+          getRowHeight={(params) => "auto"}
+          apiRef={apiRef}
+          onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}
+          getRowId={getRowId}
+          className={props.classes}
         />
       </div>
     </ThemeProvider>
-    
-
-    
   );
-}
+};
 
- 
-export default DataTableComponent
+export default DataTableComponent;

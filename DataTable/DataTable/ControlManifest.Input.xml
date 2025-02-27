@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.15.168" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.15.169" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -33,6 +33,8 @@
 
 <!-- Input properties -->
         
+    <property name="READ ME LINK" display-name-key="READ ME LINK" of-type="SingleLine.Text" usage="input" default-value=""/>
+    
     <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Height'/>
         
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Width'/>
