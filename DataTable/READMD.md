@@ -14,7 +14,7 @@ This component utilizes the free version of MUI's DataGrid React Component. It s
 
 Standard data table state
 
-![Standard data table state](./images/Dark%20combo%20box%20demo%20single%20select%20empty%20state.png)
+![Standard data table state](./images/Standard%20Data%20table.png)
 
 
 ## Input Properties
