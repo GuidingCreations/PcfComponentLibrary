@@ -33,7 +33,7 @@
 
 <!-- Input properties -->
         
-    <property name="READ ME LINK" display-name-key="READ ME LINK" of-type="SingleLine.Text" usage="input" default-value=""/>
+    <property name="READ ME LINK" display-name-key="READ ME LINK" of-type="SingleLine.Text" usage="input" default-value="https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md"/>
     
     <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Height'/>
         
