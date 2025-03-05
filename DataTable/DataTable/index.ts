@@ -25,106 +25,117 @@ export class DataTable
   private outputValue: string = "";
   private compOutputObj: any = {};
   private inputSchema: string = "";
+  private tableColumns: any[] = [];
   private columnProperties: Record<string, JSONSchema4>;
   context: ComponentFramework.Context<IInputs>;
 
-  // Function to run whenever an option is selected from a split button rendered in data table, to update output properties based on selection
+  // Function to check if column visibility defaults have changed, and update local variable if so
 
-  onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
-    this.outputType = outputType;
-    this.outputValue = optionValue;
-    this.compOutputObj = this.getOutputObjectRecord(
-      this.context.parameters.tableData.records[recordID]
-    );
-    this.notifyOutputChanged();
-  };
+  updateColVisibility = () => {
+    
+    if (this.context.updatedProperties.indexOf("columnVisibility_dataset") > -1) {
 
-  // Function to update the selected records when useEffect is triggered from TSX
-
-  setSelectedRecords = (selectedRecordIDS: any[]) => {
-    this._selectedRecords = [];
-
-    // If there is 1 or more selected records, set the component selected records, otherwise clear selected records
-
-    if (selectedRecordIDS.length > 0) {
-      this.context.parameters.tableData.setSelectedRecordIds(selectedRecordIDS);
-    } else {
-      this.context.parameters.tableData.clearSelectedRecordIds();
-    }
-
-    this.notifyOutputChanged();
-  };
-
-  constructor() {}
-
-  public init(
-    context: ComponentFramework.Context<IInputs>,
-    notifyOutputChanged: () => void,
-    state: ComponentFramework.Dictionary
-  ): void {
-    this.notifyOutputChanged = notifyOutputChanged;
-    this.context = context;
+      
+      const colVis: any = {
+        recordID: false,
+      };
+  
+      this.context.parameters.columnVisibility.sortedRecordIds.map((recordID: any) => {
+        colVis[
+          this.context.parameters.columnVisibility.records[recordID].getFormattedValue(
+            "columnName"
+          )
+        ] =
+          this.context.parameters.columnVisibility.records[recordID].getValue(
+            "isVisible"
+          );
+      });
+      this._columnVisibility = colVis;
+  
+  
+      }
+    
   }
 
-  // Update view portion of component lifecycle. Called when any property is changed. Causes re-render.
+  // Function to check if column width defaults have changed, and update local variable if so
+  
+  updateColWidth = () => {
 
-  public updateView(
-    context: ComponentFramework.Context<IInputs>
-  ): React.ReactElement {
-    this.updateInputSchemaIfChanged();
+    if (this.context.updatedProperties.indexOf("columnWidthTable_dataset") > -1) {
+    
+      this._columnWidthTable = [];
 
-    // Set default column visibility properties
-
-    const colVis: any = {
-      recordID: false,
-    };
-
-    context.parameters.columnVisibility.sortedRecordIds.map((recordID: any) => {
-      colVis[
-        context.parameters.columnVisibility.records[recordID].getFormattedValue(
-          "columnName"
-        )
-      ] =
-        context.parameters.columnVisibility.records[recordID].getValue(
-          "isVisible"
-        );
-    });
-    this._columnVisibility = colVis;
-    console.log("COLUMN VISIBILITY OBJECT: ", colVis);
-
-    // Set page size to 2000. Temporary measure, will eventually include more advanced pagination.
-
-    context.parameters.tableData.paging.setPageSize(2000);
-
-    //  Populate Table data
-
-    this._tableData = populateDataset(context.parameters.tableData);
-
-    // Generate column width table from passed in prop
-
-    this._columnWidthTable = [];
-
-    context.parameters.columnWidthTable.sortedRecordIds.forEach((id) => {
+    this.context.parameters.columnWidthTable.sortedRecordIds.forEach((id) => {
       const objToAdd: any = {};
       objToAdd.columnName =
-        context.parameters.columnWidthTable.records[id].getFormattedValue(
+        this.context.parameters.columnWidthTable.records[id].getFormattedValue(
           "columnName"
         );
       objToAdd.columnWidth =
-        context.parameters.columnWidthTable.records[id].getFormattedValue(
+        this.context.parameters.columnWidthTable.records[id].getFormattedValue(
           "columnWidth"
         );
 
       this._columnWidthTable.push(objToAdd);
     });
 
-    // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
+  }
+}
 
+  // Function to run whenever an option is selected from a split button rendered in data table, to update output properties based on selection
+
+  onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
+    
+    this.outputType = outputType;
+    this.outputValue = optionValue;
+    
+    this.compOutputObj = this.getOutputObjectRecord(
+    
+      this.context.parameters.tableData.records[recordID]
+    
+    );
+
+    this.notifyOutputChanged();
+  
+  };
+
+  // Function to update the selected records when useEffect is triggered from TSX
+
+  setSelectedRecords = (selectedRecordIDS: any[]) => {
+
+    this._selectedRecords = [];
+
+    // If there is 1 or more selected records, set the component selected records, otherwise clear selected records
+
+    if (selectedRecordIDS.length > 0) {
+      
+      this.context.parameters.tableData.setSelectedRecordIds(selectedRecordIDS);
+    
+    } else {
+    
+
+      this.context.parameters.tableData.clearSelectedRecordIds();
+
+    }
+
+    this.notifyOutputChanged();
+  };
+
+
+  updateTableData = () => {
+
+    if (this.context.updatedProperties.indexOf("dataset") > -1) {
+
+      this._tableData = populateDataset(this.context.parameters.tableData);
+    
+      // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
+
+      
     const tableColumns: GridColDef<typeof this._tableData>[] = [];
 
     // Start loop through columns
 
-    context.parameters.tableData.columns.map((column) => {
+    this.context.parameters.tableData.columns.map((column) => {
       // Search for matching record in column width table
 
       const matchingObjs = this._columnWidthTable.filter((columnFilter) => {
@@ -141,9 +152,9 @@ export class DataTable
       // Generate columnOverrides table from dataset
       this._columnOverrides = [];
 
-      context.parameters.columnOverrides.sortedRecordIds.forEach(
+      this.context.parameters.columnOverrides.sortedRecordIds.forEach(
         (recordID: any) => {
-          const _record = context.parameters.columnOverrides.records[recordID];
+          const _record = this.context.parameters.columnOverrides.records[recordID];
 
           const acceptableFields = [
             "columnName",
@@ -159,7 +170,7 @@ export class DataTable
 
           const recordToAdd: any = {
             recordID:
-              context.parameters.columnOverrides.records[
+              this.context.parameters.columnOverrides.records[
                 recordID
               ].getRecordId(),
           };
@@ -195,10 +206,65 @@ export class DataTable
     });
 
     tableColumns.push({ field: "recordID", headerName: "recordID", width: 50 });
+    this.tableColumns = tableColumns
+
+    }
+
+
+  }
+
+  constructor() {}
+
+  public init(
+    context: ComponentFramework.Context<IInputs>,
+    notifyOutputChanged: () => void,
+    state: ComponentFramework.Dictionary
+  ): void {
+    this.notifyOutputChanged = notifyOutputChanged;
+    this.context = context;
+  }
+
+  // Update view portion of component lifecycle. Called when any property is changed. Causes re-render.
+
+  public updateView(
+  
+    context: ComponentFramework.Context<IInputs>
+  
+  ): React.ReactElement {
+    
+    this.updateInputSchemaIfChanged();
+
+    // Set default column visibility properties
+
+    this.updateColVisibility()
+    
+    // Set page size to 2000. Temporary measure, will eventually include more advanced pagination.
+
+    if ( context.parameters.tableData.paging.pageSize !== 2000 ) {
+
+      context.parameters.tableData.paging.setPageSize(2000);
+    
+    }
+
+
+    // Set default column width props
+
+    this.updateColWidth()
+    
+    console.log("UPDATED PROPS: ", context.updatedProperties)
+    
+    //  Populate Table data
+
+   this.updateTableData()
+
+
+    
+
+
 
     const props: DataTableProps = {
       tableData: this._tableData,
-      tableColumns: tableColumns,
+      tableColumns: this.tableColumns,
       height: context.parameters.containerHeight.raw || 500,
       width: context.parameters.containerWidth.raw || 500,
       setSelectedRecords: this.setSelectedRecords,

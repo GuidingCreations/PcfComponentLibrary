@@ -52,15 +52,13 @@ export interface DataTableProps {
 }
 
 const DataTableComponent = (props: DataTableProps) => {
-  const [defaultVisibilityModel, setDefaultVisibilityModel] = useState<any>(
-    props.columnVisibility
-  );
+  console.log("DEFAULT VISIBILITY MODEL: ", props.columnVisibility)
+  
   const [visibilityModel, setVisibilityModel] = useState<any>(
     props.columnVisibility
   );
 
-  if (props.columnVisibility != defaultVisibilityModel) {
-    setDefaultVisibilityModel(props.columnVisibility);
+  if (props.columnVisibility != visibilityModel) {
     setVisibilityModel(props.columnVisibility);
   }
 
@@ -156,9 +154,6 @@ const DataTableComponent = (props: DataTableProps) => {
     },
   });
 
-  console.log("ROWS IN DAT TAB: ", data);
-  console.log("COLS IN DAT TAB: ", columns);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -171,8 +166,9 @@ const DataTableComponent = (props: DataTableProps) => {
         <DataGrid
           sx={{
             color: props.useDarkMode ? "white" : "black",
-            width: props.width - 16,
+            width: props.fullWidth ? '100%' : props.width,
           }}
+          
           localeText={{
             noRowsLabel: props.noRowsText
               ? props.noRowsText
@@ -189,7 +185,7 @@ const DataTableComponent = (props: DataTableProps) => {
           hideFooter={props.hideFooter}
           initialState={{
             columns: {
-              columnVisibilityModel: defaultVisibilityModel,
+              columnVisibilityModel: visibilityModel,
             },
           }}
           getRowHeight={(params) => "auto"}

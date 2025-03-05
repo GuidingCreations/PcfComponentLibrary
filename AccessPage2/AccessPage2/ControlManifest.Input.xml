@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="AccessPage" version="0.3.202" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="AccessPage" version="0.3.219" display-name-key="AccessPage" description-key="AccessPage description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -32,7 +32,12 @@
     <property name="containerHeight" display-name-key = "containerHeight" of-type="Whole.None" usage="input" pfx-default-value ='Self.Height'/>
     <property name="useTestData" display-name-key = "useTestData" of-type= "TwoOptions" usage="input" default-value = "false"/>
 
-   
+   <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output" hidden="false" default-value="App.ActiveScreen.Name"/>
+  <property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output" hidden="false" default-value=""/>
+  <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" hidden="false" default-value = "App.ActiveScreen.Name"/>
+  <property name="userImage" display-name-key="userImage" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
+  <property name="userName" display-name-key="userName" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
+  <property name="iconColor" display-name-key="iconColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
 
     <event name="onDeleteUsersFromGroup"
    pfx-default-value=''

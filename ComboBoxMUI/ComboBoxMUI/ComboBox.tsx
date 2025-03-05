@@ -35,6 +35,7 @@ export interface ComboBoxProps {
   isDisabled: boolean;
   className?: string;
   searchText?: string
+  handleNewHeight?: (newHeight: number) => void
 }
 
 
@@ -50,7 +51,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   const elementRef = useRef<any>(null)
   const autoRef = useRef<any>(null);
   const [selectedValues, setSelectedValues] = useState<any[]>([])
-  const height = useRef(65)
+  const [height, setHeight] = useState(65)
   const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
   const searchText = useRef<string>('')
 
@@ -69,14 +70,16 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
   useEffect(() => {
 
+    console.log("AUTO REF FROM USE EFF: ", autoRef.current)
 
     if (autoRef.current) {
-    
-      height.current = autoRef.current.getBoundingClientRect().height
-    
+    console.log("UPDATING AUTO REF HEIGHT")
+    setHeight(autoRef.current.getBoundingClientRect().height)
+
     }
     
-        props.setSelectedRecords(selectedValues, height.current)
+    console.log("HEIGHT: ", height)
+        props.setSelectedRecords(selectedValues,   height)
 
   }, [selectedValues])
 
@@ -165,8 +168,12 @@ Formula for evaluating whether the default values have changed. Returns true if 
     if( compareDefaults() ) {
 
       setDefaultValues(props.defaultValues);
-      setSelectedValues(props.defaultValues);
-      props.setSelectedRecords(selectedValues, height.current)
+
+      if (props.defaultValues != selectedValues) {
+        console.log( "TRIGGERING UPDATE FROM COMBO BOX DEFAULTS WITH ", props.defaultValues, " ", selectedValues)
+        setSelectedValues(props.defaultValues);
+        props.setSelectedRecords(selectedValues, height)
+      }
 
     }
 
@@ -205,7 +212,7 @@ Formula for evaluating whether the default values have changed. Returns true if 
               borderWidth: props.borderWidth,
               borderColor: props.borderColor,
             },
-            height:  `${props.height}px`
+            height:  `fit-content`
           }
         }
       }
@@ -217,6 +224,7 @@ Formula for evaluating whether the default values have changed. Returns true if 
   
   const handleMultiOptionSelect = (e : any, value : any[]) => {
 
+    console.log("TRIGGERED MULT OPTION SELEC")
       setSelectedValues(value)
 }
 
@@ -230,7 +238,7 @@ const handleSingleOptionSelect = (e: any, value: any) => {
   } else {
 
     setSelectedValues([value]);
-    props.setSelectedRecords(selectedValues, height.current)
+    props.setSelectedRecords(selectedValues, height)
 
   }
 }
@@ -251,10 +259,23 @@ const filterOptions = {
 
 
 const displayColumn = props.displayColumn
+console.log("AUTO REF", autoRef.current)
+if ( renderCountRef.current > 1) {
+
+  console.log("PROP HEIGHT: ", height,  props.height, autoRef.current.getBoundingClientRect().height)
+}
+
+useEffect(() => {
+  const renderHeight : any = autoRef.current.getBoundingClientRect().height
+  console.log("render load height: ", renderHeight);
+  if (props.height != renderHeight && props.handleNewHeight) {
+    props.handleNewHeight(renderHeight)
+  }
+})
 
 return (
 
-    <div  style={{position: "relative", height: "auto", minHeight: '100%', width: props.width}}>
+    <div  style={{position: "relative",  width: props.width}} ref = {autoRef}>
 {
 
 
@@ -267,12 +288,18 @@ return (
       disabled = {props.isDisabled}
       value={ selectedValues}
       options={optionsList}
+      sx={{height: props.height}}
       className={props.className}
       filterOptions={createFilterOptions(filterOptions)}
       defaultValue={multDefaults}
       isOptionEqualToValue={(option, value) => {console.log("OPTION, ", option, " value, ", value); return option[displayColumn] == value[displayColumn]}}
       disableCloseOnSelect
-      ref = {autoRef}
+      onInputChange={(e: any) => {
+        if (e?.target) {
+          console.log("E, ", e); 
+          handleSearchTextChange(e.target.value)
+        }
+      }}
       getOptionLabel={(option : any) => option[displayColumn]}
       renderOption={(props, option : any, { selected }) => {
         const { key, ...optionProps } = props;
@@ -303,7 +330,13 @@ return (
 <Autocomplete
  
   onChange={handleSingleOptionSelect}
-  onInputChange={(e: any) => { handleSearchTextChange(e.target.value)}}
+  onInputChange={(e: any) => {
+    if (e?.target) {
+
+      console.log("E, ", e); 
+      handleSearchTextChange(e.target.value)
+    }
+  }}
   disabled = {props.isDisabled}
   options={optionsList}
   value={selectedValues[0] || null}
@@ -311,7 +344,6 @@ return (
   getOptionLabel={(option : any) => option[displayColumn]}
   className = {props.className}
   isOptionEqualToValue={(option, value) => option[displayColumn] == value[displayColumn]}
-  ref = {autoRef}
   renderOption={(props, option : any, { selected }) => {
     const { key, ...optionProps } = props;
     return (

@@ -21,7 +21,7 @@
     "@mui/icons-material": "^6.4.5",
     "@mui/material": "^6.4.5",
     "@mui/styled-engine-sc": "^6.4.3",
-    "@mui/x-data-grid": "^7.26.0",
+    "@mui/x-data-grid": "^7.27.2",
     "async-lock": "^1.4.1",
     "react-dom": "^18.3.1"
   },

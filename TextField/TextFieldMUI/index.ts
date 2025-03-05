@@ -43,6 +43,7 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
      * @returns ReactElement root react element for the control
      */
         public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+            console.log("TEXT FIELD MUI UPDATE TRIGGERED")
         const props : TextInputProps = { 
             updateOutput: this.updateOutputValue,
             darkMode: context.parameters.useDarkMode.raw || false,

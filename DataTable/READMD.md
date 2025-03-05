@@ -34,5 +34,7 @@ Selected Data table state
     }
 ]
 
+- columnVisibility: this dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default column visibility. Each record of the visibilityModel
+
 ## Output properties
 

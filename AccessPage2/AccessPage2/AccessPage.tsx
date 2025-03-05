@@ -7,6 +7,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTableComponent from "../../DataTable/DataTable/DataTable";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
+import Stack from "@mui/material/Stack";
+import ComboBox from "../../ComboBoxMUI/ComboBoxMUI/ComboBox";
+import { createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import Button from '../../Button/Button/Button'
 
 export interface AccesPageProps {
   Users: any[];
@@ -25,13 +30,8 @@ export interface AccesPageProps {
   addOwnerToGroup: () => void
   handleDataTableSelection: (recordIDs: any[]) => void
   handleDeleteUsers: () => void
+  handleNewScreenSelection: (newScreenName: string) => void
 }
-
-import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
-import Stack from "@mui/material/Stack";
-import ComboBox from "../../ComboBoxMUI/ComboBoxMUI/ComboBox";
-import { createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
-import Button from '../../Button/Button/Button'
 
 const HelloWorld = (props: AccesPageProps) => {
   
@@ -85,7 +85,6 @@ const HelloWorld = (props: AccesPageProps) => {
 
   // Establish states
   
-  const [isLoading, setIsLoading] = useState(true);
   const [userSearchText, setUserSearchText] = useState<string>('');
   const [selectedUser, setSelectedUser] = useState<any>( null);
   const [changeType, setChangeType] = useState<string>('');
@@ -209,12 +208,14 @@ const HelloWorld = (props: AccesPageProps) => {
   const rows = props.columns.length > 0 ? props.Users : testRows;
   const columns = props.columns.length > 0 ? props.columns : testCols;
 
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-  const checkedIcon = <CheckBoxIcon fontSize="small" />;
   const screenSize = determineScreenSize()
-  console.log("ROWS IN ACC: ", rows);
-  console.log("COLS in ACC: ", columns);
-  console.log("ACCESS PAGE PROPS: ", props)
+
+  const handleAddUser = () => {
+    
+    changeType == "Member" ?  props.addMemberToGroup() : props.addOwnerToGroup();
+    setShowAddUserForm(false);
+  
+  }
   
   return (
     
@@ -294,7 +295,7 @@ const HelloWorld = (props: AccesPageProps) => {
                     ButtonText="Add user"
                     useDarkMode
                     isDisabled = {false}
-                    onClick={() => { console.log("ADDING NEW MEM: "), changeType == '' ? alert('Access type is required') :  changeType == "Member" ?  props.addMemberToGroup() : props.addOwnerToGroup() }}
+                    onClick={() => { handleAddUser() }}
                     size = "medium"
                     typeVariant="contained"
                     className="flex-grow"
@@ -332,8 +333,8 @@ const HelloWorld = (props: AccesPageProps) => {
                   console.log("TOGGLE");
                 }}
                 navItems={props.navItems}
-                adjustScreenName={() => console.log("SCREEN ADJUST")}
-                changeScreen={() => console.log("CHANGE SCREEN")}
+                adjustScreenName={(newScreenName: string) => {console.log("clicked new screen"); props.handleNewScreenSelection(newScreenName)}}
+                changeScreen={() => {}}
                 userImage=""
                 userName="HUNTER MCCARTHY"
                 iconColor="white"

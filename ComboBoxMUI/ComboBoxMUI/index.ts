@@ -25,6 +25,14 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
     context: ComponentFramework.Context<IInputs>
 
 
+    handleHeightChange = (newHeight: number) => {
+
+        console.log("NEW HEIGHT: ", newHeight)
+        this._outputHeight = newHeight
+        this.notifyOutputChanged()
+
+    }
+
     handleSearchTextChange = (searchText: string) => {
         console.log("UPDATING SEARCH TEXT OUTPUT")
         this._searchText = searchText
@@ -36,6 +44,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     setSelectedRecords = (selectedRecords: any[], outputHeight: number) => {
 
+        console.log("SELECTED RECORDS TRIGGERED FROM COMBO BOX MUI. SEL RECS: ", selectedRecords, " outputHeight: ", outputHeight)
         const displayColumn = this.context.parameters.displayField.raw || 'label'
         console.log("DISPLAY COLUMNN: ", displayColumn)
         console.log("TRIGGERED SELECTED RECORDS INDEX.TS COMBOBOX MUI ")
@@ -51,18 +60,19 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
             // Loop through the selected records from tsx and search the passed in table for matching id, then append the matching id to arrSelected 
 
-            const arrSelected : any[] = [];            
+            const arrSelected : any[] = [];  
+
             selectedRecords.map((selectedRecord : any) => {
-                
-                const value = selectedRecord.label
+                const displayField = this.context.parameters.displayField.raw || 'label'
+                const value = selectedRecord[displayField]
                 console.log("VALUE FROM MAP", value)   ;
                 console.log("LOOP THROUGH ITEMS", this._items)
                 this._items.map((record) => {
                 
-                    console.log("COMPARING ", value, " to ", record.label)
-                if (value == record.label) {
-                    console.log("MATCHED VALUE!")
-                    arrSelected.push(record.id)
+                    console.log("COMPARING ", value, " to ", record[displayField])
+                if (value == record[displayField]) {
+                    console.log("MATCHED VALUE!", "SEL: ", selectedRecord, "REC: ", record)
+                    arrSelected.push(selectedRecord.recordID)
             
                 } else {
                     console.log("VALUE NOT MATCHED")
@@ -78,8 +88,14 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
         console.log("SETTING SELECTED RECORDS COMBO BOX MUI WITH ", arrSelected)
         this.context.parameters.Items.setSelectedRecordIds(arrSelected)
-        console.log("NEW COMP SELECTED VALUE COMBO BOX MUI ", this.context.parameters.Items.getSelectedRecordIds)
+        console.log("NEW COMP SELECTED VALUE COMBO BOX MUI ", this.context.parameters.Items.getSelectedRecordIds())
         this._outputHeight = outputHeight;
+        if (! this._searchText) {
+            console.log("SETTING NEW SEARCH TEXT TO BLANK")
+            this._searchText = ""
+        }
+        console.log("TRIGGERING NOTIFY OUTPUT CHANGED COMBO BOX MUI", this._outputHeight) 
+        console.log("SEARCH TEXT: ", this._searchText)
         this.notifyOutputChanged()
 
     } else {
@@ -87,7 +103,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 // If selected records array is empty, update the output properties directly
 
         this._outputHeight = outputHeight
-        this.context.parameters.Items.setSelectedRecordIds([]);
+        this.context.parameters.Items.clearSelectedRecordIds();
         this.notifyOutputChanged()
     
     }
@@ -109,13 +125,22 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        console.log("UPDATED PROPS: ", context.updatedProperties)
+
 // Set max page size to 2000
 
-        context.parameters.Items.paging.setPageSize(2000);
+        if (context.parameters.Items.paging.pageSize != 2000) {
+
+            context.parameters.Items.paging.setPageSize(2000);
+        }
         
 // Loop through table items and create an object with properties of label and id for each item
 
-        this._items = populateDataset(this.context.parameters.Items)
+        if (context.updatedProperties.indexOf("dataset") > -1) {
+
+            console.log("UPDATING DATASET in ComboBoxMUI")
+            this._items = populateDataset(this.context.parameters.Items)
+        }
 
 // Loop through defaults items passed from power apps and create objects with schema that will match the format from above
 
@@ -124,10 +149,12 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
                 this._defaultSelectedItems = []
 
                 this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
-                    const valueToAdd : any = {
-                        label: context.parameters.DefaultSelectedItems.records[item].getFormattedValue(context.parameters.displayField.raw ||"label"),
-                        id: context.parameters.DefaultSelectedItems.records[item].getRecordId()
-                    }
+                    const valueToAdd : any = {}
+                    
+                        valueToAdd[context.parameters.displayField.raw || "label"] = context.parameters.DefaultSelectedItems.records[item].getFormattedValue(context.parameters.displayField.raw ||"label");
+
+                        valueToAdd.recordID = context.parameters.DefaultSelectedItems.records[item].getRecordId()
+                    
                         this._defaultSelectedItems.push(valueToAdd)
                     
                     
@@ -135,7 +162,10 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
                 })
             }
 
-            updateDefaultSelectedValues();
+            if (context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1){
+
+                updateDefaultSelectedValues();
+            }
 
 // Establish props
 
@@ -145,7 +175,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             Items: this._items,
             labelText: context.parameters.labelText.raw || "Label",
             width: context.parameters.containerWidth.raw || 300,
-            height: context.parameters.containerHeight.raw || 40,
+            height: context.parameters.containerHeight.raw || 50,
             allowSelectMultiple: context.parameters.AllowMultipleSelect.raw || false,
             setSelectedRecords: this.setSelectedRecords.bind(this),
             handleNewUserSearchText: this.handleSearchTextChange,
@@ -156,6 +186,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             borderWidth: context.parameters.borderWidth.raw || "1px",
             backgroundColor: context.parameters.backgroundColor.raw || '',
             isDisabled: context.parameters.isDisabled.raw || false,
+            handleNewHeight: this.handleHeightChange
         }
 
         console.log("PROPS - ComboBoxMUI", props)

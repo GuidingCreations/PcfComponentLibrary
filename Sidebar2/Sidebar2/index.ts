@@ -1,15 +1,15 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import SidebarTW, {SidebarProps} from "./Sidebar";
 import * as React from "react";
-
+import {populateDataset} from '../../utils'
 
 
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutputs> {
-    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     context: ComponentFramework.Context<IInputs>;
+    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
     public _compDarkMode : boolean = true;
     public _defaultDarkMode: boolean;
@@ -19,9 +19,11 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
 
 
     updateScreenName = (newScreenName: string) => {
+
         this._outputScreenName = newScreenName
         this._changeType = "screen"
         this.notifyOutputChanged()
+    
     }
 
     toggleMode = (newValue: boolean) => {
@@ -29,6 +31,13 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
         this._changeType = "toggle"
         this.notifyOutputChanged()
     }
+
+    updateNavItems = () => {
+        if (this.context.updatedProperties.indexOf("dataset") > -1) {
+            this._navItems = populateDataset(this.context.parameters.navItems)
+        }
+    }
+
     /**
      * Empty constructor.
      */
@@ -60,22 +69,22 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
 
         
 
-        // Loop through data source to populate the nav items data
-        this._navItems = []
+        // // Loop through data source to populate the nav items data
+        // this._navItems = []
         
-        context.parameters.navItems.sortedRecordIds.forEach( (record) => {
-            const objToAdd : any = {};
-            objToAdd.screenName = context.parameters.navItems.records[record].getFormattedValue("screenName");
-            objToAdd.svgData = context.parameters.navItems.records[record].getFormattedValue("svgData");
-            objToAdd.children = context.parameters.navItems.records[record].getValue("children");
-            objToAdd.isExpanded = false;
-            this._navItems.push(objToAdd)
+        // context.parameters.navItems.sortedRecordIds.forEach( (record) => {
+        //     const objToAdd : any = {};
+        //     objToAdd.screenName = context.parameters.navItems.records[record].getFormattedValue("screenName");
+        //     objToAdd.svgData = context.parameters.navItems.records[record].getFormattedValue("svgData");
+        //     objToAdd.children = context.parameters.navItems.records[record].getValue("children");
+        //     objToAdd.isExpanded = false;
+        //     this._navItems.push(objToAdd)
             
-        }
+        // }
     
-    )
+    //)
         
-        
+      this.updateNavItems();  
 
 
         const props : SidebarProps = {
@@ -109,8 +118,8 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
     public getOutputs(): IOutputs {
         return {
             outputScreenName: this._outputScreenName,
-            darkModeEnabled: this._compDarkMode,
-            changeType: this._changeType
+            changeType: this._changeType,
+            darkModeEnabled: this._compDarkMode
         };
     }
 

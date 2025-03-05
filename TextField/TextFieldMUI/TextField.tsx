@@ -61,7 +61,7 @@ export default function TextInput(props : TextInputProps) {
   // On each render, check if the output value is less than the minimum length, and set isErrored if true. This is because component can re-render when a new minimum length is passed in, and the error state would not be updated otherwise
   
   
-  if (props.defaultValue != defaultValue && props.defaultValue != '') {
+  if (props.defaultValue != defaultValue) {
     setDefaultValue(props.defaultValue);
     setTextValue(props.defaultValue)
     setNewText(props.defaultValue)
@@ -197,7 +197,7 @@ export default function TextInput(props : TextInputProps) {
 
 
 
-console.log("PROPS IN TEXT FIELD", props)
+console.log("TEXT FIELD MUI PROPS IN TSX", props)
 
   return (
 

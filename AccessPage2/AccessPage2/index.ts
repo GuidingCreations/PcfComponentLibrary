@@ -6,7 +6,6 @@ import * as React from "react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { GridColDef } from '@mui/x-data-grid';
 import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
-import { PublicClientApplication } from "@azure/msal-browser";
 import HelloWorld, {AccesPageProps} from "./AccessPage";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -28,13 +27,24 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
     private _navItems: any[] = [];
     private _userSearchText : string = ''
     private _selectedRecords: any[] = []
+    private _outputScreenName = "";
+    private _changeType : string = "";
+
+
+    updateScreenName = (newScreenName: string) => {
+
+        console.log("Sidebar2 Triggered update screen name")
+        this._outputScreenName = newScreenName
+        this._changeType = "screen"
+        this.notifyOutputChanged()
     
+    }
     // Fields that will be mapped through to populate group owners array (at the time of writing this, only the first dataset in PCF populates column info, so can't populate it through util as normal)
 
     private userFields : any[] =  [
         {
             field: "displayName",
-            align: "center",
+            align: "left",
             headerName: "displayName",
             display: 'flex',
             headerAlign: 'center',
@@ -102,7 +112,7 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
         
         // Map through sorted record IDs, with inner map to user fields
 
-        this.context.parameters.groupOwners.sortedRecordIds.map( (recordID) => {
+        this.context.parameters.groupOwners.sortedRecordIds.map( (recordID : any) => {
 
             const recordToAdd : any = {}
             
@@ -120,7 +130,6 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     }   
     
-
     // Populate group members
 
     private getGroupMembers = () => {
@@ -181,12 +190,14 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     private handleDataTableSelection = (selectedRecordIDs: any[]) => {
 
+        console.log("HANDLE DATA TABLE SELECTION TRIGGERED WITH: ", selectedRecordIDs)
 
         const ownerIDs : any[] = []
         const memberIDs: any[] = []
 
         selectedRecordIDs.map((recordID) => {
 
+            
             // Will search for selected record id in owners list, if not found then they are member by default
 
 
@@ -241,6 +252,75 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     }
 
+    private updateNavItems = () => {
+        
+        if (this.context.updatedProperties.indexOf("navItems_dataset") > -1) {
+            
+            console.log("TRIGGERED UPDATE NAV ITEMS")
+            this._navItems = [];
+
+             // Generate sidebar items
+        
+        this.context.parameters.navItems.sortedRecordIds.forEach( (record) => {
+            const objToAdd : any = {};
+            objToAdd.screenName = this.context.parameters.navItems.records[record].getFormattedValue("screenName");
+            objToAdd.svgData = this.context.parameters.navItems.records[record].getFormattedValue("svgData");
+            objToAdd.children = this.context.parameters.navItems.records[record].getValue("children");
+            objToAdd.isExpanded = false;
+            this._navItems.push(objToAdd)
+            
+        }
+    
+    )
+
+        }
+    }
+
+    updateGroupUsers = () => {
+        
+        
+        if (this.context.updatedProperties.indexOf("dataset") > -1 || this.context.updatedProperties.indexOf("groupOwners_dataset") > -1) {
+            
+            console.log("triggered update group users")
+            
+            // Populate owners and members, then mash them together into one table for data grid
+    
+            this.allUsers = [];
+                
+            this.getGroupOwners();
+        
+            this.getGroupMembers();
+
+            this.allUsers = this.groupOwners.concat(this.groupMembers)
+       
+        }
+    }
+
+    updateUserList = () => {
+
+        if (this.context.updatedProperties.indexOf("usersList_dataset") > -1) {
+            
+            console.log("TRIGGERED UPDATE USER LIST")
+
+            this._usersList = []
+        
+       
+            // Generate user list (to be used in combo box on add user section as a list of users to choose from)
+    
+            this.context.parameters.usersList.sortedRecordIds.map((recordID) => {
+    
+                const userToAdd : any = {}
+                const userName = `${this.context.parameters.usersList.records[recordID].getValue("GivenName")} ${this.context.parameters.usersList.records[recordID].getValue("Surname")}`
+                const userMail = this.context.parameters.usersList.records[recordID].getValue("Mail")
+                userToAdd.label = userName
+                userToAdd.Mail =  userMail
+                userToAdd.recordID = this.context.parameters.usersList.records[recordID].getRecordId()
+                userToAdd.id = this.context.parameters.usersList.records[recordID].getFormattedValue('Id')
+                this._usersList.push(userToAdd)
+            })
+        }
+
+    }
 
     constructor() {
     }
@@ -256,45 +336,14 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-       
-        this.allUsers = []
-        this._navItems = []
-        this._usersList = []
-        
-        // Generate sidebar items
-        
-        context.parameters.navItems.sortedRecordIds.forEach( (record) => {
-            const objToAdd : any = {};
-            objToAdd.screenName = context.parameters.navItems.records[record].getFormattedValue("screenName");
-            objToAdd.svgData = context.parameters.navItems.records[record].getFormattedValue("svgData");
-            objToAdd.children = context.parameters.navItems.records[record].getValue("children");
-            objToAdd.isExpanded = false;
-            this._navItems.push(objToAdd)
-            
-        }
-    
-    )
-        // Populate owners and members, then mash them together into one table for data grid
-        
-        this.getGroupOwners();
-        
-        this.getGroupMembers();
-       
-        this.allUsers = this.groupOwners.concat(this.groupMembers)
-       
-        // Generate user list (to be used in combo box on add user section as a list of users to choose from)
 
-        context.parameters.usersList.sortedRecordIds.map((recordID) => {
+        console.log("UPDATE VIEW TRIGGERED IN AccessPage", context.updatedProperties)
+       
+        
+        this.updateNavItems();
+        this.updateGroupUsers();
+        this.updateUserList();
 
-            const userToAdd : any = {}
-            const userName = `${context.parameters.usersList.records[recordID].getValue("GivenName")} ${context.parameters.usersList.records[recordID].getValue("Surname")}`
-            const userMail = context.parameters.usersList.records[recordID].getValue("Mail")
-            userToAdd.label = userName
-            userToAdd.Mail =  userMail
-            userToAdd.recordID = context.parameters.usersList.records[recordID].getRecordId()
-            userToAdd.id = context.parameters.usersList.records[recordID].getFormattedValue('Id')
-            this._usersList.push(userToAdd)
-        })
 
         const cols : GridColDef<typeof this.userFields>[] = this.userFields       
         const props: AccesPageProps = { 
@@ -314,7 +363,8 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             addOwnerToGroup: this.handleAddOwnerToGroup,
             addMemberToGroup: this.handleAddMemberToGroup,
             handleDataTableSelection: this.handleDataTableSelection,
-            handleDeleteUsers: this.handleDeleteUsers
+            handleDeleteUsers: this.handleDeleteUsers,
+            handleNewScreenSelection: this.updateScreenName
 
         };
         
@@ -328,19 +378,14 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
     public getOutputs(): IOutputs {
 
         const outputs = {
+            outputScreenName: this._outputScreenName,
+            changeType: this._changeType,
             selectedNewUserMail: this._newUserMail,
             selectedNewUserID: this._newUserID,
             userSearchString: this._userSearchText        
         };
 
-
-            console.log("TYPE OF USER SEARCH TEXT: ", typeof this._userSearchText)
-        console.log("OUTPUTS FROM ACCESS PAGE INDEX.TS : ", outputs)
-        return {
-            selectedNewUserMail: this._newUserMail,
-            selectedNewUserID: this._newUserID,
-            userSearchString: this._userSearchText
-        };
+        return outputs
 
         
     }
@@ -349,3 +394,4 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     }
 }
+
