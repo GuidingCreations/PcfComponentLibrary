@@ -23,7 +23,8 @@ export interface AccesPageProps {
   headerText: string;
   usersList: any[];
   useTestData: boolean;
-  userSearchText: string
+  userSearchText: string;
+  onOptionSelected: (optionText: string) => void
   handleNewUserSearchText: (newSearchText: string) => void;
   handleNewUserSelection : (newUser: any) => void
   addMemberToGroup: () => void
@@ -385,7 +386,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   pageSize={2000}
                   pageNumber={1}
                   totalRowCount={2000}
-                  onOptionSelect={() => console.log("hi")}
+                  onOptionSelect={(optionText: string) => props.onOptionSelected(optionText)}
                   columnVisibility={{id: false}}
                   hideFooter={false}
                   showCheckboxes={true}

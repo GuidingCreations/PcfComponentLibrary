@@ -29,7 +29,14 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
     private _selectedRecords: any[] = []
     private _outputScreenName = "";
     private _changeType : string = "";
+    private _optionText : string = ''
 
+    // Function to fire when an option from a split button group (custom rendered in the data table) is selected
+
+    onOptionSelected = (optionText: string) => {
+        console.log("ACCESS PAGE TRIGGERED onOptionSelected with optionText: ", optionText);
+        this.context.events.onOptionSelected()
+    }
 
     updateScreenName = (newScreenName: string) => {
 
@@ -358,6 +365,7 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             usersList: this._usersList,
             useTestData: context.parameters.useTestData.raw,
             userSearchText: this._userSearchText,
+            onOptionSelected: this.onOptionSelected,
             handleNewUserSearchText: this.handleNewSearchText,
             handleNewUserSelection: this.handleNewUserSelection,
             addOwnerToGroup: this.handleAddOwnerToGroup,
