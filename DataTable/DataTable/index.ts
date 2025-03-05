@@ -86,6 +86,7 @@ export class DataTable
 
   onOptionSelect = (recordID: any, outputType: string, optionValue: string) => {
     
+    console.log("DATA TABLE - On option select triggered")
     this.outputType = outputType;
     this.outputValue = optionValue;
     
@@ -95,8 +96,15 @@ export class DataTable
     
     );
 
+
     this.notifyOutputChanged();
-  
+
+    setTimeout(() => {
+      
+      this.context.events.onOptionSelected()
+      
+    }, 500);
+
   };
 
   // Function to update the selected records when useEffect is triggered from TSX

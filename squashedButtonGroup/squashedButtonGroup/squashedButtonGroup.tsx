@@ -35,7 +35,7 @@ const SquashedBG = (props: squashedBgProps) => {
   const selectedIndex = useRef<number>(0);
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex.current]}`);
+    console.info(`You clicked ${optionsList[selectedIndex.current]}`);
     props.onOptionSelect(optionsList[selectedIndex.current])
 
   };
