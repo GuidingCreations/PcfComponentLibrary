@@ -2,15 +2,15 @@
 
 import * as React from 'react';
 import { createFilterOptions } from '@mui/material/Autocomplete';
+import { useEffect, useRef, useState } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useEffect, useRef } from 'react';
-import useState from 'react-usestateref'
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
@@ -46,17 +46,12 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
   // Create refs / states (we need ref for render count since pcf components don't pass in tabular data on first render)
 
-  const renderCountRef = useRef(0);
-  renderCountRef.current++;
-  const elementRef = useRef<any>(null)
+  
   const autoRef = useRef<any>(null);
   const [selectedValues, setSelectedValues] = useState<any[]>([])
   const [height, setHeight] = useState(65)
   const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
   const searchText = useRef<string>('')
-
-  console.log("RENDER COUNT ComboBoxMUI", renderCountRef.current)
-
 
   const handleSearchTextChange = (newSearchText: string) => {
   
@@ -65,12 +60,12 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   
   }
 
-
   //Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
 
   useEffect(() => {
 
-    console.log("AUTO REF FROM USE EFF: ", autoRef.current)
+
+    console.log("ComboBoxMui triggered useEFfect hook with [selectedValues] dependency array with auto ref of: ", autoRef.current)
 
     if (autoRef.current) {
     console.log("UPDATING AUTO REF HEIGHT")
@@ -78,7 +73,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
     }
     
-    console.log("HEIGHT: ", height)
+      console.log("HEIGHT: ", height)
         props.setSelectedRecords(selectedValues,   height)
 
   }, [selectedValues])
@@ -260,10 +255,6 @@ const filterOptions = {
 
 const displayColumn = props.displayColumn
 console.log("AUTO REF", autoRef.current)
-if ( renderCountRef.current > 1) {
-
-  console.log("PROP HEIGHT: ", height,  props.height, autoRef.current.getBoundingClientRect().height)
-}
 
 useEffect(() => {
   const renderHeight : any = autoRef.current.getBoundingClientRect().height
@@ -318,7 +309,7 @@ return (
       }}
       style={{ width: '100%' , backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} ref={elementRef} onChange={(e: any) => {props.handleNewUserSearchText ? props.handleNewUserSearchText(e.target.value) : ''}}/>
+        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} onChange={(e: any) => {props.handleNewUserSearchText ? props.handleNewUserSearchText(e.target.value) : ''}}/>
       )}
       />
   </ThemeProvider>

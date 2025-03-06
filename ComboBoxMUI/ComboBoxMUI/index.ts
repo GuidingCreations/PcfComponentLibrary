@@ -149,6 +149,8 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
             const updateDefaultSelectedValues = () => {
                 
+                console.log("Combo box mui triggered updateDefaultSelectedValues")
+
                 this._defaultSelectedItems = []
 
                 this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
@@ -163,6 +165,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
                     
 
                 })
+                console.log("Combo box MUI leaving updateDefaultSelectedValues")
             }
 
             if ( this.context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1 || this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this._defaultSelectedItems){
