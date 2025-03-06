@@ -14,8 +14,8 @@ export class DataTable
   // Declare variables
 
   private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
+  context: ComponentFramework.Context<IInputs>;
   private notifyOutputChanged: () => void;
-  private _tableData: any[] = [];
   private _selectedRecords: any[] = [];
   private _columnWidthTable: any[] = [];
   private _columnOverrides: any[] = [];
@@ -27,7 +27,7 @@ export class DataTable
   private inputSchema: string = "";
   private tableColumns: any[] = [];
   private columnProperties: Record<string, JSONSchema4>;
-  context: ComponentFramework.Context<IInputs>;
+  private _tableData: any[] = []
 
   // Function to check if column visibility defaults have changed, and update local variable if so
 
@@ -132,7 +132,7 @@ export class DataTable
 
   updateTableData = () => {
 
-    if (this.context.updatedProperties.indexOf("dataset") > -1) {
+    if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length)) {
 
       this._tableData = populateDataset(this.context.parameters.tableData);
     
