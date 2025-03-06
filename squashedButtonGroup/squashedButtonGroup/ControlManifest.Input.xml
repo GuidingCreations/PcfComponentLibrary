@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HuntersNS" constructor="squashedButtonGroup" version="0.5.14" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
+  <control namespace="HuntersNS" constructor="squashedButtonGroup" version="0.5.15" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
  
     <external-service-usage enabled="false">
     

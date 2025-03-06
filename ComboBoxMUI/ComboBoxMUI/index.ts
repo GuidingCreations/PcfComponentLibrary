@@ -125,18 +125,21 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("UPDATED PROPS: ", context.updatedProperties)
+        console.log("UPDATED PROPS: ", this.context.updatedProperties)
 
 // Set max page size to 2000
 
-        if (context.parameters.Items.paging.pageSize != 2000) {
+        if (this.context.parameters.Items.paging.pageSize != 2000) {
 
             context.parameters.Items.paging.setPageSize(2000);
         }
         
 // Loop through table items and create an object with properties of label and id for each item
 
-        if (context.updatedProperties.indexOf("dataset") > -1) {
+        const oldLength = this._items.length;
+        const newLength = this.context.parameters.Items.sortedRecordIds.length
+
+        if (context.updatedProperties.indexOf("dataset") > -1 ||  newLength > oldLength) {
 
             console.log("UPDATING DATASET in ComboBoxMUI")
             this._items = populateDataset(this.context.parameters.Items)
@@ -162,7 +165,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
                 })
             }
 
-            if (context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1){
+            if ( this.context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1 || this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this._defaultSelectedItems){
 
                 updateDefaultSelectedValues();
             }

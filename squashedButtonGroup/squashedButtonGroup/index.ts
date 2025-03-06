@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import SquashedBG, {squashedBgProps} from "./SquashedButtonGroup";
+import SquashedBG, {squashedBgProps} from "./squashedButtonGroup";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
