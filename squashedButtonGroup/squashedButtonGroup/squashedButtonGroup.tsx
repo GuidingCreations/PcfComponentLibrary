@@ -70,7 +70,7 @@ const SquashedBG = (props: squashedBgProps) => {
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"
-        sx={{width: props.width, height: props.height, padding: '.5rem'}}
+        sx={{width: props.width, height: props.height, padding: '.5rem', boxShadow: 'none'}}
         className="flex"
       >
         <Button 

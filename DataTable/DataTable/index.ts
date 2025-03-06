@@ -33,7 +33,12 @@ export class DataTable
 
   updateColVisibility = () => {
     
-    if (this.context.updatedProperties.indexOf("columnVisibility_dataset") > -1) {
+    const currentLength = Object.keys(this._columnVisibility).length;
+    const newLength = this.context.parameters.columnVisibility.sortedRecordIds.length
+
+    console.log("LENS: ", newLength, currentLength)
+
+    if (this.context.updatedProperties.indexOf("columnVisibility_dataset") > -1 || newLength > currentLength) {
 
       
       const colVis: any = {
@@ -61,7 +66,7 @@ export class DataTable
   
   updateColWidth = () => {
 
-    if (this.context.updatedProperties.indexOf("columnWidthTable_dataset") > -1) {
+    if (this.context.updatedProperties.indexOf("columnWidthTable_dataset") > -1 || this.context.parameters.columnWidthTable.sortedRecordIds.length > this._columnWidthTable.length) {
     
       this._columnWidthTable = [];
 
