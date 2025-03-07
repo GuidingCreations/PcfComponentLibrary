@@ -26,7 +26,7 @@ export class StepperHeader implements ComponentFramework.ReactControl<IInputs, I
             isOptional: false
         }
     ] 
-    private _Steps : any [] = this._testSteps
+    private _Steps : any [] = []
 
     private GenerateSteps = () => {
 
@@ -85,7 +85,7 @@ export class StepperHeader implements ComponentFramework.ReactControl<IInputs, I
 
         // If the dataset or useTestData param changes, re-populate steps
 
-        if ( this.context.updatedProperties.indexOf("dataset") > -1 || this.context.updatedProperties.indexOf("dataset_records") > -1 || this.context.updatedProperties.indexOf("useTestData") > -1 ) {
+        if ( this.context.updatedProperties.indexOf("dataset") > -1 || this.context.updatedProperties.indexOf("dataset_records") > -1 || this.context.updatedProperties.indexOf("useTestData") > -1 || this.context.parameters.Steps.sortedRecordIds.length > this._Steps.length) {
 
             this.GenerateSteps()
         }
