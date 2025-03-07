@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="ComboBoxMUI" version="0.22.130" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ComboBoxMUI" version="0.22.136" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
    
     <external-service-usage enabled="false">
      
@@ -32,6 +32,8 @@
     <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" default-value = "false"/>
     <property name="isDisabled" display-name-key = "isDisabled" of-type = "TwoOptions" usage = "input" default-value = "false"/>
     <property name="searchText" display-name-key = "searchText" of-type = "SingleLine.Text" usage = "output" default-value = ""/>
+    <property name="defaultHeight" display-name-key = "defaultHeight" of-type = "Whole.None" usage = "input" default-value = "65"/>
+
 
 <!-- Resources -->
 

@@ -19,7 +19,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
     public _defaultSelectedItems : any = []
     public _selectedRecords : any[] = [];
     private _searchText : string = '';
-    private _outputHeight : number = 65;
+    private _outputHeight : number = 0;
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>
@@ -192,6 +192,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             borderWidth: context.parameters.borderWidth.raw || "1px",
             backgroundColor: context.parameters.backgroundColor.raw || '',
             isDisabled: context.parameters.isDisabled.raw || false,
+            defaultHeight: this._outputHeight > 0 ? this._outputHeight :  this.context.parameters.defaultHeight.raw || 65,
             handleNewHeight: this.handleHeightChange
         }
 

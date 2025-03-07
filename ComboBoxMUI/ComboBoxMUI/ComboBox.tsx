@@ -23,6 +23,7 @@ export interface ComboBoxProps {
   labelText: string;
   height: number;
   width: any;
+  defaultHeight: number;
   allowSelectMultiple: boolean;
   setSelectedRecords: (selectedRecords : any[], outputHeight: number) => void;
   handleNewUserSearchText?: (newSearchText: string) => void
@@ -49,7 +50,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
   
   const autoRef = useRef<any>(null);
   const [selectedValues, setSelectedValues] = useState<any[]>([])
-  const [height, setHeight] = useState(65)
+  const [height, setHeight] = useState(props.defaultHeight)
   const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
   const searchText = useRef<string>('')
 
@@ -78,7 +79,19 @@ export default function CheckboxesTags(props: ComboBoxProps) {
 
   }, [selectedValues])
 
+  useEffect(() => {
+    
+    if (props.handleNewHeight) {
 
+      console.log("ComboBox MUI triggered useEffect with a dependency array of [height] and height of: ", height);
+      props.handleNewHeight(height);
+      console.log("ComboBoxMui returned from props.handleNewHeight")
+
+    }
+
+  }, [height])  
+
+  
 
   // Establish test data
 
@@ -256,17 +269,10 @@ const filterOptions = {
 const displayColumn = props.displayColumn
 console.log("AUTO REF", autoRef.current)
 
-useEffect(() => {
-  const renderHeight : any = autoRef.current.getBoundingClientRect().height
-  console.log("render load height: ", renderHeight);
-  if (props.height != renderHeight && props.handleNewHeight) {
-    props.handleNewHeight(renderHeight)
-  }
-})
 
 return (
 
-    <div  style={{position: "relative",  width: props.width}} ref = {autoRef}>
+    <div  style={{position: "relative",  width: props.width, height: 'fit-content'}} ref = {autoRef}>
 {
 
 
@@ -307,7 +313,7 @@ return (
           </li>
         );
       }}
-      style={{ width: '100%' , backgroundColor: props.backgroundColor ? props.backgroundColor : ''}}
+      style={{ width: '100%' , backgroundColor: props.backgroundColor ? props.backgroundColor : '', height: 'fit-content'}}
       renderInput={(params) => (
         <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} onChange={(e: any) => {props.handleNewUserSearchText ? props.handleNewUserSearchText(e.target.value) : ''}}/>
       )}
