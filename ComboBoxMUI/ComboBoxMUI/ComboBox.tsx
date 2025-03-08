@@ -10,6 +10,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CssBaseline from '@mui/material/CssBaseline';
+import { createEndMessage, createInfoMessage, createStartMessage } from '../../utils';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -39,63 +40,30 @@ export interface ComboBoxProps {
   handleNewHeight?: (newHeight: number) => void
 }
 
-
-
-
-
 export default function CheckboxesTags(props: ComboBoxProps) {
 
   // Create refs / states (we need ref for render count since pcf components don't pass in tabular data on first render)
 
-  
   const autoRef = useRef<any>(null);
-  const [selectedValues, setSelectedValues] = useState<any[]>([])
-  const [height, setHeight] = useState(props.defaultHeight)
-  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
   const searchText = useRef<string>('')
+  const height = useRef<number>(props.defaultHeight)
+  const [selectedValues, setSelectedValues] = useState<any[]>([])
+  const [defaultValues, setDefaultValues] = useState<any>(props.defaultValues || [])
+  const renderCount = useRef<number>(0);
+  renderCount.current++
 
   const handleSearchTextChange = (newSearchText: string) => {
   
+    createStartMessage(`Combo box mui triggered handleSearchTextChange with: ${newSearchText}`)
     searchText.current = newSearchText;
     props.handleNewUserSearchText ? props.handleNewUserSearchText(searchText.current) : ''
-  
+    createEndMessage("Combo box mui ending handleSearchTextChange")
+
   }
 
-  //Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
+    // Establish test data
 
-  useEffect(() => {
-
-
-    console.log("ComboBoxMui triggered useEFfect hook with [selectedValues] dependency array with auto ref of: ", autoRef.current)
-
-    if (autoRef.current) {
-    console.log("UPDATING AUTO REF HEIGHT")
-    setHeight(autoRef.current.getBoundingClientRect().height)
-
-    }
-    
-      console.log("HEIGHT: ", height)
-        props.setSelectedRecords(selectedValues,   height)
-
-  }, [selectedValues])
-
-  useEffect(() => {
-    
-    if (props.handleNewHeight) {
-
-      console.log("ComboBox MUI triggered useEffect with a dependency array of [height] and height of: ", height);
-      props.handleNewHeight(height);
-      console.log("ComboBoxMui returned from props.handleNewHeight")
-
-    }
-
-  }, [height])  
-
-  
-
-  // Establish test data
-
-  const top100Films = [
+const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
     { title: 'The Godfather', year: 1972 },
     { title: 'The Godfather: Part II', year: 1974 },
@@ -143,7 +111,7 @@ export default function CheckboxesTags(props: ComboBoxProps) {
     { title: 'Once Upon a Time in the West', year: 1968 },
     { title: 'American History X', year: 1998 },
     { title: 'Interstellar', year: 2014 },
-  ];
+];
 
 /* 
 
@@ -151,14 +119,13 @@ Formula for evaluating whether the default values have changed. Returns true if 
 
 */
 
-  const compareDefaults = () => {
+const compareDefaults = () => {
 
 
     const hasChanged = JSON.stringify(defaultValues) != JSON.stringify(props.defaultValues)
   
     if (props.Items.length > 0) {
   
-      console.log("OVER 0 records on hasChanged")
       return hasChanged
   
     } else {
@@ -167,11 +134,11 @@ Formula for evaluating whether the default values have changed. Returns true if 
   
     }
 
-  }
+}
 
 //Formula for checking the default values, and updating the current ref for defaultValues if they've changed to reflect the new def values from props. Will also update state for combobox to reflect new selected values
 
-  const updateDefaults = () => {
+const updateDefaults = () => {
 
     if( compareDefaults() ) {
 
@@ -180,24 +147,68 @@ Formula for evaluating whether the default values have changed. Returns true if 
       if (props.defaultValues != selectedValues) {
         console.log( "TRIGGERING UPDATE FROM COMBO BOX DEFAULTS WITH ", props.defaultValues, " ", selectedValues)
         setSelectedValues(props.defaultValues);
-        props.setSelectedRecords(selectedValues, height)
+        props.setSelectedRecords(selectedValues, height.current)
       }
 
     }
 
-  };
-
- 
-    updateDefaults();
+};
   
+  // If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
+  
+const handleMultiOptionSelect = (e : any, value : any[]) => {
 
+  if (renderCount.current > 1) {
+
+    createStartMessage(`ComboBoxMui tsx triggered handleMultiOptionSelect with values: `, value)
+    setSelectedValues(value)
+    createEndMessage(`ComboBoxMui tsx ending handleMultiOptionSelect with new values: `, selectedValues)
+  
+  }
+
+}
+
+const handleSingleOptionSelect = (e: any, value: any) => {
+
+  if( renderCount.current > 1) {
+
+    
+    if (value == null) {
+      
+      setSelectedValues([]);
+      
+    } else {
+      
+      setSelectedValues([value]);
+      props.setSelectedRecords(selectedValues, height.current)
+      
+    }
+  }
+}
+  
 // Establish theme
 
-  const theme = createTheme({
+const theme = createTheme({
     palette: {
       mode:  props.darkMode ? 'dark' : 'light'
     },
     components: {
+
+     MuiAutocomplete: {
+      styleOverrides: {
+        inputRoot: {
+          minHeight: `${props.defaultHeight}px`
+        },
+        root: {
+          minHeight: `${props.defaultHeight}px`
+        }
+      },
+      defaultProps: {
+        sx: {
+          height: props.defaultHeight
+        }
+      }
+     },
 
       MuiInputLabel: {
         styleOverrides: {
@@ -214,61 +225,58 @@ Formula for evaluating whether the default values have changed. Returns true if 
       MuiInputBase: {
         styleOverrides: {
           root: {
+            minHeight: `${props.defaultHeight}`,
           '& .MuiOutlinedInput-notchedOutline': {
 
               borderStyle: props.borderStyle,
               borderWidth: props.borderWidth,
               borderColor: props.borderColor,
-            },
-            height:  `fit-content`
+            }
           }
         }
       }
     }
   });
-  
 
-  // If combobox is set to allow multiple selections in power apps, pass in selected values to state directly
-  
-  const handleMultiOptionSelect = (e : any, value : any[]) => {
-
-    console.log("TRIGGERED MULT OPTION SELEC")
-      setSelectedValues(value)
-}
-
-
-const handleSingleOptionSelect = (e: any, value: any) => {
-
-  if (value == null) {
-
-    setSelectedValues([]);
-
-  } else {
-
-    setSelectedValues([value]);
-    props.setSelectedRecords(selectedValues, height)
-
-  }
-}
-
-  const emptyLabel : any = {}
-  emptyLabel.label = ""
-  const optionsList = props.useTestData ? top100Films :  props.Items
-
-
-
-
-  const multDefaults = props.defaultValues
-
+const optionsList = props.useTestData ? top100Films :  props.Items
 
 const filterOptions = {
   limit: 100
 }
 
-
 const displayColumn = props.displayColumn
-console.log("AUTO REF", autoRef.current)
 
+//Use effect hook to get the new output height and pass the new output height and new selected values whenever the selected values state changes
+
+useEffect(() => {
+
+
+  console.log("ComboBoxMui triggered useEFfect hook with [selectedValues] dependency array")
+
+  if (autoRef.current) {
+  console.log("UPDATING AUTO REF HEIGHT")
+  
+  createInfoMessage("Auto ref before time", autoRef.current.getBoundingClientRect().height)
+
+  setTimeout(() => {
+    
+
+      createInfoMessage("Auto ref during time", autoRef.current.getBoundingClientRect().height)
+      height.current = autoRef.current.getBoundingClientRect().height
+      
+      createInfoMessage(`HEIGHT: ${height.current}`)
+      props.setSelectedRecords(selectedValues,   props.defaultHeight > height.current ? props.defaultHeight : height.current)
+      
+    }, 300);
+    
+  
+
+  }
+  
+
+}, [selectedValues])
+
+updateDefaults();
 
 return (
 
@@ -285,15 +293,14 @@ return (
       disabled = {props.isDisabled}
       value={ selectedValues}
       options={optionsList}
-      sx={{height: props.height}}
+      sx={{ backgroundColor: props.backgroundColor ? props.backgroundColor : '', width: '100%'}}
       className={props.className}
       filterOptions={createFilterOptions(filterOptions)}
-      defaultValue={multDefaults}
-      isOptionEqualToValue={(option, value) => {console.log("OPTION, ", option, " value, ", value); return option[displayColumn] == value[displayColumn]}}
+      defaultValue={props.defaultValues}
+      isOptionEqualToValue={(option, value) => {return option[displayColumn] == value[displayColumn]}}
       disableCloseOnSelect
       onInputChange={(e: any) => {
-        if (e?.target) {
-          console.log("E, ", e); 
+        if (e?.target && e?.target.value != searchText) {
           handleSearchTextChange(e.target.value)
         }
       }}
@@ -313,10 +320,11 @@ return (
           </li>
         );
       }}
-      style={{ width: '100%' , backgroundColor: props.backgroundColor ? props.backgroundColor : '', height: 'fit-content'}}
+
       renderInput={(params) => (
-        <TextField {...params} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} onChange={(e: any) => {props.handleNewUserSearchText ? props.handleNewUserSearchText(e.target.value) : ''}}/>
-      )}
+      <TextField {...params} sx={{height: '100%'}} label= {props.labelText || 'Label'} placeholder = {props.labelText || "Search text here"} onChange={(e: any) => {props.handleNewUserSearchText ? props.handleNewUserSearchText(e.target.value) : ''}}/>
+    )}
+    
       />
   </ThemeProvider>
   
@@ -328,9 +336,8 @@ return (
  
   onChange={handleSingleOptionSelect}
   onInputChange={(e: any) => {
-    if (e?.target) {
+    if (e?.target && e?.target.value != searchText) {
 
-      console.log("E, ", e); 
       handleSearchTextChange(e.target.value)
     }
   }}

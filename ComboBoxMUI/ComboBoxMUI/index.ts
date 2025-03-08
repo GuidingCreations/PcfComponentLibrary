@@ -4,7 +4,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { ComboBoxProps } from "./ComboBox";
 import ComboBox from "./ComboBox";
 import * as React from "react";
-import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
+import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema, createStartMessage, createEndMessage, createPropsMessage, createInfoMessage } from "../../utils";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -15,6 +15,7 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 // Create variables 
     
     public _items : any[] = [];
+    private _defaultHeight = 0
     public _data : any[] = [];
     public _defaultSelectedItems : any = []
     public _selectedRecords : any[] = [];
@@ -27,56 +28,49 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
 
     handleHeightChange = (newHeight: number) => {
 
-        console.log("NEW HEIGHT: ", newHeight)
+        createStartMessage(`ComboBoxMui index triggered handleHeightChange with height: ${newHeight}`)
         this._outputHeight = newHeight
         this.notifyOutputChanged()
+        createEndMessage(`ComboBoxMui index ending handleHeightChange with new height: ${this._outputHeight}`)
 
     }
 
     handleSearchTextChange = (searchText: string) => {
-        console.log("UPDATING SEARCH TEXT OUTPUT")
+      
+        createStartMessage(`ComboBoxMui index triggered handleSearchTextChange with search text: ${searchText}`)
         this._searchText = searchText
         this.notifyOutputChanged()
-    }
+        createEndMessage(`ComboBoxMui index ended handleSearchTextChange`)
 
+    }
 
 // Formula to update the selected records in the component
 
     setSelectedRecords = (selectedRecords: any[], outputHeight: number) => {
 
-        console.log("SELECTED RECORDS TRIGGERED FROM COMBO BOX MUI. SEL RECS: ", selectedRecords, " outputHeight: ", outputHeight)
-        const displayColumn = this.context.parameters.displayField.raw || 'label'
-        console.log("DISPLAY COLUMNN: ", displayColumn)
-        console.log("TRIGGERED SELECTED RECORDS INDEX.TS COMBOBOX MUI ")
-        this._selectedRecords = selectedRecords;
+        createStartMessage(`ComboBoxMui triggered setSelectedRecords with an output height: ${outputHeight}, and selectedRecords of: `, selectedRecords)
 
-        console.log("SELECTED VALS", this._selectedRecords)
+        this._selectedRecords = selectedRecords;
     
         // If new selection is not an empty array
 
         if (selectedRecords.length > 0) {
-
-            console.log("More than0 records")
 
             // Loop through the selected records from tsx and search the passed in table for matching id, then append the matching id to arrSelected 
 
             const arrSelected : any[] = [];  
 
             selectedRecords.map((selectedRecord : any) => {
+
                 const displayField = this.context.parameters.displayField.raw || 'label'
                 const value = selectedRecord[displayField]
-                console.log("VALUE FROM MAP", value)   ;
-                console.log("LOOP THROUGH ITEMS", this._items)
                 this._items.map((record) => {
                 
-                    console.log("COMPARING ", value, " to ", record[displayField])
                 if (value == record[displayField]) {
-                    console.log("MATCHED VALUE!", "SEL: ", selectedRecord, "REC: ", record)
+
                     arrSelected.push(selectedRecord.recordID)
             
-                } else {
-                    console.log("VALUE NOT MATCHED")
-                }  
+                }
                 
             })
             
@@ -107,8 +101,10 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
         this.notifyOutputChanged()
     
     }
-}
 
+    createEndMessage(`ComboBoxMui ending setSelectedRecords with selected ids of: `, this.context.parameters.Items.getSelectedRecordIds())
+
+    }
 
     constructor() { }
 
@@ -119,21 +115,15 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
         this.context = context;
+        this.context.parameters.Items.paging.setPageSize(2000)
     }
 
 //Update view stage of component lifecycle
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("UPDATED PROPS: ", this.context.updatedProperties)
+        createStartMessage(`ComboBoxMui index triggered updateView with updatedProps of: `, context.updatedProperties)
 
-// Set max page size to 2000
-
-        if (this.context.parameters.Items.paging.pageSize != 2000) {
-
-            context.parameters.Items.paging.setPageSize(2000);
-        }
-        
 // Loop through table items and create an object with properties of label and id for each item
 
         const oldLength = this._items.length;
@@ -168,9 +158,22 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
                 console.log("Combo box MUI leaving updateDefaultSelectedValues")
             }
 
-            if ( this.context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1 || this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this._defaultSelectedItems){
+            if ( this.context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1 || this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this._defaultSelectedItems.length){
 
                 updateDefaultSelectedValues();
+            }
+
+            const defaultHeight = this.context.parameters.defaultHeight.raw || 0
+
+            if (defaultHeight > this._defaultHeight) {
+
+                this._defaultHeight = defaultHeight;
+                
+                if ( defaultHeight > this._outputHeight ) {
+                    this._outputHeight  = defaultHeight;
+                    this.notifyOutputChanged()
+                }
+
             }
 
 // Establish props
@@ -192,11 +195,11 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             borderWidth: context.parameters.borderWidth.raw || "1px",
             backgroundColor: context.parameters.backgroundColor.raw || '',
             isDisabled: context.parameters.isDisabled.raw || false,
-            defaultHeight: this._outputHeight > 0 ? this._outputHeight :  this.context.parameters.defaultHeight.raw || 65,
+            defaultHeight: this.context.parameters.defaultHeight.raw || 0,
             handleNewHeight: this.handleHeightChange
         }
 
-        console.log("PROPS - ComboBoxMUI", props)
+        createPropsMessage(`ComboBoxMui index triggering render with props: `, props)
 
         return React.createElement(
             ComboBox, props

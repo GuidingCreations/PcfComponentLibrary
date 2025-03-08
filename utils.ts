@@ -216,3 +216,27 @@ export function determineScreenSize() {
 
   return screenSize;
 }
+
+export function createStartMessage(messageText: string, object?: any) {
+
+  console.log(`%c${messageText}`, "background-color: green; padding: 8px; border-radius: 8px", object)
+
+}
+
+export function createEndMessage(messageText: string, object?: any) {
+
+  console.log(`%c${messageText}`, "background-color: red; padding: 8px; border-radius: 8px", object)
+
+}
+
+export function createPropsMessage(messageText: string, object?: any) {
+
+  console.log(`%c${messageText}`,  "background-color: gold; padding: 8px; border-radius: 8px; color: black", object, "background-color: gold; padding: 8px; border-radius: 8px; color: black")
+
+}
+
+export function createInfoMessage(messageText: string, object?: any) {
+
+  console.log(`%c${messageText}`,  "background-color: blue; padding: 8px; border-radius: 8px; color: white", object)
+
+}
