@@ -16,6 +16,9 @@
         <property name="textAlign" display-name-key="textAlign" of-type="SingleLine.Text" usage="input" />
         <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" default-value ='Self.Height'/>
         <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+            <property name="startIcon" display-name-key = "startIcon" of-type = "SingleLine.Text" usage = "input"/>
+    <property name="endIcon" display-name-key = "endIcon" of-type = "SingleLine.Text" usage = "input"/>
+
     
     <event name="OnClick"
    pfx-default-value='Notify("No button event", NotificationType.Error, 2000)'
@@ -25,7 +28,6 @@
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />
-      <platform-library name="Fluent" version="9.46.2" />
     
     </resources>
     

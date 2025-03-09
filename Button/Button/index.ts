@@ -37,7 +37,9 @@ export class Button implements ComponentFramework.ReactControl<IInputs, IOutputs
             fontColor: context.parameters.fontColor.raw || 'white',
             borderColor: context.parameters.borderColor.raw || 'white',
             borderWidth: context.parameters.borderWidth.raw || 1,
-            textAlign: context.parameters.textAlign.raw || 'center'
+            textAlign: context.parameters.textAlign.raw || 'center',
+            startIcon: context.parameters.startIcon.raw || '',
+            endIcon: context.parameters.endIcon.raw || ''
         
         }
 

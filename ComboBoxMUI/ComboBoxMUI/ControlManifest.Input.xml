@@ -34,16 +34,17 @@
     <property name="searchText" display-name-key = "searchText" of-type = "SingleLine.Text" usage = "output" default-value = ""/>
     <property name="defaultHeight" display-name-key = "defaultHeight" of-type = "Whole.None" usage = "input" default-value = "65"/>
 
+  
 
 <!-- Resources -->
 
     <resources>
       
       <code path="index.ts" order="1"/>
+      <code path = "https://fonts.googleapis.com/icon?family=Material+Icons" order = "1"/>
       <css path= "../../dist/output.css" order='1'/>
       <css path = "./input.css" order='1'/>
       <platform-library name="React" version="16.14.0" />
-      <platform-library name="Fluent" version="9.46.2" />
      
     </resources>
    

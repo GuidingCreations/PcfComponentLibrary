@@ -38,6 +38,7 @@ export interface ComboBoxProps {
   className?: string;
   searchText?: string
   handleNewHeight?: (newHeight: number) => void
+
 }
 
 export default function CheckboxesTags(props: ComboBoxProps) {
