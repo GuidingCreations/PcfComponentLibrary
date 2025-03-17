@@ -67,6 +67,7 @@
     <ProjectReference Include="..\Tree\Tree.pcfproj" />
     <ProjectReference Include="..\AccessPage2\AccessPage2.pcfproj" />
     <ProjectReference Include="..\StepperHeader\StepperHeader.pcfproj" />
+    <ProjectReference Include="..\TransferList\TransferList.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

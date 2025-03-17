@@ -41,7 +41,6 @@
     <resources>
       
       <code path="index.ts" order="1"/>
-      <code path = "https://fonts.googleapis.com/icon?family=Material+Icons" order = "1"/>
       <css path= "../../dist/output.css" order='1'/>
       <css path = "./input.css" order='1'/>
       <platform-library name="React" version="16.14.0" />

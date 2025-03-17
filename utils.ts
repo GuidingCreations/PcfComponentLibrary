@@ -239,4 +239,11 @@ export function createInfoMessage(messageText: string, object?: any) {
 
   console.log(`%c${messageText}`,  "background-color: blue; padding: 8px; border-radius: 8px; color: white", object)
 
+};
+
+export function datasetChanged(updatedProps: any, dataset: DataSet, localVariable: any[]) {
+ 
+  return (updatedProps.indexOf("dataset") > -1 || updatedProps.indexOf("records") > -1 || localVariable.length > dataset.sortedRecordIds.length) 
+
 }
+
