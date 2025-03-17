@@ -31,7 +31,6 @@ export interface ButtonProps {
 export default function ButtonComponent(props: ButtonProps) {
   
   console.log("PROPS PASSED: ", props)
-  const screenSize = determineScreenSize()
 
   const theme = createTheme({
     palette: {
@@ -53,12 +52,12 @@ export default function ButtonComponent(props: ButtonProps) {
     }
   });
 
-  const renderStartIcon = () => { return (  <Icon sx={{height: screenSize == "xl"? '500px' : '10px'}}>{props.startIcon}</Icon>)}
-  const renderEndIcon = () => { return (<Icon>{props.endIcon}</Icon>)}
+  const renderStartIcon = () => { return (  <Icon sx={{height: 'fit-content'}}>{props.startIcon}</Icon>)}
+  const renderEndIcon = () => { return (<Icon sx={{height: 'fit-content'}}>{props.endIcon}</Icon>)}
 
   const buttonSize = props.size == "small" ? "small" : props.size == "medium" ? "medium" : props.size == "large" ? "large" : "small"
   const buttonVariant = props.typeVariant == "contained" ? "contained" : props.typeVariant == "outlined" ? "outlined" : "contained"
-  const styles = Object.assign({}, {width: `${props.width}px`, height: `${props.height}px`}, props.styles)
+  const styles = Object.assign({}, {minWidth: `${props.width}px`, height: `${props.height}px`, width: 'fit-content'}, props.styles)
   return (
 
     
@@ -68,8 +67,6 @@ export default function ButtonComponent(props: ButtonProps) {
       </link>
 
       <CssBaseline />
-      <h1>{screenSize}</h1>
-      {renderStartIcon()}
       <Button 
        
         startIcon = {props.startIcon ?  renderStartIcon() : null}
