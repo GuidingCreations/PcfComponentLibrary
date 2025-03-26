@@ -1,4 +1,46 @@
+
+:root {
+    --var-activeLinkBackgroundFill: #202427;
+    --var-darkModeCanvasColor: ;
+    --var-darkModeIconColor: ;
+    --var-darkModeNavTextColor: ;
+    --var-darkModeNavItemHoverBackground: ;
+    --var-darkModeActiveBackground: ;
+    --var-darkModeActiveIconColor: ;
+    --var-rootSpacing: 8px
+}
+
 .sidebarWrapper {
     width: 100%;
     height: 100%;
+}
+
+.navItem {
+    display: flex;
+    gap: var(--var-rootSpacing); 
+    margin-left: calc(2 * var(--var-rootSpacing)); 
+    height: fit-content; 
+    align-items: center; 
+    padding: var(--var-rootSpacing); 
+    border-radius: 10px; 
+    margin-right: var(--var-rootSpacing); 
+    cursor: pointer
+}
+
+.sectionLabel {
+    margin-bottom: calc(.75 * var(--var-rootSpacing));
+}
+
+.navItem:hover {
+    background-color: rgba(255, 255, 255, .04);
+}
+
+
+.navItemActive {
+    background-color: var(--var-activeLinkBackgroundFill)
+}
+
+.navItemActive:hover {
+    background-color: var(--var-activeLinkBackgroundFill)
+
 }

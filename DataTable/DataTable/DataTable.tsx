@@ -134,6 +134,7 @@ const DataTableComponent = (props: DataTableProps) => {
                       );
                     }}
                     width={column?.matchingOverride?.componentWidth || 150}
+                    fullWidth
                     height={column?.matchingOverride?.componentHeight || 50}
                   />
                 ) : (
@@ -168,7 +169,7 @@ const DataTableComponent = (props: DataTableProps) => {
             color: props.useDarkMode ? "white" : "black",
             width: props.fullWidth ? '100%' : props.width,
           }}
-          
+          disableAutosize
           localeText={{
             noRowsLabel: props.noRowsText
               ? props.noRowsText

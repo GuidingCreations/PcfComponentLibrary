@@ -183,7 +183,7 @@ const HelloWorld = (props: AccesPageProps) => {
 
       props.handleNewUserSearchText(userSearchText)
       
-    }, 300);
+    }, 50);
 
     return () => clearTimeout(timeoutID)
     
@@ -248,7 +248,7 @@ const HelloWorld = (props: AccesPageProps) => {
                 <ComboBox
                   useTestData = {false}
                   height={50}
-                  
+                  defaultHeight={50}
                   width={'100%'}
                   borderColor="white"
                   borderStyle="solid"
@@ -272,6 +272,7 @@ const HelloWorld = (props: AccesPageProps) => {
                   borderColor="white"
                   borderStyle="solid"
                   borderWidth="1px"
+                  defaultHeight={50}
                   displayColumn="label"
                   Items={[
                     {

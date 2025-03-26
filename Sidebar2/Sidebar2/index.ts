@@ -33,7 +33,7 @@ export class Sidebar2 implements ComponentFramework.ReactControl<IInputs, IOutpu
     }
 
     updateNavItems = () => {
-        if (this.context.updatedProperties.indexOf("dataset") > -1) {
+        if (this.context.updatedProperties.indexOf("dataset") > -1 || this.context.parameters.navItems.sortedRecordIds.length > this._navItems.length) {
             this._navItems = populateDataset(this.context.parameters.navItems)
         }
     }

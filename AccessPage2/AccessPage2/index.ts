@@ -5,7 +5,7 @@
 import * as React from "react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { GridColDef } from '@mui/x-data-grid';
-import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema } from "../../utils";
+import { populateDataset, generateOutputObject, generateOutputObjectSchema, getInputSchema, createInfoMessage } from "../../utils";
 import HelloWorld, {AccesPageProps} from "./AccessPage";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -261,7 +261,7 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
     private updateNavItems = () => {
         
-        if (this.context.updatedProperties.indexOf("navItems_dataset") > -1) {
+        if (this.context.updatedProperties.indexOf("navItems_dataset") > -1 || this.context.parameters.navItems.sortedRecordIds.length > this._navItems.length) {
             
             console.log("TRIGGERED UPDATE NAV ITEMS")
             this._navItems = [];
@@ -317,7 +317,9 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
             this.context.parameters.usersList.sortedRecordIds.map((recordID) => {
     
                 const userToAdd : any = {}
-                const userName = `${this.context.parameters.usersList.records[recordID].getValue("GivenName")} ${this.context.parameters.usersList.records[recordID].getValue("Surname")}`
+                const displayField = this.context.parameters.userListDisplayField.raw || 'displayName';
+                createInfoMessage("Display field: ", displayField)
+                const userName = `${this.context.parameters.usersList.records[recordID].getValue(displayField)}`
                 const userMail = this.context.parameters.usersList.records[recordID].getValue("Mail")
                 userToAdd.label = userName
                 userToAdd.Mail =  userMail
@@ -376,6 +378,8 @@ export class AccessPage implements ComponentFramework.ReactControl<IInputs, IOut
 
         };
         
+        createInfoMessage("PROPS PASSING TO ACCESS PAGE: ", props)
+
         return React.createElement(
         
             HelloWorld, props

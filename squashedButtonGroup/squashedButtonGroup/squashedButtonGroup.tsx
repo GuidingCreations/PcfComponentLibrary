@@ -15,9 +15,9 @@ export interface squashedBgProps {
   onOptionSelect: (option: string) => void
   width: number;
   height: number;
+  fullWidth?: boolean;
 }
 
-const width = 200
 
 const options = [
   "Copy",
@@ -33,6 +33,7 @@ const SquashedBG = (props: squashedBgProps) => {
   const isOpen = useRef<boolean>(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const selectedIndex = useRef<number>(0);
+  
 
   const handleClick = () => {
     console.info(`You clicked ${optionsList[selectedIndex.current]}`);
@@ -64,13 +65,15 @@ const SquashedBG = (props: squashedBgProps) => {
     isOpen.current = false;
   };
 
+  const divRef = useRef<any>(null)
+
   return (
-    <React.Fragment>
+      <div style={{width: props.fullWidth ? '100%' : props.width}} ref = {divRef}>
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"
-        sx={{width: props.width, height: props.height, padding: '.5rem', boxShadow: 'none'}}
+        sx={{width: '100%', height: props.height, padding: '.5rem', boxShadow: 'none'}}
         className="flex"
       >
         <Button 
@@ -95,7 +98,7 @@ const SquashedBG = (props: squashedBgProps) => {
         </Button>
       </ButtonGroup>
       <Popper
-        sx={{ zIndex: 1, width: width }}
+        sx={{ zIndex: 1, width: anchorRef.current?.getBoundingClientRect().width }}
         open={isOpen.current}
         anchorEl={anchorRef.current}
         role={undefined}
@@ -130,7 +133,7 @@ const SquashedBG = (props: squashedBgProps) => {
           </Grow>
         )}
       </Popper>
-    </React.Fragment>
+      </div>
   );
 }
 
