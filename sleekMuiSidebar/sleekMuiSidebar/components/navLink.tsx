@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Container, Link, Stack, ThemeProvider, Button, Theme } from '@mui/material';
+import { Container, Link, Stack, ThemeProvider, Button } from '@mui/material';
+import {Theme} from '../../../styling/types'
 
 interface navLinkProps {
     useDarkMode: boolean
@@ -7,7 +8,7 @@ interface navLinkProps {
     svgData?: string;
     linkText: string;
     onSelect: () => void;
-    theme: any
+    theme: Theme
 }
 
 
@@ -21,13 +22,14 @@ const NavLink = (props: navLinkProps) => {
      <div 
         className = 'navItem'
         key={props.linkText} 
-        style={{backgroundColor: props.isActive ? props.theme.palette.primary.dark : ''}}
+        style={{backgroundColor: props.isActive ? props.theme.palette.primary.main : '', paddingRight: '8px', marginRight: '0'}}
         onClick={(e) => {props.onSelect()}}
+        
         >
         
         {props.svgData ? 
         
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill={'white'}><path d={props.svgData}/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="16px" fill={'white'} style={{minWidth: '16px'}}><path d={props.svgData}/></svg>
         : ''
     }
 

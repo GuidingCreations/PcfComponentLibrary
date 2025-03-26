@@ -4,7 +4,7 @@ import Icon from '@mui/material/Icon'
 const muiIcon = (icon: string) => {
 
   return (
-    <Icon sx={{height: 'fit-content'}}>{icon}</Icon>
+    <Icon sx={{minWidth: '20px'}}>{icon}</Icon>
   )
 }
 

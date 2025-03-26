@@ -4,11 +4,13 @@ import * as React from 'react'
 import Icon from '@mui/material/Icon';
 import muiIcon from './components/Icon';
 import { useState } from 'react';
-import { Stack, ThemeProvider } from '@mui/material';
+import { Stack, ThemeProvider, useColorScheme } from '@mui/material';
 import {Button} from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
-import {createTheme} from '../../styling/create-theme'
+import {createTheme} from '../../styling/create-theme';
+import { ThemeContext } from '@mui/styled-engine';
+import { Mode } from '../../styling/types';
 
 export interface muiSidebarProps {
     
@@ -24,20 +26,22 @@ export interface muiSidebarProps {
 
 
 
-const theme = createTheme({primaryColor: 'neonBlue'})
+const theme = createTheme({primaryColor: 'chateauGreen'})
 
 
 
 
 const muiSidebar = (props: muiSidebarProps) => {
 
+
+  const [mode, setMode] = useState<Mode>('dark')
   const [activeItem, setActiveItem] = useState(testItems[0].children[0])
 
 return(
 
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme} defaultMode={mode}>
 
-  <Stack sx={{backgroundColor: 'black', height: '100vh', width: '10vw'}} padding='16px'>
+  <Stack sx={{backgroundColor: mode == 'dark' ?  theme.palette.grey[900] : theme.palette.grey[300] , height : '100vh'}} padding='16px'>
 
   {
       testItems.map( (navSection : navSection) => {

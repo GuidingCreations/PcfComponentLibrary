@@ -127,7 +127,7 @@ export function colorSchemes(config: Config): Partial<Record<ColorScheme, ColorS
 	let primary = primarySchemes[config.primaryColor];
 
 	if (!primary) {
-		primary = primarySchemes.neonBlue;
+		primary = primarySchemes.chateauGreen;
 	}
 
 	return {
@@ -281,4 +281,5 @@ export function colorSchemes(config: Config): Partial<Record<ColorScheme, ColorS
 							},
 		},
 	};
+
 }
