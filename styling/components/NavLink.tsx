@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Container, Link, Stack, ThemeProvider, Button, Icon, Box } from '@mui/material';
-import {Theme, Mode} from '../../../styling/types/types'
+import {Theme, Mode} from '../types/types'
 import { ArrowDownward, ArrowRight, ArrowUpward } from '@mui/icons-material';
 import { useState } from 'react';
-import  {navLinkProps, navSection}  from '../testItems';
-import generateTheme from '../../../styling/utils/theme-provider';
+import  {navLinkProps, navSection}  from '../../sleekMuiSidebar/sleekMuiSidebar/testItems';
 
 interface linkProps {
+    themeMode: Mode 
     activeItem: navLinkProps
     svgData?: string;
     linkText: string;
@@ -20,9 +20,11 @@ interface linkProps {
 
 const NavLink = (props: linkProps) => {
   
+   
     // const activeBackgroundColor = props.theme.palette.primary.main 
     const [isExpanded, setISExpanded] = useState(props.isExpanded)
-    
+
+
     
 
     return (
@@ -36,7 +38,7 @@ const NavLink = (props: linkProps) => {
      <Stack 
         className='navItem'
         key={props.linkText} 
-        style={{backgroundColor: props.activeItem == props.item && !props.item.children ? props.theme.palette.primary.main : '', padding: '4px 8px', marginRight: '0', flexGrow: 1}}
+        style={{backgroundColor: props.activeItem == props.item && !props.item.children ? 'red' : '', padding: '4px 8px', marginRight: '0', flexGrow: 1}}
         onClick={(e) => {setISExpanded(!isExpanded); props.onSelect(props.item)}}
         direction={'row'}
         >
@@ -75,7 +77,7 @@ const NavLink = (props: linkProps) => {
         return (
             <div style={{cursor: 'pointer', backgroundColor: isMatched ? 'red' : '', padding: '4px 8px', marginRight: '0', marginLeft: '8px', flexGrow: 1}} onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
                 
-                <p style={{margin: 0, textAlign: 'left', lineHeight: 2, color: 'white'}}>{child.navTitle}</p>
+                <p style={{margin: 0, textAlign: 'left', lineHeight: 2}}>{child.navTitle}</p>
             </div>
         )
     })}

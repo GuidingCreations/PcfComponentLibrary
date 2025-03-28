@@ -32,12 +32,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
         const props = {
-            darkModeCanvasColor : context.parameters.darkModeCanvasColor.raw || "#202427",
-            darkModeIconColor : context.parameters.darkModeIconColor.raw || "#9fa6ad",
-            darkModeNavTextColor : context.parameters.darkModeNavTextColor.raw || "#cdd7e1",
-            darkModeNavItemHoverBackground : context.parameters.darkModeNavItemHoverBackground.raw || "#ffffff66",
-            darkModeActiveBackground : context.parameters.darkModeActiveBackground.raw || "#0073e6",
-            darkModeActiveIconColor : context.parameters.darkModeActiveIconColor.raw || "#ffffff",
+            containerHeight: context.parameters.containerHeight.raw || 1080,
+            containerWidth: context.parameters.containerWidth.raw || 300,
             useTestData: context.parameters.useTestData.raw
         }
 

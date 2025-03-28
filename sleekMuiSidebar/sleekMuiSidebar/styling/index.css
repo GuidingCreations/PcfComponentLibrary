@@ -17,11 +17,8 @@
 
 .navItem {
     display: flex;
-    gap: var(--var-rootSpacing); 
-    margin-left: calc(2 * var(--var-rootSpacing)); 
     height: fit-content; 
     align-items: center; 
-    padding: var(--var-rootSpacing); 
     border-radius: 10px; 
     margin-right: var(--var-rootSpacing); 
     cursor: pointer
@@ -36,11 +33,18 @@
 }
 
 
-.navItemActive {
-    background-color: var(--var-activeLinkBackgroundFill)
-}
 
 .navItemActive:hover {
     background-color: var(--var-activeLinkBackgroundFill)
 
 }
+
+.navItemActive::before {
+    content: "";
+    position: relative;
+    top: 0;
+    left: -25px;
+    width: 2px;
+    height: 16px;
+    background-color: lightgray;
+  }

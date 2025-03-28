@@ -4,44 +4,46 @@ import * as React from 'react'
 import Icon from '@mui/material/Icon';
 import muiIcon from './components/Icon';
 import { useState } from 'react';
-import { Stack, ThemeProvider, useColorScheme } from '@mui/material';
+import { Box, PaletteMode, Stack, useColorScheme } from '@mui/material';
 import {Button} from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
-import {createTheme} from '../../styling/create-theme';
-import { ThemeContext } from '@mui/styled-engine';
-import { Mode } from '../../styling/types';
-
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import generateTheme, { generateThemeProps } from '../../styling/utils/theme-provider'
 export interface muiSidebarProps {
     
-  darkModeCanvasColor: string;
-  darkModeIconColor: string;
-  darkModeNavTextColor: string;
-  darkModeNavItemHoverBackground: string;
-  darkModeActiveBackground: string;
-  darkModeActiveIconColor: string;
+  containerHeight: number;
+  containerWidth: number
   useTestData: boolean    
 
 }
 
 
 
-const theme = createTheme({primaryColor: 'chateauGreen'})
 
 
 
 
 const muiSidebar = (props: muiSidebarProps) => {
-
-
-  const [mode, setMode] = useState<Mode>('dark')
+  
+  
   const [activeItem, setActiveItem] = useState(testItems[0].children[0])
+  const [mode, setMode] = useState<'light' | 'dark'>('light')
+  const theme = generateTheme({Mode: mode});
+  console.log("RETURNED THEME", theme)
+  
+  
 
 return(
 
-  <ThemeProvider theme={theme} defaultMode={mode}>
+  <ThemeProvider theme={theme}>
 
-  <Stack sx={{backgroundColor: mode == 'dark' ?  theme.palette.grey[900] : theme.palette.grey[300] , height : '100vh'}} padding='16px'>
+  <button  style={{backgroundColor: theme.palette.primary.main}} onClick={(e) => {setMode(mode == 'dark' ? 'light': 'dark')}}>test button</button>
+
+  <Box sx={{height : '100%', width: '100%'}}>
+
+  <Stack sx={{backgroundColor: theme.palette.primary.sidebarFill, height : '100%', width: '100%'}} >
 
   {
       testItems.map( (navSection : navSection) => {
@@ -53,16 +55,18 @@ return(
           style={{
             display: 'flex', 
             flexDirection: 'column', 
-            width: '100%',
+            paddingLeft: '16px',
+            paddingTop: '16px',
+            paddingRight: '8px'
           }}
           key={navSection.sectionTitle}  
         >
           
           <p style={{
-            color: props.darkModeIconColor,
+            color: 'white',
             textAlign: 'left',
             fontWeight: '550',
-            
+            marginTop: 0
           }}
           className='sectionLabel'
           >
@@ -71,17 +75,21 @@ return(
           
           </p>
 
-          <div style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
+          <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '24px'}}>
           {navSection.children.map( (child : navLinkProps) => {
+
+            child.isExpanded = false
+
             return(
 
               <NavLink 
               theme = {theme}
               svgData = {child.icon}
-              useDarkMode
-              isActive = {activeItem == child}
+              activeItem={activeItem}
               linkText = {child.navTitle}
-              onSelect={() => setActiveItem(child)}
+              onSelect={(item: any) => {console.log("SETTING TO: ", item); !item.children ?  setActiveItem(item) : ''; console.log("CHANGING TO: ", !child.isExpanded); child.isExpanded = !child.isExpanded}}
+              isExpanded = {child.isExpanded}
+              item = {child}
               />
             )
             
@@ -94,7 +102,9 @@ return(
     
 
   </Stack>
+  </Box>
 
+ 
 </ThemeProvider>
 )
 

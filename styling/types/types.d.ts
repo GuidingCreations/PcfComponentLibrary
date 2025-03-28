@@ -6,4 +6,9 @@ export type Direction = "ltr" | "rtl";
 
 export type ColorScheme = "dark" | "light";
 
-export type Mode = "dark" | "light" | "system";
+export type Mode = "dark" | "light";
+
+export interface Config {
+    primaryColor: PrimaryColor;
+    Mode: Mode
+}
