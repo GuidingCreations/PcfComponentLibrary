@@ -1,27 +1,6 @@
-import type { TimelineConnectorClassKey, TimelineConnectorProps } from "@mui/lab/TimelineConnector";
+
 import type { ComponentsOverrides, ComponentsProps, ComponentsVariants } from "@mui/material/styles";
 
-declare module "@mui/material/styles/components" {
-	interface Components<Theme = unknown> {
-		MuiTimelineConnector: {
-			defaultProps?: ComponentsProps["MuiTimelineConnector"];
-			styleOverrides?: ComponentsOverrides<Theme>["MuiTimelineConnector"];
-			variants?: ComponentsVariants<Theme>["MuiTimelineConnector"];
-		};
-	}
-}
-
-declare module "@mui/material/styles/props" {
-	interface ComponentsPropsList {
-		MuiTimelineConnector: TimelineConnectorProps;
-	}
-}
-
-declare module "@mui/material/styles/overrides" {
-	interface ComponentNameToClassKey {
-		MuiTimelineConnector: TimelineConnectorClassKey;
-	}
-}
 
 declare module "@mui/material/Chip/Chip" {
 	interface ChipPropsVariantOverrides {

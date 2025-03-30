@@ -3,14 +3,16 @@
 import * as React from 'react'
 import Icon from '@mui/material/Icon';
 import muiIcon from './components/Icon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, PaletteMode, Stack, useColorScheme } from '@mui/material';
 import {Button} from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import generateTheme, { generateThemeProps } from '../../styling/utils/theme-provider'
+import generateTheme from '../../styling/utils/theme-provider'
+import { primaryColorNames } from '../../styling/colors';
+import { Config, Mode, PrimaryColor } from '../../styling/types/types';
 export interface muiSidebarProps {
     
   containerHeight: number;
@@ -29,11 +31,25 @@ const muiSidebar = (props: muiSidebarProps) => {
   
   
   const [activeItem, setActiveItem] = useState(testItems[0].children[0])
-  const [mode, setMode] = useState<'light' | 'dark'>('light')
-  const theme = generateTheme({Mode: mode});
+  const [mode, setMode] = useState(localStorage.getItem("pcfPrimaryColorMode") || 'dark');
+  const [primaryColor, setPrimaryColor] = useState(localStorage.getItem("pcfPrimaryColorTheme") || 'green');
+
+  const config : Config = {
+    Mode: mode as Mode,
+    primaryColor: primaryColor as PrimaryColor
+  }
+
+  const theme = generateTheme(config);
   console.log("RETURNED THEME", theme)
   
+  useEffect(() => {
+    localStorage.setItem("pcfPrimaryColorMode", mode)
+  }, [mode])
   
+  useEffect(() => {
+    localStorage.setItem("pcfPrimaryColorTheme", primaryColor)
+  }, [primaryColor])
+
 
 return(
 

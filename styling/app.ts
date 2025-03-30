@@ -22,6 +22,6 @@ export const appConfig: AppConfig = {
 	language: "en",
 	theme: "dark",
 	themeColor: "#3acd7e",
-	primaryColor: "chateauGreen",
+	primaryColor: "green",
 	
 };

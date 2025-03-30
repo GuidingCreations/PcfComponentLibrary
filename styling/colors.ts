@@ -139,3 +139,10 @@ export const tomatoOrange = {
 	900: "#7e1110",
 	950: "#440608",
 }
+
+export const primaryColorNames = [
+	"orange",
+	"green",
+	"neonBlue",
+	"royalBlue"
+]

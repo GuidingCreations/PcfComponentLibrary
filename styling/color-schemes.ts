@@ -31,7 +31,7 @@ import {
 import type { ColorScheme, Config, Mode, PrimaryColor } from "./types/types";
 
 const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptions>> = {
-	chateauGreen: {
+	green: {
 		dark: {
 			...chateauGreen,
 			light: chateauGreen[300],
@@ -103,7 +103,7 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
             sidebarFill: "#202427"
 		},
 	},
-	tomatoOrange: {
+	orange: {
 		dark: {
 			...tomatoOrange,
 			light: tomatoOrange[300],
@@ -134,7 +134,7 @@ export function colorSchemes(config: Config): any {
 	let primary = primarySchemes[config.primaryColor];
 
 	if (!primary) {
-		primary = primarySchemes.chateauGreen;
+		primary = primarySchemes.green;
 	}
 
 	const dark = {
