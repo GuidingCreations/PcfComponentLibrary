@@ -20,8 +20,11 @@ export interface muiSidebarProps {
   useTestData: boolean;
   useDarkMode: boolean;
   primaryColor: PrimaryColor;
+  navItems: any[];
   changePrimaryColor: (newColor: string) => void
   changeUseDarkMode: (useDarkMode: boolean) => void
+  changeActiveScreen: (newScreenName: string) => void
+  activeScreen: string;
 
 }
 
@@ -34,14 +37,53 @@ export interface muiSidebarProps {
 const muiSidebar = (props: muiSidebarProps) => {
 
 
+const items : navSection[]  = props.useTestData ? testItems : props.navItems
   
+const findActiveItem = () => {
 
+  let activeItem = {}
+
+  items.map( (navSection) => {
+
+    navSection.children.map( (firstLevel) => {
+
+      if (firstLevel.navTitle == props.activeScreen) {
+        activeItem = firstLevel
+      } else {
+        firstLevel.children?.map( (secondLevel) => {
+          
+          if (secondLevel.navTitle == props.activeScreen) {
+            
+            firstLevel.isExpanded = true
+            activeItem = secondLevel;
+            
+          }
+          
+          
+          
+      });}
+        
+        
+      })
+      
+  })
+
+return activeItem as navLinkProps
+
+}
 
   
   const [primaryColor, setPrimaryColor] = useState(props.primaryColor)
   const [isOpen, setIsOpen] = useState(false)
-  const [activeItem, setActiveItem] = useState(testItems[0].children[0])
+  const [activeItem, setActiveItem] = useState<navLinkProps>( findActiveItem() );
 
+  console.log("ACTIVE ITEM", activeItem)
+
+  console.log()
+
+  useEffect(() => {
+    props.changeActiveScreen(activeItem.navTitle)
+  }, [activeItem])
 
 
   if (props.primaryColor != primaryColor) {
@@ -61,7 +103,6 @@ const muiSidebar = (props: muiSidebarProps) => {
   console.log("RETURNED THEME", theme)
   
 
-
 return(
 
 
@@ -78,7 +119,7 @@ return(
 
   
   {
-    testItems.map( (navSection : navSection) => {
+    items.map( (navSection : navSection) => {
       return (
         
         // Wrapper for section labels
@@ -110,7 +151,6 @@ return(
           <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '24px'}}>
           {navSection.children.map( (child : navLinkProps) => {
             
-            child.isExpanded = false
             
             return(
               

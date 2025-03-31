@@ -4,9 +4,9 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
 import muiSidebar, {muiSidebarProps} from "./sleekMuiSidebar";
 import { primaryColorNames } from "../../styling/colors";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { PrimaryColor } from "../../styling/types/types";
-import { useCookies, CookiesProvider } from "react-cookie";
+import {populateDataset} from '../../utils'
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -15,6 +15,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
     context: ComponentFramework.Context<IInputs>;
     private _primaryColor = '';
     private _useDarkMode = true;
+    private _activeScreen = ''
+    private _navItems : any[] = []
 
     private updatePrimaryColor = (newColor: string) => {
         this._primaryColor = newColor;
@@ -35,6 +37,24 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
             this.context.events.onChangeColorMode()
             
         }, 200);
+    }
+
+    private updateActiveScreen = (newScreenName: string) => {
+        this._activeScreen = newScreenName;
+        console.log("NEW SCREEN: ", this._activeScreen);
+        this.notifyOutputChanged();
+
+        setTimeout(() => {
+            
+            this.context.events.onChangeScreen()
+        }, 200);
+    }
+
+    updateNavItems = () => {
+        if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.navItems.sortedRecordIds.length > this._navItems.length)) {
+
+            this._navItems = populateDataset(this.context.parameters.navItems);
+    }
     }
 
     constructor() {
@@ -62,6 +82,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
             this.updatePrimaryColor(context.parameters.primaryColor.raw!)
         }
 
+        this.updateNavItems();
+
         const isPrimaryColor = primaryColorNames.some( (name) => name == context.parameters.primaryColor.raw)
 
         const props : muiSidebarProps = {
@@ -71,7 +93,10 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
             useDarkMode: context.parameters.useDarkMode.raw,
             primaryColor: isPrimaryColor ? context.parameters.primaryColor.raw as PrimaryColor : 'Green',
             changePrimaryColor: this.updatePrimaryColor,
-            changeUseDarkMode: this.updateUseDarkMode
+            changeUseDarkMode: this.updateUseDarkMode,
+            changeActiveScreen: this.updateActiveScreen,
+            navItems: this._navItems,
+            activeScreen: context.parameters.activeScreen.raw || "Settings"
 
     
         }
@@ -87,7 +112,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
     public getOutputs(): IOutputs {
         return {
             outputPrimaryColor: this._primaryColor,
-            outputUseDarkMode: this._useDarkMode
+            outputUseDarkMode: this._useDarkMode,
+            outputScreenName: this._activeScreen
         };
     }
 

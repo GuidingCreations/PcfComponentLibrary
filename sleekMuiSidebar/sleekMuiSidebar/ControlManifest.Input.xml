@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.0.30" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.0.31" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -17,6 +17,7 @@
     <!-- strings -->
 
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" default-value="green"/>
+    <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" pfx-default-value="App.ActiveScreen"/>
 
 
     
@@ -35,7 +36,9 @@
 <!-- outputs -->
 
     <property name="outputPrimaryColor" display-name-key="outputPrimaryColor" of-type="SingleLine.Text" usage="output"/>
+    <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output"/>
     <property name="outputUseDarkMode" display-name-key="outputUseDarkMode" of-type="TwoOptions" usage="output" default-value = 'true'/>
+
 <!-- events -->
 
 <event name="onChangePrimaryColor"
@@ -47,6 +50,11 @@
    pfx-default-value='Set(varUseDarkMode, Self.outputUseDarkMode)'
    display-name-key="onChangeColorMode"
    description-key="onChangeColorMode" />
+
+<event name="onChangeScreen"
+   pfx-default-value=''
+   display-name-key="onChangeScreen"
+   description-key="onChangeScreen" />
 
     <resources>
 
