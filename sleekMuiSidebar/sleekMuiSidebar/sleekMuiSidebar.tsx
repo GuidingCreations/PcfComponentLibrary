@@ -1,23 +1,27 @@
 /* eslint-disable */
+"use client"
 
 import * as React from 'react'
-import Icon from '@mui/material/Icon';
-import muiIcon from './components/Icon';
-import { useEffect, useState } from 'react';
-import { Box, PaletteMode, Stack, useColorScheme } from '@mui/material';
-import {Button} from '@mui/material';
+import {  useEffect, useState } from 'react';
+import { Box, Stack, Drawer } from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
-import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
-import { primaryColorNames } from '../../styling/colors';
 import { Config, Mode, PrimaryColor } from '../../styling/types/types';
+import PrimaryColorOptions from './components/primaryColorOptions';
+import ThemeModeOptions from './components/themModeOptions';
+
+
 export interface muiSidebarProps {
     
   containerHeight: number;
-  containerWidth: number
-  useTestData: boolean    
+  containerWidth: number;
+  useTestData: boolean;
+  useDarkMode: boolean;
+  primaryColor: PrimaryColor;
+  changePrimaryColor: (newColor: string) => void
+  changeUseDarkMode: (useDarkMode: boolean) => void
 
 }
 
@@ -28,54 +32,66 @@ export interface muiSidebarProps {
 
 
 const muiSidebar = (props: muiSidebarProps) => {
+
+
   
+
+
   
+  const [primaryColor, setPrimaryColor] = useState(props.primaryColor)
+  const [isOpen, setIsOpen] = useState(false)
   const [activeItem, setActiveItem] = useState(testItems[0].children[0])
-  const [mode, setMode] = useState(localStorage.getItem("pcfPrimaryColorMode") || 'dark');
-  const [primaryColor, setPrimaryColor] = useState(localStorage.getItem("pcfPrimaryColorTheme") || 'green');
+
+
+
+  if (props.primaryColor != primaryColor) {
+    console.log("SWITCHING TO PROPS PRIMARY COLOR")
+    setPrimaryColor(props.primaryColor)
+  }
+
+  
+
 
   const config : Config = {
-    Mode: mode as Mode,
+    Mode: props.useDarkMode ? 'dark' : 'light',
     primaryColor: primaryColor as PrimaryColor
   }
 
   const theme = generateTheme(config);
   console.log("RETURNED THEME", theme)
   
-  useEffect(() => {
-    localStorage.setItem("pcfPrimaryColorMode", mode)
-  }, [mode])
-  
-  useEffect(() => {
-    localStorage.setItem("pcfPrimaryColorTheme", primaryColor)
-  }, [primaryColor])
 
 
 return(
 
+
+    
   <ThemeProvider theme={theme}>
 
-  <button  style={{backgroundColor: theme.palette.primary.main}} onClick={(e) => {setMode(mode == 'dark' ? 'light': 'dark')}}>test button</button>
 
   <Box sx={{height : '100%', width: '100%'}}>
 
-  <Stack sx={{backgroundColor: theme.palette.primary.sidebarFill, height : '100%', width: '100%'}} >
+  <Stack sx={{backgroundColor: theme.palette.primary.sidebarFill, justifyContent: 'space-between', height: '100%', width: '100%'}}>
 
+
+  <Stack sx={{ height : '100%', width: '100%', paddingBottom: '16px'}} >
+
+  
   {
-      testItems.map( (navSection : navSection) => {
-        return (
-
+    testItems.map( (navSection : navSection) => {
+      return (
+        
         // Wrapper for section labels
-
+        
         <div 
-          style={{
-            display: 'flex', 
-            flexDirection: 'column', 
-            paddingLeft: '16px',
-            paddingTop: '16px',
-            paddingRight: '8px'
-          }}
-          key={navSection.sectionTitle}  
+        style={{
+          display: 'flex', 
+          flexDirection: 'column', 
+          paddingLeft: '16px',
+          paddingTop: '16px',
+          paddingRight: '8px'
+        }}
+        key={navSection.sectionTitle}  
         >
           
           <p style={{
@@ -93,11 +109,11 @@ return(
 
           <div style={{display: 'flex', flexDirection: 'column', paddingLeft: '24px'}}>
           {navSection.children.map( (child : navLinkProps) => {
-
+            
             child.isExpanded = false
-
+            
             return(
-
+              
               <NavLink 
               theme = {theme}
               svgData = {child.icon}
@@ -113,15 +129,56 @@ return(
           </div>
         </div>
 
-      )})
-    }
-    
+)})
+}
+      
+
+     
+
+  <Drawer open = {isOpen} anchor='right' onClose={() => setIsOpen(false)}>
+
+    <Stack sx={{height: '100vh', backgroundColor: theme.palette.primary.sidebarFill, width: '400px'}} direction={'column'}>
+      <PrimaryColorOptions activeColor={props.primaryColor} onSelectOption={(color: PrimaryColor) => props.changePrimaryColor(color)}/>
+      <ThemeModeOptions activeOptionBorderColor={theme.palette.primary.main} isDarkActive = {props.useDarkMode} onChangeMode={(useDarkMode: boolean) => props.changeUseDarkMode(useDarkMode)}/>
+    </Stack>
+
+  
+  
+  </Drawer>
 
   </Stack>
+  <div 
+      style={{display: 'flex', flexDirection: 'row', gap: '8px', paddingLeft: '16px', alignItems: 'center', cursor: 'pointer',
+        paddingTop: '8px',
+        paddingRight: '8px', paddingBottom: '8px'}}
+      className='navItem'
+      onClick={() => setIsOpen(true)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="24px" fill='white' style={{minWidth: '16px', margin: 'auto 0'}}><path d={"m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"} fill='white'/></svg>
+          <p style={{
+            color: 'white',
+            textAlign: 'left',
+            fontWeight: '550',
+            margin: 'auto 0'
+          }}
+          className='sectionLabel'
+          >
+          
+            Theme Settings
+          
+          </p>
+
+          
+        </div>
+
+  </Stack>
+
   </Box>
 
  
 </ThemeProvider>
+
+
 )
 
 }

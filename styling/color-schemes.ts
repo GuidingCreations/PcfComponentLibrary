@@ -31,7 +31,7 @@ import {
 import type { ColorScheme, Config, Mode, PrimaryColor } from "./types/types";
 
 const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptions>> = {
-	green: {
+	Green: {
 		dark: {
 			...chateauGreen,
 			light: chateauGreen[300],
@@ -55,7 +55,7 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
             sidebarFill: "#202427"
 		},
 	},
-	neonBlue: {
+	"Neon Blue": {
 		dark: {
 			...neonBlue,
 			light: neonBlue[300],
@@ -79,7 +79,7 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
             sidebarFill: "#202427"
 		},
 	},
-	royalBlue: {
+	"Royal Blue": {
 		dark: {
 			...royalBlue,
 			light: royalBlue[300],
@@ -103,7 +103,7 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
             sidebarFill: "#202427"
 		},
 	},
-	orange: {
+	"Orange": {
 		dark: {
 			...tomatoOrange,
 			light: tomatoOrange[300],
@@ -134,7 +134,7 @@ export function colorSchemes(config: Config): any {
 	let primary = primarySchemes[config.primaryColor];
 
 	if (!primary) {
-		primary = primarySchemes.green;
+		primary = primarySchemes.Green;
 	}
 
 	const dark = {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.0.13" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.0.30" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -16,10 +16,13 @@
 
     <!-- strings -->
 
-   
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" default-value="green"/>
+
+
     
     <!-- Bools -->
 
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" default-value="true"/>
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value="true"/>
 
 <!-- Numbers -->
@@ -27,6 +30,23 @@
     <property name="containerHeight" display-name-key="containerHeight" of-type="Whole.None" usage="input" pfx-default-value="Self.Height"/>
     <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value="Self.Width"/>
 
+
+
+<!-- outputs -->
+
+    <property name="outputPrimaryColor" display-name-key="outputPrimaryColor" of-type="SingleLine.Text" usage="output"/>
+    <property name="outputUseDarkMode" display-name-key="outputUseDarkMode" of-type="TwoOptions" usage="output" default-value = 'true'/>
+<!-- events -->
+
+<event name="onChangePrimaryColor"
+   pfx-default-value='Set(varAppPrimaryColor, Self.outputPrimaryColor)'
+   display-name-key="onChangePrimaryColor"
+   description-key="onChangePrimaryColor" />
+
+<event name="onChangeColorMode"
+   pfx-default-value='Set(varUseDarkMode, Self.outputUseDarkMode)'
+   display-name-key="onChangeColorMode"
+   description-key="onChangeColorMode" />
 
     <resources>
 

@@ -141,8 +141,8 @@ export const tomatoOrange = {
 }
 
 export const primaryColorNames = [
-	"orange",
-	"green",
-	"neonBlue",
-	"royalBlue"
+	"Orange",
+	"Green",
+	"Neon Blue",
+	"Royal Blue"
 ]

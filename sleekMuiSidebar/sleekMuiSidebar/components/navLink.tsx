@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react'
 import { Container, Link, Stack, ThemeProvider, Button, Icon, Box } from '@mui/material';
 import {Theme, Mode} from '../../../styling/types/types'
@@ -11,7 +12,7 @@ interface linkProps {
     svgData?: string;
     linkText: string;
     onSelect: (item: any) => void;
-    theme: any;
+    theme: Theme;
     isExpanded?: boolean;
     item: navLinkProps
 }
@@ -43,15 +44,15 @@ const NavLink = (props: linkProps) => {
         
         {props.svgData ? 
         
-        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="16px" fill={'white'} style={{minWidth: '16px'}}><path d={props.svgData}/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="16px" fill='white' style={{minWidth: '16px'}}><path d={props.svgData} fill='white'/></svg>
         : ''
     }
 
         <p style={{margin: 'auto 0', color: 'white', fontSize: '.875rem', lineHeight: `24px`, paddingLeft: '8px'}}>{props.linkText}</p>
 
         { props.item.children && isExpanded ? 
-            <ArrowDownward style={{alignSelf: 'end', marginLeft: 'auto'}} fontSize= {'small'}></ArrowDownward> 
-            : props.item.children && !isExpanded ? <ArrowRight style={{alignSelf: 'end', marginLeft: 'auto'}} fontSize= {'small'}></ArrowRight>
+            <ArrowDownward style={{alignSelf: 'end', marginLeft: 'auto', fill: 'white'}} fontSize= {'small'}></ArrowDownward> 
+            : props.item.children && !isExpanded ? <ArrowRight style={{alignSelf: 'end', marginLeft: 'auto', fill: 'white'}} fontSize= {'small'}></ArrowRight>
             : ''
     
     }
@@ -68,12 +69,11 @@ const NavLink = (props: linkProps) => {
 <Box sx={{paddingLeft: '8px', borderLeftStyle: 'solid', borderColor: '#32383e', borderLeftWidth: '1px'}}>
   <Stack direction={'column'}>
     {props.item.children.map((child : navLinkProps) => {
-        console.log("CHILD: ", child)
+     
         const isMatched =  props.activeItem.navTitle == child.navTitle
-        console.log("IS MATCHED: ", isMatched)
-        console.log("HIT NAV MAP")
+     
         return (
-            <div style={{cursor: 'pointer', backgroundColor: isMatched ? 'red' : '', padding: '4px 8px', marginRight: '0', marginLeft: '8px', flexGrow: 1}} onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
+            <div style={{cursor: 'pointer', backgroundColor: isMatched ? props.theme.palette.primary.main : '', padding: '4px 8px', marginRight: '0', marginLeft: '8px', flexGrow: 1}} onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
                 
                 <p style={{margin: 0, textAlign: 'left', lineHeight: 2, color: 'white'}}>{child.navTitle}</p>
             </div>

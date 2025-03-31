@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export interface navSection {
     sectionTitle: string;
     children: navLinkProps[]  

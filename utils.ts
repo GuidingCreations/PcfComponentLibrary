@@ -247,3 +247,22 @@ export function datasetChanged(updatedProps: any, dataset: DataSet, localVariabl
 
 }
 
+export function getCookie(name : string) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].trim();
+    // Check if the cookie starts with the name we want
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1, cookie.length);
+    }
+  }
+  return null;
+}
+
+export function newCookieString(key: string, value: any) {
+  var expiration_date = new Date();
+  expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+  const newCookieString = `${key}=${value}; path=/; expires=${expiration_date}`
+  return newCookieString
+}
+
