@@ -1,0 +1,10 @@
+:root {
+    --focusedBorderColor: hsl(0, 18%, 20%);
+    --color-blue: hsl(270deg 75% 60%);
+  }
+
+#textFieldMui:focus {
+    border-color: var(--focusedBorderColor);
+    border-width: 3px;
+    border-style: solid;
+}

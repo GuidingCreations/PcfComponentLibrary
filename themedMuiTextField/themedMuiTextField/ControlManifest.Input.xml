@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.1" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
+   
+    <external-service-usage enabled="false">
+     
+    </external-service-usage>
+    
+    <property name="outputText" display-name-key="outputText" description-key="outputText" of-type="SingleLine.Text" usage="output"/>
+
+   
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path = "./styling/index.css"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+      
+    </resources>
+   
+  </control>
+</manifest>

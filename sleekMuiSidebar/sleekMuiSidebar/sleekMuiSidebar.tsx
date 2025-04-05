@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from 'react'
-import {  useEffect, useState } from 'react';
+import {  useEffect, useRef, useState } from 'react';
 import { Box, Stack, Drawer } from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
@@ -37,7 +37,9 @@ export interface muiSidebarProps {
 const muiSidebar = (props: muiSidebarProps) => {
 
 
-const items : navSection[]  = props.useTestData ? testItems : props.navItems
+const items : navSection[]  = props.useTestData ? testItems : props.navItems.length > 0 ? props.navItems : []
+
+console.log("ITEMS: ", items)
   
 const findActiveItem = () => {
 
@@ -55,6 +57,7 @@ const findActiveItem = () => {
           if (secondLevel.navTitle == props.activeScreen) {
             
             firstLevel.isExpanded = true
+            console.log("FOUND ITEM: ", secondLevel)
             activeItem = secondLevel;
             
           }
@@ -68,22 +71,32 @@ const findActiveItem = () => {
       
   })
 
-return activeItem as navLinkProps
+console.log("RETURNING ACTIVE ITEM: ", activeItem)
+return activeItem
 
 }
 
+
+const [primaryColor, setPrimaryColor] = useState(props.primaryColor)
+const [isOpen, setIsOpen] = useState(false)
+const activeItem = useRef<any>(undefined);
+
+const activeNav = findActiveItem();
+console.log("ACTIVE NAV", activeNav);
+
+if (activeNav != activeItem.current) {
+
+  activeItem.current = activeNav;
+
   
-  const [primaryColor, setPrimaryColor] = useState(props.primaryColor)
-  const [isOpen, setIsOpen] = useState(false)
-  const [activeItem, setActiveItem] = useState<navLinkProps>( findActiveItem() );
+}
+
+
 
   console.log("ACTIVE ITEM", activeItem)
 
   console.log()
 
-  useEffect(() => {
-    props.changeActiveScreen(activeItem.navTitle)
-  }, [activeItem])
 
 
   if (props.primaryColor != primaryColor) {
@@ -101,7 +114,14 @@ return activeItem as navLinkProps
 
   const theme = generateTheme(config);
   console.log("RETURNED THEME", theme)
-  
+
+  const updateActiveNav = (newNav: navLinkProps) => {
+    
+    console.log("CHANGING TO NEW NAV: ", newNav)
+    activeItem.current = newNav;
+    props.changeActiveScreen(activeItem.current.navTitle)
+
+  }
 
 return(
 
@@ -119,6 +139,8 @@ return(
 
   
   {
+    items.length > 0 ?
+     
     items.map( (navSection : navSection) => {
       return (
         
@@ -157,9 +179,9 @@ return(
               <NavLink 
               theme = {theme}
               svgData = {child.icon}
-              activeItem={activeItem}
+              activeItem={activeItem.current}
               linkText = {child.navTitle}
-              onSelect={(item: any) => {console.log("SETTING TO: ", item); !item.children ?  setActiveItem(item) : ''; console.log("CHANGING TO: ", !child.isExpanded); child.isExpanded = !child.isExpanded}}
+              onSelect={(item: any) => {console.log("SETTING TO: ", item); !item.children ?  updateActiveNav(item) : ''; console.log("CHANGING TO: ", !child.isExpanded); child.isExpanded = !child.isExpanded}}
               isExpanded = {child.isExpanded}
               item = {child}
               />
@@ -170,6 +192,8 @@ return(
         </div>
 
 )})
+
+: ''
 }
       
 

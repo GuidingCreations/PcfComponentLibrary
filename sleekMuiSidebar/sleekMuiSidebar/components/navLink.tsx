@@ -8,7 +8,7 @@ import  {navLinkProps, navSection}  from '../testItems';
 import generateTheme from '../../../styling/utils/theme-provider';
 
 interface linkProps {
-    activeItem: navLinkProps
+    activeItem?: navLinkProps
     svgData?: string;
     linkText: string;
     onSelect: (item: any) => void;
@@ -70,7 +70,7 @@ const NavLink = (props: linkProps) => {
   <Stack direction={'column'}>
     {props.item.children.map((child : navLinkProps) => {
      
-        const isMatched =  props.activeItem.navTitle == child.navTitle
+        const isMatched =  props.activeItem?.navTitle == child.navTitle
      
         return (
             <div style={{cursor: 'pointer', backgroundColor: isMatched ? props.theme.palette.primary.main : '', padding: '4px 8px', marginRight: '0', marginLeft: '8px', flexGrow: 1}} onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
