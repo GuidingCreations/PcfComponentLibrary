@@ -14,6 +14,7 @@ This component utilizes Material UI to provide a sleek aesthetic that offers a m
 ## Table of Contents
 
 - [Demo](#Demo)
+- [Data Sources](#data-sources)
 - [Input Properties](#input-properties)
 - [Output properties](#output-properties)
 - [Known issues](#known-issues)
@@ -44,6 +45,10 @@ This is what it looks like when you're clicked into it and you already have mult
 
 ![Multiple select state](./images/Single%20select%20state%20themed%20mui%20combo%20box.png)
 
+
+## Data sources
+
+- Items: Items to use in ComboBox
 
 ## Input Properties
 
