@@ -14,8 +14,8 @@ This component utilizes Material UI to provide a sleek aesthetic that offers a m
 ## Demo
 
 Demo video
-!<video controls src="./images/Themed MUI ComboBox Demo.mp4" title="Title"></video>
 
+<video controls src="Themed MUI ComboBox Demo (1).mp4" title="Title"></video>
 ### Standard ComboBox state
 
 This is the standard ComboBox state, shown with a "Green" theme
