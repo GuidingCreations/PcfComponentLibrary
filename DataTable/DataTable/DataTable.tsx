@@ -14,6 +14,8 @@ import SquashedBG from "../../squashedButtonGroup/SquashedButtonGroup/SquashedBu
 import { chipRender } from "../renderOptions/chipRender";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useRef, useState } from "react";
+import generateTheme from '../../styling/utils/theme-provider'
+import { Config, PrimaryColor } from "../../styling/types/types";
 
 const testRows: GridRowsProp = [
   { id: 1, col1: "Hello", col2: "World" },
@@ -29,6 +31,8 @@ const testColumns: GridColDef[] = [
 export interface DataTableProps {
   tableData: any[];
   tableColumns: GridColDef[];
+  primaryColor: string;
+  useTheming: boolean;
   height: number;
   width: number;
   defaultColumnWidths: any[];
@@ -149,15 +153,15 @@ const DataTableComponent = (props: DataTableProps) => {
 
   console.log("COLUMNS AFTER APPENDING RENDER", columns);
 
-  const theme = createTheme({
-    palette: {
-      mode: props.useDarkMode ? "dark" : "light",
-    },
-  });
+  const config : Config = {
+    Mode: props.useDarkMode ? 'dark' : 'light',
+    primaryColor: props.primaryColor as PrimaryColor
+  }
+  const theme =  generateTheme(config)
+  console.log(" D THEME : ", theme)
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+  const renderMain = () => {
+    return (
       <div
         style={{
           height: props.height,
@@ -196,8 +200,32 @@ const DataTableComponent = (props: DataTableProps) => {
           className={props.classes}
         />
       </div>
+    )
+  }
+
+  const renderWithTheme = () => {
+    return(
+
+      <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {renderMain()}
     </ThemeProvider>
-  );
+    )
+  }
+
+  const renderWithoutTheme = () => {
+   return (
+    <ThemeProvider theme = {createTheme({palette: {mode: props.useDarkMode ? 'dark' : 'light'}})}>
+
+     {renderMain()}
+    </ThemeProvider>
+    )
+  
+  }
+
+  return (
+    props.useTheming ? renderWithTheme() : renderWithoutTheme()
+  )
 };
 
 export default DataTableComponent;

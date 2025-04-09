@@ -292,6 +292,8 @@ export class DataTable
       hideFooter: context.parameters.hideFooter.raw,
       showCheckboxes: context.parameters.showCheckboxes.raw,
       noRowsText: context.parameters.noRowsText.raw || "No results found",
+      primaryColor: context.parameters.primaryColor.raw || 'Green',
+      useTheming: context.parameters.useTheming.raw
     };
 
     console.log("DATA TABLE PROPS FROM INDEX.TS", props);

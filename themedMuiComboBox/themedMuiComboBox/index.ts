@@ -1,43 +1,96 @@
+/* eslint-disable */
+
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
+import ComboBoxComponent, { comboBoxProps } from "./ComboBox";
 import * as React from "react";
+import { primaryColorNames } from "../../styling/colors";
+import { PrimaryColor } from "../../styling/types/types";
+import {createInfoMessage, populateDataset} from '../../utils'
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class themedMuiComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
-
-    /**
-     * Empty constructor.
-     */
-    constructor() {
-        // Empty
+    context: ComponentFramework.Context<IInputs>;
+    private state : ComponentFramework.Dictionary = {
+        items: [],
+        searchText: '',
+        outputHeight: 60
     }
 
-    /**
-     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
-     * Data-set values are not initialized here, use updateView.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
-     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
-     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
-     */
+    handleSearchTextChange = (searchText: string) => {
+      
+        this.state.searchText = searchText
+        createInfoMessage(`NEW SEARCH TEXT: ${this.state.searchText}`)
+        this.notifyOutputChanged()
+
+    }
+
+    handleSelectionChange = (selectedItems: any[], newHeight: number) => {
+
+        console.log(selectedItems);
+        this.state.outputHeight = newHeight;
+
+        if (selectedItems.length > 0) {
+
+            
+            const selectedRecordIDs = selectedItems.map((selectedItem) => selectedItem.recordID);
+            createInfoMessage("SEL REC ID: ", selectedRecordIDs)
+            this.context.parameters.Items.setSelectedRecordIds(selectedRecordIDs);
+            createInfoMessage("NEW SELECTED RECORD IDS: ", this.context.parameters.Items.getSelectedRecordIds());
+        } else {
+            this.context.parameters.Items.clearSelectedRecordIds();
+            createInfoMessage("NEW SELECTED RECORD IDS: ", this.context.parameters.Items.getSelectedRecordIds());
+
+        }
+            this.notifyOutputChanged()
+
+    }
+
+
+
+
+    private updateDataset = () => {
+        if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.Items.sortedRecordIds.length > this.state.items.length) ) {
+            this.state.items = populateDataset(this.context.parameters.Items);
+            console.log("NEW ITEMS: ", this.state.items)
+        }
+    }
+
+    constructor() {
+    }
+
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this.context = context
     }
 
-    /**
-     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-     * @returns ReactElement root react element for the control
-     */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        const props: IHelloWorldProps = { name: 'Power Apps' };
+        
+        this.context.parameters.Items.paging.setPageSize(10000)
+
+        this.updateDataset()
+
+        const primaryColor : PrimaryColor = primaryColorNames.filter((color) => color == context.parameters.primaryColor.raw)[0] || 'Green';
+
+        const props : comboBoxProps = {
+            useDarkMode: context.parameters.useDarkMode.raw,
+            primaryColor: primaryColor as PrimaryColor,
+            labelText: context.parameters.labelText.raw || 'Label text',
+            allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
+            useTestData: context.parameters.useTestData.raw,
+            optionsList: this.state.items,
+            displayField: context.parameters.displayField.raw || 'title',
+            onSearchTextChange: this.handleSearchTextChange,
+            onSelectionChange: this.handleSelectionChange
+        }
+
         return React.createElement(
-            HelloWorld, props
+            ComboBoxComponent, props
         );
     }
 
@@ -46,7 +99,10 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        return {
+            searchText: this.state.searchText,
+            outputHeight: this.state.outputHeight
+        };
     }
 
     /**

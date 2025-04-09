@@ -69,6 +69,7 @@
     <ProjectReference Include="..\StepperHeader\StepperHeader.pcfproj" />
     <ProjectReference Include="..\TransferList\TransferList.pcfproj" />
     <ProjectReference Include="..\sleekMuiSidebar\sleekMuiSidebar.pcfproj" />
+    <ProjectReference Include="..\themedMuiComboBox\themedMuiComboBox.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

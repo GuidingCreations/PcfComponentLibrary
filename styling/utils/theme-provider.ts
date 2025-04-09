@@ -8,7 +8,7 @@ import { Config } from '../types/types'
 const generateTheme = (props: Config) => {
 
 
-  const theme = createTheme(colorSchemes(props))
+  const theme = colorSchemes(props)
 
   return theme
 

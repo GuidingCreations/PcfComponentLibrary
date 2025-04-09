@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.15.198" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.15.201" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -40,6 +40,8 @@
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Width'/>
     
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="useTheming" display-name-key="useTheming" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value="true"/>
 
     <property name="showCheckboxes" display-name-key="showCheckboxes" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
     

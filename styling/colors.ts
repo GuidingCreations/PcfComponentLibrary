@@ -1,3 +1,4 @@
+import { PrimaryColor } from "./types/types"
 
 
 export const california = {
@@ -140,7 +141,7 @@ export const tomatoOrange = {
 	950: "#440608",
 }
 
-export const primaryColorNames = [
+export const primaryColorNames : PrimaryColor[] = [
 	"Orange",
 	"Green",
 	"Neon Blue",
