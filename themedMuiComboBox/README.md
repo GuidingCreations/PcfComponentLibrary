@@ -20,7 +20,6 @@ This component utilizes Material UI to provide a sleek aesthetic that offers a m
 
 ## Demo
 
-Demo video
 
 https://github.com/user-attachments/assets/df4d08e4-fafd-4845-9bca-0309457d41b9
 
@@ -48,8 +47,24 @@ This is what it looks like when you're clicked into it and you already have mult
 
 ## Input Properties
 
+- useDarkMode (Boolean): Whether or not the control will use dark mode
+
+- allowSelectMultiple (Boolean): Whether or not you can select multiple values simultaneously
+
+- useTestData (Boolean): Whether control will use test data
+
+- primaryColor (String): The theme variant that will be used. Current acceptable values are Green, Neon Blue, Royal Blue, Orange. If anything else is passed, will use Green.
+
+- labelText (String): The text used in the label
+
+- displayField (String): The field from your Items that will be displayed as the options label
+
 
 ## Output properties
+
+- searchText (String): The text typed into the TextField search area
+
+- outputHeight (Number): The height of the adjusted ComboBox - useful when you want to change height of actual component in power apps based on the actual rendered component, such as when selecting multiple values and rendering out extra rows for the chips
 
 # Known issues
 
