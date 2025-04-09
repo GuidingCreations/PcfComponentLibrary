@@ -13,6 +13,7 @@ This component utilizes Material UI to provide a sleek aesthetic that offers a m
 
 ## Demo
 
+Demo video
 <video controls src="./images/Themed MUI ComboBox Demo.mp4" title="Title"></video>
 
 ### Standard ComboBox state
