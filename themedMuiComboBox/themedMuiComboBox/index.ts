@@ -1,59 +1,62 @@
 /* eslint-disable */
 
-import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import ComboBoxComponent, { comboBoxProps } from "./ComboBox";
+// Imports
+
 import * as React from "react";
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { primaryColorNames } from "../../styling/colors";
 import { PrimaryColor } from "../../styling/types/types";
 import {createInfoMessage, populateDataset} from '../../utils'
+import ComboBoxComponent, { comboBoxProps } from "./ComboBox";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class themedMuiComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+    
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>;
+    
+    // Initialize state
+
     private state : ComponentFramework.Dictionary = {
         items: [],
         searchText: '',
         outputHeight: 60
     }
 
+    // Function to call when search text is changed
+
     handleSearchTextChange = (searchText: string) => {
       
         this.state.searchText = searchText
-        createInfoMessage(`NEW SEARCH TEXT: ${this.state.searchText}`)
         this.notifyOutputChanged()
 
     }
 
+    // Function to call when the selected items in the combo box changes
+
     handleSelectionChange = (selectedItems: any[], newHeight: number) => {
 
-        console.log(selectedItems);
         this.state.outputHeight = newHeight;
 
-        if (selectedItems.length > 0) {
+        // If selected items array is empty, clear selected records, else set selected records to selected items array
 
-            
+        if (selectedItems.length > 0) {
             const selectedRecordIDs = selectedItems.map((selectedItem) => selectedItem.recordID);
-            createInfoMessage("SEL REC ID: ", selectedRecordIDs)
             this.context.parameters.Items.setSelectedRecordIds(selectedRecordIDs);
-            createInfoMessage("NEW SELECTED RECORD IDS: ", this.context.parameters.Items.getSelectedRecordIds());
         } else {
             this.context.parameters.Items.clearSelectedRecordIds();
-            createInfoMessage("NEW SELECTED RECORD IDS: ", this.context.parameters.Items.getSelectedRecordIds());
-
         }
-            this.notifyOutputChanged()
+
+        this.notifyOutputChanged()
 
     }
 
-
-
+    // Function to generate dataset whenever needed, will not re-generate if data source has not changed
 
     private updateDataset = () => {
         if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.Items.sortedRecordIds.length > this.state.items.length) ) {
             this.state.items = populateDataset(this.context.parameters.Items);
-            console.log("NEW ITEMS: ", this.state.items)
         }
     }
 
@@ -94,10 +97,7 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
         );
     }
 
-    /**
-     * It is called by the framework prior to a control receiving new data.
-     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
-     */
+    
     public getOutputs(): IOutputs {
         return {
             searchText: this.state.searchText,
@@ -105,11 +105,7 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
         };
     }
 
-    /**
-     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-     * i.e. cancelling any pending remote calls, removing listeners, etc.
-     */
+    
     public destroy(): void {
-        // Add code to cleanup control if necessary
     }
 }

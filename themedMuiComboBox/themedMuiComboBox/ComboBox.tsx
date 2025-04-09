@@ -1,3 +1,7 @@
+/* eslint-disable */
+
+// Imports
+
 import * as React from 'react'
 import Autocomplete from "@mui/material/Autocomplete"
 import { CssBaseline, TextField, ThemeProvider } from '@mui/material';
@@ -6,6 +10,7 @@ import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import { useEffect, useRef, useState } from 'react';
 import testItems from './testItems';
 
+// Props interface
 
 export interface comboBoxProps {
   useDarkMode: boolean,
@@ -21,14 +26,15 @@ export interface comboBoxProps {
 
 const ComboBoxComponent = (props: comboBoxProps) => {
 
-  const liveData = props.optionsList.length > 0 ? props.optionsList : []
-  
-  const items = props.useTestData ? testItems : liveData
+  // Init basic values
 
+  const liveData = props.optionsList.length > 0 ? props.optionsList : [] 
+  const items = props.useTestData ? testItems : liveData
   const displayField = props.useTestData ? 'title' : props.displayField;
   const autoRef = useRef<any>(null)
-
   const [selectedValues, setSelectedValues] = useState<any[]>([]);
+
+  // Hook to call whenever selectedValues array changes
 
   useEffect(() => {
 
@@ -39,6 +45,9 @@ const ComboBoxComponent = (props: comboBoxProps) => {
 
   }, [selectedValues])
 
+
+  // Config to pass to theme
+
   const config : Config = {
     Mode: props.useDarkMode ? 'dark' : 'light',
     primaryColor:  props.primaryColor as PrimaryColor
@@ -48,8 +57,15 @@ const ComboBoxComponent = (props: comboBoxProps) => {
 
 
   return (
+    
+    // Theme wrapper
+    
     <ThemeProvider theme = {theme}>
       <CssBaseline/>
+    
+    
+    {/* Wrapper around the autocomplete component */}
+    
     <div  style={{position: "relative",  width: '100%', height: 'fit-content'}} ref = {autoRef}>
 
     <Autocomplete
@@ -75,6 +91,9 @@ const ComboBoxComponent = (props: comboBoxProps) => {
     }}
     options={items}
     getOptionLabel={(option) => option[displayField]}
+    
+    // Render input
+    
     renderInput={(params) => (
       <TextField
       {...params}
@@ -84,6 +103,8 @@ const ComboBoxComponent = (props: comboBoxProps) => {
       onChange={(e) => props.onSearchTextChange ? props.onSearchTextChange(e.target.value) : ''}
       />
     )}
+    
+    
     />
     
     </div>
