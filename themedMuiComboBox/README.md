@@ -2,6 +2,10 @@
 
 ## Description
 
+
+
+
+
 This component utilizes Material UI to provide a sleek aesthetic that offers a much more appealing visual than vanilla power apps. It has built-in theming that works in tandem with other Themed controls in this component library
 
 ## Table of Contents
@@ -15,7 +19,7 @@ This component utilizes Material UI to provide a sleek aesthetic that offers a m
 
 Demo video
 
-<video controls src="./images/Themed MUI ComboBox Demo.mp4" title="Title"></video>
+<video controls src="[./images/Themed MUI ComboBox Demo.mp4](https://github.com/user-attachments/assets/3150227d-ce67-441a-b4e4-92aac2ca539c)" title="Title"></video>
 
 ### Standard ComboBox state
 
