@@ -47,6 +47,8 @@ This is what it looks like when you're clicked into it and you already have mult
 
 ## Input Properties
 
+- ReadMeLink (String): Convenient URL so you can always have the ReadMe URL available
+
 - useDarkMode (Boolean): Whether or not the control will use dark mode
 
 - allowSelectMultiple (Boolean): Whether or not you can select multiple values simultaneously

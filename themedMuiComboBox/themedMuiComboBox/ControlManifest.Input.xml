@@ -19,6 +19,7 @@
     
   <!-- Input properties -->
     
+    <property name="ReadMeLink" display-name-key = "ReadMeLink" of-type = "TwoOptions" usage = "input" default-value = "https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/themedMuiComboBox/README.md"/>
     <property name="useDarkMode" display-name-key = "useDarkMode" of-type = "TwoOptions" usage = "input" default-value = "true"/>
     <property name="allowSelectMultiple" display-name-key = "allowSelectMultiple" of-type = "TwoOptions" usage = "input" default-value="true"/>
     <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" default-value = "true"/>
