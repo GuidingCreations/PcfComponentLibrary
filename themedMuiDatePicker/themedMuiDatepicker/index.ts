@@ -1,20 +1,23 @@
+import * as React from "react"
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import TextFieldComponent, { TextFieldProps } from './HelloWorld'
-import * as React from "react";
+import DatePickerComponent, { DatePickerProps } from "./DatePickerComponent";
 
-export class themedMuiTextField implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+export class themedMuiDatepicker implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
-    state: ComponentFramework.Dictionary = {
-        textValue: ''
+    context: ComponentFramework.Context<IInputs>;
+    
+    // Initialize state
+
+    private state : ComponentFramework.Dictionary = {
+        selectedDate: '444'
     }
 
-    private onChangeTextValue = (newText: string) => {
-
-        this.state.textValue = newText;
-        console.log("NEW STATE TEXT: ", this.state.textValue)
-        this.notifyOutputChanged();
-
+    private handleDateSelection = (newDate: string) => {
+        console.log("CHANGING TO: ", newDate)
+        this.state.selectedDate = newDate
+        this.notifyOutputChanged()
     }
+
     /**
      * Empty constructor.
      */
@@ -35,6 +38,7 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+
     }
 
     /**
@@ -44,22 +48,15 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("UPDATED PROPS: ", context.updatedProperties)
-        context.mode.trackContainerResize(true);
-        console.log("DEMsssS: ", context.mode.allocatedHeight, context.mode.allocatedWidth)
-
-        const props : TextFieldProps = {
-            onChangeText: this.onChangeTextValue,
-            primaryColor: context.parameters.primaryColor.raw || 'Green',
+        const props : DatePickerProps = {
             useDarkMode: context.parameters.useDarkMode.raw,
-            labelText: context.parameters.labelText.raw || 'Label text',
-            isMultiline: context.parameters.isMultiline.raw,
-            height: context.mode.allocatedHeight,
-            width: context.mode.allocatedWidth
+            primaryColor: context.parameters.primaryColor.raw || "Green",
+            handleDateSelection: this.handleDateSelection,
+            labelText: context.parameters.labelText.raw || "Label text"
         }
 
         return React.createElement(
-            TextFieldComponent, props
+            DatePickerComponent, props
         );
     }
 
@@ -68,9 +65,9 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return { 
-            outputText: this.state.textValue
-        };
+        return {
+            selectedDate: this.state.selectedDate
+         };
     }
 
     /**

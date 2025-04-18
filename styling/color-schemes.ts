@@ -165,7 +165,6 @@ export function colorSchemes(config: Config): any {
 						borderColor: primary.light.main,
 						borderRadius: '10px',
 						padding: '8px',
-						backgroundColor: "#121517"
 					}
 				}
 				
@@ -177,10 +176,8 @@ export function colorSchemes(config: Config): any {
 				  root: {
 					
 					margin: '0px',
-					color: config.Mode == 'dark' ? 'white' : 'black', 
-		
-					
-		
+					color: config.Mode == 'dark' ? 'white' : 'black',
+					height: '100%', 
 					'& .MuiOutlinedInput-notchedOutline': {
 		
 					  borderStyle: 'solid',
@@ -206,8 +203,11 @@ export function colorSchemes(config: Config): any {
 			},
 			MuiInputBase: {
 				styleOverrides: {
+					inputMultiline: {
+						height: '100%'
+					},
 					root: {
-						
+						marginBottom: 'auto'
 					}
 				}
 			},

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="Stepper" version="0.0.31" display-name-key="Stepper" description-key="Stepper description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Stepper" version="0.0.42" display-name-key="Stepper" description-key="Stepper description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      
     </external-service-usage>
+
     <data-set name="steps" display-name-key="steps">
     
     </data-set>
 
+
+<property name="isSubmittable" display-name-key="isSubmittable" description-key="isSubmittable" of-type="TwoOptions" usage="input" default-value= "true"/>
 <property name="useTestHarness" display-name-key="useTestHarness" description-key="useTestHarness" of-type="TwoOptions" usage="input" default-value= "false"/>
 <property name="useDarkMode" display-name-key="useDarkMode" description-key="useDarkMode" of-type="TwoOptions" usage="input" default-value= "true"/>
 <property name="showBorder" display-name-key="showBorder" description-key="showBorder" of-type="TwoOptions" usage="input" default-value= "true"/>
@@ -16,6 +19,14 @@
 <property name="containerHeight" display-name-key="containerHeight" description-key="containerHeight" of-type="Whole.None" usage="input" pfx-default-value = 'Self.Height'/>
 <property name="currentStep" display-name-key="currentStep" of-type="Object" usage="output" hidden="false"/>
 <property name="currentStepSchema" display-name-key="currentStepSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
+
+
+<!-- Events -->
+
+    <event name="OnSubmit"
+   pfx-default-value='Notify("No submit event", NotificationType.Error, 2000)'
+   display-name-key="OnSubmit"
+   description-key="OnSubmit" />
 
     <!-- Property dependencies -->
 

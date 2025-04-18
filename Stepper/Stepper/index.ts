@@ -16,9 +16,9 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
     private _currentStep : any = {}
     private _inputSchema: any = {}
     
-    handleStepChange = (newStepNumber: number, newStepID: any) => {
+    handleStepChange = (newStepNumber: number, recordID : number) => {
         this._currentStepNumber = newStepNumber
-        this._currentStep = generateOutputObject(this.context.parameters.steps.records[newStepID], this.context.parameters.steps);
+        this._currentStep = generateOutputObject(this.context.parameters.steps.records[recordID], this.context.parameters.steps);
         this.notifyOutputChanged()
     }
 
@@ -38,13 +38,14 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        context.mode.trackContainerResize(true)
          this._inputSchema = generateOutputObjectSchema(context, context.parameters.steps, this._inputSchema)
         const params = context.parameters
         this._steps = populateDataset(context.parameters.steps);
 
         if (this._currentStepNumber == -1) {
             
-            this.handleStepChange(0, context.parameters.steps.sortedRecordIds[0])
+            this.handleStepChange(0,  this._steps[0].recordID)
         }
 
 
@@ -53,9 +54,11 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
             useDarkMode: params.useDarkMode.raw,
             Steps: this._steps,
             showBorder: params.showBorder.raw,
-            containerHeight: params.containerHeight.raw || 50,
-            containerWidth: params.containerWidth.raw || 350,
-            handleStepChange: this.handleStepChange 
+            containerHeight: context.mode.allocatedHeight,
+            containerWidth: context.mode.allocatedWidth,
+            handleStepChange: this.handleStepChange,
+            isSubmittable: context.parameters.isSubmittable.raw,
+            onSubmit: context.events.OnSubmit
         }
 
 
@@ -67,6 +70,8 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
   
     public getOutputs(): IOutputs {
 
+        console.log("CURRENT STEP NUMBER: ", this._currentStepNumber);
+        console.log("CURRENT STEP: ", this._currentStep)
 
         return {
             currentStep: this._currentStep,

@@ -16,7 +16,9 @@ export interface StepperProps {
   showBorder?: boolean
   containerWidth?: number
   containerHeight?: number,
-  handleStepChange: (newStepNumber: number, newStepID: any) => void
+  handleStepChange: (newStepNumber: number, newStepID: any) => void;
+  isSubmittable: boolean;
+  onSubmit?: () => void
 }
 
 
@@ -44,7 +46,13 @@ export default function StepperComponent(props: StepperProps) {
 
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    
+    setActiveStep((prevActiveStep) => Math.min(prevActiveStep + 1, maxSteps - 1));
+
+    if( activeStep === maxSteps - 1 && props.onSubmit) {
+      props.onSubmit()
+    }
+    
   };
 
   const handleBack = () => {
@@ -93,9 +101,9 @@ export default function StepperComponent(props: StepperProps) {
         <Button
           size="small"
           onClick={handleNext}
-          disabled={activeStep === maxSteps - 1}
+          disabled = {!props.isSubmittable && activeStep == maxSteps - 1}
           >
-          Next
+         { props.isSubmittable && activeStep == maxSteps - 1  ? "Submit" : "Next"}
           {theme.direction === 'rtl' ? (
             <KeyboardArrowLeft />
           ) : (

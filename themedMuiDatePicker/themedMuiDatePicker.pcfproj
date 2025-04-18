@@ -8,8 +8,8 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')" />
 
   <PropertyGroup>
-    <Name>themedMuiTextField</Name>
-    <ProjectGuid>777e2895-edab-4a23-bcb0-d1a19ca1cb10</ProjectGuid>
+    <Name>themedMuiDatePicker</Name>
+    <ProjectGuid>b9354b2b-97d5-46a9-8231-87fdfb45cf70</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 
