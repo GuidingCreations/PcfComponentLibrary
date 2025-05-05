@@ -35,7 +35,7 @@ const PrimaryColorOptions = (props: primaryColorOptionsProps) => {
 
             return (
 
-                <div key={name} style={{margin: 0, display: 'flex', alignItems: 'center', justifyContent: 'start', border: `${isActive ? '3px' : '1px'} solid ${props.activeColor == name ? tempTheme.palette.primary.main : 'rgba(255,255,255,.5)'}`, borderRadius: '10px', cursor: 'pointer', backgroundColor: '#32383e', padding: '8px 16px', flexBasis: '33%', gap: '8px', flexGrow: .33}} onClick={() => props.onSelectOption(name as PrimaryColor)}>
+                <div key={name} style={{margin: 0, display: 'flex', alignItems: 'center', justifyContent: 'start', border: `${isActive ? '3px' : '1px'} solid ${props.activeColor == name ? tempTheme.palette.primary.main : 'rgba(255,255,255,.5)'}`, borderRadius: '10px', cursor: 'pointer', backgroundColor: '#32383e', padding: '8px 16px', flexBasis: '33%', gap: '8px', flexGrow: 1}} onClick={() => props.onSelectOption(name as PrimaryColor)}>
                     <div style={{width: '24px', height: '24px', backgroundColor: tempTheme.palette.primary.main, borderRadius: 10000}}></div>
                     <p style={{color: 'white', margin: '2px', fontSize: '1rem'}}>{name}</p>
                 </div>

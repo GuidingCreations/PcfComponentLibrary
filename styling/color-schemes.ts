@@ -15,6 +15,7 @@ declare module '@mui/material/styles' {
       hovered?: string;
       selected?: string;
       sidebarFill: string;
+	  elementBackgroundColor: string
     }
   }
 
@@ -28,6 +29,7 @@ import {
 	royalBlue,
 	shakespeare,
 	stormGrey,
+	teal,
 	tomatoOrange,
 } from "./colors";
 import type { ColorScheme, Config, Mode, PrimaryColor } from "./types/types";
@@ -43,7 +45,8 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
 			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
 			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
-            sidebarFill: "#202427"
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
 		},
 		light: {
 			...chateauGreen,
@@ -54,7 +57,7 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
 			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
 			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
-            sidebarFill: "#202427"
+            sidebarFill: "#FFFFFF"
 		},
 	},
 	"Neon Blue": {
@@ -67,14 +70,17 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
 			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
 			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
-            sidebarFill: "#202427"
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
+			
+
         },
 		light: {
 			...neonBlue,
 			light: neonBlue[400],
 			main: neonBlue[500],
 			dark: neonBlue[600],
-            sidebarFill: "#202427"
+            sidebarFill: "#FFFFFF"
 		},
 	},
 	"Royal Blue": {
@@ -87,14 +93,16 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
 			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
 			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
-            sidebarFill: "#202427"
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
+
 		},
 		light: {
 			...royalBlue,
 			light: royalBlue[400],
 			main: royalBlue[500],
 			dark: royalBlue[600],
-            sidebarFill: "#202427"
+            sidebarFill: "#FFFFFF"
 		},
 	},
 	"Orange": {
@@ -104,7 +112,9 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			main: tomatoOrange[400],
 			dark: tomatoOrange[500],
 			contrastText: "rgba(255, 255, 255, 1)",
-            sidebarFill: "#202427"
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
+
 		},
 		light: {
 			...tomatoOrange,
@@ -112,13 +122,39 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			main: tomatoOrange[500],
 			dark: tomatoOrange[600],
 			contrastText: "blue",
-            sidebarFill: "#202427"
+            sidebarFill: "#FFFFFF"
 		},
 	},
+	"Teal": {
+		dark: {
+			...teal,
+			light: teal[300],
+			main: teal.main,
+			dark: teal[500],
+			contrastText: teal.darkContrastText,
+			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
+			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
+			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
+		},
+		light: {
+			...teal,
+			light: teal[400],
+			main: teal[500],
+			dark: teal[600],
+			contrastText: teal.lightContrastText,
+			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
+			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
+			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
+            sidebarFill: "#FFFFFF"
+		}
+	}
 };
 
 
 export function colorSchemes(config: Config): any {
+	console.log("CONFIGY: ", config)
 	let primary : any = primarySchemes[config.primaryColor];
 
 	console.log("PRIM: ", primary)
@@ -154,17 +190,19 @@ export function colorSchemes(config: Config): any {
 						'& .MuiAutocomplete-listbox .MuiAutocomplete-option[aria-selected="true"]' : {
 							backgroundColor: primary.light.light,
 							opacity: '1',
+							ShadowRoot: ''
 						},
 						'& .MuiAutocomplete-listbox .MuiAutocomplete-option[aria-selected="true"]:hover': {
 							backgroundColor: primary.light.main,
 							opacity: '1',
 						},
 						
+						backgroundColor: primary[config.Mode].elementBackgroundColor,
 						borderStyle: 'solid',
 						borderWidth: '1px',
 						borderColor: primary.light.main,
 						borderRadius: '10px',
-						padding: '8px',
+						padding: '2px 4px',
 					}
 				}
 				
@@ -206,6 +244,9 @@ export function colorSchemes(config: Config): any {
 					inputMultiline: {
 						height: '100%'
 					},
+					multiline: {
+						height: 'fit-content'
+					},
 					root: {
 						marginBottom: 'auto'
 					}
@@ -229,7 +270,9 @@ export function colorSchemes(config: Config): any {
         }
 					}
 				}
-			}
+			},
+			
+			
 		},
 		palette: {
 			

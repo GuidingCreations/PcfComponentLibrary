@@ -2,14 +2,16 @@
 
 export interface navSection {
     sectionTitle: string;
-    children: navLinkProps[]  
+    children: navLinkProps[] ,
+    isHidden?: boolean 
 }
   
   export interface navLinkProps {
     icon: string;
     navTitle: string,
     isExpanded: boolean;
-    children?: navLinkProps[]
+    children?: navLinkProps[],
+    isHidden?: boolean
   }
   
   

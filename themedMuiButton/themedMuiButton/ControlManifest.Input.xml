@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.1" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.9" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
+  
     <external-service-usage enabled="false">
+
     </external-service-usage>
+    <property name="PrimaryColor" of-type="SingleLine.Text" usage="input" display-name-key = "PrimaryColor"/>
+    <property name="useDarkMode" of-type="TwoOptions" usage="input" display-name-key = "useDarkMode"/>
+    <property name="uselessOutput" of-type="SingleLine.Text" usage="output" display-name-key = "uselessOutput"/>
+    <property name="labelText" of-type="SingleLine.Text" usage="input" display-name-key = "labelText"/>
+    <property name="variant" of-type="SingleLine.Text" usage="input" display-name-key = "variant"/>
 
-    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-
-    <event name="OnClick"
+        <event name="OnClick"
    pfx-default-value='Notify("No button event", NotificationType.Error, 2000)'
    display-name-key="OnClick"
    description-key="OnClick" />
@@ -15,8 +20,8 @@
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />
       <platform-library name="Fluent" version="9.46.2" />
+
     </resources>
 
   </control>
-
 </manifest>

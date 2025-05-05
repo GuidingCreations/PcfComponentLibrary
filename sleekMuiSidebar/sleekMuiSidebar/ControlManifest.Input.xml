@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.0.48" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.0.52" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -16,7 +16,7 @@
 
     <!-- strings -->
 
-    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" default-value="green"/>
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value="varAppPrimaryColor"/>
     <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" pfx-default-value="App.ActiveScreen.Name"/>
 
 

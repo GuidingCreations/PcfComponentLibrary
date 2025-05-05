@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <Name>themedMuiButton</Name>
-    <ProjectGuid>3ce79808-eee5-4523-8177-22cec29d0830</ProjectGuid>
+    <ProjectGuid>d3e93a6b-050d-4308-bb12-9fcb339947f6</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 

@@ -148,11 +148,12 @@ return(
         
         <div 
         style={{
-          display: 'flex', 
+          display: navSection.isHidden ? 'none' : 'flex', 
           flexDirection: 'column', 
           paddingLeft: '16px',
           paddingTop: '16px',
           paddingRight: '8px'
+          
         }}
         key={navSection.sectionTitle}  
         >
@@ -176,6 +177,7 @@ return(
             
             return(
               
+              !child.isHidden ?
               <NavLink 
               theme = {theme}
               svgData = {child.icon}
@@ -185,6 +187,8 @@ return(
               isExpanded = {child.isExpanded}
               item = {child}
               />
+            : <></>
+            
             )
             
           })}

@@ -46,7 +46,7 @@ const RadioGroupComponent = (props: RadioGroupProps) => {
     <ThemeProvider theme={theme}>
 
        <FormControl>
-      <FormLabel style={{textAlign: 'left'}} id="demo-radio-buttons-group-label">Gender</FormLabel>
+      <FormLabel style={{textAlign: 'left'}} id="demo-radio-buttons-group-label">{props.labelText}</FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
         name="radio-buttons-group"

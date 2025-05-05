@@ -5,11 +5,14 @@ import * as React from "react";
 export class themedMuiTextField implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
     state: ComponentFramework.Dictionary = {
-        textValue: ''
+        textValue: '',
+        outputHeight: 65
     }
 
-    private onChangeTextValue = (newText: string) => {
+    private onChangeTextValue = (newText: string, outputHeight: number) => {
 
+        console.log("OUTPUT HEIGHT: ", outputHeight);
+        this.state.outputHeight = outputHeight;
         this.state.textValue = newText;
         console.log("NEW STATE TEXT: ", this.state.textValue)
         this.notifyOutputChanged();
@@ -55,7 +58,8 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
             labelText: context.parameters.labelText.raw || 'Label text',
             isMultiline: context.parameters.isMultiline.raw,
             height: context.mode.allocatedHeight,
-            width: context.mode.allocatedWidth
+            width: context.mode.allocatedWidth,
+            defaultText: context.parameters.defaultText.raw || ''
         }
 
         return React.createElement(
@@ -69,7 +73,8 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
      */
     public getOutputs(): IOutputs {
         return { 
-            outputText: this.state.textValue
+            outputText: this.state.textValue,
+            outputHeight: this.state.outputHeight
         };
     }
 

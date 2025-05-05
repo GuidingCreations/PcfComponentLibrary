@@ -36,14 +36,8 @@ const ComboBoxComponent = (props: comboBoxProps) => {
   const items = props.useTestData ? testItems : liveData
   const displayField = props.useTestData ? 'title' : props.displayField;
   const autoRef = useRef<any>(null);
-  const defaultSelectedValues = useRef(items.length > 0 ? props.defaultSelectedValues : []);
-
-  const getMatchingRecords = () => {
-    const matching = items.filter((item : any) => props.defaultSelectedValues.filter((defaultItem : any) => defaultItem[displayField] == item[displayField]).length > 0);
-    return matching
-  }
-
-  const [selectedValues, setSelectedValues] = useState<any[]>(getMatchingRecords());
+  const defaultSelectedValues = useRef(items.length > 0 ? props.defaultSelectedValues : [])
+  const [selectedValues, setSelectedValues] = useState<any[]>(defaultSelectedValues.current || []);
 
   if(props.defaultSelectedValues != defaultSelectedValues.current && items.length > 0) {
     console.log("ITEMS IN MATCH: ", items)
@@ -90,8 +84,9 @@ const ComboBoxComponent = (props: comboBoxProps) => {
 
   const theme : Theme = generateTheme(config)
 
-  console.log("THEME GENERATED: ", theme)
+  console.log("OPTIONS LIST: ", items)
 
+if (items.length > 0) {
 
   return (
     
@@ -133,9 +128,10 @@ const ComboBoxComponent = (props: comboBoxProps) => {
       }
     }}
     options={items}
-    getOptionLabel={(option) => option[displayField]}
+    getOptionLabel={(option) => {console.log("OPTION n: ", option); return option[displayField]}}
     value={ props.allowSelectMultiple ? selectedValues || null : selectedValues[0] || null}
     // Render input
+    defaultValue={defaultSelectedValues.current.length > 0 ? props.allowSelectMultiple ? defaultSelectedValues : defaultSelectedValues.current[0] : [] }
     renderInput={(params) => (
       <TextField
       {...params}
@@ -152,8 +148,9 @@ const ComboBoxComponent = (props: comboBoxProps) => {
     </div>
     </ThemeProvider>
   )
-
-
+} else {
+  return (<></>)
+}
 }
 
 export default ComboBoxComponent

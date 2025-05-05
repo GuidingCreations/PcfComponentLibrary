@@ -73,10 +73,12 @@ const NavLink = (props: linkProps) => {
         const isMatched =  props.activeItem?.navTitle == child.navTitle
      
         return (
+
+            !child.isHidden ?
             <div style={{cursor: 'pointer', backgroundColor: isMatched ? props.theme.palette.primary.main : '', padding: '4px 8px', marginRight: '0', marginLeft: '8px', flexGrow: 1}} onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
                 
                 <p style={{margin: 0, textAlign: 'left', lineHeight: 2, color: 'white'}}>{child.navTitle}</p>
-            </div>
+            </div> : ''
         )
     })}
   </Stack>

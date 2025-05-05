@@ -7,21 +7,38 @@ import { ThemeProvider } from '@mui/material/styles';
 import {Config, PrimaryColor} from '../../styling/types/types'
 import generateTheme from '../../styling/utils/theme-provider'
 import { CssBaseline } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import * as dayjs from 'dayjs';
 
 export interface DatePickerProps {
-    useDarkMode: boolean,
+    useDarkMode: boolean;
     primaryColor: string;
     handleDateSelection: (newDate: string) => void;
-    labelText: string
+    labelText: string;
+    DefaultDate: string;
 }
 
 const DatePickerComponent = (props: DatePickerProps) => {
+
 
 
     const config : Config = {
         Mode: props.useDarkMode ? 'dark' : 'light', 
         primaryColor: props.primaryColor as PrimaryColor
     }
+
+    const defaultSelectedDate = useRef<string>('');
+    const [selectedDate, setSelectedDate] = useState<any>('')
+
+    if (defaultSelectedDate.current != props.DefaultDate) {
+        defaultSelectedDate.current = props.DefaultDate;
+        setSelectedDate(defaultSelectedDate.current)
+    }
+
+
+    useEffect(() => {
+        props.handleDateSelection(selectedDate)
+    }, [selectedDate])
 
     return (
         <div style={{width: '100%', height: '100%'}}>
@@ -30,7 +47,7 @@ const DatePickerComponent = (props: DatePickerProps) => {
             <CssBaseline/>
             
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker sx={{width: '100%', height: '100%'}} onChange={(e : any, value: any) => props.handleDateSelection(`${e.$M}/${e.$D}/${e.$y}`)} label= {props.labelText} />
+                <DatePicker value={selectedDate ? dayjs(selectedDate) : null} sx={{width: '100%', height: '100%'}} onChange={(e : any, value: any) => setSelectedDate(`${e.$M + 1}/${e.$D}/${e.$y}`)} label= {props.labelText} />
             </LocalizationProvider>
         
         </ThemeProvider>

@@ -50,6 +50,7 @@ export class themedMuiDatepicker implements ComponentFramework.ReactControl<IInp
 
         const props : DatePickerProps = {
             useDarkMode: context.parameters.useDarkMode.raw,
+            DefaultDate: context.parameters.DefaultDate.raw || '',
             primaryColor: context.parameters.primaryColor.raw || "Green",
             handleDateSelection: this.handleDateSelection,
             labelText: context.parameters.labelText.raw || "Label text"

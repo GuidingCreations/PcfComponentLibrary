@@ -11,6 +11,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createEndMessage, createInfoMessage, createStartMessage } from '../../utils';
+import { Config, PrimaryColor, Theme } from '../../styling/types/types';
+import generateTheme from '../../styling/utils/theme-provider'
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -38,7 +40,7 @@ export interface ComboBoxProps {
   className?: string;
   searchText?: string
   handleNewHeight?: (newHeight: number) => void
-
+  theme?: any;
 }
 
 export default function CheckboxesTags(props: ComboBoxProps) {
@@ -189,55 +191,63 @@ const handleSingleOptionSelect = (e: any, value: any) => {
   
 // Establish theme
 
-const theme = createTheme({
-    palette: {
-      mode:  props.darkMode ? 'dark' : 'light'
-    },
-    components: {
+const config : Config = {
+  Mode: 'dark',
+  primaryColor:  'Green'
+}
 
-     MuiAutocomplete: {
-      styleOverrides: {
-        inputRoot: {
-          minHeight: `${props.defaultHeight}px`
-        },
-        root: {
-          minHeight: `${props.defaultHeight}px`
-        }
-      },
-      defaultProps: {
-        sx: {
-          height: props.defaultHeight
-        }
-      }
-     },
+const theme = generateTheme(config)
+// props.theme ? props.theme :  createTheme({
+//     palette: {
+//       mode:  props.darkMode ? 'dark' : 'light'
+//     },
+//     components: {
 
-      MuiInputLabel: {
-        styleOverrides: {
-          root: {
-            top: 'auto',
-            bottom: '50%'
-          },
-          shrink: {
-            top: 0
-                    }
-        }
-      },
+//      MuiAutocomplete: {
+//       styleOverrides: {
+//         inputRoot: {
+//           minHeight: `${props.defaultHeight}px`
+//         },
+//         root: {
+//           minHeight: `${props.defaultHeight}px`
+//         }
+//       },
+//       defaultProps: {
+//         sx: {
+//           height: props.defaultHeight
+//         }
+//       }
+//      },
 
-      MuiInputBase: {
-        styleOverrides: {
-          root: {
-            minHeight: `${props.defaultHeight}`,
-          '& .MuiOutlinedInput-notchedOutline': {
+//       MuiInputLabel: {
+//         styleOverrides: {
+//           root: {
+//             top: 'auto',
+//             bottom: '50%'
+//           },
+//           shrink: {
+//             top: 0
+//                     }
+//         }
+//       },
 
-              borderStyle: props.borderStyle,
-              borderWidth: props.borderWidth,
-              borderColor: props.borderColor,
-            }
-          }
-        }
-      }
-    }
-  });
+//       MuiInputBase: {
+//         styleOverrides: {
+//           root: {
+//             minHeight: `${props.defaultHeight}`,
+//           '& .MuiOutlinedInput-notchedOutline': {
+
+//               borderStyle: props.borderStyle,
+//               borderWidth: props.borderWidth,
+//               borderColor: props.borderColor,
+//             }
+//           }
+//         }
+//       }
+//     }
+//   });
+
+
 
 const optionsList = props.useTestData ? top100Films :  props.Items
 

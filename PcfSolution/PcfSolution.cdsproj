@@ -73,6 +73,7 @@
     <ProjectReference Include="..\themedMuiTextField\themedMuiTextField2.pcfproj" />
     <ProjectReference Include="..\themedMuiDatePicker\themedMuiDatePicker.pcfproj" />
     <ProjectReference Include="..\themedMuiRadioGroup\themedMuiRadioGroup.pcfproj" />
+    <ProjectReference Include="..\themedMuiButton\themedMuiButton.pcfproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

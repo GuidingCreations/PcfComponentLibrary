@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiDatepicker" version="0.0.5" display-name-key="themedMuiDatepicker" description-key="themedMuiDatepicker description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiDatepicker" version="0.0.7" display-name-key="themedMuiDatepicker" description-key="themedMuiDatepicker description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -9,6 +9,7 @@
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input"/>
     <property name="selectedDate" display-name-key="selectedDate" of-type="SingleLine.Text" usage="output"/>
     <property name="labelText" display-name-key="labelText" of-type="SingleLine.Text" usage="input"/>
+    <property name="DefaultDate" display-name-key="DefaultDate" of-type="SingleLine.Text" usage="input"/>
 
     <resources>
       <code path="index.ts" order="1"/>

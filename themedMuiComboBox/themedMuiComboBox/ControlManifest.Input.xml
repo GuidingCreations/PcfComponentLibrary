@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.0.32" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.1.0" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      
@@ -12,6 +12,13 @@
 
     </data-set>
    
+    <data-set name="DefaultSelectedItems" display-name-key="DefaultSelectedItems">
+    </data-set>
+
+<data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+      <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+      <property-set name="samplePropertySet2" display-name-key="Property_Display_Key2" description-key="Property_Desc_Key2" of-type="SingleLine.Text" usage="bound" required="true" />
+    </data-set>
   <!-- output properties -->
 
     <property name="searchText" display-name-key = "searchText" of-type = "SingleLine.Text" usage = "output" default-value = ""/>

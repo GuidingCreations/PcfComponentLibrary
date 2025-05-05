@@ -9,17 +9,19 @@ import { PrimaryColor } from "../../styling/types/types";
 import {createInfoMessage, populateDataset} from '../../utils'
 import ComboBoxComponent, { comboBoxProps } from "./ComboBox";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import * as ReactDOM from "react-dom";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class themedMuiComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>;
-    
+    componentNode: any;
     // Initialize state
 
     private state : ComponentFramework.Dictionary = {
         items: [],
+        defaultSelectedItems: [],
         searchText: '',
         outputHeight: 60
     }
@@ -37,14 +39,18 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
 
     handleSelectionChange = (selectedItems: any[], newHeight: number) => {
 
+        console.log("NEW SELECTION TRIGGERED: ", selectedItems, newHeight)
         this.state.outputHeight = newHeight;
 
         // If selected items array is empty, clear selected records, else set selected records to selected items array
 
+        
         if (selectedItems.length > 0) {
+            console.log("mapping over selected records")
             const selectedRecordIDs = selectedItems.map((selectedItem) => selectedItem.recordID);
             this.context.parameters.Items.setSelectedRecordIds(selectedRecordIDs);
         } else {
+            console.log("clearing selected records")
             this.context.parameters.Items.clearSelectedRecordIds();
         }
 
@@ -57,6 +63,23 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
     private updateDataset = () => {
         if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.Items.sortedRecordIds.length > this.state.items.length) ) {
             this.state.items = populateDataset(this.context.parameters.Items);
+        };
+
+        if(this.context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1 || this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this.state.defaultSelectedItems.length) {
+            console.log("TRIGGERING UPDATE STATE CHANGE DEFAULT SELECTED ITEMS", this.state);
+            this.state.defaultSelectedItems = []
+
+            this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
+                const valueToAdd : any = {}
+                const displayField = this.context.parameters.displayField.raw;
+
+                valueToAdd[displayField!] = this.context.parameters.DefaultSelectedItems.records[item].getFormattedValue(displayField!);
+                this.state.defaultSelectedItems.push(valueToAdd)
+                
+                    
+                
+            
+            })
         }
     }
 
@@ -73,13 +96,19 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+
+        console.log("COLUMNS FOR FIRST DATA SOURCE: ", this.context.parameters.Items.columns)
+        console.log("COLUMNS FOR SECOND DATA SOURCE: ", this.context.parameters.DefaultSelectedItems.columns);
+
+        /*TODO : make reset function for component, outside source changes context variable to true, component reads new true value, resets state, then fires Event from manifest that will update that same context variable to false, stopping the reset*/
         
         this.context.parameters.Items.paging.setPageSize(10000)
-
+        console.log("THEMED MUI COMBO BOX UPDATED PROPERTIES: ", this.context.updatedProperties)
         this.updateDataset()
 
         const primaryColor : PrimaryColor = primaryColorNames.filter((color) => color == context.parameters.primaryColor.raw)[0] || 'Green';
 
+        
         const props : comboBoxProps = {
             useDarkMode: context.parameters.useDarkMode.raw,
             primaryColor: primaryColor as PrimaryColor,
@@ -89,12 +118,17 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
             optionsList: this.state.items,
             displayField: context.parameters.displayField.raw || 'title',
             onSearchTextChange: this.handleSearchTextChange,
-            onSelectionChange: this.handleSelectionChange
+            onSelectionChange: this.handleSelectionChange,
+            defaultSelectedValues: this.state.defaultSelectedItems
+            
         }
+        console.log("THEMED COMBO BOX MUI PRE RENDER PROPS: ", props)
 
-        return React.createElement(
+        this.componentNode = React.createElement(
             ComboBoxComponent, props
         );
+
+        return this.componentNode
     }
 
     

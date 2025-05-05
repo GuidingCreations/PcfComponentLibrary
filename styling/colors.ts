@@ -15,6 +15,23 @@ export const california = {
 	950: "#471701",
 }
 
+export const teal = {
+	50: "#07DBD4",
+	100: "#07DBD4",
+	200: "#07DBD4",
+	300: "#07DBD4",
+	400: "#07DBD4",
+	500: "#07DBD4",
+	600: "#07DBD4",
+	700: "#07DBD4",
+	800: "#07DBD4",
+	900: "#07DBD4",
+	950: "#07DBD4",
+	main: "#07DBD4",
+	darkContrastText: "#000000",
+	lightContrastText: "#FFFFFF"
+}
+
 export const chateauGreen = {
 	50: "#edfcf2",
 	100: "#d2f9de",
@@ -145,5 +162,6 @@ export const primaryColorNames : PrimaryColor[] = [
 	"Orange",
 	"Green",
 	"Neon Blue",
-	"Royal Blue"
+	"Royal Blue",
+	"Teal"
 ]
