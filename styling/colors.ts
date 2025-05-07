@@ -29,7 +29,7 @@ export const teal = {
 	950: "#07DBD4",
 	main: "#07DBD4",
 	darkContrastText: "#000000",
-	lightContrastText: "#FFFFFF"
+	lightContrastText: "#000000"
 }
 
 export const chateauGreen = {
@@ -158,10 +158,46 @@ export const tomatoOrange = {
 	950: "#440608",
 }
 
+export const Pink = {
+	50: "#DB07B4",
+	100: "#DB07B4",
+	200: "#DB07B4",
+	300: "#DB07B4",
+	400: "#DB07B4",
+	500: "#DB07B4",
+	600: "#DB07B4",
+	700: "#DB07B4",
+	800: "#DB07B4",
+	900: "#DB07B4",
+	950: "#DB07B4",
+	lightContrastText: "#FFFFFF",
+	darkContrastText: "#FFFFFF",
+	main: "#DB07B4"
+}
+
+export const Red = {
+	50: "#D30404",
+	100: "#D30404",
+	200: "#D30404",
+	300: "#D30404",
+	400: "#D30404",
+	500: "#D30404",
+	600: "#D30404",
+	700: "#D30404",
+	800: "#D30404",
+	900: "#D30404",
+	950: "#D30404",
+	lightContrastText: "#FFFFFF",
+	darkContrastText: "#FFFFFF",
+	main: "#D30404"
+}
+
 export const primaryColorNames : PrimaryColor[] = [
 	"Orange",
 	"Green",
 	"Neon Blue",
 	"Royal Blue",
-	"Teal"
+	"Teal",
+	"Pink",
+	"Red"
 ]

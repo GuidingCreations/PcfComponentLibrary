@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useEffect, useRef, useState } from 'react';
 import { InputAdornment, Box } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
 import SearchIcon from '@mui/icons-material/Search';
 
 
@@ -203,7 +202,6 @@ console.log("TEXT FIELD MUI PROPS IN TSX", props)
 
 
     <ThemeProvider theme={theme }>
-      <CssBaseline />
            
        <TextField id="TextInput" 
       

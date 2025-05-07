@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HuntersNS" constructor="squashedButtonGroup" version="0.5.22" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
+  <control namespace="HuntersNS" constructor="squashedButtonGroup" version="0.5.28" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
  
     <external-service-usage enabled="false">
     
@@ -13,11 +13,15 @@
      <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.  Height'/>
         
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" default-value ='Green'/>
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value ='varUseDarkMode'/>
+
+
     
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />
-      <platform-library name="Fluent" version="9.46.2" />
       <css path="../../dist/output.css" order="1"/>
       <css path="./input.css" order="2"/>
     </resources>

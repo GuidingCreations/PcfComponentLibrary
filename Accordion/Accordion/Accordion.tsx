@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
 import { useRef } from 'react';
 
 export interface AccordionProps {
@@ -53,7 +52,6 @@ console.log("PROPS RECEIVED", props)
 
 
     <ThemeProvider theme={theme}>
-<CssBaseline />
 
     <div style={{width: props.width, height: props.height, padding: '8px'}}>
       

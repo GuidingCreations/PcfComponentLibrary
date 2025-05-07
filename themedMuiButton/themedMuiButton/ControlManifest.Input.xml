@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.9" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.10" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
   
     <external-service-usage enabled="false">
 

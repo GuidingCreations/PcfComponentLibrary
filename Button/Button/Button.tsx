@@ -4,7 +4,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { CssBaseline, Link} from "@mui/material";
+import { Link} from "@mui/material";
 import Icon from '@mui/material/Icon'
 import  {determineScreenSize} from '../../utils'
 
@@ -66,7 +66,6 @@ export default function ButtonComponent(props: ButtonProps) {
       <link rel="stylesheet"   href="https://fonts.googleapis.com/icon?family=Material+Icons">
       </link>
 
-      <CssBaseline />
       <Button 
        
         startIcon = {props.startIcon ?  renderStartIcon() : null}

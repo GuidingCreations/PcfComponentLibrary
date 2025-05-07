@@ -18,11 +18,10 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
     private _activeScreen = ''
     private _navItems : any[] = []
 
-    private updatePrimaryColor = (newColor: string) => {
+    private updatePrimaryColor = async (newColor: string) => {
         this._primaryColor = newColor;
         console.log("NEW OUTPUT PRIMARY COLOR: ", this._primaryColor)
         this.notifyOutputChanged();
-
         setTimeout(() => {
             this.context.events.onChangePrimaryColor()
             

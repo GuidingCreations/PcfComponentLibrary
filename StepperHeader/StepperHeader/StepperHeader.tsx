@@ -8,7 +8,6 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import {
   createTheme,
-  CssBaseline,
   ThemeProvider,
   Typography,
 } from "@mui/material";
@@ -35,7 +34,6 @@ const StepperHeaderComponent = (props: StepperHeaderProps) => {
   return (
 
     <ThemeProvider theme={theme}>
-      <CssBaseline />
       <Box sx={{width: '100%'}}>
         <Stepper activeStep={props.activeStepIndex}>
           {props.Steps.map((step: any, index) => {

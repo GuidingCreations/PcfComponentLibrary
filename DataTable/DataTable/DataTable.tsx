@@ -12,8 +12,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import SquashedBG from "../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup";
 import { chipRender } from "../renderOptions/chipRender";
-import CssBaseline from "@mui/material/CssBaseline";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from "../../styling/types/types";
 
@@ -55,9 +54,21 @@ export interface DataTableProps {
   noRowsText?: string;
 }
 
-const DataTableComponent = (props: DataTableProps) => {
+const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
+  
+const primaryColor = useRef(props.primaryColor);
+
+  if (primaryColor.current !== props.primaryColor) {
+    console.log("SWITCHING PRIMARY COLOR FROM: ", primaryColor, " to ", props.primaryColor);
+    primaryColor.current = props.primaryColor
+    console.log("NEW PRIMARY COLOR: ", primaryColor)
+  }
+
+  console.log("PROPS DTC: ", props)
+  
   console.log("DEFAULT VISIBILITY MODEL: ", props.columnVisibility)
   
+
   const [visibilityModel, setVisibilityModel] = useState<any>(
     props.columnVisibility
   );
@@ -107,6 +118,37 @@ const DataTableComponent = (props: DataTableProps) => {
             ? matchingColorRecord?.fontColor
             : "white";
 
+
+            const renderSquashedBG = () => { 
+              
+              console.log("PRIMARY COLOR BEFORE RENDER: ", primaryColor)
+              return (
+
+              <SquashedBG
+              useDarkMode = {props.useDarkMode}
+              primaryColor= {primaryColor.current}
+              options={
+                column?.matchingOverride?.optionsList
+                ? column.matchingOverride.optionsList.map(
+                  (option: any) => option.Value
+                )
+                : ["No options passed"]
+              }
+              onOptionSelect={(option: string) => {
+                console.log("OPTIONNN", option);
+                props.onOptionSelect(
+                  params.row.recordID,
+                  "selectedOption",
+                  option
+                );
+              }}
+              width={column?.matchingOverride?.componentWidth || 150}
+              fullWidth
+              height={column?.matchingOverride?.componentHeight || 50}
+              />
+            )
+            }
+
           return (
             <>
               {
@@ -121,26 +163,7 @@ const DataTableComponent = (props: DataTableProps) => {
                   })
                 ) : column?.matchingOverride?.componentType ==
                   "squashedButtonGroup" ? (
-                  <SquashedBG
-                    options={
-                      column?.matchingOverride?.optionsList
-                        ? column.matchingOverride.optionsList.map(
-                            (option: any) => option.Value
-                          )
-                        : ["No options passed"]
-                    }
-                    onOptionSelect={(option: string) => {
-                      console.log("OPTIONNN", option);
-                      props.onOptionSelect(
-                        params.row.recordID,
-                        "selectedOption",
-                        option
-                      );
-                    }}
-                    width={column?.matchingOverride?.componentWidth || 150}
-                    fullWidth
-                    height={column?.matchingOverride?.componentHeight || 50}
-                  />
+                    renderSquashedBG()
                 ) : (
                   <></>
                 )
@@ -160,18 +183,22 @@ const DataTableComponent = (props: DataTableProps) => {
   const theme =  generateTheme(config)
   console.log(" D THEME : ", theme)
 
+
+  const styles = {
+    '--var-selected-background-color': `${theme.palette.primary.main}4D`,
+    height: props.height,
+    width: props.width
+  } as React.CSSProperties
+
   const renderMain = () => {
     return (
       <div
-        style={{
-          height: props.height,
-          width: props.width,
-        }}
+        style={styles}
       >
         <DataGrid
           sx={{
             color: props.useDarkMode ? "white" : "black",
-            width: props.fullWidth ? '100%' : props.width,
+            width: props.fullWidth ? '100%' : props.width
           }}
           disableAutosize
           localeText={{
@@ -207,7 +234,6 @@ const DataTableComponent = (props: DataTableProps) => {
     return(
 
       <ThemeProvider theme={theme}>
-      <CssBaseline />
       {renderMain()}
     </ThemeProvider>
     )
@@ -226,6 +252,6 @@ const DataTableComponent = (props: DataTableProps) => {
   return (
     props.useTheming ? renderWithTheme() : renderWithoutTheme()
   )
-};
+});
 
 export default DataTableComponent;

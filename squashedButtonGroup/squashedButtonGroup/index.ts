@@ -44,7 +44,9 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
             options: [],
             onOptionSelect: this.onOptionSelect,
             width: context.parameters.containerWidth.raw || 150,
-            height: context.parameters.containerHeight.raw || 50
+            height: context.parameters.containerHeight.raw || 50,
+            useDarkMode: context.parameters.useDarkMode.raw,
+            primaryColor: context.parameters.primaryColor.raw ||"Green"
         }
         
         return React.createElement(

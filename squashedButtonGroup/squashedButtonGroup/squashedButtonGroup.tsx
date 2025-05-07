@@ -8,7 +8,10 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { useRef } from "react";
+import { memo, useRef } from "react";
+import { ThemeProvider } from '@mui/material/styles';
+import generateTheme from '../../styling/utils/theme-provider'
+import { Config, Mode, PrimaryColor } from '../../styling/types/types';
 
 export interface squashedBgProps {
   options: any[]
@@ -16,6 +19,8 @@ export interface squashedBgProps {
   width: number;
   height: number;
   fullWidth?: boolean;
+  useDarkMode: boolean;
+  primaryColor: string
 }
 
 
@@ -27,7 +32,8 @@ const options = [
 ]
 
 
-const SquashedBG = (props: squashedBgProps) => {
+const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
+  console.log("SQUASHED BG PROPS PASSED: ", props)
 
   const optionsList = props.options.length ? props.options : options
   const isOpen = useRef<boolean>(false);
@@ -67,7 +73,18 @@ const SquashedBG = (props: squashedBgProps) => {
 
   const divRef = useRef<any>(null)
 
+  const config : Config = {
+    Mode: props.useDarkMode ? 'dark' : 'light',
+    primaryColor: props.primaryColor as PrimaryColor
+  }
+
+  const theme = generateTheme(config);
+  console.log("RETURNED THEME FROM SQUASHED BG", theme)
+
   return (
+
+    <ThemeProvider theme={theme}>
+
       <div style={{width: props.fullWidth ? '100%' : props.width}} ref = {divRef}>
       <ButtonGroup
         variant="contained"
@@ -75,12 +92,12 @@ const SquashedBG = (props: squashedBgProps) => {
         aria-label="Button group with a nested menu"
         sx={{width: '100%', height: props.height, padding: '.5rem', boxShadow: 'none'}}
         className="flex"
-      >
+        >
         <Button 
         
-          onClick={handleClick} 
-          className="flex-grow"
-          sx={{whiteSpace: 'nowrap'}}  
+        onClick={handleClick} 
+        className="flex-grow"
+        sx={{whiteSpace: 'nowrap'}}  
         >
             {optionsList[selectedIndex.current]}
           
@@ -93,7 +110,7 @@ const SquashedBG = (props: squashedBgProps) => {
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
-        >
+          >
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
@@ -105,24 +122,24 @@ const SquashedBG = (props: squashedBgProps) => {
         transition
         disablePortal
         className="popper"
-      >
+        >
         {({ TransitionProps, placement }) => (
           <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === 'bottom' ? 'center top' : 'center bottom',
-            }}
+          {...TransitionProps}
+          style={{
+            transformOrigin:
+            placement === 'bottom' ? 'center top' : 'center bottom',
+          }}
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
                   {optionsList.map((option, index) => (
                     <MenuItem
-                      key={option}
-                      
-                      selected={index === selectedIndex.current}
-                      onClick={(event) => handleMenuItemClick(event, index)}
+                    key={option}
+                    
+                    selected={index === selectedIndex.current}
+                    onClick={(event) => handleMenuItemClick(event, index)}
                     >
                       {typeof option == 'string' ? option : option.Value  }
                     </MenuItem>
@@ -134,7 +151,8 @@ const SquashedBG = (props: squashedBgProps) => {
         )}
       </Popper>
       </div>
+    </ThemeProvider>
   );
-}
+})
 
 export default SquashedBG

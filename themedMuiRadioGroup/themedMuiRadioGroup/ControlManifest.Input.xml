@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiRadioGroup" version="0.0.6" display-name-key="themedMuiRadioGroup" description-key="themedMuiRadioGroup description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiRadioGroup" version="0.0.7" display-name-key="themedMuiRadioGroup" description-key="themedMuiRadioGroup description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     

@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 import Autocomplete from "@mui/material/Autocomplete"
-import { CssBaseline, TextField, ThemeProvider } from '@mui/material';
+import { TextField, ThemeProvider } from '@mui/material';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -26,9 +26,9 @@ export interface comboBoxProps {
   defaultSelectedValues: any[];
 }
 
-const ComboBoxComponent = (props: comboBoxProps) => {
+const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) {
 
-  console.log("THEMED MUI COMBO BOX PROPS: ", props)
+  console.log("THEMED MUI COMBO BOX PROPS MEMOIZED: ", props)
 
   // Init basic values
 
@@ -98,9 +98,7 @@ const ComboBoxComponent = (props: comboBoxProps) => {
     // Theme wrapper
     
     <ThemeProvider theme = {theme}>
-      <CssBaseline/>
-    
-    
+      
     {/* Wrapper around the autocomplete component */}
     
     <div  style={{position: "relative",  width: '100%', height: 'fit-content'}} ref = {autoRef}>
@@ -154,6 +152,6 @@ const ComboBoxComponent = (props: comboBoxProps) => {
   )
 
 
-}
+});
 
 export default ComboBoxComponent

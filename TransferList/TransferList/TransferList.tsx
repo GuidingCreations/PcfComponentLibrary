@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import {createInfoMessage} from '../../utils'
 import { useEffect } from 'react';
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 export interface TransferListProps {
   onMoveItems: (newSelected: any[]) => void;
@@ -164,7 +164,6 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
 
   return (
     <ThemeProvider theme={theme}>
-<CssBaseline/>
     <Box sx={{width: '100%', height: '100%', display: 'flex'}}>
 
 <Grid

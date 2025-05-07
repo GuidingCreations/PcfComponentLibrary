@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Container, Link, Stack, ThemeProvider, Button, Icon, Box } from '@mui/material';
 import {Theme, Mode} from '../../../styling/types/types'
 import { ArrowDownward, ArrowRight, ArrowUpward } from '@mui/icons-material';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import  {navLinkProps, navSection}  from '../testItems';
 import generateTheme from '../../../styling/utils/theme-provider';
 
@@ -19,7 +19,7 @@ interface linkProps {
 
 
 
-const NavLink = (props: linkProps) => {
+const NavLink = memo(function NavLink(props: linkProps) {
   
     // const activeBackgroundColor = props.theme.palette.primary.main 
     const [isExpanded, setISExpanded] = useState(props.isExpanded)
@@ -94,6 +94,6 @@ const NavLink = (props: linkProps) => {
         </ThemeProvider>
   )
 
-}
+})
 
 export default NavLink

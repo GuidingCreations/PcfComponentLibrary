@@ -9,7 +9,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CssBaseline from '@mui/material/CssBaseline';
 import { createEndMessage, createInfoMessage, createStartMessage } from '../../utils';
 import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import generateTheme from '../../styling/utils/theme-provider'
@@ -297,7 +296,6 @@ return (
 
     props.allowSelectMultiple ? 
     <ThemeProvider theme={theme}>
-    <CssBaseline />
     <Autocomplete
       multiple = {props.allowSelectMultiple}
       onChange={handleMultiOptionSelect}
@@ -342,7 +340,6 @@ return (
 :
 
 <ThemeProvider theme={theme}>
-<CssBaseline />
 <Autocomplete
  
   onChange={handleSingleOptionSelect}

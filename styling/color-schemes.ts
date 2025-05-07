@@ -29,6 +29,8 @@ import {
 	royalBlue,
 	shakespeare,
 	stormGrey,
+	Red,
+	Pink,
 	teal,
 	tomatoOrange,
 } from "./colors";
@@ -149,7 +151,58 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
             sidebarFill: "#FFFFFF"
 		}
-	}
+	},
+	"Pink": {
+		dark: {
+			...Pink,
+			light: Pink[300],
+			main: Pink.main,
+			dark: Pink[500],
+			contrastText: Pink.darkContrastText,
+			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
+			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
+			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
+		},
+		light: {
+			...Pink,
+			light: Pink[400],
+			main: Pink[500],
+			dark: Pink[600],
+			contrastText: Pink.lightContrastText,
+			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
+			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
+			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
+            sidebarFill: "#FFFFFF"
+		}
+	},
+	"Red": {
+		dark: {
+			...Red,
+			light: Red[300],
+			main: Red.main,
+			dark: Red[500],
+			contrastText: Red.darkContrastText,
+			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
+			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
+			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
+            sidebarFill: "#202427",
+			elementBackgroundColor: "#121517"
+		},
+		light: {
+			...Red,
+			light: Red[400],
+			main: Red[500],
+			dark: Red[600],
+			contrastText: Red.lightContrastText,
+			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
+			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
+			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
+            sidebarFill: "#FFFFFF"
+		}
+	},
+	
 };
 
 
@@ -271,6 +324,7 @@ export function colorSchemes(config: Config): any {
 					}
 				}
 			},
+			
 			
 			
 		},

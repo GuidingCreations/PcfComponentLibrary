@@ -6,15 +6,20 @@ import { Stack, Typography } from '@mui/material'
 import generateTheme from '../../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from '../../../styling/types/types'
 import { borderRadius } from '@mui/system'
+import { memo, useState } from 'react'
 
 interface primaryColorOptionsProps {
     activeColor: PrimaryColor,
     onSelectOption: (color: PrimaryColor) => void
+    
 }
 
 
 
-const PrimaryColorOptions = (props: primaryColorOptionsProps) => {
+const PrimaryColorOptions = memo(function PrimaryColorOptions (props: primaryColorOptionsProps) {
+
+const [activeColor, setActiveColor] = useState(props.activeColor)
+
   return (
     <Stack direction={'column'} gap={2} padding='16px'>
 
@@ -31,11 +36,11 @@ const PrimaryColorOptions = (props: primaryColorOptionsProps) => {
             }
 
             const tempTheme = generateTheme(config)
-            const isActive = props.activeColor == name
+            const isActive = activeColor == name
 
             return (
 
-                <div key={name} style={{margin: 0, display: 'flex', alignItems: 'center', justifyContent: 'start', border: `${isActive ? '3px' : '1px'} solid ${props.activeColor == name ? tempTheme.palette.primary.main : 'rgba(255,255,255,.5)'}`, borderRadius: '10px', cursor: 'pointer', backgroundColor: '#32383e', padding: '8px 16px', flexBasis: '33%', gap: '8px', flexGrow: 1}} onClick={() => props.onSelectOption(name as PrimaryColor)}>
+                <div key={name} style={{margin: 0, display: 'flex', alignItems: 'center', justifyContent: 'start', border: `${isActive ? '3px' : '1px'} solid ${activeColor == name ? tempTheme.palette.primary.main : 'rgba(255,255,255,.5)'}`, borderRadius: '10px', cursor: 'pointer', backgroundColor: '#32383e', padding: '8px 16px', flexBasis: '33%', gap: '8px', flexGrow: 1}} onClick={() => {setActiveColor(name); props.onSelectOption(name as PrimaryColor)}}>
                     <div style={{width: '24px', height: '24px', backgroundColor: tempTheme.palette.primary.main, borderRadius: 10000}}></div>
                     <p style={{color: 'white', margin: '2px', fontSize: '1rem'}}>{name}</p>
                 </div>
@@ -47,6 +52,6 @@ const PrimaryColorOptions = (props: primaryColorOptionsProps) => {
 
     </Stack>
   )
-}
+})
 
 export default PrimaryColorOptions

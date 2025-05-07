@@ -10,7 +10,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Sidebar from "../../Sidebar2/Sidebar2/Sidebar";
 import Stack from "@mui/material/Stack";
 import ComboBox from "../../ComboBoxMUI/ComboBoxMUI/ComboBox";
-import { createTheme, CssBaseline, ThemeProvider, Typography } from "@mui/material";
+import { createTheme,  ThemeProvider, Typography } from "@mui/material";
 import Button from '../../Button/Button/Button'
 
 export interface AccesPageProps {
@@ -241,7 +241,6 @@ const HelloWorld = (props: AccesPageProps) => {
                   Add User
                 </Typography>
 
-<CssBaseline />
 
 
 

@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import {determineScreenSize} from '../../utils'
-import { CssBaseline } from '@mui/material';
 import { useEffect } from 'react';
 
 export interface StepperProps {
@@ -78,7 +77,6 @@ export default function StepperComponent(props: StepperProps) {
 
 
 <ThemeProvider theme={theme}>
-      <CssBaseline/>
   <div className={`flex items-center justify-center h-full`} style={{height: props.useTestHarness ? '100vh' : `${props.containerHeight}px`, width:  props.useTestHarness ? '100%'  :`${props.containerWidth}px`}} >
        <MobileStepper
       variant="text"

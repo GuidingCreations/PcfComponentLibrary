@@ -3,7 +3,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import CssBaseline from "@mui/material/CssBaseline";
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from "react";
 
@@ -116,7 +115,6 @@ console.log("SELECTED DATE", selectedDate)
   return (
     <ThemeProvider theme={theme}>
       
-    <CssBaseline/>
     
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     

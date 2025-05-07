@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from '../../styling/types/types';
-import { CssBaseline } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
 export interface TextFieldProps {
@@ -55,7 +54,6 @@ const TextFieldComponent = (props: TextFieldProps) => {
     <div style={{height: `${props.height}px`, width: `${props.width}px`}}>
 
     <ThemeProvider theme={theme}>
-    <CssBaseline/>
     
     <TextField ref = {rootRef} multiline id='textFieldMui' value = {textValue} type='text' style={styles} label={props.labelText} variant='outlined' onChange={(e) => setTextValue(e.target.value)}></TextField>
 

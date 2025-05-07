@@ -1,6 +1,6 @@
 export type { Theme } from "@mui/material/styles";
 
-export type PrimaryColor = "Green" | "Neon Blue" | "Royal Blue" | "Orange" | "Teal";
+export type PrimaryColor = "Green" | "Neon Blue" | "Royal Blue" | "Orange" | "Teal" | "Pink" | "Red";
 
 export type Direction = "ltr" | "rtl";
 

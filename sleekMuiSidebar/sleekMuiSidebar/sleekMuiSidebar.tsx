@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from 'react'
-import {  useEffect, useRef, useState } from 'react';
+import {  useEffect, useRef, memo, useState } from 'react';
 import { Box, Stack, Drawer } from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, Mode, PrimaryColor } from '../../styling/types/types';
 import PrimaryColorOptions from './components/primaryColorOptions';
-import ThemeModeOptions from './components/themModeOptions';
+import ThemeModeOptions from './components/themeModeOptions';
 
 
 export interface muiSidebarProps {
@@ -34,7 +34,7 @@ export interface muiSidebarProps {
 
 
 
-const muiSidebar = (props: muiSidebarProps) => {
+const muiSidebar = memo(function muiSidebar(props: muiSidebarProps) {
 
 
 const items : navSection[]  = props.useTestData ? testItems : props.navItems.length > 0 ? props.navItems : []
@@ -77,7 +77,7 @@ return activeItem
 }
 
 
-const [primaryColor, setPrimaryColor] = useState(props.primaryColor)
+const primaryColor = useRef(props.primaryColor)
 const [isOpen, setIsOpen] = useState(false)
 const activeItem = useRef<any>(undefined);
 
@@ -99,9 +99,9 @@ if (activeNav != activeItem.current) {
 
 
 
-  if (props.primaryColor != primaryColor) {
+  if (props.primaryColor != primaryColor.current) {
     console.log("SWITCHING TO PROPS PRIMARY COLOR")
-    setPrimaryColor(props.primaryColor)
+    primaryColor.current = props.primaryColor
   }
 
   
@@ -109,11 +109,18 @@ if (activeNav != activeItem.current) {
 
   const config : Config = {
     Mode: props.useDarkMode ? 'dark' : 'light',
-    primaryColor: primaryColor as PrimaryColor
+    primaryColor: primaryColor.current as PrimaryColor
   }
 
-  const theme = generateTheme(config);
-  console.log("RETURNED THEME", theme)
+  
+
+  const [theme, setTheme] = useState(generateTheme({Mode: props.useDarkMode ? 'dark' : 'light', primaryColor: primaryColor.current}));
+  
+  const updateTheme = () => {
+    setTheme(generateTheme({Mode: props.useDarkMode ? 'dark' : 'light', primaryColor: primaryColor.current}))
+  }
+  
+  console.log("RETURNED THEME for SLEEK MUI SIDEBAR", theme)
 
   const updateActiveNav = (newNav: navLinkProps) => {
     
@@ -122,6 +129,7 @@ if (activeNav != activeItem.current) {
     props.changeActiveScreen(activeItem.current.navTitle)
 
   }
+
 
 return(
 
@@ -206,7 +214,7 @@ return(
   <Drawer open = {isOpen} anchor='right' onClose={() => setIsOpen(false)}>
 
     <Stack sx={{height: '100vh', backgroundColor: theme.palette.primary.sidebarFill, width: '400px'}} direction={'column'}>
-      <PrimaryColorOptions activeColor={props.primaryColor} onSelectOption={(color: PrimaryColor) => props.changePrimaryColor(color)}/>
+      <PrimaryColorOptions activeColor={props.primaryColor} onSelectOption={(color: PrimaryColor) => {primaryColor.current = color ; updateTheme(); props.changePrimaryColor(color)}}/>
       <ThemeModeOptions activeOptionBorderColor={theme.palette.primary.main} isDarkActive = {props.useDarkMode} onChangeMode={(useDarkMode: boolean) => props.changeUseDarkMode(useDarkMode)}/>
     </Stack>
 
@@ -249,7 +257,7 @@ return(
 
 )
 
-}
+})
 
 
 

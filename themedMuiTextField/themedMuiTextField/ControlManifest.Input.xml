@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiTextField" version="0.0.27" display-name-key="themedMuiTextField" description-key="themedMuiTextField description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiTextField" version="0.0.28" display-name-key="themedMuiTextField" description-key="themedMuiTextField description" control-type="virtual" >
    
     <external-service-usage enabled="false">
      
