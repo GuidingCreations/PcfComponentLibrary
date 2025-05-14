@@ -1,10 +1,11 @@
+/* eslint-disable */
 import * as React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 // Create type interface for props
 
@@ -25,7 +26,7 @@ export interface DatePickerComponentProps {
 
 // Start component
 
-const DatePickerComponent = (props: DatePickerComponentProps) => {
+const DatePickerComponent = memo(function (props: DatePickerComponentProps) {
 
 // Establish refs for default and selected date. We leave the selected date null so we can trigger the useEffect to update our output state on default render 
 
@@ -138,6 +139,6 @@ console.log("SELECTED DATE", selectedDate)
   
     </ThemeProvider>
   )
-}
+})
 
 export default DatePickerComponent

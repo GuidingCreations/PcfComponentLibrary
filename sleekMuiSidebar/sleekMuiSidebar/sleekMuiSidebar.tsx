@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, Mode, PrimaryColor } from '../../styling/types/types';
 import PrimaryColorOptions from './components/primaryColorOptions';
-import ThemeModeOptions from './components/themeModeOptions';
+import ThemeModeOptions from './components/themModeOptions';
 
 
 export interface muiSidebarProps {
@@ -143,7 +143,7 @@ return(
   <Stack sx={{backgroundColor: theme.palette.primary.sidebarFill, justifyContent: 'space-between', height: '100%', width: '100%'}}>
 
 
-  <Stack sx={{ height : '100%', width: '100%', paddingBottom: '16px'}} >
+  <Stack sx={{ height : '100%', width: '100%', paddingBottom: '16px', overflowY: 'scroll'}} id = "mainSidebarList">
 
   
   {

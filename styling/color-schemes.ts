@@ -199,7 +199,8 @@ const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptio
 			activated: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))",
 			hovered: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-hoverOpacity))",
 			selected: "rgba(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-selectedOpacity))",
-            sidebarFill: "#FFFFFF"
+            sidebarFill: "#FFFFFF",
+			elementBackgroundColor: "#FFFFFF"
 		}
 	},
 	
@@ -226,6 +227,39 @@ export function colorSchemes(config: Config): any {
 		
 		components: {
 		
+			MuiButton: {
+				styleOverrides: {
+					root: {
+						"& .Mui-disabled": {
+							backgroundColor: 'blue'
+						} 
+					}
+				}
+			},
+			MuiTypography: {
+				styleOverrides: {
+					root: {
+						color: config.Mode == 'dark' ? 'white' : 'black'	
+					}
+				}
+			},
+			MuiList: {
+				styleOverrides: {
+					root: {
+						'& .Mui-selected': {
+							backgroundColor: `${primary[config.Mode].main}4d !important`
+						}
+					}
+				}
+			},
+			MuiListItem: {
+				styleOverrides: {
+					root: {
+						color: config.Mode == 'dark' ? 'white' : 'black',
+						
+					}
+				}
+			},
 			MuiPopper: {
 				defaultProps: {
 					placement: 'bottom',
@@ -249,6 +283,17 @@ export function colorSchemes(config: Config): any {
 							backgroundColor: primary.light.main,
 							opacity: '1',
 						},
+
+						'& .MuiAutocomplete-listbox .MuiAutocomplete-option': {
+							color: config.Mode == 'dark' ? 'white' : 'black'
+						},
+
+						'& .MuiMenuItem-root': {
+							
+							color: config.Mode == 'dark' ? 'white' : 'black'
+						},
+
+					
 						
 						backgroundColor: primary[config.Mode].elementBackgroundColor,
 						borderStyle: 'solid',
@@ -331,7 +376,7 @@ export function colorSchemes(config: Config): any {
 		palette: {
 			
 			mode: config.Mode,
-			action: { disabledBackground: "rgba(0, 0, 0, 0.12)" },
+			action: { disabledBackground: config.Mode == 'dark' ? "rgba(255, 255, 255, 0.3)" : 'rgba(0, 0, 0, .3)' },
 			background: {
 				default: config.Mode == 'dark' ? "rgba(0, 0, 0, 1)" : "rgba(255, 255, 255, 1)",
 				paper: config.Mode == "dark" ? "#121517" : "white",

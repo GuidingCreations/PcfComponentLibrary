@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiDatepicker" version="0.0.8" display-name-key="themedMuiDatepicker" description-key="themedMuiDatepicker description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiDatepicker" version="0.0.10" display-name-key="themedMuiDatepicker" description-key="themedMuiDatepicker description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       

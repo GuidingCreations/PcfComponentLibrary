@@ -1,11 +1,12 @@
 /* eslint-disable */
 
 import * as React from 'react'
+import useResizeObserver from '@react-hook/resize-observer';
 import TextField from '@mui/material/TextField';
 import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from '../../styling/types/types';
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export interface TextFieldProps {
   onChangeText: (newText: string, outputHeight: number) => void,
@@ -16,9 +17,10 @@ export interface TextFieldProps {
   height: number;
   width: number;
   defaultText: string;
+  onChangeHeight: (newHeight: number) => void
 }
 
-const TextFieldComponent = (props: TextFieldProps) => {
+const TextFieldComponent = memo(function (props: TextFieldProps)  {
 
   
   const config : Config = {
@@ -27,8 +29,8 @@ const TextFieldComponent = (props: TextFieldProps) => {
   };
 
   const defaultValue = useRef(props.defaultText || '');
-  const [textValue, setTextValue] = useState(defaultValue.current);
-  const rootRef = useRef<any>()
+  const [textValue, setTextValue] = useState(defaultValue.current); 
+  const rootRef = useRef<any>(null)
 
   if (props.defaultText != defaultValue.current) {
       defaultValue.current = props.defaultText;
@@ -50,16 +52,24 @@ const TextFieldComponent = (props: TextFieldProps) => {
     marginBottom: props.isMultiline ? 'auto' : 0
   } as  React.CSSProperties
 
+
+  useResizeObserver(rootRef, (entry) => {
+    console.log("RECT", entry.contentRect.height);
+    props.onChangeHeight(entry.contentRect.height)
+  })
+
+
+
   return (
-    <div style={{height: `${props.height}px`, width: `${props.width}px`}}>
+    <div style={{height: 'fit-content', width: `${props.width}px`}} ref = {rootRef}>
 
     <ThemeProvider theme={theme}>
     
-    <TextField ref = {rootRef} multiline id='textFieldMui' value = {textValue} type='text' style={styles} label={props.labelText} variant='outlined' onChange={(e) => setTextValue(e.target.value)}></TextField>
+    <TextField  multiline id='textFieldMui' value = {textValue} type='text' style={styles} label={props.labelText} variant='outlined' onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue(e.target.value)}}></TextField>
 
     </ThemeProvider>
     </div>
   )
-}
+})
 
 export default TextFieldComponent

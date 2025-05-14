@@ -10,7 +10,7 @@ import { Config, PrimaryColor } from '../../../styling/types/types'
 import { borderRadius } from '@mui/system'
 import { memo, useState } from 'react'
 import PrimaryColorOptions from './primaryColorOptions'
-import ThemeModeOptions from './themeModeOptions'
+import ThemeModeOptions from './themModeOptions'
 
 
 export interface ColorOptionsDrawerProps {

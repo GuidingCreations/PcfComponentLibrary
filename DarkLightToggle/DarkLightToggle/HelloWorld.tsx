@@ -1,8 +1,9 @@
+/* eslint-disable */
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import { createTheme } from '@mui/material/styles';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { Tooltip } from 'react-tooltip'
 
 export interface MaterialUISwitchProps {
@@ -17,7 +18,7 @@ const darkTheme = createTheme({
   },
 });
 
-const MuiSwitch = (props: MaterialUISwitchProps) => {
+const MuiSwitch = memo(function (props: MaterialUISwitchProps) {
 
   const renderCount = useRef(0);
   renderCount.current++;
@@ -125,7 +126,7 @@ const handleModeChange = () => {
     )
   
 
-}
+})
 
 
 export default MuiSwitch

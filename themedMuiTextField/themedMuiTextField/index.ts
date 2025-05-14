@@ -1,9 +1,12 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import TextFieldComponent, { TextFieldProps } from './HelloWorld'
+import TextFieldComponent, { TextFieldProps } from './TextField'
 import * as React from "react";
 
 export class themedMuiTextField implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
+
+    
+
     state: ComponentFramework.Dictionary = {
         textValue: '',
         outputHeight: 65
@@ -17,6 +20,11 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
         console.log("NEW STATE TEXT: ", this.state.textValue)
         this.notifyOutputChanged();
 
+    }
+
+    private onChangeHeight = (newHeight : number) => {
+        this.state.outputHeight = newHeight;
+        this.notifyOutputChanged()
     }
     /**
      * Empty constructor.
@@ -59,7 +67,8 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
             isMultiline: context.parameters.isMultiline.raw,
             height: context.mode.allocatedHeight,
             width: context.mode.allocatedWidth,
-            defaultText: context.parameters.defaultText.raw || ''
+            defaultText: context.parameters.defaultText.raw || '',
+            onChangeHeight: this.onChangeHeight
         }
 
         return React.createElement(

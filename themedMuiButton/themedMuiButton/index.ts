@@ -30,7 +30,8 @@ export class themedMuiButton implements ComponentFramework.ReactControl<IInputs,
             useDarkMode: context.parameters.useDarkMode.raw,
             onClick: context.events.OnClick,
             labelText: context.parameters.labelText.raw || "Button",
-            variantType: context.parameters.variant.raw || 'contained'
+            variantType: context.parameters.variant.raw || 'contained',
+            isDisabled: context.parameters.isDisabled.raw
         }
 
         return React.createElement(

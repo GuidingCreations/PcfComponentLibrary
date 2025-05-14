@@ -179,6 +179,7 @@ export class DataTable
             "optionsList",
             "componentWidth",
             "componentHeight",
+            "formatType"
           ];
 
           const recordToAdd: any = {
@@ -210,15 +211,26 @@ export class DataTable
         columnToAdd.headerName = column.displayName;
         columnToAdd.width = colWidth;
         columnToAdd.display = "flex";
+        columnToAdd.valueFormatter =  function(params : any ) {
+          const isCurrency = matchingOverride[0]?.formatType == "Currency"
+          const value = isCurrency ? new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+          }).format(params) : params
+          return value
+
+        }
         matchingOverride.length > 0
           ? (columnToAdd.matchingOverride = matchingOverride[0])
           : "";
-
         tableColumns.push(columnToAdd);
       }
     });
 
     tableColumns.push({ field: "recordID", headerName: "recordID", width: 50 });
+    
+    
     this.tableColumns = tableColumns
 
     }
@@ -294,6 +306,7 @@ export class DataTable
       noRowsText: context.parameters.noRowsText.raw || "No results found",
       primaryColor: context.parameters.primaryColor.raw || 'Green',
       useTheming: context.parameters.useTheming.raw
+      
     };
 
     console.log("DATA TABLE PROPS FROM INDEX.TS", props);

@@ -376,6 +376,8 @@ const HelloWorld = (props: AccesPageProps) => {
 
                 <DataTableComponent
                   tableColumns={columns}
+                  primaryColor="Teal"
+                  useTheming
                   tableData={rows}
                   height={props.containerHeight * 0.75}
                   width={props.width - props.sidebarWidth - 16}

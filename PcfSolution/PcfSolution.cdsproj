@@ -50,7 +50,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Accordion\Accordion.pcfproj" />
-    <ProjectReference Include="..\AutoComplete\AutoComplete.pcfproj" />
     <ProjectReference Include="..\Button\Button.pcfproj" />
     <ProjectReference Include="..\Chip\Chip.pcfproj" />
     <ProjectReference Include="..\ComboBoxMUI\testComp.pcfproj" />
@@ -63,9 +62,7 @@
     <ProjectReference Include="..\Sidebar2\Sidebar2.pcfproj" />
     <ProjectReference Include="..\squashedButtonGroup\squashedButtonGroup.pcfproj" />
     <ProjectReference Include="..\Stepper\Stepper.pcfproj" />
-    <ProjectReference Include="..\TextField\TextField.pcfproj" />
     <ProjectReference Include="..\Tree\Tree.pcfproj" />
-    <ProjectReference Include="..\AccessPage2\AccessPage2.pcfproj" />
     <ProjectReference Include="..\StepperHeader\StepperHeader.pcfproj" />
     <ProjectReference Include="..\TransferList\TransferList.pcfproj" />
     <ProjectReference Include="..\sleekMuiSidebar\sleekMuiSidebar.pcfproj" />

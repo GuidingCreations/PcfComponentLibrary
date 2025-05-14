@@ -1,24 +1,16 @@
-import * as React from "react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import TextInput, { TextInputProps } from "./TextField";
+import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
+import * as React from "react";
 
-
-
-export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IOutputs> {
-
-    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
+export class codeBlock implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
-    context: ComponentFramework.Context<IInputs>;
-    private _outputValue: any = ""
-    private _isErrored : boolean = false
 
-    updateOutputValue = (value: any, hasError: boolean) => {
-        this._outputValue = value;
-        this._isErrored = hasError
-        this.notifyOutputChanged()
+    /**
+     * Empty constructor.
+     */
+    constructor() {
+        // Empty
     }
-
-    constructor() { }
 
     /**
      * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
@@ -33,8 +25,6 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
-        this.context = context;
-
     }
 
     /**
@@ -42,28 +32,10 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      * @returns ReactElement root react element for the control
      */
-        public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-            console.log("TEXT FIELD MUI UPDATE TRIGGERED")
-        const props : TextInputProps = { 
-            updateOutput: this.updateOutputValue,
-            darkMode: context.parameters.useDarkMode.raw || false,
-            labelText: context.parameters.labelText.raw || "Label text",
-            minLength: context.parameters.minLength.raw || 0,
-            useSearchIcon: context.parameters.useSearchIcon.raw,
-            accentColor: context.parameters.accentColor.raw ? context.parameters.accentColor.raw : '',
-            height: context.parameters.containerHeight.raw || 50,
-            backgroundColor: context.parameters.backgroundColor.raw || '',
-            labelColor: context.parameters.labelColor.raw || '',
-            inputType: context.parameters.inputType.raw || '',
-            defaultValue: context.parameters.defaultValue.raw || '',
-            isDisabled: context.parameters.isDisabled.raw,
-            isCurrency: context.parameters.isCurrency.raw,
-            isMultiLine: context.parameters.isMultiLine.raw
-            
-         };
-
+    public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+        const props: IHelloWorldProps = { name: 'Power Apps' };
         return React.createElement(
-            TextInput, props
+            HelloWorld, props
         );
     }
 
@@ -72,10 +44,7 @@ export class TextFieldMUI implements ComponentFramework.ReactControl<IInputs, IO
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {
-            outputValue: this._outputValue,
-            isErrored: this._isErrored
-         };
+        return { };
     }
 
     /**

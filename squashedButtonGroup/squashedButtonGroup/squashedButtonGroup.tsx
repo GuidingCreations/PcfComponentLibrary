@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
-import { memo, useRef } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, Mode, PrimaryColor } from '../../styling/types/types';
@@ -16,11 +16,16 @@ import { Config, Mode, PrimaryColor } from '../../styling/types/types';
 export interface squashedBgProps {
   options: any[]
   onOptionSelect: (option: string) => void
-  width: number;
-  height: number;
   fullWidth?: boolean;
+  isDisabled: boolean;
   useDarkMode: boolean;
-  primaryColor: string
+  primaryColor: string;
+  width?: string;
+  height?: string;
+  displayField: string;
+  onChangedDisplayedOption: (option: any) => void,
+  currentOption: any;
+  useTestData: boolean;
 }
 
 
@@ -35,15 +40,16 @@ const options = [
 const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
   console.log("SQUASHED BG PROPS PASSED: ", props)
 
-  const optionsList = props.options.length ? props.options : options
-  const isOpen = useRef<boolean>(false);
+  const optionsList = props.useTestData ?  options : props.options.length > 0 ? props.options : [] 
+  const [open, setOpen] = useState<boolean>(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const selectedIndex = useRef<number>(0);
-  
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
+  console.log("OPTIONS LIST: ", optionsList)
 
   const handleClick = () => {
-    console.info(`You clicked ${optionsList[selectedIndex.current]}`);
-    props.onOptionSelect(optionsList[selectedIndex.current])
+    console.info(`You clicked `, optionsList[selectedIndex]);
+    props.onOptionSelect(optionsList[selectedIndex])
 
   };
 
@@ -51,16 +57,16 @@ const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number,
   ) => {
-    console.log("EVENT FROM SQUASHED BUTTON", event)
-    selectedIndex.current = index;
-    isOpen.current = false 
+    setSelectedIndex(index);
+    setOpen(false);
   };
 
   const handleToggle = () => {
-    isOpen.current = !isOpen.current
+    setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event: Event) => {
+    console.log("HIT HANDLE CLOSE")
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
@@ -68,8 +74,15 @@ const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
       return;
     }
 
-    isOpen.current = false;
+    setOpen(false);
   };
+
+
+  useEffect(() => {
+    const newOption = optionsList[selectedIndex]
+    console.log("TRIGGERING DISPLAYED OPTION CHANGE: ", newOption)
+    props.onChangedDisplayedOption(newOption)
+  }, [selectedIndex])
 
   const divRef = useRef<any>(null)
 
@@ -81,47 +94,62 @@ const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
   const theme = generateTheme(config);
   console.log("RETURNED THEME FROM SQUASHED BG", theme)
 
+  console.log("CURRENT OPTION: ", selectedIndex, props.currentOption, " OPTIONS: ", props.options)
+
+  if (!props.currentOption && props.options.length > 0) {
+    console.log("TRIGGERING CHANGE TO:: ", optionsList[selectedIndex])
+    props.onChangedDisplayedOption(optionsList[selectedIndex])
+  }
+
   return (
 
     <ThemeProvider theme={theme}>
 
-      <div style={{width: props.fullWidth ? '100%' : props.width}} ref = {divRef}>
+      <div style={{width: props.width ? props.width : '100%', height: props.height ? props.height : '100%'}} ref = {divRef}>
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"
-        sx={{width: '100%', height: props.height, padding: '.5rem', boxShadow: 'none'}}
+        sx={{width: '100%', height: '100%', boxShadow: 'none'}}
         className="flex"
         >
         <Button 
         
         onClick={handleClick} 
         className="flex-grow"
+        disabled = {props.isDisabled}
         sx={{whiteSpace: 'nowrap'}}  
         >
-            {optionsList[selectedIndex.current]}
+            <h4 style={{fontSize: '18px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{props.useTestData ? optionsList[selectedIndex] : optionsList.length > 0 ? optionsList[selectedIndex][props.displayField] : ''}</h4>
           
         </Button>
         
-        <Button
+        { optionsList.length > 1 ? (
+
+          
+          <Button
           size="small"
-          aria-controls={isOpen.current ? 'split-button-menu' : undefined}
-          aria-expanded={isOpen.current ? 'true' : undefined}
+          aria-controls={open ? 'split-button-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
           >
-          <ArrowDropDownIcon />
+          <ArrowDropDownIcon/>
         </Button>
+          ) : null
+          }
+
+
       </ButtonGroup>
       <Popper
         sx={{ zIndex: 1, width: anchorRef.current?.getBoundingClientRect().width }}
-        open={isOpen.current}
+        open={open}
         anchorEl={anchorRef.current}
         role={undefined}
         transition
-        disablePortal
         className="popper"
+        
         >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -135,14 +163,16 @@ const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList id="split-button-menu" autoFocusItem>
                   {optionsList.map((option, index) => (
+
                     <MenuItem
-                    key={option}
-                    
-                    selected={index === selectedIndex.current}
+                    key={option[props.displayField]}
+                    selected={index === selectedIndex}
                     onClick={(event) => handleMenuItemClick(event, index)}
+                    sx={{textWrap: 'auto'}}
                     >
-                      {typeof option == 'string' ? option : option.Value  }
+                      {typeof option == 'string' ? option : option[props.displayField]  }
                     </MenuItem>
+                    
                   ))}
                 </MenuList>
               </ClickAwayListener>

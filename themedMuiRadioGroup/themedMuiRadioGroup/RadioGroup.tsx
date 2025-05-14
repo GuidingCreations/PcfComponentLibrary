@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from '../../styling/types/types';
 import { ThemeProvider } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 export interface RadioGroupProps {
     useDarkMode: boolean;
@@ -20,7 +20,7 @@ export interface RadioGroupProps {
     handleValueChange: (newValue: string ) => void
 }
 
-const RadioGroupComponent = (props: RadioGroupProps) => {
+const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
  
   const optionsList = props.useTestData ? [{Value: "option 1"}, {Value: "option 3"}, {Value: "option 3"}] : props.Options
   const displayField = props.useTestData ? "Value" : props.displayField
@@ -64,6 +64,6 @@ const RadioGroupComponent = (props: RadioGroupProps) => {
     </FormControl>
         </ThemeProvider>
   )
-}
+})
 
 export default RadioGroupComponent

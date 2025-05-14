@@ -73,10 +73,6 @@ const primaryColor = useRef(props.primaryColor);
     props.columnVisibility
   );
 
-  if (props.columnVisibility != visibilityModel) {
-    setVisibilityModel(props.columnVisibility);
-  }
-
   const apiRef = useGridApiRef();
   const updateSelectedRecordIDs = (IDs: any) => {
     props.setSelectedRecords(IDs);
@@ -97,7 +93,7 @@ const primaryColor = useRef(props.primaryColor);
 
   columns.map((column: any) => {
     const matchingOverride = column.matchingOverride;
-    matchingOverride?.columnName
+    matchingOverride?.columnName && matchingOverride.componentType
       ? (column.renderCell = (params: GridRenderCellParams<any>) => {
           const matchingColorRecord =
             column?.matchingOverride?.colorGenerator?.filter(
@@ -125,14 +121,16 @@ const primaryColor = useRef(props.primaryColor);
               return (
 
               <SquashedBG
+              displayField="Value"
+              currentOption = {[]}
+              useTestData = {false}
+              isDisabled = {false}
+              onChangedDisplayedOption={() => {}}
               useDarkMode = {props.useDarkMode}
               primaryColor= {primaryColor.current}
+              height="35px"
               options={
-                column?.matchingOverride?.optionsList
-                ? column.matchingOverride.optionsList.map(
-                  (option: any) => option.Value
-                )
-                : ["No options passed"]
+                column?.matchingOverride?.optionsList || ["No options passed"]
               }
               onOptionSelect={(option: string) => {
                 console.log("OPTIONNN", option);
@@ -142,9 +140,7 @@ const primaryColor = useRef(props.primaryColor);
                   option
                 );
               }}
-              width={column?.matchingOverride?.componentWidth || 150}
               fullWidth
-              height={column?.matchingOverride?.componentHeight || 50}
               />
             )
             }
@@ -180,7 +176,7 @@ const primaryColor = useRef(props.primaryColor);
     Mode: props.useDarkMode ? 'dark' : 'light',
     primaryColor: props.primaryColor as PrimaryColor
   }
-  const theme =  generateTheme(config)
+  const theme = props.useTheming ? generateTheme(config) : createTheme({palette: {mode: config.Mode}})
   console.log(" D THEME : ", theme)
 
 
@@ -190,8 +186,12 @@ const primaryColor = useRef(props.primaryColor);
     width: props.width
   } as React.CSSProperties
 
-  const renderMain = () => {
-    return (
+  
+  return (
+    
+     
+     <ThemeProvider theme={theme}>
+      
       <div
         style={styles}
       >
@@ -220,37 +220,18 @@ const primaryColor = useRef(props.primaryColor);
               columnVisibilityModel: visibilityModel,
             },
           }}
+          
           getRowHeight={(params) => "auto"}
           apiRef={apiRef}
           onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}
           getRowId={getRowId}
           className={props.classes}
+          onFilterModelChange={(e) => console.log("FILTER MODEL CHANGE: ", e, e.items)}
         />
       </div>
-    )
-  }
-
-  const renderWithTheme = () => {
-    return(
-
-      <ThemeProvider theme={theme}>
-      {renderMain()}
+    
     </ThemeProvider>
-    )
-  }
-
-  const renderWithoutTheme = () => {
-   return (
-    <ThemeProvider theme = {createTheme({palette: {mode: props.useDarkMode ? 'dark' : 'light'}})}>
-
-     {renderMain()}
-    </ThemeProvider>
-    )
-  
-  }
-
-  return (
-    props.useTheming ? renderWithTheme() : renderWithoutTheme()
+     
   )
 });
 

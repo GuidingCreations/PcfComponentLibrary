@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from 'react';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -6,7 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { ThemeProvider } from '@mui/material/styles';
 import {Config, PrimaryColor} from '../../styling/types/types'
 import generateTheme from '../../styling/utils/theme-provider'
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import * as dayjs from 'dayjs';
 
 export interface DatePickerProps {
@@ -17,7 +18,7 @@ export interface DatePickerProps {
     DefaultDate: string;
 }
 
-const DatePickerComponent = (props: DatePickerProps) => {
+const DatePickerComponent = memo(function (props: DatePickerProps) {
 
 
 
@@ -52,6 +53,6 @@ const DatePickerComponent = (props: DatePickerProps) => {
 
         </div>
 )
-}
+})
 
 export default DatePickerComponent

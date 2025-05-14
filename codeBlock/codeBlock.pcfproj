@@ -8,8 +8,8 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')" />
 
   <PropertyGroup>
-    <Name>AutoComplete</Name>
-    <ProjectGuid>230016fb-54b5-4ab7-82b4-27ebe2615474</ProjectGuid>
+    <Name>codeBlock</Name>
+    <ProjectGuid>584547f9-98bb-43bb-b9a6-729a8ac75abb</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 
