@@ -13,7 +13,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function populateDataset(dataset: DataSet) {
   const items: any[] = [];
-
+  console.log("COLS: ", dataset.columns)
   dataset.sortedRecordIds.map((recordID) => {
     const recordToAdd: any = {};
 

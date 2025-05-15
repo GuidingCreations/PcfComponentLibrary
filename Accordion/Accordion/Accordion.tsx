@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Accordion from '@mui/material/Accordion';
+import useResizeObserver from '@react-hook/resize-observer';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -7,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
+import { Stack } from '@mui/material';
 
 export interface AccordionProps {
   darkMode: boolean;
@@ -15,11 +17,13 @@ export interface AccordionProps {
   useTestData: boolean;
   height: number;
   width: number;
+  onChangeHeight: (newHeight: number) => void
 }
 
-export default function AccordionComponent(props: AccordionProps) {
+export default memo(function AccordionComponent(props: AccordionProps) {
   
 console.log("PROPS RECEIVED", props)
+const accordionRef = useRef(null)
 
   const darkMode = useRef(props.darkMode);
   if (props.darkMode != darkMode.current) {
@@ -48,12 +52,19 @@ console.log("PROPS RECEIVED", props)
   const accordionRecords = props.useTestData ? testData : props.accordionData
 
   console.log("DATA", accordionRecords)
+
+   useResizeObserver(accordionRef, (entry) => {
+      console.log("RECT for accordion", entry.contentRect.height);
+      props.onChangeHeight(entry.contentRect.height)
+    })
+
+
   return (
 
 
     <ThemeProvider theme={theme}>
 
-    <div style={{width: props.width, height: props.height, padding: '8px'}}>
+    <div style={{width: props.width, height: 'fit-content'}} ref = {accordionRef}>
       
       { accordionRecords.map( (record) => {
 
@@ -66,12 +77,21 @@ console.log("PROPS RECEIVED", props)
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
-          >
+          sx={{fontSize: '14pt'}}
+        >
           <Typography component="span">{record.Title}</Typography>
         </AccordionSummary>
         
-        <AccordionDetails>
+        <AccordionDetails sx={{fontSize: '12pt', lineHeight: 2}}>
+          <Stack>
+            
           {record.bodyContent}
+          {record.images?.map((image : any) => {
+            
+            return <img key={image.src} src={image.src} style={{width: image.width ? image.width : '100%', height: image.height ? image.height : ''}}></img>
+            
+          })}
+          </Stack>
         </AccordionDetails>
       
       </Accordion>
@@ -82,4 +102,4 @@ console.log("PROPS RECEIVED", props)
     </div>
           </ThemeProvider>
   );
-}
+})

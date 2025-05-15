@@ -49,7 +49,8 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
     "--focusedBorderColor": theme.palette.primary.main,
     "--marginBottom": props.isMultiline ? 'auto' : 0,
     width: '100%',
-    marginBottom: props.isMultiline ? 'auto' : 0
+    marginBottom: props.isMultiline ? 'auto' : 0,
+    height: props.isMultiline ? 'fit-content' : props.height
   } as  React.CSSProperties
 
 
@@ -60,12 +61,13 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
 
 
 
+
   return (
-    <div style={{height: 'fit-content', width: `${props.width}px`}} ref = {rootRef}>
+    <div style={{height: props.isMultiline ? 'fit-content' : props.height, width: `${props.width}px`}} ref = {rootRef}>
 
     <ThemeProvider theme={theme}>
     
-    <TextField  multiline id='textFieldMui' value = {textValue} type='text' style={styles} label={props.labelText} variant='outlined' onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue(e.target.value)}}></TextField>
+    <TextField  multiline = {props.isMultiline} id='textFieldMui' value = {textValue} type='text' style={styles} label={props.labelText} variant='outlined' onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue(e.target.value)}}></TextField>
 
     </ThemeProvider>
     </div>
