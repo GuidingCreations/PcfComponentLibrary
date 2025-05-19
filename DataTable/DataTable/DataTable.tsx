@@ -69,9 +69,17 @@ const primaryColor = useRef(props.primaryColor);
   console.log("DEFAULT VISIBILITY MODEL: ", props.columnVisibility)
   
 
+  const defaultVisibilityModel = useRef(props.columnVisibility)
   const [visibilityModel, setVisibilityModel] = useState<any>(
     props.columnVisibility
   );
+
+  if (props.columnVisibility != defaultVisibilityModel.current) {
+    defaultVisibilityModel.current = props.columnVisibility;
+    setVisibilityModel(defaultVisibilityModel.current)
+  }
+
+  
 
   const apiRef = useGridApiRef();
   const updateSelectedRecordIDs = (IDs: any) => {

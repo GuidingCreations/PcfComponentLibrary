@@ -20,7 +20,9 @@ export class DataTable
   private _columnWidthTable: any[] = [];
   private _columnOverrides: any[] = [];
   private _pageNumber = 0;
-  private _columnVisibility: any = {};
+  private _columnVisibility: any = {
+    recordID: false
+  };
   private outputType: string = "";
   private outputValue: string = "";
   private compOutputObj: any = {};
