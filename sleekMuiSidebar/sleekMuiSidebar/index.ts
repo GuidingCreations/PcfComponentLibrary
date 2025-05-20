@@ -77,6 +77,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
     
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+        this.context.mode.trackContainerResize(true)
+
         if (this._primaryColor == '' && this.context.parameters.primaryColor.raw) {
             this.updatePrimaryColor(context.parameters.primaryColor.raw!)
         }
@@ -86,8 +88,9 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
         const isPrimaryColor = primaryColorNames.some( (name) => name == context.parameters.primaryColor.raw)
 
         const props : muiSidebarProps = {
-            containerHeight: context.parameters.containerHeight.raw || 1080,
-            containerWidth: context.parameters.containerWidth.raw || 300,
+            
+            containerHeight: context.mode.allocatedHeight,
+            containerWidth: context.mode.allocatedWidth,
             useTestData: context.parameters.useTestData.raw,
             useDarkMode: context.parameters.useDarkMode.raw,
             primaryColor: isPrimaryColor ? context.parameters.primaryColor.raw as PrimaryColor : 'Green',
