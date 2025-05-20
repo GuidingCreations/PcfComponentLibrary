@@ -37,7 +37,7 @@ const options = [
 ]
 
 
-const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
+const SquashedBG = (props: squashedBgProps) => {
   console.log("SQUASHED BG PROPS PASSED: ", props)
 
   const optionsList = props.useTestData ?  options : props.options.length > 0 ? props.options : [] 
@@ -183,6 +183,6 @@ const SquashedBG = memo(function SquashedBG(props: squashedBgProps) {
       </div>
     </ThemeProvider>
   );
-})
+}
 
 export default SquashedBG
