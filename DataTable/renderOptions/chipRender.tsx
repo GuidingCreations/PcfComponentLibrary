@@ -1,8 +1,7 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, useGridApiContext, useGridApiRef } from "@mui/x-data-grid";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Chip } from "@mui/material";
 import type {} from '@mui/x-data-grid/themeAugmentation';
+import { memo } from "react";
 
 export interface chipProps {
     backgroundColor: string, 
@@ -12,9 +11,10 @@ export interface chipProps {
 }
 
 
-export function chipRender(props : chipProps)  {
 
-    console.log("TEST OBJ: ", props.testObj)
+const chipRender = (props : chipProps) => {
+
+    console.log("CHIP PROPS: ", props)
 
   return (
     <Chip
@@ -24,3 +24,4 @@ export function chipRender(props : chipProps)  {
   )
 }
 
+export default memo(chipRender)

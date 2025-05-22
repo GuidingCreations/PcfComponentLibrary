@@ -7,13 +7,18 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 type DataSetInterfaces = ComponentFramework.PropertyTypes.DataSet;
 
+
+export function sourceNeedsUpdate (context: any, sourceName: any, currentArray: any[]) {
+    const needsUpdated = context.updatedProperties.indexOf("dataset") > -1 || context.updatedProperties.indexOf("records") > -1 || context.parameters[sourceName].sortedRecordIds.length > currentArray.length
+    return needsUpdated
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function populateDataset(dataset: DataSet) {
   const items: any[] = [];
-  console.log("COLS: ", dataset.columns)
   dataset.sortedRecordIds.map((recordID) => {
     const recordToAdd: any = {};
 

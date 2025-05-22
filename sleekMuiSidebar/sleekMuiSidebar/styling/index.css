@@ -21,7 +21,8 @@
     align-items: center; 
     border-radius: 10px; 
     margin-right: var(--var-rootSpacing); 
-    cursor: pointer
+    cursor: pointer;
+    width: 100%;
 }
 
 .sectionLabel {

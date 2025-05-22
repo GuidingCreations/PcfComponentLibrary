@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.15.245" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.18.252" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -33,42 +33,55 @@
 
 
 <!-- Input properties -->
+
+    <!-- Link to readme in github -->
         
     <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value="https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md"/>
-    
-    <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Height'/>
         
-    <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" pfx-default-value ='Self.Width'/>
+    <!-- Should the component use dark mode? -->
     
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" pfx-default-value="varUseDarkMode"/>
+    
+    <!-- Should the component use one of our color themes? -->
+
     <property name="useTheming" display-name-key="useTheming" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    
+    
+    <!-- Primary color of the theme (only certain values, check styling folder) -->
+
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" hidden="false" pfx-default-value="varAppPrimaryColor"/>
+
+    <!-- Whether the DataTable should show checkboxes for selection -->
 
     <property name="showCheckboxes" display-name-key="showCheckboxes" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
     
+    <!-- Whether the footer should be hidden in the DataTable -->
+
     <property name="hideFooter" display-name-key="hideFooter" of-type="TwoOptions" usage="input" hidden="false" default-value="false"/>
     
+    <!-- Whether you can select multiple rows in the DataTable -->
+
     <property name="allowSelectMultiple" display-name-key="allowSelectMultiple" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+
+    <!-- The text to display if there are no rows generated in the data table -->
 
     <property name="noRowsText" display-name-key="noRowsText" of-type="SingleLine.Text" usage="input" default-value="No results found"/>
 
 <!-- Output properties -->
 
+<!-- Currently will only output selectedOption when using custom renders for squashedButtonGroup -->
+
 <property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output" hidden="false"/>
+
+<!-- The text from the selected option with custom column renders for squashedButtonGroup -->
+
 <property name="outputValue" display-name-key="outputValue" of-type="SingleLine.Text" usage="output" hidden="false"/>
-<property name="outputObject" display-name-key="outputObject" of-type="Object" usage="output" hidden="false"/>
-<property name="outputObjectSchema" display-name-key="outputObjectSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
 
 <!-- Events -->
 
  <event name = 'onOptionSelected' display-name-key='onOptionSelected' description-key='onOptionSelected' pfx-default-value = 'Notify("No option selected formula", NotificationType.Error, 2000)'/>
 
     <!-- Property dependencies -->
-
- <property-dependencies>
-      <property-dependency input = "outputObjectSchema" output = "outputObject" required-for = "schema"/>
-  </property-dependencies>
-  
 
 
 <!-- Resources -->

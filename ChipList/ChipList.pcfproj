@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <Name>ChipList</Name>
-    <ProjectGuid>d4be9537-0174-4bd5-a9bb-090d3d68997f</ProjectGuid>
+    <ProjectGuid>331eb066-a090-46c0-9ab6-f2ba3e59be86</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 

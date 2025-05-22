@@ -1,5 +1,7 @@
  "use client"
 
+// imports
+
 import * as React from "react";
 import {
   DataGrid,
@@ -11,10 +13,13 @@ import {
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import SquashedBG from "../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup";
-import { chipRender } from "../renderOptions/chipRender";
+import chipRender, {chipProps} from "../renderOptions/chipRender";
 import { memo, useRef, useState } from "react";
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from "../../styling/types/types";
+import { Chip } from "@mui/material";
+
+// Test data
 
 const testRows: GridRowsProp = [
   { id: 1, col1: "Hello", col2: "World" },
@@ -23,9 +28,12 @@ const testRows: GridRowsProp = [
 ];
 
 const testColumns: GridColDef[] = [
-  { field: "col1", headerName: "Column 1", width: 150 },
+  { field: "col1", headerName: "Column 1", width: 150, display: "flex" },
   { field: "col2", headerName: "Column 2", width: 150, display: "flex" },
+  {field: "Options", headerName: "Options"}
 ];
+
+// Interface
 
 export interface DataTableProps {
   tableData: any[];
@@ -43,7 +51,6 @@ export interface DataTableProps {
   totalRowCount: number;
   onOptionSelect: (
     outputType: string,
-    recordID: any,
     optionValue: string
   ) => void;
   columnVisibility: any;
@@ -56,18 +63,16 @@ export interface DataTableProps {
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
   
-const primaryColor = useRef(props.primaryColor);
+//  Set primaryColor ref, and check each render to see if default has updated. If it has, update ref.
+
+  const primaryColor = useRef(props.primaryColor);
 
   if (primaryColor.current !== props.primaryColor) {
-    console.log("SWITCHING PRIMARY COLOR FROM: ", primaryColor, " to ", props.primaryColor);
     primaryColor.current = props.primaryColor
-    console.log("NEW PRIMARY COLOR: ", primaryColor)
   }
 
-  console.log("PROPS DTC: ", props)
-  
-  console.log("DEFAULT VISIBILITY MODEL: ", props.columnVisibility)
-  
+//  Set columnVisibility ref, and check each render to see if default has updated. If it has, update ref.
+
 
   const defaultVisibilityModel = useRef(props.columnVisibility)
   const [visibilityModel, setVisibilityModel] = useState<any>(
@@ -79,34 +84,38 @@ const primaryColor = useRef(props.primaryColor);
     setVisibilityModel(defaultVisibilityModel.current)
   }
 
-  
-
   const apiRef = useGridApiRef();
+  
+  // Function to fire formula from prop to update selected records
+  
   const updateSelectedRecordIDs = (IDs: any) => {
     props.setSelectedRecords(IDs);
   };
 
-  const renderCount = useRef(0);
-  renderCount.current++;
+  // Function to return rowID
 
   function getRowId(row: any) {
-    return row.recordID;
+    return   row.recordID;
   }
 
   const data = props.tableData ? props.tableData : testRows;
-  const columns = props.tableColumns ? props.tableColumns : testColumns;
+  const columns =  props.tableColumns ? props.tableColumns : testColumns;
 
   console.log("COLUMNSSSSS", columns);
+  
   // Map through columns to generate overrides
 
   columns.map((column: any) => {
+
     const matchingOverride = column.matchingOverride;
+    console.log("MATCHING OVERRIDE: ", matchingOverride)
     matchingOverride?.columnName && matchingOverride.componentType
       ? (column.renderCell = (params: GridRenderCellParams<any>) => {
           const matchingColorRecord =
             column?.matchingOverride?.colorGenerator?.filter(
               (record: any) => record.matchingValue == params.row[params.field]
             )[0];
+
 
           const backgroundColor = matchingOverride?.backgroundColor
             ? matchingOverride?.backgroundColor
@@ -122,13 +131,14 @@ const primaryColor = useRef(props.primaryColor);
             ? matchingColorRecord?.fontColor
             : "white";
 
+            // Function to render squashedBG
 
             const renderSquashedBG = () => { 
               
-              console.log("PRIMARY COLOR BEFORE RENDER: ", primaryColor)
               return (
 
               <SquashedBG
+              key={params.row[params.field]}
               displayField="Value"
               currentOption = {[]}
               useTestData = {false}
@@ -143,29 +153,25 @@ const primaryColor = useRef(props.primaryColor);
               onOptionSelect={(option: string) => {
                 console.log("OPTIONNN", option);
                 props.onOptionSelect(
-                  params.row.recordID,
                   "selectedOption",
                   option
                 );
               }}
               fullWidth
               />
-            )
+              )
             }
 
-          return (
+           return (
             <>
               {
                 // if component type is chip
 
-                column?.matchingOverride?.componentType == "chip" ? (
-                  chipRender({
-                    backgroundColor: backgroundColor,
-                    label: params.row[params.field],
-                    testObj: params.field,
-                    fontColor: fontColor,
-                  })
-                ) : column?.matchingOverride?.componentType ==
+                column?.matchingOverride?.componentType == "chip" ? 
+                
+                <Chip style={{backgroundColor: backgroundColor, color: fontColor}} label = { params.row[params.field]}/>
+                
+                 : column?.matchingOverride?.componentType ==
                   "squashedButtonGroup" ? (
                     renderSquashedBG()
                 ) : (
@@ -177,6 +183,7 @@ const primaryColor = useRef(props.primaryColor);
         })
       : null;
   });
+
 
   console.log("COLUMNS AFTER APPENDING RENDER", columns);
 

@@ -33,7 +33,12 @@ const NavLink = memo(function NavLink(props: linkProps) {
             <Stack
             className='navItem'
             key={props.linkText} 
-            style={{backgroundColor: props.activeItem == props.item && !props.item.children ? props.theme.palette.primary.main : '', padding: '4px 8px', marginRight: '0', flexGrow: 1}}
+            style={{
+                backgroundColor: props.activeItem == props.item && !props.item.children ? props.theme.palette.primary.main : '', 
+                paddingTop: '4px', 
+                paddingBottom: '4px', 
+                paddingLeft: '4px', 
+                marginTop: '4px', flexGrow: 1}}
             onClick={(e) => {setISExpanded(!isExpanded); props.onSelect(props.item)}}
             direction={'row'}
             >
@@ -47,7 +52,8 @@ const NavLink = memo(function NavLink(props: linkProps) {
 
     { props.item.children && isExpanded ? 
         
-        <svg 
+        <svg
+            style={{marginLeft: 'auto'}} 
             xmlns="http://www.w3.org/2000/svg" 
             height="24px" viewBox="0 0 24 24" 
             width="24px" 
@@ -63,9 +69,12 @@ const NavLink = memo(function NavLink(props: linkProps) {
             height="24px" 
             viewBox="0 0 24 24" 
             width="24px" 
-            fill="#e3e3e3">
+            fill="#e3e3e3"
+            style={{marginLeft: 'auto'}}
+            >
                 <path d="M0 0h24v24H0V0z" fill="none"/>
                 <path d="M10 17l5-5-5-5v10z"/>
+            style
         </svg>
 
         : null
@@ -88,7 +97,17 @@ const NavLink = memo(function NavLink(props: linkProps) {
         return (
 
             !child.isHidden ?
-            <div style={{cursor: 'pointer', backgroundColor: isMatched ? props.theme.palette.primary.main : '', padding: '4px 8px', marginRight: '0', marginLeft: '8px', flexGrow: 1}} onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
+            <div style={{
+                cursor: 'pointer', 
+                backgroundColor: isMatched ? props.theme.palette.primary.main : '', 
+                paddingTop: '4px', 
+                paddingBottom: '4px', 
+                paddingLeft: '4px', 
+                marginLeft: '8px', 
+                marginTop: '4px',
+                flexGrow: 1
+            }} 
+            onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
                 
                 <p style={{margin: 0, textAlign: 'left', lineHeight: 2, color: 'white'}}>{child.navTitle}</p>
             </div> : ''

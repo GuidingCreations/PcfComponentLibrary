@@ -53,13 +53,13 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
         //     this._data.push(objToAdd)
         // })
         
+        context.mode.trackContainerResize(true)
 
         const props : AccordionProps = {
             darkMode: context.parameters.DarkMode.raw,
             accordionData: this._data,
             useTestData: context.parameters.useTestData.raw,
-            height: context.parameters.containerHeight.raw || 250,
-            width: context.parameters.containerWidth.raw || 400,
+            width: context.mode.allocatedWidth,
             onChangeHeight: this.onChangeHeight
         }
 

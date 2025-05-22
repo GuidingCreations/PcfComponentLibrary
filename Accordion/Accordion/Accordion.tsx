@@ -15,7 +15,6 @@ export interface AccordionProps {
   darkMode: boolean;
   accordionData: any[];
   useTestData: boolean;
-  height: number;
   width: number;
   onChangeHeight: (newHeight: number) => void
 }
@@ -88,7 +87,7 @@ const accordionRef = useRef(null)
           {record.bodyContent}
           {record.images?.map((image : any) => {
             
-            return <img key={image.src} src={image.src} style={{width: image.width ? image.width : '100%', height: image.height ? image.height : ''}}></img>
+            return <img key={image.src} src={image.src} style={{width: image.width ? image.width : '100%', height: image.height ? image.height : '', marginTop: "16px"}}></img>
             
           })}
           </Stack>

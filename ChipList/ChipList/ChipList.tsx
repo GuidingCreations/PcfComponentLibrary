@@ -1,43 +1,65 @@
-import React from 'react'
-import Chip from '../../Chip/Chip/Chip'
-import '../../dist/output.css'
+/* eslint-disable */
+import { Chip, Stack } from '@mui/material';
+import React, {memo, useRef} from 'react'
 
-export interface ChipListProps {
-    chipHeight?: number;
-    chipFontSize?: string;
-    chipWidth?: number;
-    data?: any[];
-    onDestroyChip : (value : any) => void
+export interface ChipProp {
+  Value: string;
+  backgroundColor?: string,
+  recordID?: string
 }
 
-const ChipList = (props: ChipListProps) => {
+export interface ChipListProps {
+  ChipList: ChipProp[];
+  width: number;
+  height: number
+  useTestData: boolean
+}
 
-    const testData = [
-        {label: "testValue1", backgroundColor: 'white', labelColor: 'black', iconFill: 'black'},
-        {label: "testValue2", backgroundColor: 'black', labelColor: 'white'}
-    ]
+const ChipListComponent = (props: ChipListProps) => {
+ 
+const testItems = useRef<ChipProp[] >([
+        {
+            Value: "Option 1",
+            backgroundColor: "red",
+            recordID: "151"
+        },
+        {
+            Value: "Option 2",
+            backgroundColor: "blue",
+            recordID: "152"
+        },
+        {
+            Value: "Option 3",
+            recordID: "153"
+        }
+    ])
 
-    const chipData = props.data ? props.data : testData
+const items = !props.useTestData ? props.ChipList : testItems.current
+    
 
-    console.log('chip data', chipData)
-    return (
-    <div className='div flex flex-wrap gap-1 w-full justify-start p-1' style={{width: props.chipWidth ? props.chipWidth : ''}}>
-        
-        {chipData?.map( (item) => {
-            return <Chip
-            labelColor= {item.chipTextColor ? item.chipTextColor :  'white'}
-            backgroundColor={item.chipBackgroundColor ? item.chipBackgroundColor : 'blue'}
-            labelText={item.label ? item.label : 'no label'}
-            fontSize={props.chipFontSize ? props.chipFontSize : '12px'}
-            height={props.chipHeight ? props.chipHeight : 50}
-            onSelectX={() => props.onDestroyChip(item)}
-            borderColor ='black'
-            iconFill={item.iconFill ? item.iconFill : 'white'}
-            key={item.label}
+  return (
+    <Stack rowGap={1} spacing={1} direction={'row'} flexWrap={'wrap'} style={{height: `${props.height}px`, width: `${props.width}px`}}>
+        {
+          items.map((chipItem: ChipProp) => {
+            return(
+
+            <Chip 
+              key={""}
+              sx={{
+                backgroundColor: chipItem.backgroundColor || 'black',
+                color: 'white',
+                flexGrow: 1
+              }}
+              label = {chipItem.Value}
+              onClick = {() => console.log("VAL: ", chipItem.Value)}
+              onDelete={() => console.log("DELETE")}
             />
-        })}
-    </div>
+            
+          )
+          })
+        }
+    </Stack>
   )
 }
 
-export default ChipList
+export default memo(ChipListComponent)
