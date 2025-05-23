@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="Accordion" version="0.2.11" display-name-key="Accordion" description-key="Accordion description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Accordion" version="0.2.45" display-name-key="Accordion" description-key="Accordion description" control-type="virtual" >
     
     <external-service-usage enabled="false">
-      
     </external-service-usage>
 
     <data-set name="accordionData" display-name-key="accordionData">
-      
+      <property-set name = "testBody" of-type = "Multiple" display-name-key = "testBody" usage = "input"/>
     </data-set>
 
     <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" pfx-default-value = "varUseDarkMode"/>

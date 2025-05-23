@@ -11,24 +11,12 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
     private _data : any[] = []
     private outputHeight : number;
     onChangeHeight = (newHeight : number) => {
-        console.log("TRIGGERING NEW HEIGHT FROM ", this.outputHeight, " TO ", newHeight)
         this.outputHeight = newHeight;
-        console.log("NEW HEIGHT: ", this.outputHeight)
         this.notifyOutputChanged()
     }
-    /**
-     * Empty constructor.
-     */
+   
     constructor() { }
     
-
-    /**
-     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
-     * Data-set values are not initialized here, use updateView.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
-     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
-     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
-     */
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
@@ -37,21 +25,26 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
         this.notifyOutputChanged = notifyOutputChanged;
     }
 
-    /**
-     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-     * @returns ReactElement root react element for the control
-     */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        this._data = populateDataset(context.parameters.accordionData)
 
-        // context.parameters.accordionData.sortedRecordIds.forEach( (recordID) => {
-        //     const objToAdd : any = {}
-        //     objToAdd.Title = context.parameters.accordionData.records[recordID].getFormattedValue("Title"),
-        //     objToAdd.bodyContent = context.parameters.accordionData.records[recordID].getFormattedValue("bodyContent")
-        //     this._data.push(objToAdd)
-        // })
+        if (context.updatedProperties.indexOf("records") > -1 || context.updatedProperties.indexOf("dataset") > -1 || context.parameters.accordionData.sortedRecordIds.length > this._data.length) {
+
+            this._data = []
+            
+            context.parameters.accordionData.sortedRecordIds.forEach((recordID : any) => {
+                const objToAdd : any = {};
+                objToAdd.bodyContent = context.parameters.accordionData.records[recordID].getValue('bodyContent');
+                objToAdd.Title = context.parameters.accordionData.records[recordID].getFormattedValue('Title');
+                objToAdd.images = context.parameters.accordionData.records[recordID].getValue("images")
+                this._data.push(objToAdd)
+            })
+        }
+
+
+        // console.log("POP DATA")
+        // this._data = populateDataset(context.parameters.accordionData)
+        console.log("DATA POPPED: ", this._data)
         
         context.mode.trackContainerResize(true)
 

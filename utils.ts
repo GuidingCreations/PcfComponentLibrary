@@ -22,10 +22,15 @@ export function populateDataset(dataset: DataSet) {
   dataset.sortedRecordIds.map((recordID) => {
     const recordToAdd: any = {};
 
-    dataset.columns.map((column: any) => {
-      recordToAdd[column.name] = dataset.records[recordID].getValue(
+    dataset.columns.map((column: DataSetInterfaces.Column) => {
+      
+
+      
+      const value : any = dataset.records[recordID].getValue(
         column.name
       );
+      
+      recordToAdd[column.name] = value
     });
 
     recordToAdd.recordID = dataset.records[recordID].getRecordId();

@@ -6,7 +6,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Button from '@mui/material/Button';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { memo, useRef } from 'react';
 import { Stack } from '@mui/material';
@@ -19,7 +18,7 @@ export interface AccordionProps {
   onChangeHeight: (newHeight: number) => void
 }
 
-export default memo(function AccordionComponent(props: AccordionProps) {
+const AccordionComponent = (props: AccordionProps) => {
   
 console.log("PROPS RECEIVED", props)
 const accordionRef = useRef(null)
@@ -50,10 +49,8 @@ const accordionRef = useRef(null)
 
   const accordionRecords = props.useTestData ? testData : props.accordionData
 
-  console.log("DATA", accordionRecords)
 
    useResizeObserver(accordionRef, (entry) => {
-      console.log("RECT for accordion", entry.contentRect.height);
       props.onChangeHeight(entry.contentRect.height)
     })
 
@@ -70,7 +67,7 @@ const accordionRef = useRef(null)
       return (
 
         
-        <Accordion key={record.Title} style={{width: '!00%'}}>
+        <Accordion slotProps={{transition: {unmountOnExit: true}}} key={record.Title} style={{width: '!00%'}}>
         
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -83,8 +80,21 @@ const accordionRef = useRef(null)
         
         <AccordionDetails sx={{fontSize: '12pt', lineHeight: 2}}>
           <Stack>
+            <div className='bodyContentWrapper'>
+
+          {
             
-          {record.bodyContent}
+            typeof record.bodyContent == 'string' ? 
+            <p>{record.bodyContent}</p>
+            
+            : record.bodyContent.map((content : any, index : number) => {
+              console.log("INDEX: ", index)
+              return <p key={index} style={{marginTop: index === 0 ? '0px' : '16px'}}>{content.Value}</p>
+            })
+            
+          }
+          </div>
+
           {record.images?.map((image : any) => {
             
             return <img key={image.src} src={image.src} style={{width: image.width ? image.width : '100%', height: image.height ? image.height : '', marginTop: "16px"}}></img>
@@ -101,4 +111,6 @@ const accordionRef = useRef(null)
     </div>
           </ThemeProvider>
   );
-})
+}
+
+export default memo(AccordionComponent)
