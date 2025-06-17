@@ -8,6 +8,7 @@ import {
   GridColDef,
   GridRenderCellParams,
   GridRowsProp,
+  GridToolbar,
   useGridApiRef,
 } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -51,13 +52,15 @@ export interface DataTableProps {
   totalRowCount: number;
   onOptionSelect: (
     outputType: string,
-    optionValue: string
+    optionValue: string,
+    recordID: any
   ) => void;
   columnVisibility: any;
   hideFooter: boolean;
   showCheckboxes: boolean;
   fullWidth?: boolean;
   classes?: string;
+  showToolbar: boolean;
   noRowsText?: string;
 }
 
@@ -150,11 +153,13 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
               options={
                 column?.matchingOverride?.optionsList || ["No options passed"]
               }
+            
               onOptionSelect={(option: string) => {
                 console.log("OPTIONNN", option);
                 props.onOptionSelect(
                   "selectedOption",
-                  option
+                  option,
+                  params.row.recordID
                 );
               }}
               fullWidth
@@ -197,10 +202,15 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
   const styles = {
     '--var-selected-background-color': `${theme.palette.primary.main}4D`,
+    '--varToolbarIconColor': `${props.useDarkMode ? theme.palette.primary.main : 'black'}`,
+    paddingTop: '8px',
     height: props.height,
     width: props.width
   } as React.CSSProperties
 
+  const renderCount = useRef(0);
+  renderCount.current++;
+  console.log("rend count: ", renderCount.current)
   
   return (
     
@@ -235,7 +245,9 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
               columnVisibilityModel: visibilityModel,
             },
           }}
-          
+          slots={{
+            toolbar: props.showToolbar ? GridToolbar : null
+          }}
           getRowHeight={(params) => "auto"}
           apiRef={apiRef}
           onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}

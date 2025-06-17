@@ -50,7 +50,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Accordion\Accordion.pcfproj" />
-    <ProjectReference Include="..\Button\Button.pcfproj" />
     <ProjectReference Include="..\Chip\Chip.pcfproj" />
     <ProjectReference Include="..\ComboBoxMUI\testComp.pcfproj" />
     <ProjectReference Include="..\DataTable\DataTable.pcfproj" />

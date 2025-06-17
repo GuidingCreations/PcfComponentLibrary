@@ -1,3 +1,12 @@
 .MuiDataGrid-row.Mui-selected {
     background-color: var(--var-selected-background-color) !important;
 }
+
+.MuiDataGrid-toolbarContainer * {
+    color: var(--varToolbarIconColor);
+}
+
+.MuiDataGrid-toolbarContainer > button {
+    color: var(--varToolbarIconColor);
+
+}

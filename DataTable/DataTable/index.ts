@@ -8,6 +8,7 @@ import { Button, colors } from "@mui/material";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { JSONSchema4 } from "json-schema";
 import { populateDataset } from "../../utils";
+import { unmountComponentAtNode } from "react-dom";
 export class DataTable
   implements ComponentFramework.ReactControl<IInputs, IOutputs>
 {
@@ -25,7 +26,10 @@ export class DataTable
   };
   private outputType: string = "";
   private outputValue: string = "";
+  private compOutputObj: any = {};
+  private inputSchema: string = "";
   private tableColumns: any[] = [];
+  private columnProperties: Record<string, JSONSchema4>;
   private _tableData: any[] = []
 
   // Function to check if column visibility defaults have changed, and update local variable if so
@@ -99,11 +103,11 @@ export class DataTable
 
   // Function to run whenever an option is selected from a split button rendered in data table, to update output properties based on selection
 
-  onOptionSelect = (outputType: string, optionValue: string) => {
+  onOptionSelect = (outputType: string, optionValue: string, recordID: any) => {
     
     this.outputType = outputType;
     this.outputValue = optionValue;
-
+    this.compOutputObj = this.getOutputObjectRecord(this.context.parameters.tableData.records[recordID]);
 
     this.notifyOutputChanged();
 
@@ -262,6 +266,7 @@ export class DataTable
   
   ): React.ReactElement {
     
+    this.updateInputSchemaIfChanged();
 
     // Set default column visibility properties
 
@@ -292,6 +297,7 @@ export class DataTable
 
 
     const props: DataTableProps = {
+      showToolbar: context.parameters.showToolbar.raw,
       tableData: this._tableData,
       tableColumns: this.tableColumns,
       height: context.mode.allocatedHeight,
@@ -313,17 +319,179 @@ export class DataTable
       
     };
 
+    
+  
+
     console.log("DATA TABLE PROPS FROM INDEX.TS", props);
 
     return React.createElement(DataTableComponent, props);
   }
 
   public getOutputs(): IOutputs {
+    console.log("INPUT SCHEMA on get outputs", this.inputSchema);
     return {
       changeType: this.outputType,
+      outputObject: this.compOutputObj,
+      outputObjectSchema: this.inputSchema,
       outputValue: this.outputValue,
     };
   }
-  public destroy(): void {}
+  public destroy(): void {
+    this.context.parameters.tableData.clearSelectedRecordIds()
+  }
+
+   private getOutputObjectRecord(
+    row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord
+  ) {
+    const outputObject: Record<
+      string,
+      string | number | boolean | number[] | undefined
+    > = {};
+    this.context.parameters.tableData.columns.forEach((c) => {
+      const value = this.getRowValue(row, c);
+      outputObject[c.displayName || c.name] = value;
+    });
+    return outputObject;
+  }
+
+  private getRowValue(
+    row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord,
+    column: ComponentFramework.PropertyHelper.DataSetApi.Column
+  ) {
+    console.log("ROW getRowValue: ", row);
+    console.log("COLUMN getRowValue: ", column);
+    console.log("COLUMN DATA TYPE", column.dataType);
+    switch (column.dataType) {
+      // Number Types
+      case "TwoOptions":
+        return row.getValue(column.name) as boolean;
+      case "Whole.None":
+      case "Currency":
+      case "Decimal":
+      case "FP":
+      case "Whole.Duration":
+        return row.getValue(column.name) as number;
+      // String Types
+      case "SingleLine.Text":
+      case "SingleLine.Email":
+      case "SingleLine.Phone":
+      case "SingleLine.Ticker":
+      case "SingleLine.URL":
+      case "SingleLine.TextArea":
+      case "Multiple":
+        return row.getFormattedValue(column.name);
+      // Date Types
+      case "DateAndTime.DateOnly":
+      case "DateAndTime.DateAndTime":
+        return (row.getValue(column.name) as Date)?.toISOString();
+      // Choice Types
+      case "OptionSet":
+        // TODO: Can we return an enum?
+        return row.getFormattedValue(column.name) as string;
+      case "MultiSelectPicklist":
+        return row.getValue(column.name) as number[];
+      // Lookup Types
+      case "Lookup.Simple":
+      case "Lookup.Customer":
+      case "Lookup.Owner":
+      case "Whole.TimeZone":
+      case "Whole.Language":
+        return row.getFormattedValue(column.name);
+    }
+  }
+
+  public async getOutputSchema(
+    context: ComponentFramework.Context<IInputs>
+  ): Promise<Record<string, unknown>> {
+    const outputObjectSchema: JSONSchema4 = {
+      $schema: "http://json-schema.org/draft-04/schema#",
+      title: "outputObject",
+      type: "object",
+      properties: this.columnProperties || this.getInputSchema(context),
+    };
+
+    return Promise.resolve({
+      outputObject: outputObjectSchema,
+    });
+  }
+
+  private updateInputSchemaIfChanged() {
+    console.log("TESTING SCHEMA UPDATE");
+    const newSchema = JSON.stringify(this.getInputSchema(this.context));
+    if (newSchema !== this.inputSchema) {
+      console.log("NEW SCHEMA", newSchema);
+      this.inputSchema = newSchema;
+      //this.compOutputObj = undefined;
+      this.notifyOutputChanged();
+    }
+  }
+
+  private getInputSchema(context: ComponentFramework.Context<IInputs>) {
+    const dataset = context.parameters.tableData;
+    const columnProperties: Record<string, any> = {};
+    dataset.columns
+      .filter((c) => !c.isHidden && (c.displayName || c.name))
+      .forEach((c) => {
+        const properties = this.getColumnSchema(c);
+        columnProperties[c.displayName || c.name] = properties;
+      });
+    this.columnProperties = columnProperties;
+    return columnProperties;
+  }
+
+  private getColumnSchema(
+    column: ComponentFramework.PropertyHelper.DataSetApi.Column
+  ): JSONSchema4 {
+    switch (column.dataType) {
+      // Number Types
+      case "TwoOptions":
+        return { type: "boolean" };
+      case "Whole.None":
+        return { type: "integer" };
+      case "Currency":
+      case "Decimal":
+      case "FP":
+      case "Whole.Duration":
+        return { type: "number" };
+      // String Types
+      case "SingleLine.Text":
+      case "SingleLine.Email":
+      case "SingleLine.Phone":
+      case "SingleLine.Ticker":
+      case "SingleLine.URL":
+      case "SingleLine.TextArea":
+      case "Multiple":
+        return { type: "string" };
+      // Other Types
+      case "DateAndTime.DateOnly":
+      case "DateAndTime.DateAndTime":
+        return {
+          type: "string",
+          format: "date-time",
+        };
+      // Choice Types
+      case "OptionSet":
+        // TODO: Can we return an enum type dynamically?
+        return { type: "string" };
+      case "MultiSelectPicklist":
+        return {
+          type: "array",
+          items: {
+            type: "number",
+          },
+        };
+      // Lookup Types
+      case "Lookup.Simple":
+      case "Lookup.Customer":
+      case "Lookup.Owner":
+        // TODO: What is the schema for lookups?
+        return { type: "string" };
+      // Other Types
+      case "Whole.TimeZone":
+      case "Whole.Language":
+        return { type: "string" };
+    }
+    return { type: "string" };
+  }
 
 }

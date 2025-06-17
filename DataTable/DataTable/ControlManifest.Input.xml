@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.18.252" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.20.10" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -32,16 +32,26 @@
      </data-set>
 
 
+  <!-- Data set for default filter model -->
+
+       <data-set name="defaultFilters" display-name-key="defaultFilters">
+     </data-set>
+
+
 <!-- Input properties -->
 
-    <!-- Link to readme in github -->
+    <!-- Link to readme in github https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md -->
         
-    <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value="https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md"/>
+    <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value=""/>
         
     <!-- Should the component use dark mode? -->
     
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" pfx-default-value="varUseDarkMode"/>
+
+    <!-- Show or hide toolbar  -->
     
+    <property name="showToolbar" display-name-key="showToolbar" of-type="TwoOptions" usage="input" pfx-default-value="true"/>
+
     <!-- Should the component use one of our color themes? -->
 
     <property name="useTheming" display-name-key="useTheming" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
@@ -76,6 +86,9 @@
 <!-- The text from the selected option with custom column renders for squashedButtonGroup -->
 
 <property name="outputValue" display-name-key="outputValue" of-type="SingleLine.Text" usage="output" hidden="false"/>
+<property name="outputObject" display-name-key="outputObject" of-type="Object" usage="output" hidden="false"/>
+<property name="outputObjectSchema" display-name-key="outputObjectSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
+
 
 <!-- Events -->
 
@@ -83,6 +96,9 @@
 
     <!-- Property dependencies -->
 
+ <property-dependencies>
+      <property-dependency input = "outputObjectSchema" output = "outputObject" required-for = "schema"/>
+  </property-dependencies>
 
 <!-- Resources -->
 

@@ -24,7 +24,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
     // const activeBackgroundColor = props.theme.palette.primary.main 
     const [isExpanded, setISExpanded] = useState(props.isExpanded)
     
-    
+    console.log("SVG PASSED TO CHILD: ", props.linkText,  props.svgData)    
 
     return (
 
