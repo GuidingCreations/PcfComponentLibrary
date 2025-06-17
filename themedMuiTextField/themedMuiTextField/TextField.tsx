@@ -16,6 +16,7 @@ export interface TextFieldProps {
   isMultiline: boolean;
   height: number;
   width: number;
+  allowNumbersOnly: boolean;
   defaultText: string;
   onChangeHeight: (newHeight: number) => void
 }
@@ -67,8 +68,16 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
 
     <ThemeProvider theme={theme}>
     
-    <TextField  multiline = {props.isMultiline} id='textFieldMui' value = {textValue} type='text' style={styles} label={props.labelText} variant='outlined' onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue(e.target.value)}}></TextField>
-
+    <TextField  
+      multiline = {props.allowNumbersOnly ? false : props.isMultiline} 
+      id='textFieldMui' 
+      value = {textValue} 
+      type={props.allowNumbersOnly ? "number" : 'text'} 
+      style={styles} 
+      label={props.labelText} 
+      variant='outlined' 
+      onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue( e.target.value)}}></TextField>
+      
     </ThemeProvider>
     </div>
   )
