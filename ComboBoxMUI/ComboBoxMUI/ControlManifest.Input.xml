@@ -28,7 +28,7 @@
     <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" pfx-default-value ='Self.Width'/>
     <property name="outputHeight" display-name-key="outputHeight" of-type="Whole.None" usage="output" hidden="false"/>
     <property name="AllowMultipleSelect" display-name-key="Allow multiple selection?" of-type="TwoOptions" usage="input" hidden="false"/>
-    <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" hidden = "false" default-value = "false"/>
+    <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" pfx-default-value = "varUseDarkMode"/>
     <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" default-value = "false"/>
     <property name="isDisabled" display-name-key = "isDisabled" of-type = "TwoOptions" usage = "input" default-value = "false"/>
     <property name="searchText" display-name-key = "searchText" of-type = "SingleLine.Text" usage = "output" default-value = ""/>

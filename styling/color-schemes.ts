@@ -36,7 +36,7 @@ import {
 } from "./colors";
 import type { ColorScheme, Config, Mode, PrimaryColor } from "./types/types";
 
-const primarySchemes: Record<PrimaryColor, Record<ColorScheme, PaletteColorOptions>> = {
+const primarySchemes: any = {
 	Green: {
 		dark: {
 			...chateauGreen,
@@ -221,7 +221,7 @@ export function colorSchemes(config: Config): any {
 
 
 	const isDark = config.Mode == 'dark'
-	
+	const baseFontColor = config.Mode.toLowerCase() == "dark" ? 'white' : 'black'
 
 	const theme = createTheme({
 		
@@ -239,7 +239,7 @@ export function colorSchemes(config: Config): any {
 			MuiTypography: {
 				styleOverrides: {
 					root: {
-						color: config.Mode == 'dark' ? 'white' : 'black'	
+						color: baseFontColor
 					}
 				}
 			},
@@ -255,8 +255,7 @@ export function colorSchemes(config: Config): any {
 			MuiListItem: {
 				styleOverrides: {
 					root: {
-						color: config.Mode == 'dark' ? 'white' : 'black',
-						
+						color: baseFontColor
 					}
 				}
 			},
@@ -285,12 +284,12 @@ export function colorSchemes(config: Config): any {
 						},
 
 						'& .MuiAutocomplete-listbox .MuiAutocomplete-option': {
-							color: config.Mode == 'dark' ? 'white' : 'black'
+							color: baseFontColor
 						},
 
 						'& .MuiMenuItem-root': {
 							
-							color: config.Mode == 'dark' ? 'white' : 'black'
+							color: baseFontColor
 						},
 
 					
@@ -312,7 +311,7 @@ export function colorSchemes(config: Config): any {
 				  root: {
 					
 					margin: '0px',
-					color: config.Mode == 'dark' ? 'white' : 'black',
+					color: baseFontColor,
 					height: '100%', 
 					'& .MuiOutlinedInput-notchedOutline': {
 		
@@ -346,7 +345,8 @@ export function colorSchemes(config: Config): any {
 						height: 'fit-content'
 					},
 					root: {
-						marginBottom: 'auto'
+						marginBottom: 'auto',
+						color: baseFontColor
 					}
 				}
 			},
@@ -369,6 +369,28 @@ export function colorSchemes(config: Config): any {
 					}
 				}
 			},
+			// MuiTableFooter: {
+			// 	styleOverrides: {
+			// 		root: {
+			// 			color: isDark ? 'white' : 'black'
+			// 		}
+			// 	}
+			// }
+			MuiTablePagination: {
+				styleOverrides: {
+					root: {
+						color: isDark ? "white" : "black"
+					}
+				}
+			},
+			MuiMenuItem: {
+				styleOverrides: {
+					root: {
+						color: baseFontColor
+					}
+				}
+			}
+			
 			
 			
 			

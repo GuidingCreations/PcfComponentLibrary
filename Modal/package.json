@@ -18,8 +18,10 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.1.5",
+    "@tailwindcss/cli": "^4.1.11",
     "font-awesome": "^4.7.0",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "@microsoft/eslint-plugin-power-apps": "^0.2.33",

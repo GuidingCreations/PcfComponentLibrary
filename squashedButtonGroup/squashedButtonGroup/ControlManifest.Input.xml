@@ -18,7 +18,7 @@
 
     <!-- Input properties -->
 
-    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" default-value ='Green'/>
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value ='varAppPrimaryColor'/>
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value ='varUseDarkMode'/>
     <property name="displayField" display-name-key="displayField" of-type="SingleLine.Text" usage="input" default-value ='Value'/>
     <property name="isDisabled" display-name-key="isDisabled" of-type="TwoOptions" usage="input" pfx-default-value ='false'/>

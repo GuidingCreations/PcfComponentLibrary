@@ -10,22 +10,22 @@
      
     </data-set>
 
-  <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Height'/>
-  <property name="navItemHeight" display-name-key="navItemHeight" of-type="Whole.None" usage="input" hidden="false" default-value ='35'/>
+  <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input"  default-value ='Self.Height'/>
+  <property name="navItemHeight" display-name-key="navItemHeight" of-type="Whole.None" usage="input"  default-value ='35'/>
   
-  <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" hidden="false" default-value ='Self.Width'/>
+  <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input"  default-value ='Self.Width'/>
 
-  <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+  <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input"  pfx-default-value="varUseDarkMode"/>
 
-  <property name="darkModeEnabled" display-name-key="darkModeEnabled" of-type="TwoOptions" usage="output" hidden="false" default-value="true"/>
-        <property name="mainLogo" display-name-key="mainLogo" of-type="SingleLine.Text" usage="input" hidden="false"/>
+  <property name="darkModeEnabled" display-name-key="darkModeEnabled" of-type="TwoOptions" usage="output"  default-value="true"/>
+        <property name="mainLogo" display-name-key="mainLogo" of-type="SingleLine.Text" usage="input" />
 
-  <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output" hidden="false" default-value="App.ActiveScreen.Name"/>
-  <property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output" hidden="false" default-value=""/>
-  <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" hidden="false" default-value = "App.ActiveScreen.Name"/>
-  <property name="userImage" display-name-key="userImage" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
-  <property name="userName" display-name-key="userName" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
-  <property name="iconColor" display-name-key="iconColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value=""/>
+  <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output"  default-value="App.ActiveScreen.Name"/>
+  <property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output"  default-value=""/>
+  <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input"  default-value = "App.ActiveScreen.Name"/>
+  <property name="userImage" display-name-key="userImage" of-type="SingleLine.Text" usage="input"  default-value=""/>
+  <property name="userName" display-name-key="userName" of-type="SingleLine.Text" usage="input"  default-value=""/>
+  <property name="iconColor" display-name-key="iconColor" of-type="SingleLine.Text" usage="input"  default-value=""/>
 
   <event name="OnChangeMode"
     pfx-default-value='Set(varDarkMode, Self.darkModeEnabled)'

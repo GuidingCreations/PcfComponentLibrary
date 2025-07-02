@@ -172,7 +172,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
               {
                 // if component type is chip
 
-                column?.matchingOverride?.componentType == "chip" ? 
+                column?.matchingOverride?.componentType.toLowerCase() == "chip"  && params.row[params.field] ? 
                 
                 <Chip style={{backgroundColor: backgroundColor, color: fontColor}} label = { params.row[params.field]}/>
                 

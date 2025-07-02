@@ -7,6 +7,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from '../../styling/types/types';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import InputAdornment from '@mui/material/InputAdornment/InputAdornment';
 
 export interface TextFieldProps {
   onChangeText: (newText: string, outputHeight: number) => void,
@@ -19,6 +20,7 @@ export interface TextFieldProps {
   allowNumbersOnly: boolean;
   defaultText: string;
   onChangeHeight: (newHeight: number) => void
+  isCurrency: boolean;
 }
 
 const TextFieldComponent = memo(function (props: TextFieldProps)  {
@@ -62,6 +64,7 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
 
 
 
+  const inputType = props.isCurrency || props.allowNumbersOnly ? "number" : "text";
 
   return (
     <div style={{height: props.isMultiline ? 'fit-content' : props.height, width: `${props.width}px`}} ref = {rootRef}>
@@ -69,13 +72,17 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
     <ThemeProvider theme={theme}>
     
     <TextField  
-      multiline = {props.allowNumbersOnly ? false : props.isMultiline} 
+      multiline = {props.allowNumbersOnly || props.isCurrency ? false : props.isMultiline} 
       id='textFieldMui' 
       value = {textValue} 
-      type={props.allowNumbersOnly ? "number" : 'text'} 
+      type={inputType} 
       style={styles} 
       label={props.labelText} 
       variant='outlined' 
+      InputProps={{
+  startAdornment: props.isCurrency ?  <InputAdornment position="start">$</InputAdornment> : null,
+}}
+
       onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue( e.target.value)}}></TextField>
       
     </ThemeProvider>

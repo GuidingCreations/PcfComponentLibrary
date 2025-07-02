@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.16" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.19" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
   
     <external-service-usage enabled="false">
 
     </external-service-usage>
     <property name="PrimaryColor" of-type="SingleLine.Text" usage="input" display-name-key = "PrimaryColor" pfx-default-value = "varAppPrimaryColor"/>
-    <property name="useDarkMode" of-type="TwoOptions" usage="input" display-name-key = "useDarkMode"/>
+    <property name="useDarkMode" of-type="TwoOptions" usage="input" display-name-key = "useDarkMode" pfx-default-value = "varUseDarkMode"/>
     <property name="uselessOutput" of-type="SingleLine.Text" usage="output" display-name-key = "uselessOutput"/>
     <property name="labelText" of-type="SingleLine.Text" usage="input" display-name-key = "labelText"/>
     <property name="variant" of-type="SingleLine.Text" usage="input" display-name-key = "variant"/>

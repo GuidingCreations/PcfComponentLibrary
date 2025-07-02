@@ -14,7 +14,9 @@ module.exports = {
       './AccessPage/AccessPage/AccessPage.tsx',
       './TestHarness/pcf-test-harness/app/page.tsx',
       './DataTable/TestButton.tsx',
-      './*/*/*.tsx'
+      './TrackerCandles/TrackerCandles/TrackerCandles.tsx',
+      './*/*/*.tsx',
+
   
     ],
     theme: {

@@ -142,6 +142,7 @@ return(
             items.length > 0 ? 
               items.map( (navSection : navSection) => {
                 return (
+                  navSection.isHidden ? null : 
                   <div
                   className='sectionWrapper' 
                   style={{
