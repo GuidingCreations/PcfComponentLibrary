@@ -3,6 +3,7 @@
 // imports
 
 import * as React from "react";
+import {AreaChart} from "recharts"
 import {
   DataGrid,
   GridColDef,

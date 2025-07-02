@@ -15,6 +15,11 @@ export function sourceNeedsUpdate (context: any, sourceName: any, currentArray: 
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+};
+
+
+export function cx(...args: ClassValue[]) {
+  return twMerge(clsx(...args))
 }
 
 export function populateDataset(dataset: DataSet) {
