@@ -148,6 +148,7 @@ export class DataTable
 
     if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length)) {
 
+      console.log("UPDATING TABLE DATA")
       this._tableData = populateDataset(this.context.parameters.tableData);
     
       // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
