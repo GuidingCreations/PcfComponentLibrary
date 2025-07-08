@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="HuntersNS" constructor="squashedButtonGroup" version="0.7.2" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
+  <control namespace="HuntersNS" constructor="squashedButtonGroup" version="0.7.6" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
  
     <external-service-usage enabled="false">
     
@@ -23,6 +23,8 @@
     <property name="displayField" display-name-key="displayField" of-type="SingleLine.Text" usage="input" default-value ='Value'/>
     <property name="isDisabled" display-name-key="isDisabled" of-type="TwoOptions" usage="input" pfx-default-value ='false'/>
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" pfx-default-value ='true'/>
+    <property name="flexibleWidth" display-name-key="flexibleWidth" of-type="TwoOptions" usage="input" pfx-default-value ='false'/>
+    <property name="outputWidth" display-name-key="outputWidth" of-type="Decimal" usage="output"/>
     
     <!-- Output properties -->
     

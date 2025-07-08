@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import SquashedBG, {squashedBgProps} from "./squashedButtonGroup";
 import * as React from "react";
@@ -12,17 +14,23 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
     
     private state : ComponentFramework.Dictionary = {
         Options: [],
-        selectedOption: ''
+        selectedOption: '',
+        outputWidth: 350
     }
 
-    onChangeDisplayedOption = (option: any) => {
+    onChangeDisplayedOption = (option: any, newWidth?: number) => {
 
         if (option != undefined) {
 
             this.state.selectedOption = option[this.context.parameters.displayField.raw || 'Value']
             
             console.log("STATE: ", this.state);
-        } 
+        };
+
+        if (newWidth) {
+            this.state.outputWidth = newWidth
+
+        }
 
         this.notifyOutputChanged()
     }
@@ -33,6 +41,7 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
 
     }
 
+    
   
     constructor() { }
 
@@ -55,6 +64,7 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
         
         }
 
+
         const props : squashedBgProps  = {
             options: this.state.Options,
             onOptionSelect: this.onOptionSelect,
@@ -64,8 +74,9 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
             onChangedDisplayedOption: this.onChangeDisplayedOption,
             currentOption: this.state.selectedOption,
             useTestData: context.parameters.useTestData.raw,
-            isDisabled: context.parameters.isDisabled.raw
-        }
+            isDisabled: context.parameters.isDisabled.raw,
+            useFlexibleWidth: context.parameters.flexibleWidth.raw
+                }
         
         const TestItems = populateDataset(context.parameters.Test)
         console.log("TEST COLUMN INFO: ", context.parameters.Test.columns, "DATA: ", TestItems);
@@ -80,7 +91,8 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
 
         
         return {
-            outputSelectedOption: this.state.selectedOption
+            outputSelectedOption: this.state.selectedOption,
+            outputWidth: this.state.outputWidth
         };
     }
 

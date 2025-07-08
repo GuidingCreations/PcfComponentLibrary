@@ -89,8 +89,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
 
         const props : muiSidebarProps = {
             
-            containerHeight: context.mode.allocatedHeight,
-            containerWidth: context.mode.allocatedWidth,
+            containerHeight: context.parameters.containerHeight.raw ?? 768,
+            containerWidth: context.parameters.containerWidth.raw ?? 250,
             useTestData: context.parameters.useTestData.raw,
             useDarkMode: context.parameters.useDarkMode.raw,
             primaryColor: isPrimaryColor ? context.parameters.primaryColor.raw as PrimaryColor : 'Green',

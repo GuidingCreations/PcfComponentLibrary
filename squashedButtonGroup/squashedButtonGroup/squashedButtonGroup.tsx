@@ -23,9 +23,11 @@ export interface squashedBgProps {
   width?: string;
   height?: string;
   displayField: string;
-  onChangedDisplayedOption: (option: any) => void,
+  onChangedDisplayedOption: (option: any, newWidth?: number) => void,
   currentOption: any;
   useTestData: boolean;
+  useFlexibleWidth: boolean;
+  onChangeWidth?: (newWidth: number) => void;
 }
 
 
@@ -88,8 +90,11 @@ const SquashedBG = (props: squashedBgProps) => {
 
   useEffect(() => {
     const newOption = optionsList[selectedIndex]
-    console.log("TRIGGERING DISPLAYED OPTION CHANGE: ", newOption)
-    props.onChangedDisplayedOption(newOption)
+    console.log("TRIGGERING DISPLAYED OPTION CHANGE: ", newOption);
+
+    const newWidth = anchorRef?.current?.getBoundingClientRect().width;
+    console.log("NEW WIDTH: ", newWidth)
+    props.onChangedDisplayedOption(newOption, newWidth);
   }, [selectedIndex])
 
   const divRef = useRef<any>(null)
@@ -113,13 +118,14 @@ const SquashedBG = (props: squashedBgProps) => {
 
     <ThemeProvider theme={theme}>
 
-      <div style={{width: props.width ? props.width : '100%', height: props.height ? props.height : '100%'}} ref = {divRef}>
+      <div style={{width: props.width ?? '100%', height: props.height ?? '100%'}} ref = {divRef}>
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
         aria-label="Button group with a nested menu"
         sx={{width: '100%', height: '100%', boxShadow: 'none'}}
         className="flex"
+        style={{width: props.useFlexibleWidth ? 'fit-content' : '100%'}}
         >
         <Button 
         
@@ -128,7 +134,7 @@ const SquashedBG = (props: squashedBgProps) => {
         disabled = {props.isDisabled}
         sx={{whiteSpace: 'nowrap'}}  
         >
-            <h4 style={{fontSize: '18px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{props.useTestData ? optionsList[selectedIndex] : optionsList.length > 0 ? optionsList[selectedIndex][props.displayField] : ''}</h4>
+            <h4 style={{width: props.useFlexibleWidth ? 'fit-content' : '100%', fontSize: '18px', overflow: 'hidden', textOverflow: 'ellipsis'}}>{props.useTestData ? optionsList[selectedIndex] : optionsList.length > 0 ? optionsList[selectedIndex][props.displayField] : ''}</h4>
           
         </Button>
         

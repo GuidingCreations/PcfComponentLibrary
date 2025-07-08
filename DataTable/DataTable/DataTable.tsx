@@ -149,6 +149,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
               onChangedDisplayedOption={() => {}}
               useDarkMode = {props.useDarkMode}
               primaryColor= {primaryColor.current}
+              useFlexibleWidth
               height="35px"
               options={
                 column?.matchingOverride?.optionsList || ["No options passed"]
