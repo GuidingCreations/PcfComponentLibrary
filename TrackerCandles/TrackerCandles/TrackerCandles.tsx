@@ -22,9 +22,7 @@ const data = [
   { color: "bg-emerald-600", tooltip: "Tracker Info", key: "TEST 2", backgroundColor: "red" },
   { color: "bg-emerald-600", tooltip: "Tracker Info", key: "TEST 1", backgroundColor: 'green'},
   { color: "bg-emerald-600", tooltip: "Tracker Info", key: "TEST 2", backgroundColor: "red" },
-  { color: "bg-emerald-600", tooltip: "Tracker Info", key: "TEST 1", backgroundColor: 'green'}
-
-  
+  { color: "bg-emerald-600", tooltip: "Tracker Info", key: "TEST 1", backgroundColor: 'green'} 
 ]
 
 export interface CandleProps {

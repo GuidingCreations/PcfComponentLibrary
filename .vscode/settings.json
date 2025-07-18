@@ -1,3 +1,17 @@
 {
-    "workbench.settings.openDefaultSettings": true
+    "workbench.settings.openDefaultSettings": true,
+      "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "foreground": "#9c9c9c"
+        }
+      }
+    ]
+  }
+
 }
+
+
+

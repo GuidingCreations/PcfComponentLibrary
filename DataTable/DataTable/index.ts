@@ -1,21 +1,21 @@
+/* eslint-disable */
+
 // imports
 
-import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import DataTableComponent, { DataTableProps } from "./DataTable";
-import * as React from "react";
-import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { Button, colors } from "@mui/material";
+import { GridColDef, GridRenderCellParams, GridFilterModel, getGridStringOperators } from "@mui/x-data-grid";
+import DataTableComponent, { DataTableProps, paginationModelType } from "./DataTable";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { JSONSchema4 } from "json-schema";
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { populateDataset } from "../../utils";
-import { unmountComponentAtNode } from "react-dom";
-export class DataTable
-  implements ComponentFramework.ReactControl<IInputs, IOutputs>
-{
+import { JSONSchema4 } from "json-schema";
+import * as React from "react";
+
+export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutputs> {
+  
   // Declare variables
 
-  private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
   context: ComponentFramework.Context<IInputs>;
+  private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
   private notifyOutputChanged: () => void;
   private _selectedRecords: any[] = [];
   private _columnWidthTable: any[] = [];
@@ -31,6 +31,71 @@ export class DataTable
   private tableColumns: any[] = [];
   private columnProperties: Record<string, JSONSchema4>;
   private _tableData: any[] = []
+
+  private onFilterModelChange = (filterModel: GridFilterModel) => {
+    
+
+    if (this.context.parameters.useServerSidePagination.raw) {  
+      
+      if (filterModel.items.length == 0) {
+        
+        this.context.parameters.tableData.filtering.clearFilter()
+      
+      } else {
+        
+        filterModel.items.forEach((filterItem) => {
+        
+        const operator = filterItem.operator
+        
+        this.context.parameters.tableData.filtering.setFilter({
+          
+          filterOperator: 0,
+          conditions: [
+            {
+              attributeName: filterItem.field,
+              conditionOperator: 
+              operator == "contains" ? 49 :
+              operator == "equals" ? 0 :
+              operator == "doesNotEqual" ? 1 :
+              operator == "isEmpty" ? 12 
+              
+              
+              : 0
+              
+              ,
+              value: filterItem.value
+            }
+          ]
+        })
+      });
+      }
+    this.context.parameters.tableData.refresh();
+  }
+    
+
+  }
+
+  private paginationModel : paginationModelType = {
+    page: 1,
+    pageSize: 25
+  }
+
+  private onPaginationModelChange = (paginationModel : paginationModelType) => {
+    
+    
+    this.paginationModel = {
+      page: paginationModel.page + 1,
+      pageSize: paginationModel.pageSize
+    }
+
+    if (this.context.parameters.tableData.paging.pageSize != paginationModel.pageSize) {
+
+      this.context.parameters.tableData.paging.setPageSize(paginationModel.pageSize);
+    }
+    
+    this.context.parameters.tableData.paging.loadExactPage(paginationModel.page + 1);
+
+  }
 
   // Function to check if column visibility defaults have changed, and update local variable if so
 
@@ -144,22 +209,24 @@ export class DataTable
 
   updateTableData = () => {
     
-    
+    // If the dataset has been updated, pull latest data
 
-    if (this.context.updatedProperties.indexOf("dataset") > -1 || (this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length)) {
+    if ( this.context.updatedProperties.indexOf("dataset") > -1 || ( this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length ) ) {
 
-      console.log("UPDATING TABLE DATA")
+       
+     
       this._tableData = populateDataset(this.context.parameters.tableData);
     
       // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
 
       
-    const tableColumns: GridColDef<typeof this._tableData>[] = [];
+      const tableColumns: GridColDef<typeof this._tableData>[] = [];
 
-    // Start loop through columns
+      // Start loop through columns
 
-    this.context.parameters.tableData.columns.map((column) => {
-      // Search for matching record in column width table
+      this.context.parameters.tableData.columns.map((column) => {
+      
+        // Search for matching record in column width table
 
       const matchingObjs = this._columnWidthTable.filter((columnFilter) => {
         return column.name == columnFilter.columnName;
@@ -189,7 +256,8 @@ export class DataTable
             "optionsList",
             "componentWidth",
             "componentHeight",
-            "formatType"
+            "formatType",
+            "newName"
           ];
 
           const recordToAdd: any = {
@@ -216,9 +284,17 @@ export class DataTable
       // If the column name is not id, add the field, headerName, width, and display to columnToAdd object
 
       if (column.name != "id") {
+        const operatorsToExclude = [
+            "doesNotContain", 
+            "startsWith",
+            "endsWith",
+            "isNotEmpty",
+            "isAnyOf"
+        ];
         const columnToAdd: any = {};
         columnToAdd.field = column.name;
-        columnToAdd.headerName = column.displayName;
+        columnToAdd.filterOperators = getGridStringOperators().filter((operator) => !operatorsToExclude.includes(operator.value))
+        columnToAdd.headerName = matchingOverride[0]?.newName ?? column.displayName;
         columnToAdd.width = colWidth;
         columnToAdd.display = "flex";
         columnToAdd.valueFormatter =  function(params : any ) {
@@ -229,16 +305,15 @@ export class DataTable
             minimumFractionDigits: 2
           }).format(params) : params
           return value
-
         }
         matchingOverride.length > 0
           ? (columnToAdd.matchingOverride = matchingOverride[0])
           : "";
         tableColumns.push(columnToAdd);
       }
-    });
+      });
 
-    tableColumns.push({ field: "recordID", headerName: "recordID", width: 50 });
+    tableColumns.push({ field: "recordID", headerName: "recordID", width: 50, filterable: false });
     
     
     this.tableColumns = tableColumns
@@ -257,6 +332,8 @@ export class DataTable
   ): void {
     this.notifyOutputChanged = notifyOutputChanged;
     this.context = context;
+    
+    
   }
 
   // Update view portion of component lifecycle. Called when any property is changed. Causes re-render.
@@ -266,34 +343,29 @@ export class DataTable
     context: ComponentFramework.Context<IInputs>
   
   ): React.ReactElement {
+
     
-    this.updateInputSchemaIfChanged();
-
-    // Set default column visibility properties
-
-    this.updateColVisibility()
-    
-    // Set page size to 2000. Temporary measure, will eventually include more advanced pagination.
-
-    if ( context.parameters.tableData.paging.pageSize !== 2000 ) {
-
-      context.parameters.tableData.paging.setPageSize(2000);
+    if (!context.parameters.useServerSidePagination.raw ) {
+      context.parameters.tableData.paging.setPageSize(100000);
     
     }
 
+    this.updateInputSchemaIfChanged();
+    
+    // Set default column visibility properties
 
-    // Set default column width props
+    this.updateColVisibility()
+
+    // update column width tables
 
     this.updateColWidth()
     
-    console.log("UPDATED PROPS: ", context.updatedProperties)
-    
     //  Populate Table data
 
-   this.updateTableData()
+    let isLoading = true
+    this.updateTableData()
+    isLoading = false
 
-
-    
     context.mode.trackContainerResize(true);
 
 
@@ -309,27 +381,30 @@ export class DataTable
       allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
       pageSize: context.parameters.tableData.paging.pageSize,
       pageNumber: this._pageNumber,
-      totalRowCount: context.parameters.tableData.paging.totalResultCount,
+      totalRowCount: context.parameters.useServerSidePagination.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : ((this.paginationModel.page - 1) * context.parameters.tableData.paging.pageSize ) + this._tableData.length : this._tableData.length,
       onOptionSelect: this.onOptionSelect,
       columnVisibility: this._columnVisibility,
       hideFooter: context.parameters.hideFooter.raw,
       showCheckboxes: context.parameters.showCheckboxes.raw,
       noRowsText: context.parameters.noRowsText.raw || "No results found",
       primaryColor: context.parameters.primaryColor.raw || 'Green',
-      useTheming: context.parameters.useTheming.raw
+      useTheming: context.parameters.useTheming.raw,
+      paginationModel: this.paginationModel,
+      useTestData: context.parameters.useTestData.raw,
+      onPaginationModelChange: this.onPaginationModelChange,
+      onFilterModelChange: this.onFilterModelChange,
+      datasetLoading: context.parameters.tableData.loading || isLoading,
+      useServerSidepagination: context.parameters.useServerSidePagination.raw
       
     };
 
     
   
 
-    console.log("DATA TABLE PROPS FROM INDEX.TS", props);
-
     return React.createElement(DataTableComponent, props);
   }
 
   public getOutputs(): IOutputs {
-    console.log("INPUT SCHEMA on get outputs", this.inputSchema);
     return {
       changeType: this.outputType,
       outputObject: this.compOutputObj,
@@ -359,9 +434,7 @@ export class DataTable
     row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord,
     column: ComponentFramework.PropertyHelper.DataSetApi.Column
   ) {
-    console.log("ROW getRowValue: ", row);
-    console.log("COLUMN getRowValue: ", column);
-    console.log("COLUMN DATA TYPE", column.dataType);
+  
     switch (column.dataType) {
       // Number Types
       case "TwoOptions":
@@ -417,10 +490,8 @@ export class DataTable
   }
 
   private updateInputSchemaIfChanged() {
-    console.log("TESTING SCHEMA UPDATE");
     const newSchema = JSON.stringify(this.getInputSchema(this.context));
     if (newSchema !== this.inputSchema) {
-      console.log("NEW SCHEMA", newSchema);
       this.inputSchema = newSchema;
       //this.compOutputObj = undefined;
       this.notifyOutputChanged();

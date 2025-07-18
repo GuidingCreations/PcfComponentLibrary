@@ -75,6 +75,8 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
             currentOption: this.state.selectedOption,
             useTestData: context.parameters.useTestData.raw,
             isDisabled: context.parameters.isDisabled.raw,
+            width: context.parameters.containerWidth.raw ?? 250,
+            height: context.parameters.containerHeight.raw ?? 50,
             useFlexibleWidth: context.parameters.flexibleWidth.raw
                 }
         

@@ -20,8 +20,8 @@ export interface squashedBgProps {
   isDisabled: boolean;
   useDarkMode: boolean;
   primaryColor: string;
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
   displayField: string;
   onChangedDisplayedOption: (option: any, newWidth?: number) => void,
   currentOption: any;
@@ -118,7 +118,7 @@ const SquashedBG = (props: squashedBgProps) => {
 
     <ThemeProvider theme={theme}>
 
-      <div style={{width: props.width ?? '100%', height: props.height ?? '100%'}} ref = {divRef}>
+      <div style={{width: props.width ? `${props.width}px` : '100%', height: props.height ? `${props.height}px` : '100%', display: 'flex'}} ref = {divRef}>
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
@@ -199,4 +199,4 @@ const SquashedBG = (props: squashedBgProps) => {
   );
 }
 
-export default SquashedBG
+export default memo(SquashedBG)

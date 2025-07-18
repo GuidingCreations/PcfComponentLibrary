@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.20.22" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.20.91" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -54,8 +54,14 @@
 
     <!-- Should the component use one of our color themes? -->
 
-    <property name="useTheming" display-name-key="useTheming" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="useTheming" display-name-key="useTheming" of-type="TwoOptions" usage="input" default-value="true"/>
+
+    <!-- use test data -->
     
+    <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    
+    <!-- Row count -->
+
     
     <!-- Primary color of the theme (only certain values, check styling folder) -->
 
@@ -72,6 +78,7 @@
     <!-- Whether you can select multiple rows in the DataTable -->
 
     <property name="allowSelectMultiple" display-name-key="allowSelectMultiple" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="useServerSidePagination" display-name-key="useServerSidePagination" of-type="TwoOptions" usage="input" default-value="false"/>
 
     <!-- The text to display if there are no rows generated in the data table -->
 

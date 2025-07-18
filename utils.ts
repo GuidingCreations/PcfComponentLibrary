@@ -42,6 +42,7 @@ export function populateDataset(dataset: DataSet) {
     items.push(recordToAdd);
   });
 
+  console.log("ITEMS LENGTH: ", items.length)
   return items;
 }
 
