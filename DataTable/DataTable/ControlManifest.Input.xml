@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.20.91" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.21.42" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -42,7 +42,7 @@
 
     <!-- Link to readme in github https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md -->
         
-    <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value=""/>
+    <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value="https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md"/>
         
     <!-- Should the component use dark mode? -->
     
@@ -59,9 +59,6 @@
     <!-- use test data -->
     
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
-    
-    <!-- Row count -->
-
     
     <!-- Primary color of the theme (only certain values, check styling folder) -->
 
@@ -95,7 +92,6 @@
 <property name="outputValue" display-name-key="outputValue" of-type="SingleLine.Text" usage="output" hidden="false"/>
 <property name="outputObject" display-name-key="outputObject" of-type="Object" usage="output" hidden="false"/>
 <property name="outputObjectSchema" display-name-key="outputObjectSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
-
 
 <!-- Events -->
 

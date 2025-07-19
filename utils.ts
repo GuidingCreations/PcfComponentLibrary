@@ -28,6 +28,7 @@ export function populateDataset(dataset: DataSet) {
     const recordToAdd: any = {};
 
     dataset.columns.map((column: DataSetInterfaces.Column) => {
+      console.log("COLUMN INFO: ", column)
       
 
       
@@ -281,4 +282,3 @@ export function newCookieString(key: string, value: any) {
   const newCookieString = `${key}=${value}; path=/; expires=${expiration_date}`
   return newCookieString
 }
-
