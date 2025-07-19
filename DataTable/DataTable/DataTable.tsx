@@ -255,6 +255,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
   const renderCount = useRef(0);
   renderCount.current++;
+  console.log("RENDER COUNT DATA TABLE: ", renderCount.current)
   
 
   return (
@@ -286,7 +287,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             getRowId={getRowId}
             className={props.classes}
             
-            onFilterModelChange={(e) => {props.onFilterModelChange ? props.onFilterModelChange(e) : null}}
+            onFilterModelChange={(e) => {console.log("NEW FILTER MODEL: ", e); props.onFilterModelChange ? props.onFilterModelChange(e) : null}}
             
             paginationMode = {props.useServerSidepagination ? "server" : "client"}
             

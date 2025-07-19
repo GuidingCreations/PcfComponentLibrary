@@ -2,7 +2,7 @@
 
 // imports
 
-import { GridColDef, GridRenderCellParams, GridFilterModel, getGridStringOperators } from "@mui/x-data-grid";
+import { GridColDef, GridRenderCellParams, GridFilterModel, getGridStringOperators, getGridDateOperators, getGridNumericOperators } from "@mui/x-data-grid";
 import DataTableComponent, { DataTableProps, paginationModelType } from "./DataTable";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
@@ -31,6 +31,63 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   private tableColumns: any[] = [];
   private columnProperties: Record<string, JSONSchema4>;
   private _tableData: any[] = []
+  private _isLoading : boolean = true;
+
+ getApplicableMuiFilterOperators (dataType: string, isServerSide: boolean ) {
+
+  let operators : any =[];
+
+  switch (dataType) {
+    
+    case "DateAndTime.DateAndTime":
+
+    let dateOperatorsToExclude = ["isNotEmpty", "is",  "not", "after", "before", "onOrBefore"]
+
+    operators = isServerSide ? getGridDateOperators(true).filter((operator) => !dateOperatorsToExclude.includes(operator.value)) : getGridDateOperators(true)
+
+    break;
+
+    case "SingleLine.Text" :
+      
+      let stringOperatorsToExclude = [
+            "doesNotContain", 
+            "startsWith",
+            "endsWith",
+            "isNotEmpty",
+            "isAnyOf"
+      ];
+      operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
+    break;
+
+    case "Decimal" :
+
+    let operatorsToExclude = ["isAnyOf", "isNotEmpty"];
+
+    operators = isServerSide ? getGridNumericOperators().filter( (operator) => !operatorsToExclude.includes(operator.value)) : getGridNumericOperators()
+
+    break;
+
+    default:  
+        stringOperatorsToExclude = [
+            "doesNotContain", 
+            "startsWith",
+            "endsWith",
+            "isNotEmpty",
+            "isAnyOf"
+      ];
+      operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
+    break;
+      
+
+
+    
+  }
+  
+  return operators
+
+}
+
+  // Function to run when the filter model in the data table changes - will only be effective in Dataverse
 
   private onFilterModelChange = (filterModel: GridFilterModel) => {
     
@@ -57,7 +114,20 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
               operator == "contains" ? 49 :
               operator == "equals" ? 0 :
               operator == "doesNotEqual" ? 1 :
-              operator == "isEmpty" ? 12 
+              operator == "isEmpty" ? 12 :
+              operator == "onOrAfter" ? 27 :
+              operator == "onOrBefore" ? 26 :
+              operator == "is" ? 0 :
+              operator == "not" ? 1 :
+              operator == "after" ? 2 :
+              operator == "before" ? 2 :
+              operator == "onOrBefore" ? 26 :
+              operator == "!=" ? 1 :
+              operator == ">" ? 2 :
+              operator == "<" ? 3 :
+              operator == ">=" ? 4 :
+              operator == "<=" ? 5 
+
               
               
               : 0
@@ -68,31 +138,32 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
           ]
         })
       });
-      }
+      };
+
+      console.log("NEW FILTERING APPLIED TO DATASET: ", this.context.parameters.tableData.filtering.getFilter())
     this.context.parameters.tableData.refresh();
   }
     
 
   }
 
+  // Pagination model state
+
   private paginationModel : paginationModelType = {
     page: 1,
     pageSize: 25
   }
 
+  // Function to run when pagination model changes to pull new records. Only effective when useServerSidePagination is set to true
+
   private onPaginationModelChange = (paginationModel : paginationModelType) => {
-    
     
     this.paginationModel = {
       page: paginationModel.page + 1,
       pageSize: paginationModel.pageSize
     }
 
-    if (this.context.parameters.tableData.paging.pageSize != paginationModel.pageSize) {
-
-      this.context.parameters.tableData.paging.setPageSize(paginationModel.pageSize);
-    }
-    
+    this.context.parameters.tableData.paging.setPageSize(paginationModel.pageSize);
     this.context.parameters.tableData.paging.loadExactPage(paginationModel.page + 1);
 
   }
@@ -164,7 +235,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     });
 
   }
-}
+  }
 
   // Function to run whenever an option is selected from a split button rendered in data table, to update output properties based on selection
 
@@ -213,12 +284,11 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     if ( this.context.updatedProperties.indexOf("dataset") > -1 || ( this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length ) ) {
 
-       
+      // update actual table data  
      
       this._tableData = populateDataset(this.context.parameters.tableData);
     
       // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
-
       
       const tableColumns: GridColDef<typeof this._tableData>[] = [];
 
@@ -237,14 +307,15 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       const colWidth =
         matchingObjs.length > 0 ? matchingObjs[0].columnWidth : 250;
 
-      // Search for matching record in columnOverrides table
-
       // Generate columnOverrides table from dataset
+      
       this._columnOverrides = [];
 
       this.context.parameters.columnOverrides.sortedRecordIds.forEach(
         (recordID: any) => {
           const _record = this.context.parameters.columnOverrides.records[recordID];
+
+          // List of acceptable fields to map over, in arr format, so they can be added to easily
 
           const acceptableFields = [
             "columnName",
@@ -260,40 +331,38 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             "newName"
           ];
 
-          const recordToAdd: any = {
-            recordID:
-              this.context.parameters.columnOverrides.records[
-                recordID
-              ].getRecordId(),
-          };
+          // Add a static recordID field with the guid populated by the dataset
 
-          acceptableFields.map((field) => {
-            recordToAdd[field] = _record.getValue(field);
-          });
+          const recordToAdd: any = { recordID: this.context.parameters.columnOverrides.records[ recordID ].getRecordId() };
+
+          // Map over acceptableFields array to establish values for column override
+          
+          acceptableFields.map( ( field ) => { recordToAdd[ field ] = _record.getValue( field ) } );
+
+          // Add to column overrides table
 
           this._columnOverrides.push(recordToAdd);
         }
+      
       );
 
       // Search for matching column override
 
-      const matchingOverride = this._columnOverrides.filter((override) => {
-        return column.name == override.columnName;
-      });
+      const matchingOverride = this._columnOverrides.filter((override) => { return column.name == override.columnName } );
 
-      // If the column name is not id, add the field, headerName, width, and display to columnToAdd object
+      // If the column name is not id, add the field, headerName, width, and display to columnToAdd object, as well as adjust filter operators for server-side pagination if needed
+
+     
+      const dataType = column.dataType;
+
+      const operators = this.getApplicableMuiFilterOperators(dataType, this.context.parameters.useServerSidePagination.raw)
+
 
       if (column.name != "id") {
-        const operatorsToExclude = [
-            "doesNotContain", 
-            "startsWith",
-            "endsWith",
-            "isNotEmpty",
-            "isAnyOf"
-        ];
+        console.log("COLUMN TYPE: ", column.dataType)
         const columnToAdd: any = {};
         columnToAdd.field = column.name;
-        columnToAdd.filterOperators = getGridStringOperators().filter((operator) => !operatorsToExclude.includes(operator.value))
+        columnToAdd.filterOperators = operators
         columnToAdd.headerName = matchingOverride[0]?.newName ?? column.displayName;
         columnToAdd.width = colWidth;
         columnToAdd.display = "flex";
@@ -318,7 +387,9 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     
     this.tableColumns = tableColumns
 
-    }
+    this._isLoading = false
+    
+  }
 
 
   }
@@ -332,7 +403,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   ): void {
     this.notifyOutputChanged = notifyOutputChanged;
     this.context = context;
-    
+    this._isLoading = true
     
   }
 
@@ -362,13 +433,11 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     
     //  Populate Table data
 
-    let isLoading = true
     this.updateTableData()
-    isLoading = false
 
     context.mode.trackContainerResize(true);
 
-
+    console.log("Sorting ", context.parameters.tableData.sorting)
     const props: DataTableProps = {
       showToolbar: context.parameters.showToolbar.raw,
       tableData: this._tableData,
@@ -393,24 +462,27 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       useTestData: context.parameters.useTestData.raw,
       onPaginationModelChange: this.onPaginationModelChange,
       onFilterModelChange: this.onFilterModelChange,
-      datasetLoading: context.parameters.tableData.loading || isLoading,
+      datasetLoading: this._isLoading,
       useServerSidepagination: context.parameters.useServerSidePagination.raw
       
     };
 
     
+    console.log("PRPOS passed to data table: ", props)
   
 
     return React.createElement(DataTableComponent, props);
   }
 
   public getOutputs(): IOutputs {
+   
     return {
       changeType: this.outputType,
       outputObject: this.compOutputObj,
       outputObjectSchema: this.inputSchema,
       outputValue: this.outputValue,
     };
+  
   }
   public destroy(): void {
     this.context.parameters.tableData.clearSelectedRecordIds()
