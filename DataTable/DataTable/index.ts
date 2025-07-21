@@ -53,7 +53,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             "doesNotContain", 
             "startsWith",
             "endsWith",
-            "isNotEmpty",
             "isAnyOf"
       ];
       operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
@@ -72,7 +71,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
             "doesNotContain", 
             "startsWith",
             "endsWith",
-            "isNotEmpty",
             "isAnyOf"
       ];
       operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
@@ -126,7 +124,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
               operator == ">" ? 2 :
               operator == "<" ? 3 :
               operator == ">=" ? 4 :
-              operator == "<=" ? 5 
+              operator == "<=" ? 5 :
+              operator == "isNotEmpty" ? 13 as DataSetInterfaces.Types.ConditionOperator
 
               
               
