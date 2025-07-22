@@ -15,6 +15,7 @@
     <property name="primaryColor" display-name-key = "primaryColor" of-type = "SingleLine.Text" usage = "input" pfx-default-value = "varAppPrimaryColor"/>
     <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" default-value ='Name'/>
     <property name="selectedValue" display-name-key="selectedValue" of-type="SingleLine.Text" usage="output" default-value ='output'/>
+    
 
     <resources>
       <code path="index.ts" order="1"/>
