@@ -50,10 +50,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     case "SingleLine.Text" :
       
       let stringOperatorsToExclude = [
-            "doesNotContain", 
-            "startsWith",
-            "endsWith",
-            "isAnyOf"
+          "doesNotContain",
+          "isAnyOf"
       ];
       operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
     break;
@@ -68,10 +66,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     default:  
         stringOperatorsToExclude = [
-            "doesNotContain", 
-            "startsWith",
-            "endsWith",
-            "isAnyOf"
+            "doesNotContain",
+            "isAnyOf" 
       ];
       operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
     break;
@@ -108,6 +104,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
           conditions: [
             {
               attributeName: filterItem.field,
+            
               conditionOperator: 
               operator == "contains" ? 49 :
               operator == "equals" ? 0 :
@@ -125,14 +122,16 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
               operator == "<" ? 3 :
               operator == ">=" ? 4 :
               operator == "<=" ? 5 :
-              operator == "isNotEmpty" ? 13 as DataSetInterfaces.Types.ConditionOperator
+              operator == "isNotEmpty" ? 13 as DataSetInterfaces.Types.ConditionOperator :
+              operator == "startsWith" ? 54 as DataSetInterfaces.Types.ConditionOperator :
+              operator == "endsWith" ? 56 as DataSetInterfaces.Types.ConditionOperator 
 
               
               
               : 0
               
               ,
-              value: filterItem.value
+              value:  filterItem.value
             }
           ]
         })

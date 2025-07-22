@@ -5,6 +5,20 @@ import * as React from "react";
 export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
+    context: ComponentFramework.Context<IInputs>
+    state = {
+        outputText: ""
+    }
+
+    onInputTextChange = (newText: string) => {
+
+        console.log("UPDATING TEXT: ", "Current text: ", this.state.outputText, " New text: ", newText)
+
+        this.state = {
+            ...this.state, outputText: newText
+        };
+        this.notifyOutputChanged();
+    }
 
     /**
      * Empty constructor.
@@ -24,6 +38,8 @@ export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs>
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this.context = context
+        
     }
 
     /**
@@ -34,13 +50,17 @@ export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs>
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
         const props : modalProps= {
-            containerHeight: context.parameters.containerHeight.raw || 0,
-            modalHeader: context.parameters.dialogHeader.raw || "",
-            modalText: context.parameters.dialogText.raw || "",
-            confirmText: context.parameters.confirmText.raw || "",
+            containerHeight: context.parameters.containerHeight.raw ?? 500,
+            modalHeader: context.parameters.dialogHeader.raw ?? "",
+            modalText: context.parameters.dialogText.raw ?? "",
+            confirmText: context.parameters.confirmText.raw ?? "",
             OnCancel: context.events.OnCancel,
             OnConfirm: context.events.OnConfirm,
-            modalType: context.parameters.modalType.raw
+            modalType: context.parameters.modalType.raw,
+            containerWidth: context.parameters.containerWidth.raw ?? 500,
+            includeTextInput: context.parameters.includeTextInput.raw,
+            inputTextPlaceholder: context.parameters.textInputPlaceholder.raw ?? "Please input reason",
+            onInputTextChange: this.onInputTextChange
         }
 
         return React.createElement(
@@ -53,7 +73,9 @@ export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs>
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return { };
+        return { 
+            outputText: this.state.outputText
+        };
     }
 
     /**

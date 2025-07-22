@@ -3,6 +3,7 @@
 import { useState } from "react";
 import * as React from "react";
 import { modalProps } from "../Modal";
+import TextInput from "./TextInput";
 
 export default function ConfirmationModal(props: modalProps) {
 
@@ -81,11 +82,13 @@ export default function ConfirmationModal(props: modalProps) {
               className={confirmationButtonClasses}
               onClick={props.OnConfirm}
               >
-              Confirm
+              {props.confirmText}
             </button>
 
           </div>
         
+          {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={props.onInputTextChange}/> : null}
+
         </div>
 
         {/* End vertical container */}
