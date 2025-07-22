@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="Modal" version="0.2.3" display-name-key="Modal" description-key="Modal description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Modal" version="0.2.6" display-name-key="Modal" description-key="Modal description" control-type="virtual" >
     
     <external-service-usage enabled="false">    
     </external-service-usage>
@@ -11,6 +11,7 @@
     <property name="dialogText" display-name-key="dialogText" description-key="dialogText" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '"This action is irreversible. Please make sure you understand the impact of this action before proceeding. Are you sure you wish to proceed?"'/>
     <property name="dialogHeader" display-name-key="dialogHeader" description-key="dialogHeader" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '"Warning, irreversible action!"'/>
     <property name="confirmText" display-name-key="confirmText" description-key="confirmText" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="modalType" display-name-key="modalType" description-key="modalType" of-type="SingleLine.Text" usage="input" default-value ="Delete"/>
     
 <!-- EVENTS -->
 

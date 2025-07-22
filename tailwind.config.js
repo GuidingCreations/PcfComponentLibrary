@@ -16,6 +16,7 @@ module.exports = {
       './DataTable/TestButton.tsx',
       './TrackerCandles/TrackerCandles/TrackerCandles.tsx',
       './*/*/*.tsx',
+      './*/*/*/*.tsx',
 
   
     ],
