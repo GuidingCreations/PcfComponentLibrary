@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.09" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.10" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -29,12 +29,6 @@
   <!-- Table for default column visibility -->
 
      <data-set name="columnVisibility" display-name-key="columnVisibility">
-     </data-set>
-
-
-  <!-- Data set for default filter model -->
-
-       <data-set name="defaultFilters" display-name-key="defaultFilters">
      </data-set>
 
 
@@ -75,7 +69,7 @@
     <!-- Whether you can select multiple rows in the DataTable -->
 
     <property name="allowSelectMultiple" display-name-key="allowSelectMultiple" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
-    <property name="useServerSidePagination" display-name-key="useServerSidePagination" of-type="TwoOptions" usage="input" default-value="false"/>
+    <property name="useServerSide" display-name-key="useServerSide" of-type="TwoOptions" usage="input" default-value="false"/>
 
     <!-- The text to display if there are no rows generated in the data table -->
 

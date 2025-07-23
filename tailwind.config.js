@@ -15,6 +15,8 @@ module.exports = {
       './TestHarness/pcf-test-harness/app/page.tsx',
       './DataTable/TestButton.tsx',
       './TrackerCandles/TrackerCandles/TrackerCandles.tsx',
+      './TrackerBars/TrackerBars/TrackerBars.tsx',
+      './TrackerBars/TrackerBars/Tracker.tsx',
       './*/*/*.tsx',
       './*/*/*/*.tsx',
 

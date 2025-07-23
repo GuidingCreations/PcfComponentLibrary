@@ -86,7 +86,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   private onFilterModelChange = (filterModel: GridFilterModel) => {
     
 
-    if (this.context.parameters.useServerSidePagination.raw) {  
+    if (this.context.parameters.useServerSide.raw) {  
       
       if (filterModel.items.length == 0) {
         
@@ -353,7 +353,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
      
       const dataType = column.dataType;
 
-      const operators = this.getApplicableMuiFilterOperators(dataType, this.context.parameters.useServerSidePagination.raw)
+      const operators = this.getApplicableMuiFilterOperators(dataType, this.context.parameters.useServerSide.raw)
 
 
       if (column.name != "id") {
@@ -414,7 +414,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   ): React.ReactElement {
 
     
-    if (!context.parameters.useServerSidePagination.raw ) {
+    if (!context.parameters.useServerSide.raw ) {
       context.parameters.tableData.paging.setPageSize(100000);
     
     }
@@ -448,7 +448,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
       pageSize: context.parameters.tableData.paging.pageSize,
       pageNumber: this._pageNumber,
-      totalRowCount: context.parameters.useServerSidePagination.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : ((this.paginationModel.page - 1) * context.parameters.tableData.paging.pageSize ) + this._tableData.length : this._tableData.length,
+      totalRowCount: context.parameters.useServerSide.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : ((this.paginationModel.page - 1) * context.parameters.tableData.paging.pageSize ) + this._tableData.length : this._tableData.length,
       onOptionSelect: this.onOptionSelect,
       columnVisibility: this._columnVisibility,
       hideFooter: context.parameters.hideFooter.raw,
@@ -461,7 +461,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       onPaginationModelChange: this.onPaginationModelChange,
       onFilterModelChange: this.onFilterModelChange,
       datasetLoading: this._isLoading,
-      useServerSidepagination: context.parameters.useServerSidePagination.raw
+      useServerSidepagination: context.parameters.useServerSide.raw
       
     };
 
