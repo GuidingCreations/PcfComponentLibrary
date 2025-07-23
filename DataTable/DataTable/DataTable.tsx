@@ -167,19 +167,12 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             )[0];
 
 
-          const backgroundColor = matchingOverride?.backgroundColor
-            ? matchingOverride?.backgroundColor
-            : matchingColorRecord?.backgroundColor
-            ? matchingColorRecord?.backgroundColor
-            : props.useDarkMode
-            ? "#ABACB0"
-            : "black";
+          const backgroundColor = matchingColorRecord?.backgroundColor ?? matchingOverride?.backgroundColor ?? "gray"
 
-          const fontColor = matchingOverride?.fontColor
-            ? matchingOverride?.fontColor
-            : matchingColorRecord?.fontColor
-            ? matchingColorRecord?.fontColor
-            : "white";
+          const fontColor = matchingColorRecord?.fontColor ?? matchingOverride?.fontColor ?? "white"
+
+                console.log("VALUE: ", params.row[params.field], "matching color record: ", matchingColorRecord)
+
 
             // Function to render squashedBG
 
@@ -221,10 +214,17 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
                 column?.matchingOverride?.componentType.toLowerCase() == "chip"  && params.row[params.field] ? 
                 
-                <Chip style={{backgroundColor: backgroundColor, color: fontColor}} label = { params.row[params.field]}/>
+
+                <Chip style={{backgroundColor: backgroundColor, color: fontColor}} sx={{
+                  color : fontColor,
+                  "& .MuiChip-label": {
+                    color: fontColor
+                  }
                 
-                 : column?.matchingOverride?.componentType ==
-                  "squashedButtonGroup" ? (
+                }} label = { params.row[params.field]}/>
+                
+                 : column?.matchingOverride?.componentType.toLowerCase() ==
+                  "squashedbuttongroup" ? (
                     renderSquashedBG()
                 ) : (
                   <></>

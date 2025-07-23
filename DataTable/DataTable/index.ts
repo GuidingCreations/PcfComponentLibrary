@@ -365,7 +365,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
         columnToAdd.width = colWidth;
         columnToAdd.display = "flex";
         columnToAdd.valueFormatter =  function(params : any ) {
-          const isCurrency = matchingOverride[0]?.formatType.toLowerCase() == "currency"
+          const isCurrency = matchingOverride[0]?.formatType?.toLowerCase() == "currency"
           const value = isCurrency ? new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',

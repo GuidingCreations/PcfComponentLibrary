@@ -27,10 +27,12 @@ const Chip = (props: ChipProps) => {
     }  as React.CSSProperties,
     labelStyles: {
       fontSize: props.fontSize == undefined ? 12 : props.fontSize,
-      color: props.labelColor == undefined ? 'white': props.labelColor,
+      color: props.labelColor ?? "white",
       
     }
   }
+
+  console.log("PROPS PASSED TO CHIP: ", props)
 
   return (
 

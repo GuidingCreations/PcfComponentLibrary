@@ -82,7 +82,7 @@ This is a table that will pass in customizations to the columns themselves, whic
 
 - [Change the format type of a column](#change-format-type-of-column)
 
-- [Render a squashedButtonGroup](#ren)
+- [Render a squashedButtonGroup](#render-a-squashedbuttongroup)
         
 ### Change column name
 This is simple, you simply need to have a record with two properties: columnName and newName. columnName will contain the Field name of the column (Always double check this in the the field well, as it can sometimes be different than what's displayed. For example, Sharepoint will occasionally replace spaces with something like _x0200), and newName will be the new name of the column to be displayed.
@@ -110,6 +110,36 @@ Right now, the only format change accepted is Currency. To format as currency, p
 ### Render a squashedButtonGroup
 You can render out a custom component called a squashedButtonGroup that will allow users to select an option from a drop-down list of actions, then select that button to trigger an event. In order for this to be set up, you will need to create a record with the following properties:
 - columnName : this will be the field name of the column you want the component to render in
+- componentType : you will set this to a value of squashedButtonGroup
+- optionsList : this will be an array of strings that will serve as your list of options
+
+### Example formula
+![Formula example](<images/squashedButtonGroup/formulaExample.png>)
+
+### After render
+![After](<images/squashedButtonGroup/After.png>)
+
+### Render out a chip
+You can render a chip, which is like a little colored oval with text, usually meant to convey status or type information at a glance. For example, if you had a Status column with the options of Fully Operational, Partially operational, and Not operational, you could convey that information better to the user with Green, yellow, and red chips, so they can tell the color ( and therefore status ) at a glance, instead of having to read the full value. There are several properties you can use here:
+- columnName: (required) - the field name of the column to be rendered
+- componentType: (required) - Set this to "chip"
+- fontColor: (optional) - This will be the DEFAULT color of the text in your chips, this color will only be used if there is no matching fontColor in your colorGenerator
+- backgroundColor: (optional) - This will be the DEFAULT background color for your chip. This color will only be used if there is no matching backgroundColor in your colorGenerator
+- colorGenerator: (optional) - This will be an array of records that you pass in your columnOverride record to indicate which rows should generate what color for your chips. There are several properties you can pass into each record in your colorGenerator array:
+    - matchingValue: (required) - This is the value that will attempt to match with the value being displayed in your data table. If you have a column with the values Fully Operational, Partially operational, and Not operational, those values would each have to appear in a record as the matchingValue in order to be applied
+    - fontColor: (optional) - This is the font color to be displayed inside the chip itself
+    - backgroundColor: (optional) - This is the background color for the chip to use
+
+### Formula example
+
+- Note that in this example, we do not pass in a backgroundColor for Choice 1, or a fontColor for Choice 3. In the "After" picture, you will see that since it didn't find a value in those records, it uses the fontColor and backgroundColor from the parent instead
+
+![Formula example](<images/Chip/formulaExample.png>)
+
+### After pic 
+![After change](<images/Chip/After.png>)
+
+
 
 
 
