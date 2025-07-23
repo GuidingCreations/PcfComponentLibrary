@@ -10,6 +10,8 @@ This component utilizes the free version of MUI's DataGrid React Component. It i
 - [Input Properties](#input-properties)
 - [Output properties](#output-properties)
 
+
+
 ## Demo
 
 Standard data table state
@@ -19,44 +21,165 @@ Selected Data table state
 
 
 
-## Input Properties
+# Input Properties
+- [tableData](#tabledata)
+- [Fields](#fields)
+- [columnWidthTable](#columnwidthtable)
+- [columnOverrides](#columnoverrides)
+- [readMeLink](#readmelink)
+- [useDarkMode](#usedarkmode)
+- [showToolbar](#showtoolbar)
+- [useTheming](#usetheming)
+- [useTestData](#usetestdata)
+- [primaryColor](#primarycolor)
+- [showCheckboxes](#showcheckboxes)
+- [hideFooter](#hidefooter)
+- [allowSelectMultiple](#allowselectmultiple)
+- [useServerSide](#useServerSide)
+- [noRowsText](#norowstext)
+- [columnVisibility](#columnvisibility)
 
-- ReadMeLink: Text type; Link to this ReadMe, set as input for easy readability when using component
+# Output Properties
+ - [changeType](#changetype)
+ - [outputValue](#outputvalue)
+ - [outputObject](#outputobject)
+ - [outputObjectSchema](#outputobjectschema)
 
-- useDarkMode: Boolean type; Whether the component will use dark mode. Default value is set to varUseDarkMode in all themed components, so you can define it once in your App.OnStart and know it will be accessible across all components the moment you insert them onto the canvas
+ # Events
+  - [onOptionSelected](#onOptionSelected)
 
-- showToolbar: Boolean type; This controls whether the data table will display the toolbar at the top of the component that includes the buttons for Filters, Columns, Density, and Export. Setting this will remove the toolbar, but users will still be able to filter and hide columns from the column header itself. They will not be able to export data with this set to false.
+<br>
+<br>
 
-- useTheming: Boolean type; This will control whether the component uses the custom pre-defined themes like Green, Red, Pink, Royal Blue, etc. With this set to false, it will ignore the primaryColor property and instead use Material UI's default theme, which is a generic blue color.
+# Input Properties
 
-- useTestData: Boolean type; This will control whether the control uses the static test data included within the component itself. Turning this to false will have the component use the live data passed in from the canvas app.
+<br>
 
-- primaryColor: String type; The primary color for the theme to be used in the component. All themed components have a default value of varAppPrimaryColor, so you can define that variable once in the App.OnStart, and it will be avaiable to all components once you insert them onto the canvas. The options for the themes are contained in the styling/color-schemes.ts file. In the event that an invalid string is passed, it will default to the Green theme.
+## tableData
+#### Type: Table
+This is the array of data that will be passed into the Data Table directly. This is your 'main' data for this component. Make sure to adjust the "fields" well in your property pane after linking your data source, otherwise the fields won't be passed to the component. 
 
-- showCheckboxes: Boolean type; This will control whether the checkbox for selection will appear in each row of the data table. When set to false, the checkboxes will never show in the data table. When set to true, the checkboxes will be shown by default, but the user can still hide that column if they wish.
+## Fields 
+This property is contained within Power Apps itself, it won't appear in the code here, but it is a field well in power apps that will allow you to select which fields are passed to the component.
 
-- hideFooter: Boolean type; This will control whether the footer is displayed. When set to true, the footer will be hidden.
+![Fields well](<images/Fields well/Fields well.png>)
 
-- allowSelectMultipe: Boolean type; This will control whether the data table allows you to select multiple records at once. When set to true, you can select multiple rows, when set to false, trying to select a second row will un-select your first selected row as it selects the new selected row.
-
-- useServerSide: Boolean type; This controls whether filtering expressions (and eventually sorting expressions) will be delegated to the server to execute instead of the client. This is currently only available for Dataverse. The benefit of server-side execution is that it saves huge amounts of time when working with very large datasets, so if you're using Dataverse you should pretty much always have this on. If you are not using Dataverse, turn this off. The limit for records on client-side execution (which happens when you have this turned off) is 100,000 records.
-
-- 
-
-
-
-- tableData: This is the array of data that will be passed into the Data Table directly. This is your 'main' data for this component. Make sure to adjust the "fields" well in your property pane after linking your data source, otherwise the fields won't be passed to the component. 
-
-- Fields: This property is contained within Power Apps itself, it won't appear in the code here, but it is a field well in power apps that will allow you to select which fields are passed to the component.
-
-- columnWidthTable: This dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default width. It is an array of objects. Each object will have two properties: columnName and columnWidth. columnName is the name of the corresponding column in your tableData dataset, and it needs to match exactly, so make sure you're looking at the underlying name in your Fields well, because Dataverse will attach weird prefixes to it. columnWidth is a number property that dictates the default width of the corresponding column. For example, if you have a column called TestChoices that you want to have a default width of 100, you would use: [
+## columnWidthTable 
+#### Type: Table
+This dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default width. It is an array of objects. Each object will have two properties: columnName and columnWidth. columnName is the name of the corresponding column in your tableData dataset, and it needs to match exactly, so make sure you're looking at the underlying name in your Fields well, because Dataverse will attach weird prefixes to it. columnWidth is a number property that dictates the default width of the corresponding column. For example, if you have a column called TestChoices that you want to have a default width of 100, you would use: [
     {
         columnName: "TestChoices",
         columnWidth: 100
     }
 ]
 
-- columnVisibility: this dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default column visibility. Each record of the visibilityModel
+## columnOverrides
+#### Type: Table
+This is a table that will pass in customizations to the columns themselves, which can change what's displayed in the data table. For example, you can change column names, choose to render a custom component like a Chip or SquashedButtonGroup, and change the formatting for values. The abilities of this table are as follows: 
 
-## Output properties
+    1. Change a column name. This is simple, you simply need to have a record with two properties: columnName and newName. columnName will contain the Field name of the column (Always double check this in the the field well, as it can sometimes be different than what's displayed. For example, Sharepoint will occasionally replace spaces with something like _x0200), and newName will be the new name of the column to be displayed.
+#### NOTE: After adding the record, you will need to cut and re-paste the control on the canvas to see it take effect in the editor, or refresh the website after saving
+        
+### Before pic 
+![Before column name change](<images/columnName/beforePicColumnName.png>)
+
+### Formula example
+![Formula example](<images/columnName/columnNameFormulaExample.png>)
+
+### After pic 
+![After pic](<images/columnName/columnNameAfterImage.png>)
+
+    2. Changing the format type of the column. Right now, the only format change accepted is Currency. To format as currency, pass in a record with the columnName property, and a property of formatType with a value of Currency
+
+### Before pic 
+![Before change](<images/columnName/columnNameAfterImage.png>)
+
+### Formula example
+![Formula example](<images/formatType/formatTypeFormulaExample.png>)
+
+### After pic 
+![After change](<images/formatType/formatTypeAfterPic.png>)
+
+## ReadMeLink
+#### Type: String;
+Link to this ReadMe, set as input for easy readability when using component
+
+## useDarkMode
+#### Type: Boolean
+Whether the component will use dark mode. Default value is set to varUseDarkMode in all themed components, so you can define it once in your App.OnStart and know it will be accessible across all components the moment you insert them onto the canvas
+
+## showToolbar
+#### Type: Boolean
+This controls whether the data table will display the toolbar at the top of the component that includes the buttons for Filters, Columns, Density, and Export. Setting this will remove the toolbar, but users will still be able to filter and hide columns from the column header itself. They will not be able to export data with this set to false.
+
+## useTheming
+#### Type: Boolean
+This will control whether the component uses the custom pre##defined themes like Green, Red, Pink, Royal Blue, etc. With this set to false, it will ignore the primaryColor property and instead use Material UI's default theme, which is a generic blue color.
+
+## useTestData
+#### Type: Boolean
+This will control whether the control uses the static test data included within the component itself. Turning this to false will have the component use the live data passed in from the canvas app.
+
+## primaryColor
+#### Type: String
+The primary color for the theme to be used in the component. All themed components have a default value of varAppPrimaryColor, so you can define that variable once in the App.OnStart, and it will be avaiable to all components once you insert them onto the canvas. The options for the themes are contained in the styling/color-schemes.ts file. In the event that an invalid string is passed, it will default to the Green theme.
+
+## showCheckboxes
+#### Type: Boolean
+This will control whether the checkbox for selection will appear in each row of the data table. When set to false, the checkboxes will never show in the data table. When set to true, the checkboxes will be shown by default, but the user can still hide that column if they wish.
+
+## hideFooter
+#### Type: Boolean
+This will control whether the footer is displayed. When set to true, the footer will be hidden.
+
+## allowSelectMultiple
+#### Type: Boolean
+This will control whether the data table allows you to select multiple records at once. When set to true, you can select multiple rows, when set to false, trying to select a second row will un-select your first selected row as it selects the new selected row.
+
+## useServerSide
+#### Type: Boolean 
+This controls whether filtering expressions (and eventually sorting expressions) will be delegated to the server to execute instead of the client. This is currently only available for Dataverse. The benefit of server-side execution is that it saves huge amounts of time when working with very large datasets, so if you're using Dataverse you should pretty much always have this on. If you are not using Dataverse, turn this off. The limit for records on client-side execution (which happens when you have this turned off) is 100,000 records.
+
+## noRowsText
+#### Type: String
+This is the text that will be displayed in the data table when there are no results found. This can happen when you pass an empty table, or no records match your filter criteria.
+
+
+## columnVisibility
+#### Type: Table
+This dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default column visibility. Each record of the visibilityModel
+
+<br>
+
+# Output properties
+
+<br>
+
+## changeType
+#### Type: String
+Meant to indicate type of change that triggers notifyOutputChanged() function. Right now it only has one real value - selectedOption, which is triggered when you have a squashedButtonGroup component as a custom render and you select the button
+
+## outputValue
+#### Type: String
+This will indicate the text value of the option you selected from the squashedButtonGroup
+
+## outputObject
+#### Type: Record 
+This will output the selected record from the datatable. This differs from the Selected property because it is available even when the row is not selected. For example, let's say that you have a squashedButtonGroup in each row of the table, and whenever you click on the button, you want to store the selected record and navigate to another screen. You can't do this with the normal Selected property, because if a user already has a row selected, then clicks on the button in the row they want to use, it will un-select that row before triggering the button event, so it will no longer be the SelectedItem. This outputObject property, however, is directly generated when you select an option, so it will always be available in those events.
+
+## outputObjectSchema
+#### Type: String;
+The schema of the outputObject. This is required so Power Apps can utilize dot notation on the outputObject
+
+<br>
+
+# Events
+
+<br>
+
+## onOptionSelected
+This event will occur whenever you select an option from the squashedButtonGroup in a custom rendered column generated through the columnOverrides
+
+
+
 
