@@ -75,11 +75,17 @@ This dataset will be passed in as a list of values mapped to your main dataset's
 
 ## columnOverrides
 #### Type: Table
+#### NOTE: After adding a record, you will need to cut and re-paste the control on the canvas to see it take effect in the editor, or refresh the website after saving
 This is a table that will pass in customizations to the columns themselves, which can change what's displayed in the data table. For example, you can change column names, choose to render a custom component like a Chip or SquashedButtonGroup, and change the formatting for values. The abilities of this table are as follows: 
 
-    1. Change a column name. This is simple, you simply need to have a record with two properties: columnName and newName. columnName will contain the Field name of the column (Always double check this in the the field well, as it can sometimes be different than what's displayed. For example, Sharepoint will occasionally replace spaces with something like _x0200), and newName will be the new name of the column to be displayed.
-#### NOTE: After adding the record, you will need to cut and re-paste the control on the canvas to see it take effect in the editor, or refresh the website after saving
+- [Change a column name](#change-column-name)
+
+- [Change the format type of a column](#change-format-type-of-column)
+
+- [Render a squashedButtonGroup](#ren)
         
+### Change column name
+This is simple, you simply need to have a record with two properties: columnName and newName. columnName will contain the Field name of the column (Always double check this in the the field well, as it can sometimes be different than what's displayed. For example, Sharepoint will occasionally replace spaces with something like _x0200), and newName will be the new name of the column to be displayed.
 ### Before pic 
 ![Before column name change](<images/columnName/beforePicColumnName.png>)
 
@@ -89,8 +95,9 @@ This is a table that will pass in customizations to the columns themselves, whic
 ### After pic 
 ![After pic](<images/columnName/columnNameAfterImage.png>)
 
-    2. Changing the format type of the column. Right now, the only format change accepted is Currency. To format as currency, pass in a record with the columnName property, and a property of formatType with a value of Currency
 
+### Change format type of column
+Right now, the only format change accepted is Currency. To format as currency, pass in a record with the columnName property, and a property of formatType with a value of Currency
 ### Before pic 
 ![Before change](<images/columnName/columnNameAfterImage.png>)
 
@@ -99,6 +106,15 @@ This is a table that will pass in customizations to the columns themselves, whic
 
 ### After pic 
 ![After change](<images/formatType/formatTypeAfterPic.png>)
+
+### Render a squashedButtonGroup
+You can render out a custom component called a squashedButtonGroup that will allow users to select an option from a drop-down list of actions, then select that button to trigger an event. In order for this to be set up, you will need to create a record with the following properties:
+- columnName : this will be the field name of the column you want the component to render in
+
+
+
+
+
 
 ## ReadMeLink
 #### Type: String;
