@@ -62,7 +62,7 @@ export interface TrackerBarsProps {
   useTestData: boolean;
   height: number;
   width: number
-
+  useDarkMode: boolean;
 }
 
  const TrackerBarsComponent = (props: TrackerBarsProps) => {
@@ -74,7 +74,7 @@ export interface TrackerBarsProps {
   return(
     <div style={{height: `${props.height}px`, width: `${props.width}px`}}>
 
-  <Tracker data={data} hoverEffect={true} style={{width: '100%', height: '100%'}}/>
+  <Tracker data={data} hoverEffect={true} style={{width: '100%', height: '100%'}} useDarkMode = {props.useDarkMode} defaultBackgroundColor= {props.useDarkMode ? "white" : "black"}/>
     </div>
 )
 }

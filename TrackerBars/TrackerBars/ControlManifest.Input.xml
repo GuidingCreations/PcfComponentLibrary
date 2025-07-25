@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="TrackerBars" version="0.0.26" display-name-key="TrackerBars" description-key="TrackerBars description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="TrackerBars" version="0.0.41" display-name-key="TrackerBars" description-key="TrackerBars description" control-type="virtual" >
   
     <external-service-usage enabled="false">
       
@@ -11,6 +11,7 @@
     </data-set>
 
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value ="true"/>
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value ="varUseDarkMode"/>
     <property name="containerHeight" display-name-key="containerHeight"  of-type="Whole.None" usage="bound" pfx-default-value = "Self.Height"/>
     <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value = "Self.Width"/>
 

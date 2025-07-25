@@ -10,7 +10,8 @@ interface TrackerBlockProps {
   color?: string
   tooltip?: string | string[]
   hoverEffect?: boolean
-  defaultBackgroundColor?: string
+  defaultBackgroundColor: string
+  useDarkMode: boolean
 }
 
 const Block = ({
@@ -18,7 +19,10 @@ const Block = ({
   tooltip,
   defaultBackgroundColor,
   hoverEffect,
+  useDarkMode
 }: TrackerBlockProps) => {
+
+  console.log("BLOCK PROPS: ", useDarkMode, defaultBackgroundColor, hoverEffect, tooltip, color)
   const [open, setOpen] = React.useState(false)
   return (
     <HoverCardPrimitives.Root
@@ -37,25 +41,29 @@ const Block = ({
           />
         </div>
       </HoverCardPrimitives.Trigger>
-      <HoverCardPrimitives.Portal>
+      {
+        tooltip ?
+        <HoverCardPrimitives.Portal>
         <HoverCardPrimitives.Content
           sideOffset={10}
           side="top"
           align="center"
           avoidCollisions
-          style={{zIndex: 4999}}
+          style={{zIndex: 4999, backgroundColor: defaultBackgroundColor}}
           
-          className="w-auto rounded-md px-2 py-1 text-sm shadow-md text-white dark:text-gray-900 bg-gray-900 dark:bg-gray-50"
-        >
+          className="w-auto rounded-md px-2 py-1 text-sm shadow-md"
+          >
           { typeof tooltip == "string" ? tooltip : 
           
-          <div style={{display: 'flex', flexDirection: 'column', zIndex: 5000}}>
-            {tooltip?.map((line : any) => <p>{typeof line  == "string" ? line : line.Value}</p>)}
+          <div style={{display: 'flex', flexDirection: 'column', zIndex: 5000, backgroundColor: defaultBackgroundColor}}>
+            {tooltip?.map((line : any) => <p style={{color: defaultBackgroundColor == "black" ? "white" : "black"}}>{typeof line  == "string" ? line : line.Value}</p>)}
           </div>
           
           }
         </HoverCardPrimitives.Content>
       </HoverCardPrimitives.Portal>
+      : null
+  }
     </HoverCardPrimitives.Root>
   )
 }
@@ -64,35 +72,44 @@ Block.displayName = "Block"
 
 interface TrackerProps extends React.HTMLAttributes<HTMLDivElement> {
   data: TrackerBlockProps[]
-  defaultBackgroundColor?: string
-  hoverEffect?: boolean
+  defaultBackgroundColor: string
+  hoverEffect?: boolean;
+  useDarkMode: boolean
 }
 
 const Tracker = React.forwardRef<HTMLDivElement, TrackerProps>(
   (
     {
       data = [],
-      defaultBackgroundColor = "bg-gray-400 dark:bg-gray-400",
+      
       className,
       hoverEffect,
       ...props
     },
     forwardedRef,
   ) => {
+    console.log("TRACKER PASSED PROPS: ", props)
+    const varBackground = props.defaultBackgroundColor
     return (
       <div
         ref={forwardedRef}
         className={cx("group flex h-8 w-full items-center", className)}
         {...props}
+        style={{width: '100%', height: '100%'}}
       >
-        {data.map((props, index) => (
+        {data.map((props, index) => { 
+          
+          console.log('DATA PROPS: ', props)
+          
+          return (
           <Block
-            key={props.key ?? index}
-            defaultBackgroundColor={defaultBackgroundColor}
-            hoverEffect={hoverEffect}
-            {...props}
+          {...props}
+          key={props.key ?? index}
+          hoverEffect={hoverEffect}
+          defaultBackgroundColor= {varBackground}
+            useDarkMode = {props.useDarkMode}
           />
-        ))}
+        )})}
       </div>
     )
   },

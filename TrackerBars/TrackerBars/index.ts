@@ -38,7 +38,8 @@ export class TrackerBars implements ComponentFramework.ReactControl<IInputs, IOu
             trackerData: this._tableData,
             useTestData: context.parameters.useTestData.raw,
             height: context.parameters.containerHeight.raw ?? 50,
-            width: context.parameters.containerWidth.raw ?? 500
+            width: context.parameters.containerWidth.raw ?? 500,
+            useDarkMode: context.parameters.useDarkMode.raw
          }
 
         return React.createElement(
