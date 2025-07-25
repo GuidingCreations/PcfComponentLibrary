@@ -16,12 +16,12 @@ This component is meant to be a quick visual indicator of color-coordinated valu
 
 # Input Properties
 - [Fields](#fields)
+- [trackerData](#trackerdata)
+- [useTestData](#usetestdata)
+- [useDarkMode](#usedarkmode)
+- [containerHeight](#containerheight)
+- [containerWidth](#containerwidth)
 
-# Output Properties
-
- # Events
-
-<br>
 <br>
 
 # Input Properties
