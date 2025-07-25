@@ -76,7 +76,8 @@
     <ProjectReference Include="..\smallText\smallText.pcfproj" />
     <ProjectReference Include="..\bodyText\bodyText.pcfproj" />
     <ProjectReference Include="..\TrackerBars\TrackerBars.pcfproj" />
-    <ProjectReference Include="..\TrackerCandles\TrackerCandles.pcfproj" />
+    <ProjectReference Include="..\TabList\TabList.pcfproj" />
+
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

@@ -7,7 +7,6 @@ import TextInput from "./TextInput";
 
 export default function DeleteModal(props: modalProps) {
 
-  const confirmationButtonClasses  =  `inline-flex w-full justify-center rounded-md  bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 flex-1`
   
 
   
@@ -79,7 +78,7 @@ export default function DeleteModal(props: modalProps) {
             </button>
 
             <button 
-              className={confirmationButtonClasses}
+              className={"inline-flex w-full justify-center rounded-md  bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 flex-1"}
               onClick={props.OnConfirm}
               >
               {props.confirmText}

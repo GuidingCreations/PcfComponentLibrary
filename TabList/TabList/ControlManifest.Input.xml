@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="NamespacePlaceholder" constructor="TabList" version="0.0.14" display-name-key="TabList" description-key="TabList description" control-type="virtual" >
+  
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+    <data-set name="tabData" display-name-key="tabData">
+      
+    </data-set>
+
+
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" hidden="false" pfx-default-value="varAppPrimaryColor"/>
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" pfx-default-value="varUseDarkMode"/>
+    <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input"/>
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+
+    
+    </resources>
+   
+  </control>
+</manifest>
