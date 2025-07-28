@@ -9,7 +9,7 @@ export interface modalProps {
   containerHeight: number;
   containerWidth: number;
   modalHeader: string;
-  modalText: string;
+  modalText: string | string[];
   confirmText: string;
   OnCancel: () => void;
   OnConfirm: () => void;

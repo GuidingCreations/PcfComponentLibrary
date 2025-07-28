@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client";
 
 import { useState } from "react";
@@ -63,8 +65,8 @@ export default function ConfirmationModal(props: modalProps) {
 
         {/* Modal header and text */}
 
-          <p className="text-semibold w-full text-left">{props.modalHeader}</p>
-          <p className="text-left">{props.modalText}</p>
+          <p className="text-semibold w-full text-left" style={{whiteSpace: 'pre-wrap'}}>{props.modalHeader}</p>
+          <p className="text-left" style={{whiteSpace: 'pre-wrap'}}>{props.modalText}</p>
 
           {/* Cancel / Confirm buttons container */}
           

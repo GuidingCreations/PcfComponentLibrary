@@ -50,15 +50,14 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     case "SingleLine.Text" :
       
       let stringOperatorsToExclude = [
-          "doesNotContain",
-          "isAnyOf"
+          "doesNotContain"
       ];
       operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
     break;
 
     case "Decimal" :
 
-    let operatorsToExclude = ["isAnyOf", "isNotEmpty"];
+    let operatorsToExclude = [ "isNotEmpty"];
 
     operators = isServerSide ? getGridNumericOperators().filter( (operator) => !operatorsToExclude.includes(operator.value)) : getGridNumericOperators()
 
@@ -124,7 +123,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
               operator == "<=" ? 5 :
               operator == "isNotEmpty" ? 13 as DataSetInterfaces.Types.ConditionOperator :
               operator == "startsWith" ? 54 as DataSetInterfaces.Types.ConditionOperator :
-              operator == "endsWith" ? 56 as DataSetInterfaces.Types.ConditionOperator 
+              operator == "endsWith" ? 56 as DataSetInterfaces.Types.ConditionOperator :
+              operator == "isAnyOf" ? 87 as DataSetInterfaces.Types.ConditionOperator
 
               
               
@@ -466,7 +466,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     };
 
     
-    console.log("PRPOS passed to data table: ", props)
+    console.log("PROPS  passed to data table: ", props)
   
 
     return React.createElement(DataTableComponent, props);

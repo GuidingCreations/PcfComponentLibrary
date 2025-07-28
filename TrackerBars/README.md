@@ -56,18 +56,3 @@ This property is used because of a glitch currently present in PCF components wh
 ## containerWidth
 #### Type: number
 This property is used because of a glitch currently present in PCF components where context.mode.allocatedHeight and context.mode.allocatedWidth are not always passed in correctly, which can lead to components taking odd dimensions. This property will default to Self.Height, and you should leave it there.
-
-
-<br>
-
-# Output properties
-
-<br>
-
-# Events
-
-<br>
-
-
-
-

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="TrackerBars" version="0.0.41" display-name-key="TrackerBars" description-key="TrackerBars description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="TrackerBars" version="0.0.44" display-name-key="TrackerBars" description-key="TrackerBars description" control-type="virtual" >
   
     <external-service-usage enabled="false">
       

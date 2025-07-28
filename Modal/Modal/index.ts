@@ -48,7 +48,7 @@ export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs>
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-
+        
         const props : modalProps= {
             containerHeight: context.parameters.containerHeight.raw ?? 500,
             modalHeader: context.parameters.dialogHeader.raw ?? "",

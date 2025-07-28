@@ -9,7 +9,8 @@ import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import { memo, useEffect, useRef, useState } from 'react';
 import testItems from './testItems';
-import Checkbox from '@mui/material/Checkbox';
+import Chip from '@mui/material/Chip';
+
 
 // Props interface
 
@@ -45,7 +46,7 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
   const [selectedValues, setSelectedValues] = useState<any[]>(getMatchingRecords());
 
-  if(props.defaultSelectedValues != defaultSelectedValues.current && items.length > 0) {
+  if(props.defaultSelectedValues != defaultSelectedValues.current && items.length > 0 && !props.useTestData) {
     console.log("ITEMS IN MATCH: ", items)
     let matchingArray : any[] = []
     console.log("DEFAULT VALUES HAVE CHANGED: ", props.defaultSelectedValues, defaultSelectedValues.current);
@@ -73,7 +74,7 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
   useEffect(() => {
 
-    if ( props.onSelectionChange && autoRef.current) {
+    if ( props.onSelectionChange && autoRef.current && !props.useTestData) {
 
       props.onSelectionChange(selectedValues, autoRef.current.getBoundingClientRect().height)
     }
@@ -91,7 +92,7 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
   const theme : Theme = generateTheme(config)
 
   console.log("THEME GENERATED: ", theme)
-
+console.log("SEL VALUES: ", selectedValues)
 
   return (
     
@@ -105,9 +106,10 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
     <Autocomplete
     multiple = {props.allowSelectMultiple}
+    renderValue={(value, getItemProps) => (
+          <Chip label = {value[displayField]} onDelete={(e) => {setSelectedValues([])}}/>
+        )}
     onChange={(e : any, value: any[]) => value == null ? setSelectedValues([]) : props.onSelectionChange ? props.allowSelectMultiple ?  setSelectedValues(value) : setSelectedValues([value]) : ''}
-
-
     slotProps={{
       listbox: {
         
@@ -133,8 +135,11 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
     options={items}
     getOptionLabel={(option) => option[displayField]}
     value={ props.allowSelectMultiple ? selectedValues || null : selectedValues[0] || null}
+    
+  
     // Render input
     renderInput={(params) => (
+      
       <TextField
       {...params}
       variant="outlined"

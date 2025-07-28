@@ -28,9 +28,8 @@ export function populateDataset(dataset: DataSet) {
     const recordToAdd: any = {};
 
     dataset.columns.map((column: DataSetInterfaces.Column) => {
-      console.log("COLUMN INFO: ", column)
       
-
+      
       
       const value : any = dataset.records[recordID].getValue(
         column.name
@@ -43,7 +42,6 @@ export function populateDataset(dataset: DataSet) {
     items.push(recordToAdd);
   });
 
-  console.log("ITEMS LENGTH: ", items.length)
   return items;
 }
 
@@ -51,14 +49,12 @@ export function generateOutputObject(
   row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord,
   dataset: DataSet
 ) {
-  console.log("HITTING GENERATE OUTPUT OBJECT");
   const outputObject: Record<
     string,
     string | number | boolean | number[] | undefined
   > = {};
   dataset.columns.forEach((c) => {
     const value = getRowValue(row, c);
-    console.log("VALUE FROM GOO: ", value);
     outputObject[c.displayName || c.name] = value;
   });
 
