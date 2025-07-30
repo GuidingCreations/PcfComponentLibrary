@@ -5,7 +5,7 @@ import * as React from "react";
 import muiSidebar, {muiSidebarProps} from "./sleekMuiSidebar";
 import { primaryColorNames } from "../../styling/colors";
 import { PrimaryColor } from "../../styling/types/types";
-import {populateDataset} from '../../utils'
+import {populateDataset, createInfoMessage} from '../../utils'
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -20,7 +20,6 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
 
     private updatePrimaryColor = async (newColor: string) => {
         this._primaryColor = newColor;
-        console.log("NEW OUTPUT PRIMARY COLOR: ", this._primaryColor)
         this.notifyOutputChanged();
         setTimeout(() => {
             this.context.events.onChangePrimaryColor()
@@ -29,8 +28,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
     }
 
     private updateUseDarkMode = (newValue: boolean) => {
+
         this._useDarkMode = newValue;
-        console.log("NEW MODE TRIGGERED: ", this._useDarkMode);
         this.notifyOutputChanged()
         setTimeout(() => {
             this.context.events.onChangeColorMode()
@@ -40,11 +39,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
 
     private updateActiveScreen = (newScreenName: string) => {
         this._activeScreen = newScreenName;
-        console.log("NEW SCREEN: ", this._activeScreen);
         this.notifyOutputChanged();
-
         setTimeout(() => {
-            
             this.context.events.onChangeScreen()
         }, 200);
     }
@@ -101,7 +97,10 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
             activeScreen: context.parameters.activeScreen.raw || "Settings"
 
     
-        }
+        };
+
+
+        createInfoMessage("PROPS PASSED TO SIDEBAR: ", props)
 
         return React.createElement(
             

@@ -15,12 +15,9 @@ export default function TabListComponent(props: TabListComponentProps) {
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log("EVENT: ", event.target)
     setValue(newValue);
-    console.log(data[newValue]);
 
     if (data[newValue].recordID) {
-      console.log("UDPATING SELECTED ITEM: ", data[newValue]);
       props.updateSelectedItem(data[newValue].recordID)
     }
 

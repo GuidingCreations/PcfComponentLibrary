@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DatePicker" version="0.6.13" display-name-key="DatePicker" description-key="DatePicker        description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DatePicker" version="0.6.14" display-name-key="DatePicker" description-key="DatePicker        description" control-type="virtual" >
 
     <external-service-usage enabled="false">
       
@@ -15,6 +15,7 @@
     
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" pfx-default-value = "varUseDarkMode"/>
     <property name="isDisabled" display-name-key="isDisabled" of-type="TwoOptions" usage="input" hidden="false" default-value="false"/>
+    <property name="isRequired" display-name-key = "isRequired" of-type = "TwoOptions" usage = "input" default-value = "true"/>
 
     <!-- Strings -->
 
@@ -26,6 +27,7 @@
     <property name="borderColor" display-name-key="borderColor" of-type="SingleLine.Text" usage="input" default-value="white"/>
     <property name="borderStyle" display-name-key="borderStyle" of-type="SingleLine.Text" usage="input" default-value="solid"/>
     <property name="borderWidth" display-name-key="borderWidth" of-type="Whole.None" usage="input" default-value="1"/>
+
     
     <!-- Numbers -->
     

@@ -28,7 +28,6 @@ export default function ConfirmationModal(props: modalProps) {
     >
       <div
         style={{
-          width: "35%",
           height: "fit-content",
           backgroundColor: "white",
           borderRadius: "10px",

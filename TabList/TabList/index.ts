@@ -14,7 +14,6 @@ export class TabList implements ComponentFramework.ReactControl<IInputs, IOutput
     private tabData : any[] = []
 
     private updateSelectedItem = (newRecordID: any) => {
-        console.log("SETTING SELECTED RECORDS: ", newRecordID)
         this.context.parameters.tabData.setSelectedRecordIds([newRecordID]);
         this.notifyOutputChanged();
     }
@@ -34,8 +33,6 @@ export class TabList implements ComponentFramework.ReactControl<IInputs, IOutput
   
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("SELECTED RECORDS: ", context.parameters.tabData.getSelectedRecordIds())
-        
         const selectedRecords = context.parameters.tabData.getSelectedRecordIds();
         const recordIDs = context.parameters.tabData.sortedRecordIds
         
@@ -44,14 +41,9 @@ export class TabList implements ComponentFramework.ReactControl<IInputs, IOutput
             context.parameters.tabData.setSelectedRecordIds([recordIDs[0]])
         }
 
-        console.log("UPDATED PROPS: ", context.updatedProperties)
        if ( this.context.updatedProperties.indexOf("dataset") > -1 || this.context.updatedProperties.indexOf("records") > -1 || context.parameters.tabData.sortedRecordIds.length > this.tabData.length) {
-            console.log("UPDATING TAB DATA");
             this.tabData = populateDataset(context.parameters.tabData);
-            console.log("DATA: ", this.tabData)
        }
-
-        console.log("HITTING")
 
         const props : TabListComponentProps = {
             primaryColor: context.parameters.primaryColor.raw ?? "Green",
@@ -61,7 +53,6 @@ export class TabList implements ComponentFramework.ReactControl<IInputs, IOutput
             updateSelectedItem: this.updateSelectedItem
         }
 
-        console.log("PROPS: ", props)
         return React.createElement(
             TabListComponent, props
         );

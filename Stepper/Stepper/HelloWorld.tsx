@@ -61,17 +61,9 @@ export default function StepperComponent(props: StepperProps) {
   useEffect(() => {
 
     if (steps.length > 0) {
-      console.log("STEPS > 0")
-      console.log("USE EFFTECT TRIGGERED")
-      console.log("ACTIVE STEP: ", activeStep);
-      console.log("ACTIVE STEP RECORD ID: ", steps[activeStep].recordID)
       props.handleStepChange(activeStep, steps[activeStep].recordID)
-    } else {
-      console.log("STEPS == 0")
     }
   }, [activeStep])
-
- console.log("PROPS: ", props)
 
   return (
 

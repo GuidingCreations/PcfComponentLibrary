@@ -196,7 +196,8 @@ export class ComboBoxMUI implements ComponentFramework.ReactControl<IInputs, IOu
             backgroundColor: context.parameters.backgroundColor.raw || '',
             isDisabled: context.parameters.isDisabled.raw || false,
             defaultHeight: this.context.parameters.defaultHeight.raw || 0,
-            handleNewHeight: this.handleHeightChange
+            handleNewHeight: this.handleHeightChange,
+            isRequired: context.parameters.isRequired.raw
         }
 
         createPropsMessage(`ComboBoxMui index triggering render with props: `, props)

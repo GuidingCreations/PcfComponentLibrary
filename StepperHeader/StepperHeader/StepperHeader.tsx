@@ -18,7 +18,6 @@ export interface StepperHeaderProps {
 }
 
 const StepperHeaderComponent = (props: StepperHeaderProps) => {
-  console.log("StepperHeader received props: ", props);
 
   const isStepOptional = (step: number) => {
     const isOptional = props.Steps[step].isOptional;

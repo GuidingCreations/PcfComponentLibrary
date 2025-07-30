@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="smallText" version="0.0.1" display-name-key="smallText" description-key="smallText description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="smallText" version="0.0.2" display-name-key="smallText" description-key="smallText description" control-type="virtual" >
    
     <external-service-usage enabled="false">
  

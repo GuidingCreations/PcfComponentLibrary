@@ -22,6 +22,7 @@ export interface DatePickerComponentProps {
   borderStyle: string;
   borderWidth: number;
   isDisabled: boolean;
+  isRequired: boolean;
 }
 
 // Start component
@@ -122,7 +123,7 @@ console.log("SELECTED DATE", selectedDate)
     <DatePicker 
       value={selectedDate ? selectedDate : null}  
       onChange={(e) => {console.log("EVENT", e); handleDateChange(e)}}
-      label = {props.labelText}
+      label = {`${props.labelText} ${props.isRequired ? "*" : ""}` }
       sx={{
         backgroundColor: props.backgroundColor || '',
         minHeight: `${props.height}px`,

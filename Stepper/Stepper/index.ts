@@ -70,9 +70,6 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
   
     public getOutputs(): IOutputs {
 
-        console.log("CURRENT STEP NUMBER: ", this._currentStepNumber);
-        console.log("CURRENT STEP: ", this._currentStep)
-
         return {
             currentStep: this._currentStep,
             currentStepSchema: this._inputSchema

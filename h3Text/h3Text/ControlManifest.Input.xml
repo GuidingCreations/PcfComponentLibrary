@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="h3Text" version="0.0.3" display-name-key="h3Text" description-key="h3Text description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="h3Text" version="0.0.4" display-name-key="h3Text" description-key="h3Text description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     </external-service-usage>

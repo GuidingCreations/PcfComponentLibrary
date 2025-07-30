@@ -21,6 +21,7 @@ export interface TextFieldProps {
   defaultText: string;
   onChangeHeight: (newHeight: number) => void
   isCurrency: boolean;
+  isRequired: boolean;
 }
 
 const TextFieldComponent = memo(function (props: TextFieldProps)  {
@@ -58,7 +59,6 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
 
 
   useResizeObserver(rootRef, (entry) => {
-    console.log("RECT", entry.contentRect.height);
     props.onChangeHeight(entry.contentRect.height)
   })
 
@@ -77,13 +77,13 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
       value = {textValue} 
       type={inputType} 
       style={styles} 
-      label={props.labelText} 
+      label= {`${props.labelText} ${props.isRequired ? "*" : ""}`}
       variant='outlined' 
       InputProps={{
   startAdornment: props.isCurrency ?  <InputAdornment position="start">$</InputAdornment> : null,
 }}
 
-      onChange={(e) => {console.log("CHANGING TO: ", e.target.value); setTextValue( e.target.value)}}></TextField>
+      onChange={(e) => { setTextValue( e.target.value)}}></TextField>
       
     </ThemeProvider>
     </div>

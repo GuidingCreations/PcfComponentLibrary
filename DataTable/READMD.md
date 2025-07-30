@@ -73,6 +73,13 @@ This dataset will be passed in as a list of values mapped to your main dataset's
     }
 ]
 
+## columnVisibility
+#### Type: Table
+This dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default column visibility. Each record of this table will need the following properties:
+    1. columnName (string): this will be the name of the column that is in the field well
+    2. isVisible (boolean): set this to false if you want the column to be hidden by default, but still accessible for the end user if they want to un-hide it
+
+
 ## columnOverrides
 #### Type: Table
 #### NOTE: After adding a record, you will need to cut and re-paste the control on the canvas to see it take effect in the editor, or refresh the website after saving
@@ -190,10 +197,6 @@ This controls whether filtering expressions (and eventually sorting expressions)
 #### Type: String
 This is the text that will be displayed in the data table when there are no results found. This can happen when you pass an empty table, or no records match your filter criteria.
 
-
-## columnVisibility
-#### Type: Table
-This dataset will be passed in as a list of values mapped to your main dataset's columns, and it will control the default column visibility. Each record of the visibilityModel
 
 <br>
 

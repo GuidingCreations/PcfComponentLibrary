@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.1.87" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.1.93" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       

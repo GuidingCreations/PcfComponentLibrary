@@ -8,10 +8,8 @@ import * as React from "react";
 export class h2Text implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
 
-    
     constructor() {
     }
-
     
     public init(
         context: ComponentFramework.Context<IInputs>,
@@ -21,7 +19,6 @@ export class h2Text implements ComponentFramework.ReactControl<IInputs, IOutputs
         this.notifyOutputChanged = notifyOutputChanged;
     }
 
-   
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         
                 const params = context.parameters;
@@ -41,6 +38,7 @@ export class h2Text implements ComponentFramework.ReactControl<IInputs, IOutputs
             verticalAlign: params.verticalAlign.raw ?? 'center',
             fontColor: params.fontColor.raw
         };
+
         return React.createElement(
             h2Typography, props
         );

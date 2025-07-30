@@ -16,6 +16,7 @@ export interface DatePickerProps {
     handleDateSelection: (newDate: string) => void;
     labelText: string;
     DefaultDate: string;
+    isRequired: boolean
 }
 
 const DatePickerComponent = memo(function (props: DatePickerProps) {
@@ -46,7 +47,12 @@ const DatePickerComponent = memo(function (props: DatePickerProps) {
         <ThemeProvider theme={generateTheme(config)}>
             
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker value={selectedDate ? dayjs(selectedDate) : null} sx={{width: '100%', height: '100%'}} onChange={(e : any, value: any) => setSelectedDate(`${e.$M + 1}/${e.$D}/${e.$y}`)} label= {props.labelText} />
+                <DatePicker 
+                    value={selectedDate ? dayjs(selectedDate) : null} 
+                    sx={{width: '100%', height: '100%'}} 
+                    onChange={(e : any, value: any) => setSelectedDate(`${e.$M + 1}/${e.$D}/${e.$y}`)} 
+                    label= {`${props.labelText} ${props.isRequired ? "*" : ""}`} />
+                    
             </LocalizationProvider>
         
         </ThemeProvider>

@@ -18,40 +18,23 @@ const darkTheme = createTheme({
   },
 });
 
-const MuiSwitch = memo(function (props: MaterialUISwitchProps) {
+const MuiSwitch =(props: MaterialUISwitchProps) => {
 
   const renderCount = useRef(0);
   renderCount.current++;
-  console.log("RENDER COUNT", renderCount.current)
   const darkMode = useRef(props.defaultDarkMode);
 
   if (renderCount.current <= 3 && props.defaultDarkMode) {
-    console.log("SETTING STATE")
     darkMode.current = props.defaultDarkMode
   }
-
-  console.log("DEFAULT DARK MODE", darkMode.current)
-
-  
   
   if(renderCount.current == 1) {
-    console.log("HANDLE INITIAL RENDER")
     props.handleToggleChange(props.useDarkMode);
-    console.log("End INITIAL RENDER")
-
   }
 
-
-
-
-
-
 const handleModeChange = () => {
-  console.log("CURRENT MODE", darkMode.current);
   darkMode.current = !darkMode.current
-  console.log("NEW MODE", darkMode.current);
   props.handleToggleChange(darkMode.current)
-  
 }
 
   const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -126,7 +109,7 @@ const handleModeChange = () => {
     )
   
 
-})
+}
 
 
-export default MuiSwitch
+export default memo(MuiSwitch)

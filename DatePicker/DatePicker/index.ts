@@ -45,16 +45,17 @@ export class DatePicker implements ComponentFramework.ReactControl<IInputs, IOut
         const props : DatePickerComponentProps = {
             useDarkMode: context.parameters.useDarkMode.raw,
             handleChange: this.handleDateChange,
-            labelText: context.parameters.labelText.raw || 'Date label',
-            defaultDate: context.parameters.defaultDate.raw || '',
-            fontColor: context.parameters.fontColor.raw || 'white',
-            backgroundColor: context.parameters.backgroundColor.raw || '',
-            height: context.parameters.componentHeight.raw || 50,
-            width: context.parameters.componentWidth.raw || 350,
+            labelText: context.parameters.labelText.raw ?? 'Date label',
+            defaultDate: context.parameters.defaultDate.raw ?? '',
+            fontColor: context.parameters.fontColor.raw ?? 'white',
+            backgroundColor: context.parameters.backgroundColor.raw ?? '',
+            height: context.parameters.componentHeight.raw ?? 50,
+            width: context.parameters.componentWidth.raw ?? 350,
             isDisabled: context.parameters.isDisabled.raw,
-            borderColor: context.parameters.borderColor.raw || 'white',
-            borderStyle: context.parameters.borderStyle.raw || 'solid',
-            borderWidth: context.parameters.borderWidth.raw || 0
+            borderColor: context.parameters.borderColor.raw ?? 'white',
+            borderStyle: context.parameters.borderStyle.raw ?? 'solid',
+            borderWidth: context.parameters.borderWidth.raw ?? 0,
+            isRequired: context.parameters.isRequired.raw
         }
 
 // Render element

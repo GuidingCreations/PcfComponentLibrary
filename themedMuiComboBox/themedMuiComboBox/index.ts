@@ -39,18 +39,15 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
 
     handleSelectionChange = (selectedItems: any[], newHeight: number) => {
 
-        console.log("NEW SELECTION TRIGGERED: ", selectedItems, newHeight)
         this.state.outputHeight = newHeight;
 
         // If selected items array is empty, clear selected records, else set selected records to selected items array
 
         
         if (selectedItems.length > 0) {
-            console.log("mapping over selected records")
             const selectedRecordIDs = selectedItems.map((selectedItem) => selectedItem.recordID);
             this.context.parameters.Items.setSelectedRecordIds(selectedRecordIDs);
         } else {
-            console.log("clearing selected records")
             this.context.parameters.Items.clearSelectedRecordIds();
         }
 
@@ -66,7 +63,6 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
         };
 
         if(this.context.updatedProperties.indexOf("DefaultSelectedItems_dataset") > -1 || this.context.parameters.DefaultSelectedItems.sortedRecordIds.length > this.state.defaultSelectedItems.length) {
-            console.log("TRIGGERING UPDATE STATE CHANGE DEFAULT SELECTED ITEMS", this.state);
             this.state.defaultSelectedItems = []
 
             this.context.parameters.DefaultSelectedItems.sortedRecordIds.map((item : any) => {
@@ -97,13 +93,10 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("COLUMNS FOR FIRST DATA SOURCE: ", this.context.parameters.Items.columns)
-        console.log("COLUMNS FOR SECOND DATA SOURCE: ", this.context.parameters.DefaultSelectedItems.columns);
 
         /*TODO : make reset function for component, outside source changes context variable to true, component reads new true value, resets state, then fires Event from manifest that will update that same context variable to false, stopping the reset*/
         
         this.context.parameters.Items.paging.setPageSize(10000)
-        console.log("THEMED MUI COMBO BOX UPDATED PROPERTIES: ", this.context.updatedProperties)
         this.updateDataset()
 
         const primaryColor : PrimaryColor = primaryColorNames.filter((color) => color == context.parameters.primaryColor.raw)[0] || 'Green';
@@ -112,17 +105,18 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
         const props : comboBoxProps = {
             useDarkMode: context.parameters.useDarkMode.raw,
             primaryColor: primaryColor as PrimaryColor,
-            labelText: context.parameters.labelText.raw || 'Label text',
+            labelText: context.parameters.labelText.raw ?? 'Label text',
             allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
             useTestData: context.parameters.useTestData.raw,
             optionsList: this.state.items,
-            displayField: context.parameters.displayField.raw || 'title',
+            displayField: context.parameters.displayField.raw ?? 'title',
             onSearchTextChange: this.handleSearchTextChange,
             onSelectionChange: this.handleSelectionChange,
-            defaultSelectedValues: this.state.defaultSelectedItems
+            defaultSelectedValues: this.state.defaultSelectedItems,
+            isRequired: context.parameters.isRequired.raw,
+            width: context.parameters.containerWidth.raw ?? 250
             
         }
-        console.log("THEMED COMBO BOX MUI PRE RENDER PROPS: ", props)
 
         this.componentNode = React.createElement(
             ComboBoxComponent, props

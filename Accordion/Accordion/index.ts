@@ -41,11 +41,6 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
             })
         }
 
-
-        // console.log("POP DATA")
-        // this._data = populateDataset(context.parameters.accordionData)
-        console.log("DATA POPPED: ", this._data)
-        
         context.mode.trackContainerResize(true)
 
         const props : AccordionProps = {
@@ -61,22 +56,14 @@ export class Accordion implements ComponentFramework.ReactControl<IInputs, IOutp
         );
     }
 
-    /**
-     * It is called by the framework prior to a control receiving new data.
-     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
-     */
     public getOutputs(): IOutputs {
-        console.log("TRIGGERING NEW OUTPUTS WITH: ", this.outputHeight)
+
         return {
             outputHeight: this.outputHeight
         };
+
     }
 
-    /**
-     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-     * i.e. cancelling any pending remote calls, removing listeners, etc.
-     */
     public destroy(): void {
-        // Add code to cleanup control if necessary
     }
 }

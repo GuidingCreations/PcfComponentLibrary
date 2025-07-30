@@ -17,7 +17,6 @@ export class h1Text implements ComponentFramework.ReactControl<IInputs, IOutputs
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
     }
-
     
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         

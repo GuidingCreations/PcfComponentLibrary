@@ -15,10 +15,11 @@ export interface smallProps {
     height: number;
     width: number;
     verticalAlign: string;
-    fontColor: string | undefined | null
+    fontColor: string | undefined | null;
 }
 
 const smallTypography = (props : smallProps) => {
+
 
   const smallStyles : React.CSSProperties = {
     fontSize: '11px',
@@ -45,12 +46,9 @@ const smallTypography = (props : smallProps) => {
 
   }
 
-console.log("props: ", props)
-
   return (
     <div style= {divStyles}>
-
-    <p style={smallStyles}>{props.Text}</p>
+      <p style={smallStyles}>{props.Text}</p>
     </div>
   )
 }

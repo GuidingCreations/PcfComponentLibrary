@@ -45,11 +45,9 @@ const h1Typography = (props : h1Props) => {
 
   }
 
-
   return (
     <div style={divStyles}>
-
-    <h1 style={h1Styles}>{props.Text}</h1>
+      <h1 style={h1Styles}>{props.Text}</h1>
     </div>
   )
 }

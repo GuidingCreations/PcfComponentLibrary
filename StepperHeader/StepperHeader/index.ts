@@ -30,7 +30,6 @@ export class StepperHeader implements ComponentFramework.ReactControl<IInputs, I
 
     private GenerateSteps = () => {
 
-        console.log("Stepper Header triggered GenerateSteps");
         
         if ( this.context.parameters.useTestData.raw ) {                
             
@@ -56,11 +55,6 @@ export class StepperHeader implements ComponentFramework.ReactControl<IInputs, I
     
         }
 
-            console.log("StepperHeader GenerateSteps returns: ", this._Steps)
-        
-        
-
-    
     }
 
     constructor() {
@@ -80,8 +74,6 @@ export class StepperHeader implements ComponentFramework.ReactControl<IInputs, I
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
     
         const updatedProps = context.updatedProperties
-
-        console.log("StepperHeader updateView triggered with changed properties: ", updatedProps)
 
         // If the dataset or useTestData param changes, re-populate steps
 

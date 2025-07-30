@@ -298,7 +298,14 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             onColumnVisibilityModelChange={ (newModel) => setVisibilityModel(newModel) }
             
             initialState={{ columns: { columnVisibilityModel: visibilityModel } }}
-            
+            slotProps={{
+              toolbar: {
+                printOptions: {
+                  disableToolbarButton: true
+                },
+                
+              }
+            }}
             slots={{ toolbar: props.showToolbar ? GridToolbar : null }}
         />
       </div>

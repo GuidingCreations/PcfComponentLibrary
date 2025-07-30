@@ -9,7 +9,10 @@ type DataSetInterfaces = ComponentFramework.PropertyTypes.DataSet;
 
 
 export function sourceNeedsUpdate (context: any, sourceName: any, currentArray: any[]) {
-    const needsUpdated = context.updatedProperties.indexOf("dataset") > -1 || context.updatedProperties.indexOf("records") > -1 || context.parameters[sourceName].sortedRecordIds.length > currentArray.length
+    const needsUpdated = 
+      context.updatedProperties.indexOf("dataset") > -1 || 
+      context.updatedProperties.indexOf("records") > -1 || 
+      context.parameters[sourceName].sortedRecordIds.length > currentArray.length
     return needsUpdated
 }
 
@@ -24,24 +27,18 @@ export function cx(...args: ClassValue[]) {
 
 export function populateDataset(dataset: DataSet) {
   const items: any[] = [];
+  
   dataset.sortedRecordIds.map((recordID) => {
     const recordToAdd: any = {};
-
-    dataset.columns.map((column: DataSetInterfaces.Column) => {
-      
-      
-      
+    dataset.columns.map((column: DataSetInterfaces.Column) => {  
       const value : any = dataset.records[recordID].getValue(
         column.name
       );
-      
       recordToAdd[column.name] = value
     });
-
     recordToAdd.recordID = dataset.records[recordID].getRecordId();
     items.push(recordToAdd);
   });
-
   return items;
 }
 
@@ -65,9 +62,7 @@ function getRowValue(
   row: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord,
   column: ComponentFramework.PropertyHelper.DataSetApi.Column
 ) {
-  console.log("ROW getRowValue: ", row);
-  console.log("COLUMN getRowValue: ", column);
-  console.log("COLUMN DATA TYPE", column.dataType);
+
   switch (column.dataType) {
     // Number Types
     case "TwoOptions":
@@ -112,11 +107,8 @@ export function generateOutputObjectSchema(
   data: DataSet,
   currentSchema: any
 ) {
-  console.log("TESTING SCHEMA UPDATE");
   const newSchema = JSON.stringify(getInputSchema(context, data));
-  console.log("GENERATED SCHEMA", newSchema);
   if (newSchema !== currentSchema) {
-    console.log("NEW SCHEMA", newSchema);
     return newSchema;
   } else return currentSchema;
 }
@@ -148,8 +140,6 @@ export function getInputSchema(
       const properties = getColumnSchema(c);
       columnProperties[c.displayName || c.name] = properties;
     });
-
-  console.log("COLUMN PROPERTIES: ", columnProperties);
 
   return columnProperties;
 }

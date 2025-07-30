@@ -25,11 +25,12 @@ export interface comboBoxProps {
   onSearchTextChange?: (searchText: string) => void,
   onSelectionChange?: (newRecordIDs: any[], newHeight: number) => void,
   defaultSelectedValues: any[];
+  isRequired: boolean;
+  width: number;
 }
 
 const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) {
 
-  console.log("THEMED MUI COMBO BOX PROPS MEMOIZED: ", props)
 
   // Init basic values
 
@@ -47,20 +48,14 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
   const [selectedValues, setSelectedValues] = useState<any[]>(getMatchingRecords());
 
   if(props.defaultSelectedValues != defaultSelectedValues.current && items.length > 0 && !props.useTestData) {
-    console.log("ITEMS IN MATCH: ", items)
     let matchingArray : any[] = []
-    console.log("DEFAULT VALUES HAVE CHANGED: ", props.defaultSelectedValues, defaultSelectedValues.current);
     defaultSelectedValues.current = props.defaultSelectedValues;
-    console.log("SETTING NEW VALUES FROM DEFAULT: ", defaultSelectedValues.current)
    
     defaultSelectedValues.current.map((defaultItem) => {
       const matchingItems = items.filter((item : any) => item[props.displayField] == defaultItem[props.displayField]);
-      console.log("INNER MATCHING ITEMS: ", matchingItems);
       matchingArray = matchingArray.concat(matchingItems);
-      console.log("MATCHED: ", matchingArray)
     });
 
-    console.log("OVERALL MATCHING: ", matchingArray);
     if(matchingArray.length > 0) {
 
       setSelectedValues(matchingArray)
@@ -91,9 +86,6 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
   const theme : Theme = generateTheme(config)
 
-  console.log("THEME GENERATED: ", theme)
-console.log("SEL VALUES: ", selectedValues)
-
   return (
     
     // Theme wrapper
@@ -102,13 +94,29 @@ console.log("SEL VALUES: ", selectedValues)
       
     {/* Wrapper around the autocomplete component */}
     
-    <div  style={{position: "relative",  width: '100%', height: 'fit-content'}} ref = {autoRef}>
+    <div  style={{position: "relative",  width: `${props.width}px`, height: 'fit-content'}} ref = {autoRef}>
 
     <Autocomplete
     multiple = {props.allowSelectMultiple}
-    renderValue={(value, getItemProps) => (
-          <Chip label = {value[displayField]} onDelete={(e) => {setSelectedValues([])}}/>
-        )}
+    renderValue={(value, getItemProps) => {
+      
+      return  props.allowSelectMultiple ? 
+      <div style = {{display: 'flex', gap: '4px', maxWidth: `${props.width}px`, flexWrap: "wrap"}}>
+
+      {
+
+        value.map((tag : any, index : any) => {
+          return <Chip key={index} label = {tag[displayField]} onDelete={(e) => {setSelectedValues( selectedValues.filter((selected) => selected[displayField] != tag[displayField])) }}/>
+        }) 
+      }
+      </div>
+      
+      : (
+
+        <Chip label = {value[displayField]} onDelete={(e) => {setSelectedValues([])}}/>
+      
+      )}
+    } 
     onChange={(e : any, value: any[]) => value == null ? setSelectedValues([]) : props.onSelectionChange ? props.allowSelectMultiple ?  setSelectedValues(value) : setSelectedValues([value]) : ''}
     slotProps={{
       listbox: {
@@ -143,7 +151,7 @@ console.log("SEL VALUES: ", selectedValues)
       <TextField
       {...params}
       variant="outlined"
-      label= {props.labelText}
+      label= {`${props.labelText} ${props.isRequired ? "*" : ""}`}
       placeholder={props.labelText}
       onChange={(e) => props.onSearchTextChange ? props.onSearchTextChange(e.target.value) : ''}
       />

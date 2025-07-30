@@ -16,7 +16,6 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
     }
     
     private handleValueChange = (newValue: string) => {
-        console.log("HITTING", newValue, this.state.selectedValue)
         this.state.selectedValue = newValue;
         this.notifyOutputChanged()
     }
@@ -57,7 +56,6 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
 
    
     public getOutputs(): IOutputs {
-        console.log("TRIGGERED OUTPUTS")
         return {
             selectedValue: this.state.selectedValue
         };

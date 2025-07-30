@@ -20,10 +20,9 @@ export interface AccordionProps {
 
 const AccordionComponent = (props: AccordionProps) => {
   
-console.log("PROPS RECEIVED", props)
 const accordionRef = useRef(null)
 
-  const darkMode = useRef(props.darkMode);
+const darkMode = useRef(props.darkMode);
   if (props.darkMode != darkMode.current) {
     darkMode.current = props.darkMode
   }
@@ -49,14 +48,11 @@ const accordionRef = useRef(null)
 
   const accordionRecords = props.useTestData ? testData : props.accordionData
 
-
    useResizeObserver(accordionRef, (entry) => {
       props.onChangeHeight(entry.contentRect.height)
     })
 
-
   return (
-
 
     <ThemeProvider theme={theme}>
 
@@ -65,20 +61,16 @@ const accordionRef = useRef(null)
       { accordionRecords.map( (record) => {
 
       return (
-
         
         <Accordion slotProps={{transition: {unmountOnExit: true}}} key={record.Title} style={{width: '!00%'}}>
-        
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-          sx={{fontSize: '14pt'}}
-        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+            sx={{fontSize: '14pt'}}>
           <Typography component="span">{record.Title}</Typography>
-        </AccordionSummary>
-        
-        <AccordionDetails sx={{fontSize: '12pt', lineHeight: 2}}>
+          </AccordionSummary>
+          <AccordionDetails sx={{fontSize: '12pt', lineHeight: 2}}>
           <Stack>
             <div className='bodyContentWrapper'>
 
@@ -88,7 +80,6 @@ const accordionRef = useRef(null)
             <p>{record.bodyContent}</p>
             
             : record.bodyContent.map((content : any, index : number) => {
-              console.log("INDEX: ", index)
               return <p key={index} style={{marginTop: index === 0 ? '0px' : '16px'}}>{content.Value}</p>
             })
             

@@ -21,10 +21,7 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
     onChangeDisplayedOption = (option: any, newWidth?: number) => {
 
         if (option != undefined) {
-
             this.state.selectedOption = option[this.context.parameters.displayField.raw || 'Value']
-            
-            console.log("STATE: ", this.state);
         };
 
         if (newWidth) {
@@ -80,9 +77,6 @@ export class squashedButtonGroup implements ComponentFramework.ReactControl<IInp
             useFlexibleWidth: context.parameters.flexibleWidth.raw
                 }
         
-        const TestItems = populateDataset(context.parameters.Test)
-        console.log("TEST COLUMN INFO: ", context.parameters.Test.columns, "DATA: ", TestItems);
-
         return React.createElement(
             SquashedBG, props
         );

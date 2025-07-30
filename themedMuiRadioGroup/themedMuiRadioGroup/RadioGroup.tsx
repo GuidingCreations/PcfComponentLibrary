@@ -24,13 +24,9 @@ const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
  
   const optionsList = props.useTestData ? [{Value: "option 1"}, {Value: "option 3"}, {Value: "option 3"}] : props.Options
   const displayField = props.useTestData ? "Value" : props.displayField
- 
-  console.log("OPTIONS: ", optionsList);
-
   const [selectedValue, setSelectedValue] = useState('')
 
   useEffect(() => {
-    console.log("SELECTED VALUES: ", selectedValue);
     props.handleValueChange(selectedValue)
   }, [selectedValue])
 
@@ -40,7 +36,7 @@ const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
   }
 
   const theme = generateTheme(config)
-  console.log(theme)
+
   return (
     
     <ThemeProvider theme={theme}>

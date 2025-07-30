@@ -40,27 +40,16 @@ const options = [
 
 
 const SquashedBG = (props: squashedBgProps) => {
-  console.log("SQUASHED BG PROPS PASSED: ", props)
-
   const optionsList = props.useTestData ?  options : props.options.length > 0 ? props.options : [] 
   const [open, setOpen] = useState<boolean>(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-
-  console.log("OPTIONS LIST: ", optionsList)
-
   const handleClick = () => {
-    
-    console.info(`You clicked `, optionsList[selectedIndex]);
     if (typeof optionsList[selectedIndex] == "string") {
-
       props.onOptionSelect(optionsList[selectedIndex])
     } else {
       props.onOptionSelect(optionsList[selectedIndex].Value)
-
     }
-
-
   };
 
   const handleMenuItemClick = (
@@ -76,7 +65,6 @@ const SquashedBG = (props: squashedBgProps) => {
   };
 
   const handleClose = (event: Event) => {
-    console.log("HIT HANDLE CLOSE")
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
@@ -90,27 +78,19 @@ const SquashedBG = (props: squashedBgProps) => {
 
   useEffect(() => {
     const newOption = optionsList[selectedIndex]
-    console.log("TRIGGERING DISPLAYED OPTION CHANGE: ", newOption);
-
     const newWidth = anchorRef?.current?.getBoundingClientRect().width;
-    console.log("NEW WIDTH: ", newWidth)
     props.onChangedDisplayedOption(newOption, newWidth);
   }, [selectedIndex])
 
   const divRef = useRef<any>(null)
-
   const config : Config = {
     Mode: props.useDarkMode ? 'dark' : 'light',
     primaryColor: props.primaryColor as PrimaryColor
   }
 
   const theme = generateTheme(config);
-  console.log("RETURNED THEME FROM SQUASHED BG", theme)
-
-  console.log("CURRENT OPTION: ", selectedIndex, props.currentOption, " OPTIONS: ", props.options)
 
   if (!props.currentOption && props.options.length > 0) {
-    console.log("TRIGGERING CHANGE TO:: ", optionsList[selectedIndex])
     props.onChangedDisplayedOption(optionsList[selectedIndex])
   }
 

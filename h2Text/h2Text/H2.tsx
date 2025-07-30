@@ -45,8 +45,6 @@ const h2Typography = (props : h2Props) => {
 
   }
 
-console.log("props: ", props)
-
   return (
     <div style={divStyles}>
 

@@ -39,7 +39,7 @@ export interface ComboBoxProps {
   className?: string;
   searchText?: string
   handleNewHeight?: (newHeight: number) => void
-  theme?: any;
+  isRequired: boolean;
 }
 
 export default function CheckboxesTags(props: ComboBoxProps) {
@@ -196,56 +196,6 @@ const config : Config = {
 }
 
 const theme = generateTheme(config)
-// props.theme ? props.theme :  createTheme({
-//     palette: {
-//       mode:  props.darkMode ? 'dark' : 'light'
-//     },
-//     components: {
-
-//      MuiAutocomplete: {
-//       styleOverrides: {
-//         inputRoot: {
-//           minHeight: `${props.defaultHeight}px`
-//         },
-//         root: {
-//           minHeight: `${props.defaultHeight}px`
-//         }
-//       },
-//       defaultProps: {
-//         sx: {
-//           height: props.defaultHeight
-//         }
-//       }
-//      },
-
-//       MuiInputLabel: {
-//         styleOverrides: {
-//           root: {
-//             top: 'auto',
-//             bottom: '50%'
-//           },
-//           shrink: {
-//             top: 0
-//                     }
-//         }
-//       },
-
-//       MuiInputBase: {
-//         styleOverrides: {
-//           root: {
-//             minHeight: `${props.defaultHeight}`,
-//           '& .MuiOutlinedInput-notchedOutline': {
-
-//               borderStyle: props.borderStyle,
-//               borderWidth: props.borderWidth,
-//               borderColor: props.borderColor,
-//             }
-//           }
-//         }
-//       }
-//     }
-//   });
-
 
 
 const optionsList = props.useTestData ? top100Films :  props.Items

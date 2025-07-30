@@ -45,8 +45,6 @@ const h3Typography = (props : h3Props) => {
 
   }
 
-console.log("props: ", props)
-
   return (
     <div style= {divStyles}>
 

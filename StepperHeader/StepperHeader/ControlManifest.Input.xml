@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
   
-  <control namespace="NamespacePlaceholder" constructor="StepperHeader" version="0.0.5" display-name-key="StepperHeader" description-key="StepperHeader description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="StepperHeader" version="0.0.6" display-name-key="StepperHeader" description-key="StepperHeader description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      

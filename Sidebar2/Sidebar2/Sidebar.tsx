@@ -73,7 +73,6 @@ export default function SidebarTW(props: SidebarProps) {
   // On the third render (when the data actually comes through - thanks pcf * eye roll *), set the state of dark mode to the value passed in from props
 
   if (renderCount.current == 3) {
-    console.log("SETTING STATE");
     darkMode.current = props.defaultDarkMode;
   }
 
@@ -84,9 +83,7 @@ export default function SidebarTW(props: SidebarProps) {
 
   const handleModeChange = () => {
     if (renderCount.current >= 3) {
-      console.log("CHANGING CURRENT DARK MODE");
       darkMode.current = !darkMode.current;
-      console.log("NEW DARK MODE", darkMode.current);
       props.handleToggleChange(darkMode.current);
     }
   };
@@ -106,12 +103,8 @@ export default function SidebarTW(props: SidebarProps) {
 
   const switchExpanded = (item: any) => {
     itemRef.current = item;
-    console.log("IS EQUAL", itemRef.current == item);
     isExpanded ? setIsExpanded(false) : setIsExpanded(true);
-    console.log("IS EXPANDED", isExpanded);
   };
-
-  console.log("PROPS", props);
 
   return (
     <>
@@ -150,6 +143,7 @@ export default function SidebarTW(props: SidebarProps) {
                   defaultDarkMode={darkMode.current}
                   useDarkMode={darkMode.current}
                   handleToggleChange={() => {handleModeChange()}}
+                  
                 />
               </div>
             </div>
