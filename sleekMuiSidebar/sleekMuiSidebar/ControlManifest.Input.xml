@@ -12,34 +12,30 @@
       
     </data-set>
     
-  <!-- Input params -->
+<!-- Input params -->
 
-    <!-- strings -->
+  <!-- strings -->
 
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value="varAppPrimaryColor"/>
     <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" pfx-default-value="App.ActiveScreen.Name"/>
-    <property name="containerHeight" display-name-key="containerHeight" of-type="Decimal" usage="input" pfx-default-value="Self.Height"/>
-    <property name="containerWidth" display-name-key="containerWidth" of-type="Decimal" usage="input" pfx-default-value="Self.Width"/>
-
-
     
-    <!-- Bools -->
+  <!-- Bools -->
 
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value="varUseDarkMode"/>
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value="true"/>
 
-<!-- Numbers -->
+  <!-- Numbers -->
 
+    <property name="containerHeight" display-name-key="containerHeight" of-type="Decimal" usage="input" pfx-default-value="Self.Height"/>
+    <property name="containerWidth" display-name-key="containerWidth" of-type="Decimal" usage="input" pfx-default-value="Self.Width"/>
 
-
-
-<!-- outputs -->
+<!-- Output parameters -->
 
     <property name="outputPrimaryColor" display-name-key="outputPrimaryColor" of-type="SingleLine.Text" usage="output"/>
     <property name="outputScreenName" display-name-key="outputScreenName" of-type="SingleLine.Text" usage="output"/>
     <property name="outputUseDarkMode" display-name-key="outputUseDarkMode" of-type="TwoOptions" usage="output" default-value = 'true'/>
 
-<!-- events -->
+<!-- Event parameters -->
 
 <event name="onChangePrimaryColor"
    pfx-default-value='Set(varAppPrimaryColor, Self.outputPrimaryColor)'

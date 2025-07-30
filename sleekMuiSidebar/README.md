@@ -36,7 +36,7 @@ This property is contained within Power Apps itself, it won't appear in the code
 <br>
 
 ## navItems
-### Type: Table
+### Type: Table (required)
 ### This table will be the table of navigation items that you want the sidebar to display. Each parent level object will be a "section", which is basically a heading used to group navigation items together. The parent objects will have the following properties:
 - ### sectionTitle (required - string): The section title will be the text you want displayed as your section header.
 - ### isHidden (optional - boolean): Set this property to dynamically hide entire sections based on security implementations. For example, if you had a single-column collection of users named Admins you want to have access to an admin section, but no one else, you would set the isHidden property on the admin section to be !User().Email in Admins
@@ -125,6 +125,47 @@ sidebarNavigation = [
 
 ```
 
+## primaryColor
+### Type: string (optional)
+### This property is the primary color that Material UI will use for theming. There is a select list of pre-defined options in the styling/types/types.d.ts file from root
+
+<br>
+
+## activeScreen
+### Type: string (optional but recommended)
+### This property controls which navigation item gets highlighted to showcase which screen is active. It defaults to the name of the current screen, but can be hard-coded to show specific screens. For example, if you have 3 screens - [Buildings, Create building, Edit Building], you may want Create building and Edit building to show the Buildings screen as active, because you don't want to display the other 2 in the navigation tree. This is especially useful for screens that can't be navigated to directly since they rely on context variables being passed in from other screens.
+
+<br>
+
+## containerHeight
+### Type: number (required)
+### This property is necessary due to some glitches on the Power Apps framework where the context.mode.allocatedHeight does not always work properly. This defaults to Self.Height, and that's what it should remain as.
+
+<br>
+
+## containerWidth
+### Type: number (required)
+### This property is necessary due to some glitches on the Power Apps framework where the context.mode.allocatedWidth does not always work properly. This defaults to Self.Width, and that's what it should remain as.
+
+<br>
+
+## useDarkMode
+### Type: boolean
+### This property controls whether the control uses a dark mode theme. Not much practical difference to the aesthetic at this time, as it uses a dark background in both dark and light mode.
+
+<br>
+
+## useTestData
+### Type: boolean
+### When set to true, the component uses pre-defined data to simulate a fully functional navigation tree. Once you have defined your navigation items and added your fields to the fields well, turn this off
+
+<br>
+
+## outputPrimaryColor
+### Type: string
+### This property is used in the onChangePrimaryColor event so that the sidebar can update app variables to trigger theme changes in the rest of your app components
+
+<br>
 
 
 
@@ -135,7 +176,3 @@ sidebarNavigation = [
 # Events
 
 <br>
-
-
-
-
