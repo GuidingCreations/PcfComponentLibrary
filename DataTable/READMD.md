@@ -14,11 +14,7 @@ This component utilizes the free version of MUI's DataGrid React Component. It i
 
 ## Demo
 
-Standard data table state
-
-
-Selected Data table state
-
+![Demo](<images/Demo/Demo.png>)
 
 
 # Input Properties
