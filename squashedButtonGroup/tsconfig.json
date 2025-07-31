@@ -1,6 +1,18 @@
 {
     "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
     "compilerOptions": {
-        "typeRoots": ["node_modules/@types"]
+        "module": "esnext",
+      "target": "es5",
+      "lib": ["es6", "dom"],
+      "sourceMap": true,
+      "allowJs": true,
+      "jsx": "react-jsx",
+      "moduleResolution": "node",
+      "noImplicitAny": false,
+      "esModuleInterop": true,
+        "typeRoots": ["node_modules/@types"],
+        "paths": {
+          "react": ["./node_modules/@types/react"]
+        }
     }
 }

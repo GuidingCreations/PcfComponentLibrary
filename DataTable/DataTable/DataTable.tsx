@@ -12,11 +12,12 @@ import {
   GridToolbar,
   useGridApiRef,
 } from "@mui/x-data-grid";
-import { ThemeProvider, createTheme, Chip } from "@mui/material";
+import { ThemeProvider, createTheme, Chip, Button, ButtonGroup } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import { Config, PrimaryColor } from "../../styling/types/types";
 import SquashedBG from "../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup";
 import generateTheme from '../../styling/utils/theme-provider'
+import SquashedButtonGroup from "../renderOptions/squashedButtonGroup";
 
 // Test data
 
@@ -179,10 +180,10 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             const renderSquashedBG = () => { 
               
               return (
+               
 
-              <SquashedBG
-              key={params.row[params.field]}
-              displayField="Value"
+                <SquashedButtonGroup 
+                displayField="Value"
               currentOption = {[]}
               useTestData = {false}
               isDisabled = {false}
@@ -203,7 +204,31 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
                 );
               }}
               fullWidth
-              />
+                />
+
+              // <SquashedBG
+              // displayField="Value"
+              // currentOption = {[]}
+              // useTestData = {false}
+              // isDisabled = {false}
+              // onChangedDisplayedOption={() => {}}
+              // useDarkMode = {props.useDarkMode}
+              // primaryColor= {primaryColor.current}
+              // useFlexibleWidth
+              // height= {35}
+              // options={
+              //   column?.matchingOverride?.optionsList || ["No options passed"]
+              // }
+              
+              // onOptionSelect={(option: string) => {
+              //   props.onOptionSelect(
+              //     "selectedOption",
+              //     option,
+              //     params.row.recordID
+              //   );
+              // }}
+              // fullWidth
+              // />
               )
             }
 

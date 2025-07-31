@@ -161,18 +161,34 @@ sidebarNavigation = [
 
 <br>
 
+
+# Output properties
+
+<br> 
+
 ## outputPrimaryColor
 ### Type: string
 ### This property is used in the onChangePrimaryColor event so that the sidebar can update app variables to trigger theme changes in the rest of your app components
 
 <br>
 
+## outputScreenName
+### Type: string
+### This property is used in the onChangeScreen event to read the newly selected screen you want to navigate to
 
+<br>
 
-# Output properties
+## outputUseDarkMode
+### Type: boolean
+### This property is used in the onChangeColorMode event to switch app variables to control global theming for dark/light mode
 
 <br>
 
 # Events
 
+## onChangePrimaryColor
+## This event triggers whenever a new color is selected from the drawer that pops up when you select 'Theme Settings'
+
 <br>
+
+## 
