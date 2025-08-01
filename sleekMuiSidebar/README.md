@@ -11,15 +11,29 @@ This sidebar is a multi-level expanding and collapsing sidebar that will allow y
 
 ## Demo
 
-![alt text](sleekMuiSidebar/images/image.png)
+![alt text](./images/image.png)
 
 
-# Input Properties
+# Input Properties links
 - [Fields](#fields)
+- [navItems](#navitems)
+- [primaryColor](#activescreen)
+- [activeScreen](#activescreen)
+- [containerHeight](#containerheight)
+- [containerWidth](#containerwidth)
+- [useDarkMode](#usedarkmode)
+- [useTestData](#usetestdata)
 
-# Output Properties
+# Output properties links
+- [outputPrimaryColor](#outputprimarycolor)
+- [outputScreenName](#outputscreenname)
+- [outputUseDarkMode](#outputusedarkmode)
 
- # Events
+# Events links
+
+- [onChangePrimaryColor](#onchangeprimarycolor)
+- [onChangeColorMode](#onchangecolormode)
+- [onChangeScreen](#onchangescreen)
 
 <br>
 <br>
@@ -187,8 +201,20 @@ sidebarNavigation = [
 # Events
 
 ## onChangePrimaryColor
-## This event triggers whenever a new color is selected from the drawer that pops up when you select 'Theme Settings'
+### This event triggers whenever a new color is selected from the drawer that pops up when you select 'Theme Settings'. The default value of this event is meant to change a global variable called 'varAppPrimaryColor' to the newly selected color. Recommended course of action is to leave this as-is.
 
 <br>
 
-## 
+## onChangeColorMode
+### This event triggers whenever you toggle between light and dark mode in the drawer that pops up when you select 'Theme Settings' at the bottom of the sidebar. The default value of this is meant to change a global variable called 'varUseDarkMode' to true if you selected Dark, and false is you selected Light for the color mode. Recommended course of action is to leave this as-is
+
+## onChangeScreen
+### This event triggers when you select a screen from the sidebar. This will NOT be triggered when you expand/collapse labels with multiple child screens, only when you select a label with no children. This event is meant for the developer to implement screen changes based on the user's selection of a new screen. There is no default value, as the implementation of this could potentially vary depending on your use case. The recommended implementation is this:
+ ### 1. Create an array in your App.Formulas property that will contain the list of items you want displayed as the navigation tree (see the navItems section earlier in this documentation for reference. )
+ ### 2. Create an array in your App.Formulas that just contains the screen controls themselves for screens you want to navigate to. Continuing the example from navItems section, your screens could look something like this: 
+ ![colScreens](./images/colScreens.png)
+ ### 3. In your onChangeScreen event, you use the 'outputScreenName', which is the screen the user selected, to look up your collection of screens to find the screen to navigate to, then navigate to it. Continuing our earlier example, the onChangeScreen formula would be: 
+ ![onChangeScreen](./images/onChangeScreen.png)
+ ### After that, your sidebar will navigate correctly. You can even create a custom formula in your App.Formulas to make it repeatable code, if you want: 
+ ![changeScreenFormula](./images/changeScreen.png)
+ ![changeScreenFormulaImplementation](./images/Change%20formula.png)
