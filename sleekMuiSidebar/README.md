@@ -45,7 +45,7 @@ This sidebar is a multi-level expanding and collapsing sidebar that will allow y
 ## Fields 
 This property is contained within Power Apps itself, it won't appear in the code here, but it is a field well in power apps that will allow you to select which fields are passed to the component.
 
-![alt text](/PcfComponentLibrary/sleekMuiSidebar/images/Field%20well.png)
+![alt text](./images/Field%20well.png)
 
 <br>
 

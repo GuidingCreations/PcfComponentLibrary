@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="squashedButtonGroup" version="0.8.3" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="squashedButtonGroup" version="0.9.0" display-name-key="squashedButtonGroup" description-key="squashedButtonGroup description" control-type="virtual" >
  
     <external-service-usage enabled="false">
     
