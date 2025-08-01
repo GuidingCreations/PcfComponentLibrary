@@ -461,14 +461,11 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       onPaginationModelChange: this.onPaginationModelChange,
       onFilterModelChange: this.onFilterModelChange,
       datasetLoading: this._isLoading,
-      useServerSidepagination: context.parameters.useServerSide.raw
+      useServerSidepagination: context.parameters.useServerSide.raw,
+      showQuickFilter: context.parameters.showQuickFilter.raw
       
     };
-
     
-    console.log("PROPS  passed to data table: ", props)
-  
-
     return React.createElement(DataTableComponent, props);
   }
 

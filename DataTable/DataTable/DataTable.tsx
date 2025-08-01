@@ -11,13 +11,13 @@ import {
   GridRowsProp,
   GridToolbar,
   useGridApiRef,
+  GridToolbarQuickFilter
 } from "@mui/x-data-grid";
 import { ThemeProvider, createTheme, Chip, Button, ButtonGroup } from "@mui/material";
 import { memo, useEffect, useRef, useState } from "react";
 import { Config, PrimaryColor } from "../../styling/types/types";
-import SquashedBG from "../../squashedButtonGroup/SquashedButtonGroup/SquashedButtonGroup";
 import generateTheme from '../../styling/utils/theme-provider'
-import SquashedButtonGroup from "../renderOptions/squashedButtonGroup";
+import SquashedButtonGroup from "../renderOptions/SquashedButtonGroup";
 
 // Test data
 
@@ -99,6 +99,7 @@ export interface DataTableProps {
   onPaginationModelChange: (paginationModel: paginationModelType) => void;
   onFilterModelChange?: (filterModel: GridFilterModel) => void;
   datasetLoading: boolean;
+  showQuickFilter: boolean;
 }
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
@@ -206,29 +207,6 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
               fullWidth
                 />
 
-              // <SquashedBG
-              // displayField="Value"
-              // currentOption = {[]}
-              // useTestData = {false}
-              // isDisabled = {false}
-              // onChangedDisplayedOption={() => {}}
-              // useDarkMode = {props.useDarkMode}
-              // primaryColor= {primaryColor.current}
-              // useFlexibleWidth
-              // height= {35}
-              // options={
-              //   column?.matchingOverride?.optionsList || ["No options passed"]
-              // }
-              
-              // onOptionSelect={(option: string) => {
-              //   props.onOptionSelect(
-              //     "selectedOption",
-              //     option,
-              //     params.row.recordID
-              //   );
-              // }}
-              // fullWidth
-              // />
               )
             }
 
@@ -328,6 +306,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
                 printOptions: {
                   disableToolbarButton: true
                 },
+                showQuickFilter: (!props.useServerSidepagination) && props.showQuickFilter
                 
               }
             }}
