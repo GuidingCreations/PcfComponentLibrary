@@ -239,9 +239,7 @@ Filter(colData, "Star Wars" in ThisRecord.title)
 
 ## outputHeight
 ### Type: number
+### This property is the outputted height of the space the actual combo box takes up. This is important because it can be different than the height you put into the component. For example, if you put a height of 57 into the component's Height property (which is about the default height for the combo box with nothing selected), but you have allowSelectMultiple turned on, the user could keep selecting values until the combo box stretches over 3 or 4 lines. In order to counteract this, we have this output property, which will always give you the actual height of the rendered combo box.
 
 <br> 
 
-# Events
-
-<br>

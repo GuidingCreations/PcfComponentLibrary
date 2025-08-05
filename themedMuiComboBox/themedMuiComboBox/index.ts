@@ -6,20 +6,30 @@ import * as React from "react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { primaryColorNames } from "../../styling/colors";
 import { PrimaryColor } from "../../styling/types/types";
-import {createInfoMessage, populateDataset} from '../../utils'
+import {populateDataset} from '../../utils'
 import ComboBoxComponent, { comboBoxProps } from "./ComboBox";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+
 import * as ReactDOM from "react-dom";
+
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
+// typing for component state
+
+type stateType = {
+    items: any[];
+    defaultSelectedItems: any[];
+    searchText: string;
+    outputHeight: number;
+}
 export class themedMuiComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     
     private notifyOutputChanged: () => void;
     context: ComponentFramework.Context<IInputs>;
-    componentNode: any;
+    
     // Initialize state
 
-    private state : ComponentFramework.Dictionary = {
+    private state : stateType = {
         items: [],
         defaultSelectedItems: [],
         searchText: '',
@@ -37,13 +47,10 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
 
     // Function to call when the selected items in the combo box changes
 
-    handleSelectionChange = (selectedItems: any[], newHeight: number) => {
-
-        this.state.outputHeight = newHeight;
+    handleSelectionChange = (selectedItems: any[]) => {
 
         // If selected items array is empty, clear selected records, else set selected records to selected items array
 
-        
         if (selectedItems.length > 0) {
             const selectedRecordIDs = selectedItems.map((selectedItem) => selectedItem.recordID);
             this.context.parameters.Items.setSelectedRecordIds(selectedRecordIDs);
@@ -79,6 +86,15 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
         }
     }
 
+    // Function to update the output height of the control if it has changed after a render
+
+    private updateOutputHeight = (newOutputHeight: number) => {
+        if (newOutputHeight != this.state.outputHeight) {
+            this.state.outputHeight = newOutputHeight;
+            this.notifyOutputChanged()
+        }
+    }
+
     constructor() {
     }
 
@@ -97,14 +113,16 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
         /*TODO : make reset function for component, outside source changes context variable to true, component reads new true value, resets state, then fires Event from manifest that will update that same context variable to false, stopping the reset*/
         
         this.context.parameters.Items.paging.setPageSize(10000)
+
+        // check for dataset changes and update if changed
+
         this.updateDataset()
 
-        const primaryColor : PrimaryColor = primaryColorNames.filter((color) => color == context.parameters.primaryColor.raw)[0] || 'Green';
+        // Establish props
 
-        
         const props : comboBoxProps = {
             useDarkMode: context.parameters.useDarkMode.raw,
-            primaryColor: primaryColor as PrimaryColor,
+            primaryColor: context.parameters.primaryColor.raw ?? "Green" as PrimaryColor,
             labelText: context.parameters.labelText.raw ?? 'Label text',
             allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
             useTestData: context.parameters.useTestData.raw,
@@ -115,16 +133,18 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
             defaultSelectedValues: this.state.defaultSelectedItems,
             isRequired: context.parameters.isRequired.raw,
             width: context.parameters.containerWidth.raw ?? 250,
-            isReadOnly: context.parameters.isReadOnly.raw
+            isReadOnly: context.parameters.isReadOnly.raw,
+            updateComponentHeight: this.updateOutputHeight
         }
 
-        this.componentNode = React.createElement(
+        // Render component
+
+        return React.createElement(
             ComboBoxComponent, props
         );
-
-        return this.componentNode
     }
 
+    // Outputs
     
     public getOutputs(): IOutputs {
         return {

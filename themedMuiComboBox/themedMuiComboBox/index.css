@@ -1,3 +1,7 @@
 svg {
     pointer-events: all;
 }
+
+.hidden {
+    display: none;
+}
