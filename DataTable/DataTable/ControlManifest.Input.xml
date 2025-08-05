@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.32" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.33" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     

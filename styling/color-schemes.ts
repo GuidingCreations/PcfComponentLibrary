@@ -227,6 +227,14 @@ export function colorSchemes(config: Config): any {
 		
 		components: {
 		
+			MuiTooltip: {
+				styleOverrides: {
+					tooltip: {
+						margin: '4px'
+					}
+				}
+			},
+
 			MuiButton: {
 				styleOverrides: {
 					root: {

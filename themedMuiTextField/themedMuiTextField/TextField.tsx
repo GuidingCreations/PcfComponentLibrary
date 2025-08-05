@@ -22,6 +22,7 @@ export interface TextFieldProps {
   onChangeHeight: (newHeight: number) => void
   isCurrency: boolean;
   isRequired: boolean;
+  isEditable: boolean;
 }
 
 const TextFieldComponent = memo(function (props: TextFieldProps)  {
@@ -73,6 +74,11 @@ const TextFieldComponent = memo(function (props: TextFieldProps)  {
     
     <TextField  
       multiline = {props.allowNumbersOnly || props.isCurrency ? false : props.isMultiline} 
+      slotProps={{
+        input: {
+          readOnly: !props.isEditable
+        }
+      }}
       id='textFieldMui' 
       value = {textValue} 
       type={inputType} 

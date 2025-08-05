@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 import Autocomplete from "@mui/material/Autocomplete"
-import { TextField, ThemeProvider } from '@mui/material';
+import { TextField, ThemeProvider, Tooltip } from '@mui/material';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -27,6 +27,7 @@ export interface comboBoxProps {
   defaultSelectedValues: any[];
   isRequired: boolean;
   width: number;
+  isReadOnly?: boolean
 }
 
 const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) {
@@ -58,7 +59,8 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
     if(matchingArray.length > 0) {
 
-      setSelectedValues(matchingArray)
+      setSelectedValues(matchingArray);
+
     } else {
       setSelectedValues([])
     }
@@ -86,6 +88,10 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
   const theme : Theme = generateTheme(config)
 
+  useEffect(() => {
+    
+    console.log("COMPONENT HEIGHT: ", autoRef.current.getBoundingClientRect().height)
+  })
   return (
     
     // Theme wrapper
@@ -98,27 +104,39 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
     <Autocomplete
     multiple = {props.allowSelectMultiple}
+    readOnly = {props.isReadOnly}
     renderValue={(value, getItemProps) => {
-      
+    
       return  props.allowSelectMultiple ? 
-      <div style = {{display: 'flex', gap: '4px', maxWidth: `${props.width}px`, flexWrap: "wrap"}}>
+      <div style = {{display: 'flex', gap: '4px', maxWidth: `${props.width}px`, flexWrap: "wrap", minWidth: '100%'}}>
 
       {
 
         value.map((tag : any, index : any) => {
-          return <Chip key={index} label = {tag[displayField]} onDelete={(e) => {setSelectedValues( selectedValues.filter((selected) => selected[displayField] != tag[displayField])) }}/>
-        }) 
+          return (
+
+            <Chip 
+              key={index} 
+              label = {tag[displayField]} 
+              onDelete={props.isReadOnly ? undefined : (e) => {  setSelectedValues( selectedValues.filter((selected) => selected[displayField] != tag[displayField])) }}
+              sx={{maxWidth: '80%'}}
+              
+              
+              />
+              
+  )}) 
       }
       </div>
       
       : (
 
-        <Chip label = {value[displayField]} onDelete={(e) => {setSelectedValues([])}}/>
+        <Chip sx={{maxWidth: '80%'}} label = {value[displayField]} onDelete={(e) => {setSelectedValues([])}}/>
       
       )}
     } 
     onChange={(e : any, value: any[]) => value == null ? setSelectedValues([]) : props.onSelectionChange ? props.allowSelectMultiple ?  setSelectedValues(value) : setSelectedValues([value]) : ''}
     slotProps={{
+    
       listbox: {
         
         sx: {
@@ -144,18 +162,27 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
     getOptionLabel={(option) => option[displayField]}
     value={ props.allowSelectMultiple ? selectedValues || null : selectedValues[0] || null}
     
-  
+
     // Render input
-    renderInput={(params) => (
-      
-      <TextField
-      {...params}
-      variant="outlined"
-      label= {`${props.labelText} ${props.isRequired ? "*" : ""}`}
-      placeholder={props.labelText}
-      onChange={(e) => props.onSearchTextChange ? props.onSearchTextChange(e.target.value) : ''}
-      />
-    )}
+    renderInput={(params) => {
+
+    
+
+      return (
+        
+        <TextField
+        {...params}
+        variant="outlined"
+        label= {`${props.labelText} ${props.isRequired ? "*" : ""}`}
+        placeholder={props.labelText}
+        onChange={(e) => props.onSearchTextChange ? props.onSearchTextChange(e.target.value) : ''}
+        />
+      )
+    
+
+    
+    }
+  }
     
     
     />

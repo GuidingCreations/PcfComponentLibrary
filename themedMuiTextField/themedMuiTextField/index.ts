@@ -54,7 +54,8 @@ export class themedMuiTextField implements ComponentFramework.ReactControl<IInpu
             onChangeHeight: this.onChangeHeight,
             allowNumbersOnly: context.parameters.allowNumbersOnly.raw,
             isCurrency: context.parameters.isCurrency.raw,
-            isRequired: context.parameters.isRequired.raw
+            isRequired: context.parameters.isRequired.raw,
+            isEditable: context.parameters.isEditable.raw
         }
 
         return React.createElement(

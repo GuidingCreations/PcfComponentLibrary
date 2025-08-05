@@ -11,6 +11,7 @@
     <Name>themedMuiComboBox</Name>
     <ProjectGuid>8e9ff23a-98cf-4ab5-bc46-5b00b27b4f40</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
+    <PcfBuildMode>production</PcfBuildMode>
   </PropertyGroup>
 
   <PropertyGroup>

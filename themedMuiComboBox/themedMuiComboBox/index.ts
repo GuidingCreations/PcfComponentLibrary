@@ -114,8 +114,8 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
             onSelectionChange: this.handleSelectionChange,
             defaultSelectedValues: this.state.defaultSelectedItems,
             isRequired: context.parameters.isRequired.raw,
-            width: context.parameters.containerWidth.raw ?? 250
-            
+            width: context.parameters.containerWidth.raw ?? 250,
+            isReadOnly: context.parameters.isReadOnly.raw
         }
 
         this.componentNode = React.createElement(

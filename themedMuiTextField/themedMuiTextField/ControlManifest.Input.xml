@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiTextField" version="0.0.56" display-name-key="themedMuiTextField" description-key="themedMuiTextField description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiTextField" version="0.0.59" display-name-key="themedMuiTextField" description-key="themedMuiTextField description" control-type="virtual" >
    
     <external-service-usage enabled="false">
      
@@ -16,6 +16,7 @@
     <property name="allowNumbersOnly" display-name-key="allowNumbersOnly" description-key="allowNumbersOnly" of-type="TwoOptions" usage="input" default-value = "false"/>
     <property name="isCurrency" display-name-key="isCurrency" description-key="isCurrency" of-type="TwoOptions" usage="input" default-value = "false"/>
     <property name="isRequired" display-name-key = "isRequired" of-type = "TwoOptions" usage = "input" default-value = "true"/>
+    <property name="isEditable" display-name-key = "isEditable" of-type = "TwoOptions" usage = "input" default-value = "true"/>
 
 
     

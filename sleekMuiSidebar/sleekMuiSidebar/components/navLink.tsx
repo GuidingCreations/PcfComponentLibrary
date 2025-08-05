@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as React from 'react'
-import { Container, Link, Stack, ThemeProvider, Button, Icon, Box } from '@mui/material';
+import { Container, Link, Stack, ThemeProvider, Button, Icon, Box, Tooltip } from '@mui/material';
 import {Theme, Mode} from '../../../styling/types/types'
 import { ArrowDownward, ArrowRight, ArrowUpward } from '@mui/icons-material';
 import { memo, useState } from 'react';
@@ -108,8 +108,18 @@ const NavLink = memo(function NavLink(props: linkProps) {
                 flexGrow: 1
             }} 
             onClick={(e) => {console.log("CLICKED");  props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
-                
-                <p style={{margin: 0, textAlign: 'left', lineHeight: 2, color: 'white'}}>{child.navTitle}</p>
+
+                <p 
+                    style={{
+                        margin: 0, 
+                        textAlign: 'left', 
+                        lineHeight: 2, 
+                        color: 'white', 
+                        whiteSpace: 'nowrap', 
+                        overflow: 'hidden', 
+                        textOverflow: "ellipsis"}}>
+                            {child.navTitle}
+                </p>
             </div> : ''
         )
     })}
