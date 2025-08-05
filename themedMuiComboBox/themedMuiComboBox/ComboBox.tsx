@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 import Autocomplete from "@mui/material/Autocomplete"
-import { TextField, ThemeProvider, Tooltip } from '@mui/material';
+import { TextField, ThemeProvider } from '@mui/material';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -35,14 +35,15 @@ const ComboBoxComponent = memo(function ComboBoxComponent(props: comboBoxProps) 
 
   // Init basic values
 
-  const liveData = props.optionsList.length > 0 ? props.optionsList : [] 
-  const items = props.useTestData ? testItems : liveData
+  const items = props.useTestData ? testItems : props.optionsList.length > 0 ? props.optionsList : [] 
   const displayField = props.useTestData ? 'title' : props.displayField;
   const autoRef = useRef<any>(null);
   const defaultSelectedValues = useRef(items.length > 0 ? props.defaultSelectedValues : []);
 
   const getMatchingRecords = () => {
-    const matching = items.filter((item : any) => props.defaultSelectedValues.filter((defaultItem : any) => defaultItem[displayField] == item[displayField]).length > 0);
+    const matching = items.filter(
+        (item : any) => props.defaultSelectedValues.filter(
+            (defaultItem : any) => defaultItem[displayField] == item[displayField]).length > 0);
     return matching
   }
 

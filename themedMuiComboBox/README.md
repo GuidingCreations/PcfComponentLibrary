@@ -46,7 +46,10 @@ This property is contained within Power Apps itself, it won't appear in the code
 
 ## Items
 ### Type: Table
-### This property will be the main table of items that you will want to be displayed in the drop down list of items. The example items used in this demo are
+### This property will be the main table of items that you will want to be displayed in the drop down list of items. The example items used in this demo and the testData are
+<details open style="font-size: 14pt">
+<summary>Test data</summary>
+
 ``` 
 [
     { title: "The Shawshank Redemption", year: 1994 },
@@ -174,42 +177,65 @@ This property is contained within Power Apps itself, it won't appear in the code
     { title: "3 Idiots", year: 2009 },
     { title: "Monty Python and the Holy Grail", year: 1975 },
 ] 
+
 ```
+</details>
 
 ## DefaultSelectedItems
-### Type: Table or Record
+### Type: Table or Record (optional)
+### This property will be what you pass in if you want certain items selected in the combo box by default. This is especially useful in situations where you want to edit existing records that have choice columns, where you want the combo box to pre-populate the options that are already selected in the record. The way the DefaultSelectedItems work is that for each option in the combo box, it will search for an object in the DefaultSelectedItems, and will select any option where the displayField properties match. The displayField property is a custom property which outlines which field the combo box should use for displaying options. For example, in the option
+```
+{ title: "The Shawshank Redemption", year: 1994 }
+```
+### if you have a displayField of 'title', it would display "The Shawshank Redemption", and would search your DefaultSelectedItems for an object with a 'title' property of "The Shawshank Redemption". You can pass in a table of values or a single record. Example DefaultSelectedItems:
+```
+Filter(colData, "Star Wars" in ThisRecord.title)
+```
+### This filters a collection called colData (which is just our testData we listed earlier) for any rows where 'Star Wars' is in the title. 
+![DefaultSelectedItems](./images/DefaultSelectedItems.png)
+
 
 ## useDarkMode
 ### Type: boolean
+### This property simply toggles the control between displaying in light and dark mode, true will cause the control to render in Dark mode, and false will cause the control to render in Light mode
 
 ## useTestData
 ### Type: boolean
+### This property controls whether the control will be rendered using the hard-coded test data, or if it will render using the custom Items property passed in. Setting this to false makes the component use the custom Items property, so it is recommended that you set up your Items, DefaultSelectedItems, and displayField before turning this off, otherwise it could render in weird ways.
 
 ## labelText
 ### Type: string
+### This is the text that will be displayed in the label. DO NOT use an * here to indicate a required field, there is a separate property that automatically does so.
 
 ## primaryColor
 ### Type: string
+### This is the theme color that the control will use to switch between pre-generated Material UI themes. The themes are custom developed by us, so there are a select list that can be used, you can find the full list at the styling\types\types.d.ts file from root. If you don't pass in a valid value, the default value is Green
 
 ## displayField
 ### Type: string
+### This is the property that the control will use to display options inside the combo box, and the field that it will use to search the DefaultSelectedItems to pre-populate selected items. For example, in the following object
+```
+{ title: "The Shawshank Redemption", year: 1994 }
+```
+### there are only two fields that could be used as your displayField property - 'title' and 'year'. If you used 'title', then all the options in the combo box would display the text in their 'title' property, whereas if you used 'year' for your displayField, then all the options would display the text in their 'year' property. Make sure the field you select here is something that can be displayed as a single value, for example, you cannot pass it in something that ends up as an object or table itself. 
 
 ## allowSelectMultiple
 ### Type: boolean
+### This property controls whether the control allows for multiple selections, or only allows for single selection. Setting this property to true allows for multiple selections
 
 ## isRequired
 ### Type: boolean
+### This will simply display a * next to the label if this property is marked as true. I plan to use this in more advanced error-handling down the line, but for now it just displays the *. 
 
 ## containerWidth
 ### Type: number
-
-
-
+### A necessary property due to a bug on Microsoft's side that causes components to occassionally not fill their parent container, even when using the context.mode.trackContainerResize() function. The default value is Self.Width, and that's what it should remain as. 
 
 # Output properties
 
 ## searchText
 ### Type: string
+### This output the search text in the combo box. This is useful for when you need to implement server-side or API functionality that requires strings of text to be passed in. I used it a lot with the Office365Users connector to search for Users since our organzation has way too many people to display in a single combo box. You can pass in APIs the search text to continuously update your Items property with new results based on your search text. 
 
 ## outputHeight
 ### Type: number
