@@ -1,6 +1,7 @@
 # Material UI Data Table/Grid for Power Apps (PCF COMPONENT)
 
 ## Description
+###
 
 ## Table of Contents
 
