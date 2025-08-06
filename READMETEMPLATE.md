@@ -13,10 +13,10 @@
 
 
 
-# Input Properties
+# Input Properties Links
 - [Fields](#fields)
 
-# Output Properties
+# Output Properties Links
 
  # Events
 

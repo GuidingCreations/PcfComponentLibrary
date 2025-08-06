@@ -16,10 +16,10 @@
 ![Demo](./images/Demo2.png)
 
 
-# Input Properties
+# Input Properties Links
 - [Fields](#fields)
+- [tabData](#tabdata)
 
-# Output Properties
 
 <br>
 
@@ -30,7 +30,7 @@
 ## Fields 
 This property is contained within Power Apps itself, it won't appear in the code here, but it is a field well in power apps that will allow you to select which fields are passed to the component.
 
-![Fields well](<images/Fields well/Fields well.png>)
+![Fields well](./images/FieldWell.png)
 
 <br>
 
@@ -84,15 +84,5 @@ This is the code we will be using for our demonstrations
 
 
 </details>
-
-# Output properties
-
-<br>
-
-# Events
-
-<br>
-
-
 
 
