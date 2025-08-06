@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="TabList" version="0.0.15" display-name-key="TabList" description-key="TabList description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="TabList" version="0.0.16" display-name-key="TabList" description-key="TabList description" control-type="virtual" >
   
     <external-service-usage enabled="false">
     

@@ -11,6 +11,7 @@
 
 ## Demo
 
+![Demo](./images/Demo.png)
 
 
 # Input Properties Links
