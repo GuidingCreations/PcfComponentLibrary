@@ -114,8 +114,8 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
 
   useEffect(() => {
     props.updateComponentHeight(autoRef.current.clientHeight);
-    console.log("SHOULD HIDE INPUT: ", (!props.allowSelectMultiple) && selectedValues.length > 0)
   })
+
 
   return (
     

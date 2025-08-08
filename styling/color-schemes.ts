@@ -208,14 +208,10 @@ const primarySchemes: any = {
 
 
 export function colorSchemes(config: Config): any {
-	console.log("CONFIGY: ", config)
 	let primary : any = primarySchemes[config.primaryColor];
-
-	console.log("PRIM: ", primary)
 
 	if (!primary) {
 		primary = primarySchemes.Green;
-		console.log("PRIM UPDATED")
 		
 	}
 

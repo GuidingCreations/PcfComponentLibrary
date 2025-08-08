@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.1.50" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.1.53" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      

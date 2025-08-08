@@ -44,23 +44,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
 
 function customCreateTheme(config: Config): any {
 
-    console.log("MODE IN CONFIG: ", config)
 
-/*
-
-	const theme = createTheme({
-		breakpoints: { values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1440 } },
-		colorSchemes: colorSchemes({ primaryColor: config.primaryColor, Mode: config.Mode}),
-		cssVariables: {
-			colorSchemeSelector: "class",
-		},
-		direction: config.direction,
-		shadows,
-		shape: { borderRadius: 8 },
-		typography
-	});
-
-	*/
 
 
 	const theme : any = createTheme({
@@ -68,7 +52,6 @@ function customCreateTheme(config: Config): any {
 			mode: 'dark'
 		}
 	})
-    console.log("CREATED THEME", theme)
 
 	return theme;
 }

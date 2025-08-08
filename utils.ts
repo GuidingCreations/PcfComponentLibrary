@@ -27,7 +27,7 @@ export function cx(...args: ClassValue[]) {
 
 export function populateDataset(dataset: DataSet) {
   const items: any[] = [];
-  
+  console.log("SORTED RECORDS: ", dataset.sortedRecordIds)
   dataset.sortedRecordIds.map((recordID) => {
     const recordToAdd: any = {};
     dataset.columns.map((column: DataSetInterfaces.Column) => {  

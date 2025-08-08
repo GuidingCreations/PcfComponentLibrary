@@ -280,12 +280,21 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     
     // If the dataset has been updated, pull latest data
 
-    if ( this.context.updatedProperties.indexOf("dataset") > -1 || ( this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length ) ) {
+    console.log("UPDATED PROPS: ", this.context.updatedProperties);
+
+    const needsUpdated = this.context.updatedProperties.includes('outputObjectSchema') || this.context.updatedProperties.indexOf("dataset") > -1 || ( this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length );
+    console.log("NEEDS UPDATED", needsUpdated) 
+
+    if (needsUpdated ) {
+
+      console.log("TRIGGERING UPDATA DATA")
 
       // update actual table data  
      
       this._tableData = populateDataset(this.context.parameters.tableData);
     
+      console.log("TABLE PORTION COMPLETE")
+
       // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
       
       const tableColumns: GridColDef<typeof this._tableData>[] = [];
@@ -387,6 +396,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     this._isLoading = false
     
+    console.log("UPDATE DATA COMPLETE")
+
   }
 
 

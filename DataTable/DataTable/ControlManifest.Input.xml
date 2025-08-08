@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.33" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.40" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -78,6 +78,7 @@
     <!-- Show quick filter or not -->
 
     <property name="showQuickFilter" display-name-key="showQuickFilter" of-type="TwoOptions" usage="input" pfx-default-value="true"/>
+    <property name="paginationLimit" display-name-key="paginationLimit" of-type="Whole.None" usage="input" default-value="10000"/>
     
 
 <!-- Output properties -->
