@@ -52,6 +52,7 @@ const darkMode = useRef(props.darkMode);
       props.onChangeHeight(entry.contentRect.height)
     })
 
+
   return (
 
     <ThemeProvider theme={theme}>
@@ -73,17 +74,9 @@ const darkMode = useRef(props.darkMode);
           <AccordionDetails sx={{fontSize: '12pt', lineHeight: 2}}>
           <Stack>
             <div className='bodyContentWrapper'>
-
-          {
+            <p style={{whiteSpace: 'pre-wrap'}}>{record.bodyContent}</p>
             
-            typeof record.bodyContent == 'string' ? 
-            <p>{record.bodyContent}</p>
-            
-            : record.bodyContent.map((content : any, index : number) => {
-              return <p key={index} style={{marginTop: index === 0 ? '0px' : '16px'}}>{content.Value}</p>
-            })
-            
-          }
+          
           </div>
 
           {record.images?.map((image : any) => {
