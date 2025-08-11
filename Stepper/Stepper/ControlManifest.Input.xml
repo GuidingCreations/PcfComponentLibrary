@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="Stepper" version="0.0.43" display-name-key="Stepper" description-key="Stepper description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Stepper" version="0.0.53" display-name-key="Stepper" description-key="Stepper description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      
@@ -12,7 +12,7 @@
 
 
 <property name="isSubmittable" display-name-key="isSubmittable" description-key="isSubmittable" of-type="TwoOptions" usage="input" default-value= "true"/>
-<property name="useTestHarness" display-name-key="useTestHarness" description-key="useTestHarness" of-type="TwoOptions" usage="input" default-value= "false"/>
+<property name="useTestHarness" display-name-key="useTestHarness" description-key="useTestHarness" of-type="TwoOptions" usage="input" default-value= "true"/>
 <property name="useDarkMode" display-name-key="useDarkMode" description-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value= "varUseDarkMode"/>
 <property name="showBorder" display-name-key="showBorder" description-key="showBorder" of-type="TwoOptions" usage="input" default-value= "true"/>
 <property name="containerWidth" display-name-key="containerWidth" description-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value = 'Self.Width'/>

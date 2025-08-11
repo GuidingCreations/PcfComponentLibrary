@@ -12,11 +12,13 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
     private notifyOutputChanged: () => void;
     private _steps : any[] = [];
     context: ComponentFramework.Context<IInputs>
-    private _currentStepNumber : number = -1
+    private _currentStepNumber : number = 0
     private _currentStep : any = {}
     private _inputSchema: any = {}
     
     handleStepChange = (newStepNumber: number, recordID : number) => {
+        console.log("NEW STEP TRIGGERED: ", newStepNumber, recordID);
+        this.context.parameters.steps.setSelectedRecordIds([`${recordID}`])
         this._currentStepNumber = newStepNumber
         this._currentStep = generateOutputObject(this.context.parameters.steps.records[recordID], this.context.parameters.steps);
         this.notifyOutputChanged()
@@ -39,13 +41,21 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
         context.mode.trackContainerResize(true)
-         this._inputSchema = generateOutputObjectSchema(context, context.parameters.steps, this._inputSchema)
+        console.log("GENERATING SCHEMA")
+        this._inputSchema = generateOutputObjectSchema(context, context.parameters.steps, this._inputSchema)
+        console.log("SCHEMA GENERATED: ", this._inputSchema)
         const params = context.parameters
-        this._steps = populateDataset(context.parameters.steps);
+        console.log("UPDATED PROPS: ", context.updatedProperties)
+        if(context.updatedProperties.includes('dataset') || context.updatedProperties.includes('records')) {
+
+            context.parameters.steps.setSelectedRecordIds([ context.parameters.steps.sortedRecordIds[0]]);
+            this._steps = populateDataset(context.parameters.steps);
+        }
 
         if (this._currentStepNumber == -1) {
-            
-            this.handleStepChange(0,  this._steps[0].recordID)
+            console.log("SETTING TO 0")
+            this.handleStepChange(0,  this._steps[0].recordID);
+            console.log("step changed")
         }
 
 
@@ -61,7 +71,7 @@ export class Stepper implements ComponentFramework.ReactControl<IInputs, IOutput
             onSubmit: context.events.OnSubmit
         }
 
-
+        console.log("PROPS for stepper: ", props)
         return React.createElement(
             StepperComponent, props
         );
