@@ -15,8 +15,14 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
         Options: []
     }
     
-    private handleValueChange = (newValue: string) => {
-        this.state.selectedValue = newValue;
+    private handleValueChange = (selectedRecords: string[]) => {
+
+        if (selectedRecords) {
+
+            this.context.parameters.Options.setSelectedRecordIds(selectedRecords)
+        } else {
+            this.context.parameters.Options.clearSelectedRecordIds();
+        }
         this.notifyOutputChanged()
     }
     
@@ -49,6 +55,7 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
             handleValueChange: this.handleValueChange
         }
 
+        console.log("PROPS PASSED: ", props)
         return React.createElement(
             RadioGroupComponent, props
         );
@@ -57,7 +64,6 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
    
     public getOutputs(): IOutputs {
         return {
-            selectedValue: this.state.selectedValue
         };
     }
 

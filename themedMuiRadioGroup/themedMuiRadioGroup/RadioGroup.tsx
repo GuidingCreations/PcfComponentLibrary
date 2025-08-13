@@ -17,7 +17,7 @@ export interface RadioGroupProps {
     PrimaryColor: string;
     useTestData: boolean;
     displayField: string;
-    handleValueChange: (newValue: string ) => void
+    handleValueChange: (newValue: any ) => void
 }
 
 const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
@@ -29,7 +29,12 @@ const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
   const [selectedValue, setSelectedValue] = useState('')
 
   useEffect(() => {
-    props.handleValueChange(selectedValue)
+    console.log("SEL VALUE: ", selectedValue)
+    const id = optionsList.filter((option) => option[displayField] == selectedValue )
+    console.log("ID: ", id)
+    props.handleValueChange(id.map((row) => row.recordID))
+
+
   }, [selectedValue])
 
   const config : Config = {
@@ -64,4 +69,4 @@ const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
   )
 })
 
-export default RadioGroupComponent
+export default memo(RadioGroupComponent)

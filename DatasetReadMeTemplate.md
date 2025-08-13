@@ -1,4 +1,4 @@
-# Material UI Radio Group component for Power Apps (PCF COMPONENT)
+# Material UI component for Power Apps (PCF COMPONENT)
 
 ## Description
 ###
@@ -8,6 +8,7 @@
 - [Demo](#Demo)
 - [Input Properties](#input-properties)
 - [Output properties](#output-properties)
+- [Events](#events)
 
 ## Demo
 
@@ -16,18 +17,15 @@
 
 # Input Properties Links
 - [Fields](#fields)
-- [Options](#options)
-- [displayField](#displayfield)
-- [labelText](#labeltext)
-- [primaryColor](#primarycolor)
+- [useTestData](#usetestdata)
 - [useDarkMode](#usedarkmode)
+- [primaryColor](#primarycolor)
 - [containerWidth](#containerwidth)
 - [containerHeight](#containerheight)
 
-
 # Output Properties Links
 
-- [.Selected](#selected)
+ # Events Links
 
 <br>
 <br>
@@ -42,41 +40,21 @@
 
 <br>
 
-## Options
-### Type: Table
-### This table will be the options that are listed in your radio group. It accepts any type of record.
+## useTestData
+### Type: boolean
+### When turned on, the component will render using pre-defined test data. When turned off, it will render using your data from the Options property. Make sure you add your fields to the field well before turning this off. 
 
 <br>
 
-## displayField
-### Type: string
-### This property will control what text is displayed for your option. For example, if a row in your Options table is something like this
-```
-{
-    field1: "Value 1",
-    field2: "Value 2"
-}
-```
-
-### and you have the displayField property set to field1, the option would display Value 1, but if you have the displayField set to field2, it would display Value 2
-
-<br>
-
-## labelText
-## Type: string
-### This is the text that is displayed in the label at the top of the component
+## useDarkMode
+### Type: boolean;
+### When turned on, this component renders in dark mode, when turned off it renders in light mode (why would you do that to yourself?)
 
 <br>
 
 ## primaryColor
-### Type: string
+### Type: string;
 ### This property will determine the color theme that the control uses. Acceptable values can be found in styling/types/types.d.ts If no value option is passed, it will use the Green theme.
-
-<br>
-
-## useTestData
-### Type: boolean
-### When turned on, the component will render using pre-defined test data. When turned off, it will render using your data from the Options property. Make sure you add your fields to the field well before turning this off. 
 
 <br>
 
@@ -92,20 +70,14 @@
 
 <br>
 
-## useDarkMode
-### Type: boolean
-### When turned on, this component will render in dark mode. When turned off, it will render in light mode.
-
-<br>
 
 # Output properties
 
-## .Selected
-### Type: Record (dynamic)
-### This will output the selected record from your option list
-
 <br>
 
+# Events
+
+<br>
 
 
 

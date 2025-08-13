@@ -23,6 +23,7 @@
 - [Fields](#fields)
 - [initialChoices](#initialchoices)
 - [displayField](#displayfield)
+- [primaryColor](#primarycolor)
 - [leftBucketName](#leftbucketname)
 - [rightBucketName](#rightbucketname)
 - [containerWidth](#containerwidth)
