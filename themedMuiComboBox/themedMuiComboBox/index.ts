@@ -4,7 +4,6 @@
 
 import * as React from "react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { primaryColorNames } from "../../styling/colors";
 import { PrimaryColor } from "../../styling/types/types";
 import {populateDataset} from '../../utils'
 import ComboBoxComponent, { comboBoxProps } from "./ComboBox";

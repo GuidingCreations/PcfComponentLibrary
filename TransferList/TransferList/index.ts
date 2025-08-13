@@ -44,16 +44,22 @@ export class TransferList implements ComponentFramework.ReactControl<IInputs, IO
     
     createInfoMessage("Transfer list updated props: ", updatedProps)
     
-    if (datasetChanged(updatedProps, context.parameters.initialChoices, this._Choices )) {
+    if (updatedProps.includes("records") || updatedProps.includes("dataset") || this._Choices.length < context.parameters.initialChoices.sortedRecordIds.length) {
 
+        this._Choices = [];
         this._Choices = populateDataset(context.parameters.initialChoices)
     }
 
     const props : TransferListProps = {
         onMoveItems: this.handleMoveItems,
         Choices: this._Choices,
-        displayField: context.parameters.displayField.raw || 'label',
-        useDarkMode: context.parameters.useDarkMode.raw
+        displayField: context.parameters.displayField.raw ?? 'label',
+        useDarkMode: context.parameters.useDarkMode.raw,
+        primaryColor: context.parameters.primaryColor.raw ?? "Green",
+        leftBucketName: context.parameters.leftBucketName.raw,
+        height: context.parameters.containerHeight.raw ?? 350,
+        width: context.parameters.containerWidth.raw ?? 500,
+        rightBucketName: context.parameters.rightBucketName.raw
     }
 
     createPropsMessage("CHOICES: ", this._Choices)
@@ -66,7 +72,9 @@ export class TransferList implements ComponentFramework.ReactControl<IInputs, IO
 
     
     public getOutputs(): IOutputs {
-        return {};
+        return {
+        };
+
     }
 
    

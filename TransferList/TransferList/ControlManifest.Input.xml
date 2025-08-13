@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="TransferList" version="0.0.15" display-name-key="TransferList" description-key="TransferList description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="TransferList" version="0.0.39" display-name-key="TransferList" description-key="TransferList description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -15,8 +15,14 @@
     <!-- Input properties to be passed in from Power Apps -->
 
      <property name="displayField" display-name-key="displayField" of-type="SingleLine.Text" usage="input" default-value ='label'/>
+     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value ='varAppPrimaryColor'/>
+     <property name="leftBucketName" display-name-key="leftBucketName" of-type="SingleLine.Text" usage="input" default-value ='Options'/>
+     <property name="rightBucketName" display-name-key="rightBucketName" of-type="SingleLine.Text" usage="input" default-value ='Selected options'/>
+     <property name="containerWidth" display-name-key="containerWidth" of-type="Decimal" usage="input" pfx-default-value ='Self.Width'/>
+     <property name="containerHeight" display-name-key="containerHeight" of-type="Decimal" usage="input" pfx-default-value ='Self.Height'/>
      <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value ='varUseDarkMode'/>
 
+    
 
     <!-- Events -->
 

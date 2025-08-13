@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 import Autocomplete from "@mui/material/Autocomplete"
-import { inputClasses, TextField, textFieldClasses, ThemeProvider } from '@mui/material';
+import { TextField, ThemeProvider } from '@mui/material';
 import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor, Theme } from '../../styling/types/types';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -133,7 +133,7 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
         renderValue={(value) => {
           const valueList = props.allowSelectMultiple ? value : [value];
           return (  
-            <div style = {{display: 'flex', gap: '4px', maxWidth: `${props.width}px`, flexWrap: "wrap", minWidth: props.allowSelectMultiple ? '100%' : "75%" }}>
+            <div style = {{display: 'flex', gap: '4px', maxWidth: `80%`, flexWrap: "wrap", minWidth: props.allowSelectMultiple ? '100%' : "75%" }}>
               {
                 valueList.map((tag : any, index : any) => {
                   return (
@@ -142,7 +142,6 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
                       label = {tag[displayField]} 
                       onDelete={props.isReadOnly ? undefined : 
                         (e) => {  setSelectedValues( selectedValues.filter((selected) => selected[displayField] != tag[displayField])) }}
-                      sx={{maxWidth: '80%'}}
                     />
                   )
                 }) 

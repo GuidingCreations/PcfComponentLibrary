@@ -12,15 +12,22 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import generateTheme from '../../styling/utils/theme-provider'
 import {createInfoMessage} from '../../utils'
 import { useEffect } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { createTheme, Stack, ThemeProvider } from '@mui/material';
+import { PrimaryColor } from '../../styling/types/types';
 
 export interface TransferListProps {
   onMoveItems: (newSelected: any[]) => void;
   Choices: any[];
   displayField: string;
   useDarkMode: boolean;
+  primaryColor: string;
+  leftBucketName?: string | null;
+  rightBucketName?: string | null;
+  height: number
+  width: number
 }
 
 const TransferlistComponent = (props : TransferListProps) => {
@@ -45,11 +52,18 @@ const TransferlistComponent = (props : TransferListProps) => {
   const [right, setRight] = React.useState<any[]>([]);
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
-  
+  const [items, setItems] = React.useState<any[]>([])
 
-if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
-  setLeft(props.Choices)
-}
+  if (items != props.Choices) {
+    setItems(props.Choices)
+  }
+
+  useEffect(() => {
+
+    setLeft(items);
+    setRight([])
+  }, [items])
+
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -89,10 +103,10 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
     setChecked(not(checked, rightChecked));
   };
   
-  const displayField = props.displayField || 'label'
 
   const customList = (title: React.ReactNode, items: any[]) => (
-    <Card>
+    <Card sx={{borderColor: props.useDarkMode ? 'white':'black', borderWidth: '1px', borderStyle: 'solid'}}>
+
       <CardHeader
         sx={{ px: 2, py: 1 }}
         avatar={
@@ -115,7 +129,9 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
       <List
         sx={{
           width: 200,
-          height: 230,
+          height: 'fit-content',
+          maxHeight: props.height * .7,
+          minHeight: props.height * .4,
           bgcolor: 'background.paper',
           overflow: 'auto',
         }}
@@ -124,11 +140,11 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
         role="list"
         >
         {items.map((value: any) => {
-          const labelId = `transfer-list-all-item-${value[displayField]}-label`;
+          const labelId = `transfer-list-all-item-${value[props.displayField ?? "label"]}-label`;
           
           return (
             <ListItemButton
-            key={value[displayField]}
+            key={value[props.displayField ?? "label"]}
             role="listitem"
             onClick={handleToggle(value)}
             >
@@ -142,7 +158,7 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
                   }}
                   />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={value[displayField]} />
+              <ListItemText id={labelId} primary={value[props.displayField ?? "label"]} />
             </ListItemButton>
           );
         })}
@@ -157,10 +173,7 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
 
 
 
-  const theme = createTheme({
-    palette: {
-      mode:  props.useDarkMode ? 'dark' : 'light'
-    }})  
+  const theme = generateTheme({Mode: props.useDarkMode ? "dark" : "light", primaryColor: props.primaryColor as PrimaryColor})
 
   return (
     <ThemeProvider theme={theme}>
@@ -169,10 +182,14 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
 <Grid
       container
       spacing={2}
-      sx={{ justifyContent: 'center', alignItems: 'center' }}
+      sx={{ justifyContent: 'center', alignItems: 'center', height: '95%' }}
       >
-      <Grid item>{customList('Choices', left)}</Grid>
-      <Grid item>
+      <Stack direction={"row"} spacing={2}>
+
+      <Grid item style={{height: "fit-content", maxHeight: '100%', overflow: 'hidden'}}>{customList(props.leftBucketName ?? "choices", left)}</Grid>
+      
+      <Grid item style={{alignSelf: "center"}}>
+        
         <Grid container direction="column" sx={{ alignItems: 'center' }}>
           <Button
             sx={{ my: 0.5 }}
@@ -195,9 +212,15 @@ if (left.length == 0 && right.length == 0 && props.Choices.length > 0) {
             &lt;
           </Button>
         </Grid>
+    
       </Grid>
-      <Grid item>{customList('Chosen', right)}</Grid>
+
+      <Grid item style={{height: "fit-content", maxHeight: '100%', overflow: 'hidden'}}>{customList(props.rightBucketName ?? 'Chosen', right)}</Grid>
+    
+      </Stack>
+    
     </Grid>      
+
 
     </Box>
     </ThemeProvider>
