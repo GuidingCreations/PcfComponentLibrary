@@ -63,7 +63,7 @@
 <br>
 
 ## labelText
-## Type: string
+### Type: string
 ### This is the text that is displayed in the label at the top of the component
 
 <br>
