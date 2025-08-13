@@ -17,7 +17,9 @@ export interface RadioGroupProps {
     PrimaryColor: string;
     useTestData: boolean;
     displayField: string;
-    handleValueChange: (newValue: any ) => void
+    handleValueChange: (newValue: any ) => void;
+    height: number;
+    width: number;
 }
 
 const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
@@ -48,7 +50,7 @@ const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
     
     <ThemeProvider theme={theme}>
 
-       <FormControl>
+       <FormControl style={{width: `${props.width}px`, height: `${props.height}px`, overflow: 'scroll'}}>
       <FormLabel style={{textAlign: 'left'}} id="demo-radio-buttons-group-label">{props.labelText}</FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"

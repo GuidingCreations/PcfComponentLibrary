@@ -43,7 +43,9 @@ export class themedMuiDatepicker implements ComponentFramework.ReactControl<IInp
             primaryColor: context.parameters.primaryColor.raw ?? "Green",
             handleDateSelection: this.handleDateSelection,
             labelText: context.parameters.labelText.raw ?? "Label text",
-            isRequired: context.parameters.isRequired.raw
+            isRequired: context.parameters.isRequired.raw,
+            height: context.parameters.containerHeight.raw ?? 57,
+            width: context.parameters.containerWidth.raw ?? 300
         }
 
         return React.createElement(

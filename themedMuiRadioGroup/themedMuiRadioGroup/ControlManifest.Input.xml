@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiRadioGroup" version="0.0.23" display-name-key="themedMuiRadioGroup" description-key="themedMuiRadioGroup description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiRadioGroup" version="0.0.25" display-name-key="themedMuiRadioGroup" description-key="themedMuiRadioGroup description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -14,6 +14,8 @@
     <property name="labelText" display-name-key = "labelText" of-type = "SingleLine.Text" usage = "input" default-value = "Label text"/>
     <property name="primaryColor" display-name-key = "primaryColor" of-type = "SingleLine.Text" usage = "input" pfx-default-value = "varAppPrimaryColor"/>
     <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" default-value ='Name'/>
+    <property name="containerWidth" display-name-key = "containerWidth" of-type = "Whole.None" usage = "input" pfx-default-value = "Self.Width"/>
+    <property name="containerHeight" display-name-key = "containerHeight" of-type = "Whole.None" usage = "input" pfx-default-value = "Self.Height"/>
     
 
     <resources>

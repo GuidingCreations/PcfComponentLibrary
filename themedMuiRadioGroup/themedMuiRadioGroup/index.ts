@@ -13,6 +13,7 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
     private state: ComponentFramework.Dictionary = {
         selectedValue : 'TESTING VALUE',
         Options: []
+        
     }
     
     private handleValueChange = (selectedRecords: string[]) => {
@@ -46,13 +47,15 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
         const options = populateDataset(context.parameters.Options)
 
         const props : RadioGroupProps = {
-            displayField: context.parameters.displayField.raw || "Value",
-            labelText: context.parameters.labelText.raw || "Options",
+            displayField: context.parameters.displayField.raw ?? "Value",
+            labelText: context.parameters.labelText.raw ?? "Options",
             Options: options,
-            PrimaryColor: context.parameters.primaryColor.raw || "Green",
+            PrimaryColor: context.parameters.primaryColor.raw ?? "Green",
             useDarkMode: context.parameters.useDarkMode.raw,
             useTestData: context.parameters.useTestData.raw,
-            handleValueChange: this.handleValueChange
+            handleValueChange: this.handleValueChange,
+            height: context.parameters.containerHeight.raw ?? 57,
+            width: context.parameters.containerWidth.raw ?? 300
         }
 
         console.log("PROPS PASSED: ", props)

@@ -16,10 +16,13 @@ export interface DatePickerProps {
     handleDateSelection: (newDate: string) => void;
     labelText: string;
     DefaultDate: string;
-    isRequired: boolean
+    isRequired: boolean;
+    height: number;
+    width: number;
+
 }
 
-const DatePickerComponent = memo(function (props: DatePickerProps) {
+const DatePickerComponent = (props: DatePickerProps) => {
 
 
 
@@ -49,9 +52,10 @@ const DatePickerComponent = memo(function (props: DatePickerProps) {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker 
                     value={selectedDate ? dayjs(selectedDate) : null} 
-                    sx={{width: '100%', height: '100%'}} 
+                    sx={{width: `${props.width}px`, height: `${props.height}px`}} 
                     onChange={(e : any, value: any) => setSelectedDate(`${e.$M + 1}/${e.$D}/${e.$y}`)} 
-                    label= {`${props.labelText} ${props.isRequired ? "*" : ""}`} />
+                    label= {`${props.labelText} ${props.isRequired ? "*" : ""}`} 
+                    />
                     
             </LocalizationProvider>
         
@@ -59,6 +63,6 @@ const DatePickerComponent = memo(function (props: DatePickerProps) {
 
         </div>
 )
-})
+}
 
-export default DatePickerComponent
+export default memo(DatePickerComponent)
