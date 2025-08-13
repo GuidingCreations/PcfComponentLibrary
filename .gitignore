@@ -22,8 +22,6 @@
 # macos
 .DS_Store
 
-/testApp
+# Client folders
 
-DOT_AOS_MM_PCFs/
-
-/UpworkSolutionMikeRitipol
+/UpworkSolution1

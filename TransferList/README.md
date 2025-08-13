@@ -1,4 +1,4 @@
-# Material UI Data Table/Grid for Power Apps (PCF COMPONENT)
+# Material UI Transfer List component for Power Apps (PCF COMPONENT)
 
 ## Description
 ###
@@ -21,10 +21,21 @@
 
 # Input Properties Links
 - [Fields](#fields)
+- [initialChoices](#initialchoices)
+- [displayField](#displayfield)
+- [leftBucketName](#leftbucketname)
+- [rightBucketName](#rightbucketname)
+- [containerWidth](#containerwidth)
+- [containerHeight](#containerheight)
+- [useDarkMode](#usedarkmode)
 
 # Output Properties Links
 
- # Events
+- [.SelectedItems](#selecteditems)
+
+ # Events Links
+
+- [onMoveItems](#onmoveitems)
 
 <br>
 <br>

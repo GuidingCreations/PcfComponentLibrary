@@ -22,7 +22,9 @@ export interface RadioGroupProps {
 
 const RadioGroupComponent = memo(function (props: RadioGroupProps)  {
  
-  const optionsList = props.useTestData ? [{Value: "option 1"}, {Value: "option 3"}, {Value: "option 3"}] : props.Options
+  const testItems = [{Value: "option 1"}, {Value: "option 2"}, {Value: "option 3"}]
+
+  const optionsList = props.useTestData ? testItems : props.Options
   const displayField = props.useTestData ? "Value" : props.displayField
   const [selectedValue, setSelectedValue] = useState('')
 

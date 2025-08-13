@@ -1,4 +1,4 @@
-# Material UI Data Table/Grid for Power Apps (PCF COMPONENT)
+# Material UI component for Power Apps (PCF COMPONENT)
 
 ## Description
 ###
@@ -15,11 +15,11 @@
 
 
 # Input Properties Links
-- [Fields](#fields)
+- [fields](#fields)
 
 # Output Properties Links
 
- # Events
+ # Events Links
 
 <br>
 <br>
