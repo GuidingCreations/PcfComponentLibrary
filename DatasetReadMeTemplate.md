@@ -25,9 +25,9 @@
 
 # Output Properties Links
 
- # Events Links
+- [.Selected](#selected)
+- [.SelectedItems](#selecteditems)
 
-<br>
 <br>
 
 # Input Properties
