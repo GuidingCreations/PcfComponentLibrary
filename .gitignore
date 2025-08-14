@@ -1,0 +1,36 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+
+# Deprecated components that can't be removed because the way MS handles PCF components is idiotic
+
+/TrackerCandles
+/Sidebar2
+/AccessPage2
+/ComboBoxMUI
+/DatePicker
+/Funnel
+
+# generated directory
+**/generated
+
+# output directory
+/out
+
+# msbuild output directories
+/bin
+/obj
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# Visual Studio cache/options directory
+/.vs
+
+# macos
+.DS_Store
+
+# Client folders
+
+/UpworkSolution1

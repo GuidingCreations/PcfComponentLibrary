@@ -1,0 +1,24 @@
+{"tailwindCSS.includeLanguages": {
+    "html": "html",
+    "javascript": "javascript",
+    "css": "css",
+    "typescript": "typescript"
+},
+"editor.quickSuggestions": {
+    "strings": true
+},
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "foreground": "#9c9c9c"
+        }
+      }
+    ]
+  }
+
+
+}
+
+	

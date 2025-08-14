@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<manifest>
+
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.40" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+
+<!-- Data sets -->
+
+  <!-- Main table data -->
+    
+    <data-set name="tableData" display-name-key="tableData">    
+    </data-set>
+  
+  <!-- Table for setting default column widths -->
+  
+    <data-set name="columnWidthTable" display-name-key="columnWidthTable">
+    </data-set>
+  
+  <!-- Table for column overrides / custom renders -->
+  
+    <data-set name="columnOverrides" display-name-key="columnOverrides">
+      <property-set name = "formatType" display-name-key = "formatType" description-key = "formatType" of-type = "SingleLine.Text" usage = "bound" required = "true"/>
+    </data-set>
+  
+  <!-- Table for default column visibility -->
+
+     <data-set name="columnVisibility" display-name-key="columnVisibility">
+     </data-set>
+
+
+<!-- Input properties -->
+
+    <!-- Link to readme in github https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md -->
+        
+    <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value=""/>
+        
+    <!-- Should the component use dark mode? -->
+    
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" hidden="false" pfx-default-value="varUseDarkMode"/>
+
+    <!-- Show or hide toolbar  -->
+    
+    <property name="showToolbar" display-name-key="showToolbar" of-type="TwoOptions" usage="input" pfx-default-value="true"/>
+
+    <!-- Should the component use one of our color themes? -->
+
+    <property name="useTheming" display-name-key="useTheming" of-type="TwoOptions" usage="input" default-value="true"/>
+
+    <!-- use test data -->
+    
+    <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    
+    <!-- Primary color of the theme (only certain values, check styling folder) -->
+
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" hidden="false" pfx-default-value="varAppPrimaryColor"/>
+
+    <!-- Whether the DataTable should show checkboxes for selection -->
+
+    <property name="showCheckboxes" display-name-key="showCheckboxes" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    
+    <!-- Whether the footer should be hidden in the DataTable -->
+
+    <property name="hideFooter" display-name-key="hideFooter" of-type="TwoOptions" usage="input" hidden="false" default-value="false"/>
+    
+    <!-- Whether you can select multiple rows in the DataTable -->
+
+    <property name="allowSelectMultiple" display-name-key="allowSelectMultiple" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    <property name="useServerSide" display-name-key="useServerSide" of-type="TwoOptions" usage="input" default-value="false"/>
+
+    <!-- The text to display if there are no rows generated in the data table -->
+
+    <property name="noRowsText" display-name-key="noRowsText" of-type="SingleLine.Text" usage="input" default-value="No results found"/>
+
+    <!-- Show quick filter or not -->
+
+    <property name="showQuickFilter" display-name-key="showQuickFilter" of-type="TwoOptions" usage="input" pfx-default-value="true"/>
+    <property name="paginationLimit" display-name-key="paginationLimit" of-type="Whole.None" usage="input" default-value="10000"/>
+    
+
+<!-- Output properties -->
+
+<!-- Currently will only output selectedOption when using custom renders for squashedButtonGroup -->
+
+<property name="changeType" display-name-key="changeType" of-type="SingleLine.Text" usage="output" hidden="false"/>
+
+<!-- The text from the selected option with custom column renders for squashedButtonGroup -->
+
+<property name="outputValue" display-name-key="outputValue" of-type="SingleLine.Text" usage="output" hidden="false"/>
+<property name="outputObject" display-name-key="outputObject" of-type="Object" usage="output" hidden="false"/>
+<property name="outputObjectSchema" display-name-key="outputObjectSchema" of-type="SingleLine.Text" usage="bound" hidden="false"/>
+
+<!-- Events -->
+
+ <event name = 'onOptionSelected' display-name-key='onOptionSelected' description-key='onOptionSelected' pfx-default-value = 'Notify("No option selected formula", NotificationType.Error, 2000)'/>
+
+    <!-- Property dependencies -->
+
+ <property-dependencies>
+      <property-dependency input = "outputObjectSchema" output = "outputObject" required-for = "schema"/>
+  </property-dependencies>
+
+<!-- Resources -->
+
+    <resources>
+    
+      <code path="index.ts" order="1"/>
+      <css path="../index.css" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <css path= "../../dist/output.css" order = "1"/>
+    </resources>
+
+   
+  </control>
+
+</manifest>
