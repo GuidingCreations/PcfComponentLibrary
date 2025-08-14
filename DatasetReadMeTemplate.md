@@ -73,9 +73,16 @@
 
 # Output properties
 
+## .Selected
+### Type: Record (dynamic)
+### This property functions just like a normal .Selected in a gallery in Power Apps, it will output the entire record of what you have selected.
+
 <br>
 
-# Events
+
+## .SelectedItems
+### Type: Table
+### This property functions just like a normal .SelectedItems in a gallery in Power Apps, it will output a table populated with all the records you have selected.
 
 <br>
 

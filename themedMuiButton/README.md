@@ -1,4 +1,4 @@
-# Material UI component for Power Apps (PCF COMPONENT)
+# Material UI Button component for Power Apps (PCF COMPONENT)
 
 ## Description
 ###

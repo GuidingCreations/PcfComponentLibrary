@@ -19,6 +19,13 @@
 # Input Properties Links
 - [Fields](#fields)
 - [tabData](#tabdata)
+- [primaryColor](#primarycolor)
+- [useDarkMode](#usedarkmode)
+- [tabData](#usetestdata)
+
+# Output properties links
+- [.Selected](#selected)
+- [.SelectedItems](#selecteditems)
 
 
 <br>
@@ -85,4 +92,37 @@ This is the code we will be using for our demonstrations
 
 </details>
 
+<br>
+
+## primaryColor
+### Type: string
+### This property will determine the color theme that the control uses. Acceptable values can be found in styling/types/types.d.ts If no value option is passed, it will use the Green theme.
+
+<br>
+
+## useDarkMode
+### Type: boolean
+### When turned on, this component will render in dark mode. When turned off, it will render in light mode.
+
+<br>
+
+
+## useTestData
+### Type: boolean
+### When turned on, the component will render using pre-defined test data. When turned off, it will render using your data from the Options property. Make sure you add your fields to the field well before turning this off. 
+
+<br>
+
+# Output properties
+
+## .Selected
+### Type: Record (dynamic)
+### This property functions just like a normal .Selected in a gallery in Power Apps, it will output the entire record of what you have selected.
+
+<br>
+
+
+## .SelectedItems
+### Type: Table
+### This property functions just like a normal .SelectedItems in a gallery in Power Apps, it will output a table populated with all the records you have selected.
 
