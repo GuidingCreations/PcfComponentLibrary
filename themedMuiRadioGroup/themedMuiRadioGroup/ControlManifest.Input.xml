@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="NamespacePlaceholder" constructor="themedMuiRadioGroup" version="0.0.26" display-name-key="themedMuiRadioGroup" description-key="themedMuiRadioGroup description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+    <data-set name="Options" display-name-key="Options">
+      
+    </data-set>
+
+    <property name="useDarkMode" display-name-key = "useDarkMode" of-type = "TwoOptions" usage = "input" pfx-default-value = "varUseDarkMode"/>
+    <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" default-value = "true"/>
+    <property name="labelText" display-name-key = "labelText" of-type = "SingleLine.Text" usage = "input" default-value = "Label text"/>
+    <property name="primaryColor" display-name-key = "primaryColor" of-type = "SingleLine.Text" usage = "input" pfx-default-value = "varAppPrimaryColor"/>
+    <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" default-value ='Name'/>
+    <property name="containerWidth" display-name-key = "containerWidth" of-type = "Whole.None" usage = "input" pfx-default-value = "Self.Width"/>
+    <property name="containerHeight" display-name-key = "containerHeight" of-type = "Whole.None" usage = "input" pfx-default-value = "Self.Height"/>
+    
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      
+    </resources>
+  
+  </control>
+</manifest>

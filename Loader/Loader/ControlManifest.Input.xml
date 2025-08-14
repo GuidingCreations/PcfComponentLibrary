@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+
+  <control namespace="NamespacePlaceholder" constructor="Loader" version="0.0.4" display-name-key="Loader" description-key="Loader description" control-type="virtual" >
+
+    <external-service-usage enabled="false">
+    </external-service-usage>
+
+    <property name="containerHeight" display-name-key="containerHeight" description-key="Property_Desc_Key" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Height"/>
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />
+    </resources>
+  
+  </control>
+
+</manifest>

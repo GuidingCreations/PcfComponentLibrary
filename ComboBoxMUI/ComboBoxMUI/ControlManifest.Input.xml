@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<manifest>
+
+  <control namespace="NamespacePlaceholder" constructor="ComboBoxMUI" version="0.22.162" display-name-key="ComboBoxMUI" description-key="ComboBox made with material UI" control-type="virtual" >
+   
+    <external-service-usage enabled="false">
+     
+    </external-service-usage>
+
+<!-- Data sets -->
+   
+    <data-set name="Items" display-name-key="Items">
+    </data-set>
+
+    <data-set name="DefaultSelectedItems" display-name-key="DefaultSelectedItems">
+    </data-set>
+
+<!-- Properties -->
+
+    <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" default-value ='Name'/>
+    <property name="backgroundColor" display-name-key="backgroundColor" of-type="SingleLine.Text" usage="input"/>
+    <property name="labelText" display-name-key="Label text" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='Name'/>
+    <property name="borderStyle" display-name-key="borderStyle" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='solid'/>
+    <property name="borderWidth" display-name-key="borderWidth" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='1px'/>
+    <property name="borderColor" display-name-key="borderColor" of-type="SingleLine.Text" usage="input" hidden="false" default-value ='white'/>
+    <property name="containerHeight" display-name-key="Container height" of-type="Whole.None" usage="input" pfx-default-value ='Self.Height'/>
+    <property name="containerWidth" display-name-key="Container width" of-type="Whole.None" usage="input" pfx-default-value ='Self.Width'/>
+    <property name="outputHeight" display-name-key="outputHeight" of-type="Whole.None" usage="output" hidden="false"/>
+    <property name="AllowMultipleSelect" display-name-key="Allow multiple selection?" of-type="TwoOptions" usage="input" hidden="false"/>
+    <property name="DarkMode" display-name-key = "Dark mode" of-type = "TwoOptions" usage = "input" pfx-default-value = "varUseDarkMode"/>
+    <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" default-value = "false"/>
+    <property name="isDisabled" display-name-key = "isDisabled" of-type = "TwoOptions" usage = "input" default-value = "false"/>
+    <property name="isRequired" display-name-key = "isRequired" of-type = "TwoOptions" usage = "input" default-value = "true"/>
+    <property name="searchText" display-name-key = "searchText" of-type = "SingleLine.Text" usage = "output" default-value = ""/>
+    <property name="defaultHeight" display-name-key = "defaultHeight" of-type = "Whole.None" usage = "input" default-value = "65"/>
+
+  
+
+<!-- Resources -->
+
+    <resources>
+      
+      <code path="index.ts" order="1"/>
+      <css path= "../../dist/output.css" order='1'/>
+      <css path = "./input.css" order='1'/>
+      <platform-library name="React" version="16.14.0" />
+     
+    </resources>
+   
+  </control>
+
+</manifest>

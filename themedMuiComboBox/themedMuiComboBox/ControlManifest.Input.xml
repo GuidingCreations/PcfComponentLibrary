@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.1.54" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+     
+    </external-service-usage>
+   
+<!-- Datasets -->
+
+    <data-set name="Items" display-name-key="Items"/> <!-- Main dataset to populate combo box-->   
+    <data-set name="DefaultSelectedItems" display-name-key="DefaultSelectedItems"/> <!-- Default items to be selected in combo box: if combo box is set to single-select but you pass in multiple defaults, it will use the first one only -->  
+    
+  <!-- output properties -->
+
+    <property name="searchText" display-name-key = "searchText" of-type = "SingleLine.Text" usage = "output" default-value = ""/>
+    <property name="outputHeight" display-name-key = "outputHeight" of-type = "Whole.None" usage = "output" default-value = "60"/>
+    
+  <!-- Input properties -->
+    
+  <!-- https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/themedMuiComboBox/README.md -->
+
+    <property name="ReadMeLink" display-name-key = "ReadMeLink" of-type = "SingleLine.Text" usage = "input" default-value = "https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/themedMuiComboBox/README.md"/>
+    <property name="useDarkMode" display-name-key = "useDarkMode" of-type = "TwoOptions" usage = "input" pfx-default-value = "varUseDarkMode"/>
+    <property name="useTestData" display-name-key = "useTestData" of-type = "TwoOptions" usage = "input" default-value = "true"/>
+    <property name="labelText" display-name-key = "labelText" of-type = "SingleLine.Text" usage = "input" default-value = "Label text"/>
+    <property name="primaryColor" display-name-key = "primaryColor" of-type = "SingleLine.Text" usage = "input" pfx-default-value = "varAppPrimaryColor"/>
+    <property name="displayField" display-name-key="Display field" of-type="SingleLine.Text" usage="input" default-value ='Name'/>
+    <property name="allowSelectMultiple" display-name-key = "allowSelectMultiple" of-type = "TwoOptions" usage = "input" default-value="true"/>
+    <property name="isRequired" display-name-key = "isRequired" of-type = "TwoOptions" usage = "input" default-value = "true"/>
+    <property name="isReadOnly" display-name-key = "isReadOnly" of-type = "TwoOptions" usage = "input" default-value = "false"/>
+    <property name="containerWidth" display-name-key = "containerWidth" of-type = "Whole.None" usage = "input" pfx-default-value = "Self.Width"/>
+
+  <!-- Resources -->
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path = 'index.css' order = "1"/>
+      <platform-library name="React" version="16.14.0" />
+    </resources>
+
+  </control>
+
+</manifest>

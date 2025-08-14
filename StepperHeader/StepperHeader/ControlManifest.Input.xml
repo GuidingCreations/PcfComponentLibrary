@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  
+  <control namespace="NamespacePlaceholder" constructor="StepperHeader" version="0.0.6" display-name-key="StepperHeader" description-key="StepperHeader description" control-type="virtual" >
+    
+    <external-service-usage enabled="false">
+     
+    </external-service-usage>
+    
+    <data-set name="Steps" display-name-key="Steps">
+     
+    </data-set>
+    
+    <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value="true"/>
+    <property name="activeStepIndex" display-name-key="activeStepIndex" of-type="Whole.None" usage="input" default-value="0"/>
+
+    <resources>
+
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <platform-library name="Fluent" version="9.46.2" />     
+      <css path = "../../dist/output.css" order="1" />
+       
+    </resources>
+    
+  </control>
+
+</manifest>
