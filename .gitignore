@@ -2,7 +2,12 @@
 
 # dependencies
 /node_modules
+
+# Deprecated components that can't be removed because the way MS handles PCF components is idiotic
+
 /TrackerCandles
+/Sidebar2
+
 # generated directory
 **/generated
 
