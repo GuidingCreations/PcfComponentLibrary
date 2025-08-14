@@ -8,6 +8,9 @@
 /TrackerCandles
 /Sidebar2
 /AccessPage2
+/ComboBoxMUI
+/DatePicker
+/Funnel
 
 # generated directory
 **/generated
