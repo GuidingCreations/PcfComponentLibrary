@@ -43,7 +43,7 @@ const renderEndIcon = (iconSvg: string) => {
 
     <ThemeProvider theme = {theme}>
       
-      <Button startIcon = {props.startIcon ? renderStartIcon(props.startIcon) : null} endIcon = {props.endIcon ? renderEndIcon(props.endIcon) : null} disabled = {props.isDisabled} onClick={(e) => props.onClick()} variant = {props.variantType == 'contained' ? 'contained' : props.variantType == 'outlined' ? 'outlined' : props.variantType == 'text' ? 'text' : 'contained'} sx={{width: '100%', height: '100%'}}>
+      <Button startIcon = {props.startIcon ? renderStartIcon(props.startIcon) : null} endIcon = {props.endIcon ? renderEndIcon(props.endIcon) : null} disabled = {props.isDisabled} onClick={(e) => props.onClick()} variant = {props.variantType.toLowerCase() == 'contained' ? 'contained' : props.variantType.toLowerCase() == 'outlined' ? 'outlined' : props.variantType.toLowerCase() == 'text' ? 'text' : 'contained'} sx={{width: '100%', height: '100%'}}>
        
         {props.labelText}
       

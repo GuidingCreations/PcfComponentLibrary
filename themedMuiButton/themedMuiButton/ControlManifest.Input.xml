@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.26" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiButton" version="0.0.27" display-name-key="themedMuiButton" description-key="themedMuiButton description" control-type="virtual" >
   
     <external-service-usage enabled="false">
 
     </external-service-usage>
-    <property name="PrimaryColor" of-type="SingleLine.Text" usage="input" display-name-key = "PrimaryColor" pfx-default-value = "varAppPrimaryColor"/>
-    <property name="useDarkMode" of-type="TwoOptions" usage="input" display-name-key = "useDarkMode" pfx-default-value = "varUseDarkMode"/>
-    <property name="uselessOutput" of-type="SingleLine.Text" usage="output" display-name-key = "uselessOutput"/>
     <property name="labelText" of-type="SingleLine.Text" usage="input" display-name-key = "labelText"/>
     <property name="variant" of-type="SingleLine.Text" usage="input" display-name-key = "variant"/>
     <property name="isDisabled" display-name-key="isDisabled" of-type="TwoOptions" usage="input" pfx-default-value ='false'/>
@@ -15,6 +12,9 @@
     <property name="endIconColor" display-name-key="endIconColor" of-type="SingleLine.Text" usage="input" default-value ='white'/>
     <property name="startIconSVG" display-name-key="startIconSVG" of-type="SingleLine.Text" usage="input" default-value =''/>
     <property name="endIconSVG" display-name-key="endIconSVG" of-type="SingleLine.Text" usage="input" default-value =''/>
+
+    <property name="useDarkMode" of-type="TwoOptions" usage="input" display-name-key = "useDarkMode" pfx-default-value = "varUseDarkMode"/>
+    <property name="PrimaryColor" of-type="SingleLine.Text" usage="input" display-name-key = "PrimaryColor" pfx-default-value = "varAppPrimaryColor"/>
     <property name="containerHeight" display-name-key="containerHeight" of-type="Decimal" usage="input" pfx-default-value ='Self.Height'/>
     <property name="containerWidth" display-name-key="containerWidth" of-type="Decimal" usage="input" pfx-default-value ='Self.Width'/>
 

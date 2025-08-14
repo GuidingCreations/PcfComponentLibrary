@@ -38,7 +38,7 @@
 
 ## primaryColor
 ### Type: string;
-### This property will determine the color theme that the control uses. Acceptable values can be found in styling/types/types.d.ts If no value option is passed, it will use the Green theme.
+### This property will determine the color theme that the control uses. Acceptable values can be found in styling/types/types.d.ts from the root. If no value option is passed, it will use the Green theme.
 
 <br>
 

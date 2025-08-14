@@ -58,7 +58,6 @@ export class themedMuiRadioGroup implements ComponentFramework.ReactControl<IInp
             width: context.parameters.containerWidth.raw ?? 300
         }
 
-        console.log("PROPS PASSED: ", props)
         return React.createElement(
             RadioGroupComponent, props
         );
