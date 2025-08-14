@@ -32,6 +32,7 @@ export default function DeleteModal(props: modalProps) {
           display: "flex",
           flexDirection: "row",
           gap: ".8rem",
+          maxWidth: '500px'
         }}
         className="p-4"
       >
@@ -69,6 +70,8 @@ export default function DeleteModal(props: modalProps) {
            
 
           {/* Cancel / Confirm buttons container */}
+            
+            {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={props.onInputTextChange}/> : null}
           
           <div className="flex gap-1 items-end w-full flex-row-reverse mt-2">
             
@@ -89,7 +92,6 @@ export default function DeleteModal(props: modalProps) {
 
           </div>
         
-        {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={props.onInputTextChange}/> : null}
 
         </div>
 
