@@ -3,6 +3,11 @@
 # dependencies
 /node_modules
 
+# ReadMe Templates
+
+.DatasetReadMeTemplate.md
+.FieldReadMeTemplate.md
+
 # Deprecated / in-development components that can't be removed because the way MS handles PCF components is idiotic
 
 /TrackerCandles

@@ -1,2 +1,2 @@
 To re-scan tailwind files from root: npx @tailwindcss/cli -i ./input.css -o ./dist/output.css --watch
-Build release configuration: cdmsbuild /p:configuration=Release
+Build release configuration: msbuild /p:configuration=Release
