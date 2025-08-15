@@ -91,7 +91,7 @@ console.log("AFTER ACTIVE STEP: ", activeStep)
 <ThemeProvider theme={theme}>
   <div className={`flex items-center justify-center h-full`} style={{height: props.useTestHarness ? '100vh' : `${props.containerHeight}px`, width:  props.useTestHarness ? '100%'  :`${props.containerWidth}px`}} >
        <MobileStepper
-      variant="text"
+      variant="dots"
       steps={maxSteps}
       position="static"
       className='p-0'

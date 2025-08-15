@@ -3,18 +3,34 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
+import MobileStepper from '@mui/material/MobileStepper';
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
+import generateTheme from '../../styling/utils/theme-provider'
+import { Config, PrimaryColor } from '../../styling/types/types';
+
 import {
-  createTheme,
   ThemeProvider,
   Typography,
 } from "@mui/material";
 
+export interface StepType {
+  stepTitle: string;
+  isOptional?: boolean;
+  recordID?: string
+  [key: string]: unknown;
+  [key: number]: unknown;
+  
+}
+
 export interface StepperHeaderProps {
-  Steps: any[];
+  Steps: StepType[];
   activeStepIndex: number;
+  height: number;
+  width: number;
+  useDarkMode: boolean;
+  primaryColor: string;
+  updateSelectedStep: (newStep: any) => void
 }
 
 const StepperHeaderComponent = (props: StepperHeaderProps) => {
@@ -24,16 +40,32 @@ const StepperHeaderComponent = (props: StepperHeaderProps) => {
     return isOptional;
   };
 
-  const theme = createTheme({
-    palette: {
-      mode: "dark",
-    },
-  });
+    const config : Config = {
+      Mode: props.useDarkMode ? 'dark' : 'light',
+      primaryColor: props.primaryColor as PrimaryColor
+    }
+  
+      const theme = generateTheme(config);
+
+      const [activeStep, setActiveStep] = React.useState(0);
+
+      React.useEffect(() => {
+        if (props.Steps[activeStep]?.recordID) {
+          props.updateSelectedStep(props.Steps[activeStep])
+        }
+      }, [activeStep])
+   
+      if (props.activeStepIndex != activeStep) {
+      
+        setActiveStep(props.activeStepIndex)
+      }
 
   return (
 
     <ThemeProvider theme={theme}>
       <Box sx={{width: '100%'}}>
+
+   
         <Stepper activeStep={props.activeStepIndex}>
           {props.Steps.map((step: any, index) => {
 
@@ -54,6 +86,8 @@ const StepperHeaderComponent = (props: StepperHeaderProps) => {
             );
           })}
         </Stepper>
+        
+
       </Box>
     </ThemeProvider>
   );

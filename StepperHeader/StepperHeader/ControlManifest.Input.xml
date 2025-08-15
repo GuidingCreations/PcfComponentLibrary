@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
   
-  <control namespace="NamespacePlaceholder" constructor="StepperHeader" version="0.0.6" display-name-key="StepperHeader" description-key="StepperHeader description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="StepperHeader" version="0.0.24" display-name-key="StepperHeader" description-key="StepperHeader description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      
@@ -11,14 +11,19 @@
      
     </data-set>
     
+    <property name="activeStepIndex" display-name-key="activeStepIndex" of-type="Whole.None" usage="input" default-value=""/>
+
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value="true"/>
-    <property name="activeStepIndex" display-name-key="activeStepIndex" of-type="Whole.None" usage="input" default-value="0"/>
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value="varUseDarkMode"/>
+    <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value="varAppPrimaryColor"/>
+    <property name="containerWidth" display-name-key="containerWidth" of-type="Decimal" usage="input" pfx-default-value="Self.Width"/>
+    <property name="containerHeight" display-name-key="containerHeight" of-type="Decimal" usage="input" pfx-default-value="Self.Height"/>
+
 
     <resources>
 
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />
-      <platform-library name="Fluent" version="9.46.2" />     
       <css path = "../../dist/output.css" order="1" />
        
     </resources>

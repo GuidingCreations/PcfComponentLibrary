@@ -7,15 +7,16 @@
 
 <!-- PROPERTIES -->
 
-    <property name="containerHeight" display-name-key="containerHeight" description-key="Property_Desc_Key" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Height"/>
-    <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value = "Self.Width"/>
-    <property name="dialogText" display-name-key="dialogText" description-key="dialogText" of-type="Multiple" usage="input" required="true" pfx-default-value = '"This action is irreversible. Please make sure you understand the impact of this action before proceeding. Are you sure you wish to proceed?"'/>
     <property name="dialogHeader" display-name-key="dialogHeader" description-key="dialogHeader" of-type="SingleLine.Text" usage="bound" required="true" pfx-default-value = '"Warning, irreversible action!"'/>
+    <property name="dialogText" display-name-key="dialogText" description-key="dialogText" of-type="Multiple" usage="input" required="true" pfx-default-value = '"This action is irreversible. Please make sure you understand the impact of this action before proceeding. Are you sure you wish to proceed?"'/>
     <property name="confirmText" display-name-key="confirmText" description-key="confirmText" of-type="SingleLine.Text" usage="bound" default-value = "Yes, I'm sure"/>
     <property name="modalType" display-name-key="modalType" description-key="modalType" of-type="SingleLine.Text" usage="input" default-value ="Delete"/>
     <property name="includeTextInput" display-name-key="includeTextInput" of-type="TwoOptions" usage="input" default-value ="false"/>
     <property name="textInputPlaceholder" display-name-key="textInputPlaceholder" of-type="SingleLine.Text" usage="input" default-value ="Please input reason"/>
     <property name="outputText" display-name-key="outputText" of-type="SingleLine.Text" usage="output" default-value =""/>
+    
+    <property name="containerHeight" display-name-key="containerHeight" description-key="Property_Desc_Key" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Height"/>
+    <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value = "Self.Width"/>
     
 <!-- EVENTS -->
 
