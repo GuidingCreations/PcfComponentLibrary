@@ -5,70 +5,42 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import {determineScreenSize} from '../../utils'
 import { useEffect } from 'react';
+import generateTheme from '../../styling/utils/theme-provider'
+import testItems from '../testData';
+import { Config, PrimaryColor } from '../../styling/types/types';
 
 export interface StepperProps {
   useTestHarness?: boolean
   useDarkMode?: boolean
-  Steps: any[]
+  stepCount: number;
+  variant: string
   showBorder?: boolean
-  containerWidth?: number
-  containerHeight?: number,
-  handleStepChange: (newStepNumber: number, newStepID: any) => void;
+  containerWidth: number
+  containerHeight: number,
+  handleStepChange: (newStepNumber: number) => void;
   isSubmittable: boolean;
-  onSubmit?: () => void
+  onSubmit?: () => void;
+  primaryColor: string;
+  
 }
 
 
 export default function StepperComponent(props: StepperProps) {
-  const theme = createTheme({
-    palette: {
-      mode: props.useDarkMode ? "dark" : "light",
-    },
-    components: {
-      MuiMobileStepper: {
-        styleOverrides: {
-          root: {
-            padding: '0px'
-          }
-        }
-      }
-    }
-  });
-
-
-  const testSteps = [
-  {
-    label: 'Select campaign settings',
-    description: `For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.`,
-  },
-  {
-    label: 'Create an ad group',
-    description:
-      'An ad group contains one or more ads which target a shared set of keywords.',
-  },
-  {
-    label: 'Create an ad',
-    description: `Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.`,
-  },
-]
-  const steps : any[] = props.useTestHarness ?  testSteps : props.Steps
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = steps.length;
   
+  const theme = generateTheme({Mode: props.useDarkMode ? "dark" : "light", primaryColor: props.primaryColor as PrimaryColor})
 
-
+  
+  const [activeStep, setActiveStep] = React.useState(0);
+  
   const handleNext = () => {
-    console.log("BEFORE ACTIVE STEP: ", activeStep)
-    setActiveStep((prevActiveStep) => Math.min(prevActiveStep + 1, maxSteps - 1));
-console.log("AFTER ACTIVE STEP: ", activeStep)
-    if( activeStep === maxSteps - 1 && props.onSubmit) {
+    
+    setActiveStep(
+      (prevActiveStep) => 
+        Math.min(prevActiveStep + 1, props.stepCount - 1)
+    );
+    
+    if( activeStep === props.stepCount - 1 && props.onSubmit) {
       props.onSubmit()
     }
     
@@ -80,8 +52,8 @@ console.log("AFTER ACTIVE STEP: ", activeStep)
 
   useEffect(() => {
 
-    if (steps.length > 0) {
-      props.handleStepChange(activeStep, steps[activeStep].recordID)
+    if (props.stepCount > 0) {
+      props.handleStepChange(activeStep)
     }
   }, [activeStep])
 
@@ -89,10 +61,10 @@ console.log("AFTER ACTIVE STEP: ", activeStep)
 
 
 <ThemeProvider theme={theme}>
-  <div className={`flex items-center justify-center h-full`} style={{height: props.useTestHarness ? '100vh' : `${props.containerHeight}px`, width:  props.useTestHarness ? '100%'  :`${props.containerWidth}px`}} >
+  <div className={`flex items-center justify-center h-full`} style={{height: `${props.containerHeight}px`, width:  `${props.containerWidth}px`}} >
        <MobileStepper
-      variant="dots"
-      steps={maxSteps}
+      variant= {props.variant == "dots" ? "dots" : props.variant == "progress" ? "progress" : "text"}
+      steps={props.stepCount}
       position="static"
       className='p-0'
       sx={{
@@ -100,25 +72,20 @@ console.log("AFTER ACTIVE STEP: ", activeStep)
        
         width:  props.useTestHarness ? '90%' : '100%',
         height: props.containerHeight,
-        border: ` ${ props.showBorder ?   `1px solid ${props.useDarkMode ? 'white' : 'black'}` : ''}`
-        
+        border: ` ${ props.showBorder ?   `1px solid ${props.useDarkMode ? 'white' : 'black'}` : ''}`,
+        padding: "0px"
       
       }}
       
       activeStep={activeStep}
  
       nextButton={
-        <Button
-          size="small"
-          onClick={handleNext}
-          disabled = {!props.isSubmittable && activeStep == maxSteps - 1}
-          >
-         { props.isSubmittable && activeStep == maxSteps - 1  ? "Submit" : "Next"}
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
+        <Button size="small" onClick={handleNext} disabled = {!props.isSubmittable && activeStep == props.stepCount - 1}>
+         
+         { props.isSubmittable && activeStep == props.stepCount - 1  ? <p style={{marginRight: '8px'}}>Submit</p> : <p>Next</p>}
+         
+         { props.isSubmittable && activeStep == props.stepCount -1 ? null : <KeyboardArrowRight /> }
+
         </Button>
       }
       backButton={

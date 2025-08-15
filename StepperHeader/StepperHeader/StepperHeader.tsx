@@ -3,7 +3,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
-import MobileStepper from '@mui/material/MobileStepper';
+
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import generateTheme from '../../styling/utils/theme-provider'
