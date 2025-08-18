@@ -30,13 +30,13 @@
 - [accordionData](#accordiondata)
 - [DarkMode](#darkmode)
 - [useTestData](#usetestdata)
-- [outputHeight](#outputheight)
 
 <br>
 
 # Output Properties Links
 
-<br>
+- [outputHeight](#outputheight)
+
 <br>
 
 # Input Properties
