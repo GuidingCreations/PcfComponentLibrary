@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<manifest>
+  
+  <control namespace="NamespacePlaceholder" constructor="bodyText" version="0.0.11" display-name-key="bodyText" description-key="bodyText description" control-type="virtual" >
+  
+    <external-service-usage enabled="false">
+ 
+    </external-service-usage>
+    
+    <property name="Text" display-name-key="Text" of-type="SingleLine.Text" usage="bound" default-value = "Shelties are the best"/>
+    <property name="isBold" display-name-key="isBold" of-type="TwoOptions" usage="bound" default-value = "false"/>
+    <property name="isItalic" display-name-key="isItalic" of-type="TwoOptions" usage="bound" default-value = "false"/>
+    <property name="TextAlign" display-name-key="TextAlign" of-type="SingleLine.Text" usage="bound" default-value = "left"/>
+    <property name="paddingLeft" display-name-key="paddingLeft" of-type="Whole.None" usage="bound" default-value = "8"/>
+    <property name="paddingTop" display-name-key="paddingTop" of-type="Whole.None" usage="bound" default-value = "8"/>
+    <property name="paddingRight" display-name-key="paddingRight"  of-type="Whole.None" usage="bound" default-value = "8"/>
+    <property name="paddingBottom" display-name-key="paddingBottom"  of-type="Whole.None" usage="bound" default-value = "8"/>
+    <property name="fontColor" display-name-key="fontColor" of-type="SingleLine.Text" usage="bound" pfx-default-value = 'If(varUseDarkMode, "white", "black")'/>
+    <property name="autoHeight" display-name-key="autoHeight" of-type="TwoOptions" usage="input" pfx-default-value = 'false'/>
+    <property name="overflow" display-name-key="overflow" description-key = "hidden | scroll | visible" of-type="SingleLine.Text" usage="input" default-value = 'scroll'/>
+    <property name="containerHeight" display-name-key="containerHeight" description-key="Property_Desc_Key" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Height"/>
+    <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value = "Self.Width"/>
+
+    <property name="outputHeight" display-name-key="outputHeight" description-key="outputHeight" of-type="Decimal" usage="output" pfx-default-value = ''/>
+
+
+
+    <resources>
+  
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+    
+    </resources>
+  
+  </control>
+
+</manifest>
