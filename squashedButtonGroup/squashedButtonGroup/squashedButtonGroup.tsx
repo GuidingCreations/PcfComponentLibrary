@@ -35,7 +35,7 @@ const options = [
   "Copy",
   "Print",
   "Save",
-  "Delete "
+  "Delete"
 ]
 
 
