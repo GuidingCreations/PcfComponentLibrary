@@ -14,17 +14,21 @@ export interface bodyProps {
     isItalic: boolean;
     height: number;
     width: number;
-    verticalAlign: string;
-    fontColor: string | undefined | null
+    fontColor: string | undefined | null;
+    useAutoHeight: boolean;
+    updateComponentHeight: (newHeight: number) => void;
+    overflow: string
 }
 
 const bodyTypography = (props : bodyProps) => {
+
+  const parentRef = React.useRef<HTMLDivElement>(null)
 
   const bodyStyles : React.CSSProperties = {
 
     fontSize: '16px',
     fontWeight: props.isBold ? 'bold' : '400',
-    textAlign: 'left',
+    textAlign: props.TextAlign.toLowerCase() == 'left' ? "left" : props.TextAlign.toLowerCase() == "center" ? "center" : "right",
     paddingTop: `${props.paddingTop}px`,
     paddingRight: `${props.paddingRight}px`,
     paddingLeft: `${props.paddingLeft}px`,
@@ -33,23 +37,30 @@ const bodyTypography = (props : bodyProps) => {
     height: 'fit-content',
     width: 'fit-content',
     maxWidth: `${props.width - 16}px`,
-    color: props.fontColor ? props.fontColor : 'white'
+    color: props.fontColor ? props.fontColor : 'white',
+    wordWrap: "break-word",
+    whiteSpace:  "pre-line"
 
   }
 
   const divStyles : React.CSSProperties = {
     
-    height: `${props.height}px`,
+    height: props.useAutoHeight ? 'fit-content' : `${props.height}px`,
     width: `${props.width}px`,
-    display: 'flex',
-    alignItems: props.verticalAlign === 'bottom' ? 'end' : props.verticalAlign === 'top' ? 'start' : props.verticalAlign === 'center' ? 'center' : 'center',
-    justifyContent: props.TextAlign === 'right' ? 'end' : props.TextAlign === 'left' ? 'start' : 'center'
-
+    display: 'block',
+    overflow: props.overflow.toLowerCase() == "hidden" ? "hidden" : props.overflow.toLowerCase() == "visible" ? "visible" : "scroll"
   }
 
+  React.useEffect(() => {
+    if (parentRef.current) {
+
+      props.updateComponentHeight(parentRef.current?.clientHeight)
+    }
+  })
+  
   return (
 
-    <div style= {divStyles}>
+    <div style= {divStyles} ref = {parentRef}>
 
       <p style={bodyStyles}>{props.Text}</p>
 
