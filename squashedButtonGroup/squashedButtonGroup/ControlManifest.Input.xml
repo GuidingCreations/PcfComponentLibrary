@@ -10,19 +10,12 @@
     
     </data-set>
 
-
-This is a component that will render the current "option" as a button, and attached to the button there will be a drop-down icon to pull up a list of other options to change your button to. It is essentially a more space-efficient way to store lots of buttons/options in a single area. Particulary useful when combined with data tables. For example, you can have a button group that have different buttons such as "Delete selected rows", "Edit row", "Add row", etc.
-
-    
-
     <!-- Input properties -->
 
     <property name="displayField" display-name-key="displayField" of-type="SingleLine.Text" usage="input" default-value ='Value'/>
     <property name="isDisabled" display-name-key="isDisabled" of-type="TwoOptions" usage="input" pfx-default-value ='false'/>
     <property name="flexibleWidth" display-name-key="flexibleWidth" of-type="TwoOptions" usage="input" pfx-default-value ='false'/>
     <property name="outputWidth" display-name-key="outputWidth" of-type="Decimal" usage="output"/>
-    
-
     <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" pfx-default-value ='true'/>
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value ='varUseDarkMode'/>
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value ='varAppPrimaryColor'/>

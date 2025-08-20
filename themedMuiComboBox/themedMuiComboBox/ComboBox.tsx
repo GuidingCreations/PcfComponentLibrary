@@ -130,7 +130,7 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
       
         multiple = {props.allowSelectMultiple}
         readOnly = {props.isReadOnly}
-        renderValue={(value) => {
+        renderValue={(value : any) => {
           const valueList = props.allowSelectMultiple ? value : [value];
           return (  
             <div style = {{display: 'flex', gap: '4px', maxWidth: `80%`, flexWrap: "wrap", minWidth: props.allowSelectMultiple ? '100%' : "75%" }}>
@@ -152,7 +152,8 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
     }
     
     
-    } 
+    }
+    
     onChange={(e : any, value: any[]) => value == null ? setSelectedValues([]) : props.onSelectionChange ? props.allowSelectMultiple ?  setSelectedValues(value) : setSelectedValues([value]) : ''}
     slotProps={{
       listbox: {
