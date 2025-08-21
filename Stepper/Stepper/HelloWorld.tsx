@@ -65,12 +65,13 @@ export default function StepperComponent(props: StepperProps) {
        <MobileStepper
       variant= {props.variant == "dots" ? "dots" : props.variant == "progress" ? "progress" : "text"}
       steps={props.stepCount}
+      
       position="static"
       className='p-0'
       sx={{
       
        
-        width:  props.useTestHarness ? '90%' : '100%',
+        width:  '100%',
         height: props.containerHeight,
         border: ` ${ props.showBorder ?   `1px solid ${props.useDarkMode ? 'white' : 'black'}` : ''}`,
         padding: "0px"

@@ -2,7 +2,7 @@
 
 ## Description
 
-This component utilizes the free version of MUI's DataGrid React Component. It is part of a suite of components that utilizes Material UI's components, and includes out-of-the-box theme options that coordinate seamlessly across multiple components. It speeds up the development process and makes for a much nice aesthetic than the default components available in Power Apps. It allows for complex filtering and sorting with minimal setup.
+This component utilizes the free version of MUI's DataGrid React Component. It is part of a suite of components that utilizes Material UI's components, and includes out-of-the-box theme options that coordinate seamlessly across multiple components. It speeds up the development process and makes for a much nice aesthetic than the default components available in Power Apps. It allows for complex filtering and sorting with minimal setup. 
 
 ## Table of Contents
 
