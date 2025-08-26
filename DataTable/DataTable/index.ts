@@ -158,10 +158,10 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     
     this.paginationModel = {
       page: paginationModel.page + 1,
-      pageSize: paginationModel.pageSize
+      pageSize: !this.context.parameters.isDelegable.raw ? 2000 : paginationModel.pageSize
     }
 
-    this.context.parameters.tableData.paging.setPageSize(paginationModel.pageSize);
+    this.context.parameters.tableData.paging.setPageSize(this.paginationModel.pageSize);
     this.context.parameters.tableData.paging.loadExactPage(paginationModel.page + 1);
 
   }
@@ -287,6 +287,9 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     if (needsUpdated ) {
 
+      if (!this.context.parameters.isDelegable.raw && this.context.parameters.tableData.paging.pageSize != 2000) {
+        this.context.parameters.tableData.paging.setPageSize(2000)
+      }
       console.log("TRIGGERING UPDATA DATA")
 
       // update actual table data  
@@ -425,9 +428,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   ): React.ReactElement {
 
     
-    if (!context.parameters.useServerSide.raw ) {
-      context.parameters.tableData.paging.setPageSize(100000);
-    
+    if (!context.parameters.useServerSide.raw && context.parameters.tableData.paging.pageSize != this.paginationModel.pageSize && context.parameters.isDelegable.raw) {
+      context.parameters.tableData.paging.setPageSize(this.paginationModel.pageSize);
     }
 
     this.updateInputSchemaIfChanged();
@@ -446,9 +448,13 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     context.mode.trackContainerResize(true);
 
+    console.log("PAGING: ", context.parameters.tableData.paging)
+    console.log("page count: ", context.parameters.tableData.paging.totalResultCount)
+    console.log("INDEX PAGINATION MODEL: ", this.paginationModel)
     console.log("Sorting ", context.parameters.tableData.sorting)
     const props: DataTableProps = {
       showToolbar: context.parameters.showToolbar.raw,
+      isDelegable: context.parameters.isDelegable.raw,
       tableData: this._tableData,
       tableColumns: this.tableColumns,
       height: context.mode.allocatedHeight,
@@ -459,7 +465,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
       pageSize: context.parameters.tableData.paging.pageSize,
       pageNumber: this._pageNumber,
-      totalRowCount: context.parameters.useServerSide.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : ((this.paginationModel.page - 1) * context.parameters.tableData.paging.pageSize ) + this._tableData.length : this._tableData.length,
+      totalRowCount: !context.parameters.isDelegable.raw ? context.parameters.tableData.paging.totalResultCount : context.parameters.useServerSide.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : (context.parameters.tableData.paging.pageSize - 1 * this.paginationModel.page) + this._tableData.length : context.parameters.tableData.paging.totalResultCount,
       onOptionSelect: this.onOptionSelect,
       columnVisibility: this._columnVisibility,
       hideFooter: context.parameters.hideFooter.raw,
@@ -477,6 +483,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       
     };
     
+    console.log("PROPSS: ", props)
     return React.createElement(DataTableComponent, props);
   }
 

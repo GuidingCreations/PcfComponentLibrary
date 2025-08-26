@@ -100,6 +100,7 @@ export interface DataTableProps {
   onFilterModelChange?: (filterModel: GridFilterModel) => void;
   datasetLoading: boolean;
   showQuickFilter: boolean;
+  isDelegable: boolean;
 }
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
@@ -124,7 +125,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
   const [paginationModel, setPaginationModel] = useState<paginationModelType>({pageSize: 25, page: 0});
 
   useEffect(() => {
-    if ( (props.paginationModel.page - 1 != paginationModel.page || props.paginationModel.pageSize != paginationModel.pageSize)  && props.useServerSidepagination) {
+    if ( (props.paginationModel.page - 1 != paginationModel.page || props.paginationModel.pageSize != paginationModel.pageSize) ) {
       
       props.onPaginationModelChange(paginationModel)
     
@@ -274,7 +275,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
         <DataGrid
             loading = {props.datasetLoading}
-            rowCount={props.useServerSidepagination ? props.totalRowCount : data.length}
+            rowCount={props.totalRowCount}
             disableAutosize
             disableMultipleRowSelection={!props.allowSelectMultiple}
             columnVisibilityModel={visibilityModel}
@@ -292,7 +293,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             
             onFilterModelChange={(e) => {console.log("NEW FILTER MODEL: ", e); props.onFilterModelChange ? props.onFilterModelChange(e) : null}}
             
-            paginationMode = {props.useServerSidepagination ? "server" : "client"}
+            paginationMode = {props.isDelegable ? "server" : "client"}
             
             sx={{ color: props.useDarkMode ? "white" : "black", width: props.fullWidth ? '100%' : props.width }}
             

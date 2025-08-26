@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.40" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.22.55" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -69,7 +69,12 @@
     <!-- Whether you can select multiple rows in the DataTable -->
 
     <property name="allowSelectMultiple" display-name-key="allowSelectMultiple" of-type="TwoOptions" usage="input" hidden="false" default-value="true"/>
+    
+    <!-- Server side -->
+
     <property name="useServerSide" display-name-key="useServerSide" of-type="TwoOptions" usage="input" default-value="false"/>
+    <property name="isDelegable" display-name-key="isDelegable" of-type="TwoOptions" usage="input" default-value="true"/>
+
 
     <!-- The text to display if there are no rows generated in the data table -->
 
