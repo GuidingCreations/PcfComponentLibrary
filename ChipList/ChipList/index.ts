@@ -64,8 +64,6 @@ export class ChipList implements ComponentFramework.ReactControl<IInputs, IOutpu
 
         // Render component
         
-        console.log("PASSING PROPS: ", props)
-
         return React.createElement(
             ChipListComponent, props
         );

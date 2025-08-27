@@ -138,11 +138,9 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       });
       };
 
-      console.log("NEW FILTERING APPLIED TO DATASET: ", this.context.parameters.tableData.filtering.getFilter())
     this.context.parameters.tableData.refresh();
   }
     
-
   }
 
   // Pagination model state
@@ -282,22 +280,19 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     console.log("UPDATED PROPS: ", this.context.updatedProperties);
 
-    const needsUpdated = this.context.updatedProperties.includes('outputObjectSchema') || this.context.updatedProperties.indexOf("dataset") > -1 || ( this.context.parameters.tableData.sortedRecordIds.length > this._tableData.length );
-    console.log("NEEDS UPDATED", needsUpdated) 
+    const propsToCheck = ['dataset', 'records', 'columnOverrides_dataset', 'columnOverrides_records', 'columnWidthTable_dataset', 'columnWidthTable_records', 'columnVisibility_dataset', 'columnVisibility_records']
+    const needsUpdated = propsToCheck.some((prop) => this.context.updatedProperties.includes(prop))
 
-    if (needsUpdated ) {
+    if (needsUpdated || this.context.parameters.tableData.sortedRecordIds.length != this._tableData.length) {
 
       if (!this.context.parameters.isDelegable.raw && this.context.parameters.tableData.paging.pageSize != 2000) {
         this.context.parameters.tableData.paging.setPageSize(2000)
       }
-      console.log("TRIGGERING UPDATA DATA")
 
       // update actual table data  
      
       this._tableData = populateDataset(this.context.parameters.tableData);
     
-      console.log("TABLE PORTION COMPLETE")
-
       // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
       
       const tableColumns: GridColDef<typeof this._tableData>[] = [];
@@ -369,7 +364,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
 
       if (column.name != "id") {
-        console.log("COLUMN TYPE: ", column.dataType)
         const columnToAdd: any = {};
         columnToAdd.field = column.name;
         columnToAdd.filterOperators = operators
@@ -399,8 +393,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     this._isLoading = false
     
-    console.log("UPDATE DATA COMPLETE")
-
   }
 
 
@@ -427,7 +419,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   
   ): React.ReactElement {
 
-    
     if (!context.parameters.useServerSide.raw && context.parameters.tableData.paging.pageSize != this.paginationModel.pageSize && context.parameters.isDelegable.raw) {
       context.parameters.tableData.paging.setPageSize(this.paginationModel.pageSize);
     }
@@ -448,10 +439,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     context.mode.trackContainerResize(true);
 
-    console.log("PAGING: ", context.parameters.tableData.paging)
-    console.log("page count: ", context.parameters.tableData.paging.totalResultCount)
-    console.log("INDEX PAGINATION MODEL: ", this.paginationModel)
-    console.log("Sorting ", context.parameters.tableData.sorting)
     const props: DataTableProps = {
       showToolbar: context.parameters.showToolbar.raw,
       isDelegable: context.parameters.isDelegable.raw,
@@ -483,7 +470,6 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       
     };
     
-    console.log("PROPSS: ", props)
     return React.createElement(DataTableComponent, props);
   }
 

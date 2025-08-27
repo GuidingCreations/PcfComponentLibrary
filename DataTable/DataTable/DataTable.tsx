@@ -18,6 +18,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import { Config, PrimaryColor } from "../../styling/types/types";
 import generateTheme from '../../styling/utils/theme-provider'
 import SquashedButtonGroup from "../renderOptions/SquashedButtonGroup";
+import ChipList, {ChipListProps} from "../renderOptions/ChipList";
 
 // Test data
 
@@ -104,8 +105,12 @@ export interface DataTableProps {
 }
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
-
-  
+  const config : Config = {
+    Mode: props.useDarkMode ? 'dark' : 'light',
+    primaryColor: props.primaryColor as PrimaryColor
+  }
+  const theme = props.useTheming ? generateTheme(config) : createTheme({palette: {mode: config.Mode}})
+  console.log('theme:: ', theme)
 //  Set primaryColor ref, and check each render to see if default has updated. If it has, update ref.
 
   const primaryColor = useRef(props.primaryColor);
@@ -163,7 +168,8 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
     const matchingOverride = column.matchingOverride;
     matchingOverride?.columnName && matchingOverride.componentType
-      ? (column.renderCell = (params: GridRenderCellParams<any>) => {
+    ? (column.renderCell = (params: GridRenderCellParams<any>) => {
+
           const matchingColorRecord =
             column?.matchingOverride?.colorGenerator?.filter(
               (record: any) => record.matchingValue == params.row[params.field]
@@ -174,79 +180,70 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
           const fontColor = matchingColorRecord?.fontColor ?? matchingOverride?.fontColor ?? "white"
 
-                console.log("VALUE: ", params.row[params.field], "matching color record: ", matchingColorRecord)
+                switch (column?.matchingOverride?.componentType.toLowerCase()) {
+                  case "chip" :
+                  return (
 
-
-            // Function to render squashedBG
-
-            const renderSquashedBG = () => { 
-              
-              return (
-               
-
-                <SquashedButtonGroup 
-                displayField="Value"
-              currentOption = {[]}
-              useTestData = {false}
-              isDisabled = {false}
-              onChangedDisplayedOption={() => {}}
-              useDarkMode = {props.useDarkMode}
-              primaryColor= {primaryColor.current}
-              useFlexibleWidth
-              height= {35}
-              options={
-                column?.matchingOverride?.optionsList || ["No options passed"]
-              }
-              
-              onOptionSelect={(option: string) => {
-                props.onOptionSelect(
-                  "selectedOption",
-                  option,
-                  params.row.recordID
-                );
-              }}
-              fullWidth
+                    <Chip 
+                      style={{
+                          backgroundColor: backgroundColor, 
+                          color: fontColor
+                      }} sx={{
+                      color : fontColor,
+                      "& .MuiChip-label": {
+                        color: fontColor
+                      }
+                      }} 
+                      label = { params.row[params.field]}/>
+                  );
+                  case "squashedbuttongroup" :
+                  return (
+                    <SquashedButtonGroup 
+                      displayField="Value"
+                      currentOption = {[]}
+                      useTestData = {false}
+                      isDisabled = {false}
+                      onChangedDisplayedOption={() => {}}
+                      useDarkMode = {props.useDarkMode}
+                      primaryColor= {primaryColor.current}
+                      useFlexibleWidth
+                      height= {35}
+                      options={column?.matchingOverride?.optionsList || ["No options passed"]}
+                      onOptionSelect={(option: string) => {props.onOptionSelect("selectedOption", option, params.row.recordID)}}
+                      fullWidth
                 />
 
-              )
-            }
+                  )
+                  case "chiplist" :
+                  {
+                    const propChips = params.row[params.field].map((chipInfo : any) => {
+                      
+                      const colorRecord = column?.matchingOverride?.colorGenerator?.filter(
+                        (record: any) => record.matchingValue == chipInfo.Value)[0]
 
-           return (
-            <>
-              {
-                // if component type is chip
-
-                column?.matchingOverride?.componentType.toLowerCase() == "chip"  && params.row[params.field] ? 
-                
-
-                <Chip style={{backgroundColor: backgroundColor, color: fontColor}} sx={{
-                  color : fontColor,
-                  "& .MuiChip-label": {
-                    color: fontColor
+                        console.log("col rec: ", colorRecord)
+                        const obj : any = {}; 
+                        obj.label = chipInfo.Value ?? "label"
+                        obj.backgroundColor = colorRecord?.backgroundColor ? colorRecord.backgroundColor : theme.palette.primary.main;
+                        obj.fontColor = colorRecord?.fontColor ? colorRecord.fontColor : theme.palette.contrastText;
+                        return obj
+                      });
+                    
+                    return (
+                      <ChipList Chips={propChips}/>
+                    )
                   }
-                
-                }} label = { params.row[params.field]}/>
-                
-                 : column?.matchingOverride?.componentType.toLowerCase() ==
-                  "squashedbuttongroup" ? (
-                    renderSquashedBG()
-                ) : (
-                  <></>
-                )
-              }
-            </>
-          );
+                }
+
+
+           
+
+         
         })
       : null;
   });
 
 
-
-  const config : Config = {
-    Mode: props.useDarkMode ? 'dark' : 'light',
-    primaryColor: props.primaryColor as PrimaryColor
-  }
-  const theme = props.useTheming ? generateTheme(config) : createTheme({palette: {mode: config.Mode}})
 
 
   const styles = {
@@ -259,7 +256,6 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
 
   const renderCount = useRef(0);
   renderCount.current++;
-  console.log("RENDER COUNT DATA TABLE: ", renderCount.current)
   
 
   return (
@@ -291,7 +287,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             getRowId={getRowId}
             className={props.classes}
             
-            onFilterModelChange={(e) => {console.log("NEW FILTER MODEL: ", e); props.onFilterModelChange ? props.onFilterModelChange(e) : null}}
+            onFilterModelChange={(e) => { props.onFilterModelChange ? props.onFilterModelChange(e) : null}}
             
             paginationMode = {props.isDelegable ? "server" : "client"}
             

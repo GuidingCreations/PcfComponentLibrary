@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="Stepper" version="0.0.63" display-name-key="Stepper"  control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Stepper" version="0.0.64" display-name-key="Stepper"  control-type="virtual" >
     
     <external-service-usage enabled="false">
      

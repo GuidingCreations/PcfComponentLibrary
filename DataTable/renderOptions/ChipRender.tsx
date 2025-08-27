@@ -5,23 +5,19 @@ import { memo } from "react";
 
 export interface chipProps {
     backgroundColor: string, 
-    label: string
-    testObj: any;
     fontColor: string;
+    label: string
 }
 
-
-
-const chipRender = (props : chipProps) => {
-
-    console.log("CHIP PROPS: ", props)
-
+const ChipRender = (props : chipProps) => {
+  
   return (
     <Chip
-    label = {props.label}
-    sx={{backgroundColor: props.backgroundColor, color: props.fontColor}}
+      label = {props.label}
+      sx={{backgroundColor: props.backgroundColor, "& .MuiChip-label": {color: props.fontColor ?? "black", width: '100%'}}}
     />
   )
+
 }
 
-export default memo(chipRender)
+export default memo(ChipRender)

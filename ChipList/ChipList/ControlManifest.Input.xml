@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ChipList" version="0.10.12" display-name-key="ChipList" description-key="ChipList description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ChipList" version="0.10.14" display-name-key="ChipList" description-key="ChipList description" control-type="virtual" >
     
 
     <!-- Dataset for list of chips to create -->
