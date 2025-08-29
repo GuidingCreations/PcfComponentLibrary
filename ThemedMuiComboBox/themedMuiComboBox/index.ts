@@ -21,6 +21,7 @@ type stateType = {
     searchText: string;
     outputHeight: number;
 }
+
 export class themedMuiComboBox implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     
     private notifyOutputChanged: () => void;
@@ -133,7 +134,8 @@ export class themedMuiComboBox implements ComponentFramework.ReactControl<IInput
             isRequired: context.parameters.isRequired.raw,
             width: context.parameters.containerWidth.raw ?? 250,
             isReadOnly: context.parameters.isReadOnly.raw,
-            updateComponentHeight: this.updateOutputHeight
+            updateComponentHeight: this.updateOutputHeight,
+            tagLimit: context.parameters.tagLimit.raw ?? undefined
         }
 
         // Render component
