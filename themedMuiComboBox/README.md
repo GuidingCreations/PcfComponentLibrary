@@ -231,6 +231,16 @@ Filter(colData, "Star Wars" in ThisRecord.title)
 ### Type: number
 ### A necessary property due to a bug on Microsoft's side that causes components to occassionally not fill their parent container, even when using the context.mode.trackContainerResize() function. The default value is Self.Width, and that's what it should remain as. 
 
+<br>
+
+## tagLimit
+### Type: number
+### This property will limit the amount of tags that can be rendered when allowSelectMultiple is set to true. For example, with a tag limit of 2, and 6 selected options, the component will render the first two options as normal, then show '+4' after the second tag. This property has no effect on the component when allowSelectMultiple is set to false. When the control has focus, such as when you open the drop-down menu, all tags and selected options will be shown, but when you click away again, it will go back to showing the +x text
+
+![Tag limit collapsed](./images/tagLimitCollapsed.png)
+
+![Tag limit expanded](./images/tagLimitExpanded.png)
+
 # Output properties
 
 ## searchText

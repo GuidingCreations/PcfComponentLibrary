@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.1.58" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="themedMuiComboBox" version="0.1.62" display-name-key="themedMuiComboBox" description-key="themedMuiComboBox description" control-type="virtual" >
     
     <external-service-usage enabled="false">
      
@@ -30,6 +30,7 @@
     <property name="isRequired" display-name-key = "isRequired" of-type = "TwoOptions" usage = "input" default-value = "true"/>
     <property name="isReadOnly" display-name-key = "isReadOnly" of-type = "TwoOptions" usage = "input" default-value = "false"/>
     <property name="containerWidth" display-name-key = "containerWidth" of-type = "Whole.None" usage = "input" pfx-default-value = "Self.Width"/>
+    <property name="tagLimit" display-name-key = "tagLimit" of-type = "Whole.None" usage = "input"/>
 
   <!-- Resources -->
 

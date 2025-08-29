@@ -27,10 +27,13 @@ export interface comboBoxProps {
   isRequired: boolean;
   width: number;
   isReadOnly?: boolean;
-  updateComponentHeight: (newOutputHeight: number) => void
+  updateComponentHeight: (newOutputHeight: number) => void;
+  tagLimit?: number;
 }
 
 const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
+
+  console.log("PASSED PROPS TO TMUICB: ", props)
 
   // Init basic values
 
@@ -128,9 +131,10 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
     <div  style={{position: "relative",  width: `${props.width}px`, height: 'fit-content'}} ref = {autoRef}>
       <Autocomplete
       
+        limitTags={props.tagLimit}
         multiple = {props.allowSelectMultiple}
         readOnly = {props.isReadOnly}
-        renderValue={(value : any) => {
+        renderValue= { props.allowSelectMultiple ? undefined : (value : any) => {
           const valueList = props.allowSelectMultiple ? value : [value];
           return (  
             <div style = {{display: 'flex', gap: '4px', maxWidth: `80%`, flexWrap: "wrap", minWidth: props.allowSelectMultiple ? '100%' : "75%" }}>
@@ -148,9 +152,9 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
               }
             </div>
           )
-    
+        
     }
-    
+  
     
     }
     
