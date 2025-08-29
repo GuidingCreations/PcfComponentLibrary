@@ -31,7 +31,7 @@ This component utilizes the free version of MUI's DataGrid React Component. It i
 - [showCheckboxes](#showcheckboxes)
 - [hideFooter](#hidefooter)
 - [allowSelectMultiple](#allowselectmultiple)
-- [useServerSide](#useServerSide)
+- [useServerSide](#useserverside)
 - [noRowsText](#norowstext)
 - [columnVisibility](#columnvisibility)
 
@@ -86,9 +86,14 @@ This is a table that will pass in customizations to the columns themselves, whic
 - [Change the format type of a column](#change-format-type-of-column)
 
 - [Render a squashedButtonGroup](#render-a-squashedbuttongroup)
+
+- [Render a single chip](#render-out-a-chip)
+
+- [Render out multiple chips](#render-out-multiple-chips)
         
 ### Change column name
 This is simple, you simply need to have a record with two properties: columnName and newName. columnName will contain the Field name of the column (Always double check this in the the field well, as it can sometimes be different than what's displayed. For example, Sharepoint will occasionally replace spaces with something like _x0200), and newName will be the new name of the column to be displayed.
+
 ### Before pic 
 ![Before column name change](<images/columnName/beforePicColumnName.png>)
 
@@ -133,6 +138,7 @@ You can render a chip, which is like a little colored oval with text, usually me
     - fontColor: (optional) - This is the font color to be displayed inside the chip itself
     - backgroundColor: (optional) - This is the background color for the chip to use
 
+
 ### Formula example
 
 - Note that in this example, we do not pass in a backgroundColor for Choice 1, or a fontColor for Choice 3. In the "After" picture, you will see that since it didn't find a value in those records, it uses the fontColor and backgroundColor from the parent instead
@@ -143,10 +149,48 @@ You can render a chip, which is like a little colored oval with text, usually me
 ![After change](<images/Chip/After.png>)
 
 
+### Render out multiple chips
+You can also choose to render out a list of chips, which is quite useful for columns that can contain multiple values, such as Lookup or Choice columns that support multiple selections. In order to render out a list of chips, you will need to add a column override in the columnOverrides table, and you can use the following properties:
+- columnName: (required) - the field name of the column to be rendered
+- componentType: (required) - Set this to "chiplist"
+- fontColor: (optional) - This will be the DEFAULT color of the text in your chips, this color will only be used if there is no matching fontColor in your colorGenerator. If you do not have a default set & there is no matching color recrd, it will use the theme color
+- backgroundColor: (optional) - This will be the DEFAULT background color for your chip. This color will only be used if there is no matching backgroundColor in your colorGenerator. If there is no default set and there is no matching color record, it will then use the theme contrast text color
+- colorGenerator: (optional) - This will be an array of records that you pass in your columnOverride record to indicate which rows should generate what color for your chips. There are several properties you can pass into each record in your colorGenerator array:
+    - matchingValue: (required) - This is the value that will attempt to match with the value being displayed in your data table. If you have a column with the values Fully Operational, Partially operational, and Not operational, those values would each have to appear in a record as the matchingValue in order to be applied
+    - fontColor: (optional) - This is the font color to be displayed inside the chip itself
+    - backgroundColor: (optional) - This is the background color for the chip to use
 
+The code used in the below example is
 
+```
+[
+   { 
+    columnName: "TestMultipleChoice", 
+    componentType: "ChipList",
+    backgroundColor: "seagreen",
+    colorGenerator: [
+        {
+            matchingValue: "Choice 3",
+            fontColor: "red",
+            backgroundColor: "blue"
+        },
+        {
+            matchingValue: "Choice 1",
+            backgroundColor: "Orange",
+            fontColor: "white"
+        }
+    ]
+    
+    },
+   { columnName: "TestChoices", componentType: "Chip"}
 
+]
+```
+#### Demo 
+![Demo](<images/MultipleChoice/multipleChoiceSS.png>)
 
+### Code
+![Code](<images/MultipleChoice/mutlipleChoiceCode.png>)
 
 
 ## ReadMeLink
@@ -188,6 +232,10 @@ This will control whether the data table allows you to select multiple records a
 ## useServerSide
 #### Type: Boolean 
 This controls whether filtering expressions (and eventually sorting expressions) will be delegated to the server to execute instead of the client. This is currently only available for Dataverse. The benefit of server-side execution is that it saves huge amounts of time when working with very large datasets, so if you're using Dataverse you should pretty much always have this on. If you are not using Dataverse, turn this off. The limit for records on client-side execution (which happens when you have this turned off) is 100,000 records.
+
+## isDelegable
+#### Type: Boolean
+This controls whether the control will implement server-side pagination, which only loads a small portion of records at a time
 
 ## noRowsText
 #### Type: String

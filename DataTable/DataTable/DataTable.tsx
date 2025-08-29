@@ -18,7 +18,7 @@ import { memo, useEffect, useRef, useState } from "react";
 import { Config, PrimaryColor } from "../../styling/types/types";
 import generateTheme from '../../styling/utils/theme-provider'
 import SquashedButtonGroup from "../renderOptions/SquashedButtonGroup";
-import ChipList, {ChipListProps} from "../renderOptions/ChipList";
+import ChipList from "../renderOptions/ChipList";
 
 // Test data
 
@@ -105,13 +105,15 @@ export interface DataTableProps {
 }
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
+  
   const config : Config = {
     Mode: props.useDarkMode ? 'dark' : 'light',
     primaryColor: props.primaryColor as PrimaryColor
   }
+  
   const theme = props.useTheming ? generateTheme(config) : createTheme({palette: {mode: config.Mode}})
-  console.log('theme:: ', theme)
-//  Set primaryColor ref, and check each render to see if default has updated. If it has, update ref.
+
+  //  Set primaryColor ref, and check each render to see if default has updated. If it has, update ref.
 
   const primaryColor = useRef(props.primaryColor);
 
@@ -157,10 +159,8 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
     return   props.useTestData ? row.id : row.recordID;
   }
 
-
   const data = props.useTestData ? testRows : props.tableData;
   const columns =  props.useTestData ? testColumns : props.tableColumns
-
   
   // Map through columns to generate overrides
 
@@ -171,16 +171,16 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
     ? (column.renderCell = (params: GridRenderCellParams<any>) => {
 
           const matchingColorRecord =
-            column?.matchingOverride?.colorGenerator?.filter(
+            matchingOverride?.colorGenerator?.filter(
               (record: any) => record.matchingValue == params.row[params.field]
             )[0];
 
 
-          const backgroundColor = matchingColorRecord?.backgroundColor ?? matchingOverride?.backgroundColor ?? "gray"
+          const backgroundColor = matchingColorRecord?.backgroundColor ?? matchingOverride?.backgroundColor ?? theme.palette.primary.main
 
-          const fontColor = matchingColorRecord?.fontColor ?? matchingOverride?.fontColor ?? "white"
+          const fontColor = matchingColorRecord?.fontColor ?? matchingOverride?.fontColor ?? theme.palette.primary.contrastText
 
-                switch (column?.matchingOverride?.componentType.toLowerCase()) {
+                switch (matchingOverride?.componentType.toLowerCase()) {
                   case "chip" :
                   return (
 
@@ -216,16 +216,14 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
                   )
                   case "chiplist" :
                   {
-                    const propChips = params.row[params.field].map((chipInfo : any) => {
+                     const propChips = params.row[params.field].map((chipInfo : any) => {
                       
                       const colorRecord = column?.matchingOverride?.colorGenerator?.filter(
                         (record: any) => record.matchingValue == chipInfo.Value)[0]
-
-                        console.log("col rec: ", colorRecord)
                         const obj : any = {}; 
                         obj.label = chipInfo.Value ?? "label"
-                        obj.backgroundColor = colorRecord?.backgroundColor ? colorRecord.backgroundColor : theme.palette.primary.main;
-                        obj.fontColor = colorRecord?.fontColor ? colorRecord.fontColor : theme.palette.contrastText;
+                        obj.backgroundColor = colorRecord?.backgroundColor ??  column?.matchingOverride?.backgroundColor ?? theme.palette.primary.main;
+                        obj.fontColor = colorRecord?.fontColor ?? column?.matchingOverride?.fontColor ?? theme.palette.contrastText;
                         return obj
                       });
                     
@@ -234,11 +232,6 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
                     )
                   }
                 }
-
-
-           
-
-         
         })
       : null;
   });

@@ -152,11 +152,11 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
   // Function to run when pagination model changes to pull new records. Only effective when useServerSidePagination is set to true
 
+
   private onPaginationModelChange = (paginationModel : paginationModelType) => {
-    
     this.paginationModel = {
       page: paginationModel.page + 1,
-      pageSize: !this.context.parameters.isDelegable.raw ? 2000 : paginationModel.pageSize
+      pageSize: !this.context.parameters.isDelegable.raw ? 100000 : paginationModel.pageSize
     }
 
     this.context.parameters.tableData.paging.setPageSize(this.paginationModel.pageSize);
@@ -278,21 +278,24 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
     
     // If the dataset has been updated, pull latest data
 
-    console.log("UPDATED PROPS: ", this.context.updatedProperties);
-
     const propsToCheck = ['dataset', 'records', 'columnOverrides_dataset', 'columnOverrides_records', 'columnWidthTable_dataset', 'columnWidthTable_records', 'columnVisibility_dataset', 'columnVisibility_records']
     const needsUpdated = propsToCheck.some((prop) => this.context.updatedProperties.includes(prop))
 
     if (needsUpdated || this.context.parameters.tableData.sortedRecordIds.length != this._tableData.length) {
 
-      if (!this.context.parameters.isDelegable.raw && this.context.parameters.tableData.paging.pageSize != 2000) {
-        this.context.parameters.tableData.paging.setPageSize(2000)
-      }
+
+      const tablePageSize = !this.context.parameters.isDelegable.raw ? 100000 : this.paginationModel.pageSize
+      
+      if (!this.context.parameters.isDelegable.raw) {
+        this.context.parameters.tableData.paging.setPageSize(tablePageSize)
+      } else {
+        this.context.parameters.tableData.paging.setPageSize(this.paginationModel.pageSize)
+       }
 
       // update actual table data  
      
       this._tableData = populateDataset(this.context.parameters.tableData);
-    
+
       // Loop through each column to get the column info and use it to creat a correctly typed object to use for the column in MUI's data grid
       
       const tableColumns: GridColDef<typeof this._tableData>[] = [];
@@ -407,7 +410,11 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   ): void {
     this.notifyOutputChanged = notifyOutputChanged;
     this.context = context;
-    this._isLoading = true
+    this._isLoading = true;
+    this.paginationModel = {
+      page: 1,
+      pageSize: !this.context.parameters.isDelegable.raw ? 100000 : 25
+    }
     
   }
 
@@ -439,6 +446,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     context.mode.trackContainerResize(true);
 
+    const compResultCount = !context.parameters.isDelegable.raw ? this._tableData.length : context.parameters.useServerSide.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : (context.parameters.tableData.paging.pageSize - 1 * this.paginationModel.page) + this._tableData.length : context.parameters.tableData.paging.totalResultCount
     const props: DataTableProps = {
       showToolbar: context.parameters.showToolbar.raw,
       isDelegable: context.parameters.isDelegable.raw,
@@ -452,7 +460,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
       pageSize: context.parameters.tableData.paging.pageSize,
       pageNumber: this._pageNumber,
-      totalRowCount: !context.parameters.isDelegable.raw ? context.parameters.tableData.paging.totalResultCount : context.parameters.useServerSide.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : (context.parameters.tableData.paging.pageSize - 1 * this.paginationModel.page) + this._tableData.length : context.parameters.tableData.paging.totalResultCount,
+      totalRowCount: compResultCount,
       onOptionSelect: this.onOptionSelect,
       columnVisibility: this._columnVisibility,
       hideFooter: context.parameters.hideFooter.raw,
