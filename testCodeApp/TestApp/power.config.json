@@ -1,0 +1,41 @@
+{
+  "appId": "76b86012-ec31-406e-aea3-f358079f109f",
+  "appDisplayName": "TestCodeApp",
+  "description": null,
+  "environmentId": "e8cbb91d-4dbe-ea3e-ad2b-085284374b14",
+  "buildPath": "./dist",
+  "buildEntryPoint": "index.html",
+  "logoPath": "Default",
+  "localAppUrl": "http://localhost:3000/",
+  "connectionReferences": {
+    "e2c349a2-2b0f-40d7-945b-fb806f27f022": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+      "displayName": "SharePoint",
+      "dataSources": [
+        "test list"
+      ],
+      "authenticationType": null,
+      "sharedConnectionId": null,
+      "dataSets": {
+        "https%253A%252F%252Fnewtoguru.sharepoint.com%252Fsites%252FTESTTEAM": {
+          "dataSources": {
+            "test list": {
+              "tableName": "0007bdd0-7e76-4e14-abb7-beb0720185b0"
+            }
+          }
+        }
+      }
+    },
+    "2d05c767-d7e8-4801-9baf-2d33f3fc678d": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_office365users",
+      "displayName": "Office 365 Users",
+      "dataSources": [
+        "office365users"
+      ],
+      "authenticationType": null,
+      "sharedConnectionId": null,
+      "dataSets": {}
+    }
+  },
+  "databaseReferences": {}
+}
