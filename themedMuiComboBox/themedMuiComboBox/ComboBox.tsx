@@ -116,6 +116,7 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
   // Update component output height after each render
 
   useEffect(() => {
+    console.log("HEIGHTS: ", autoRef.current.getBoundingClientRect().height, autoRef.current.clientHeight, autoRef.current.offsetHeight, autoRef.current.scrollHeight);
     props.updateComponentHeight(autoRef.current.clientHeight);
   })
 
@@ -128,9 +129,16 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
       
     {/* Wrapper around the autocomplete component */}
     
-    <div  style={{position: "relative",  width: `${props.width}px`, height: 'fit-content'}} ref = {autoRef}>
+    <div  style={{position: "relative",  width: `${props.width}px`, height: 'fit-content'}} >
       <Autocomplete
-      
+        ref = {autoRef}
+        onBlur={(e : any) => {
+    
+          setTimeout(() => {
+       props.updateComponentHeight(autoRef.current.clientHeight)
+         }, 100)
+
+          console.log("Blur event for root: ", e); props.updateComponentHeight(autoRef.current.clientHeight)}}
         limitTags={props.tagLimit}
         multiple = {props.allowSelectMultiple}
         readOnly = {props.isReadOnly}
@@ -199,6 +207,11 @@ const ComboBoxComponent = function ComboBoxComponent(props: comboBoxProps) {
         label= {`${props.labelText} ${props.isRequired ? "*" : ""}`}
         placeholder={props.labelText}
         onChange={(e) => props.onSearchTextChange ? props.onSearchTextChange(e.target.value) : ''}
+        onBlur={(e) => {
+
+         setTimeout(() => {
+            props.updateComponentHeight(autoRef.current.clientHeight)
+         }, 100);}}
         />
       )
     }
