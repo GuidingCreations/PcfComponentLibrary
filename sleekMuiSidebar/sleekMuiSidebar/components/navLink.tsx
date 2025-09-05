@@ -20,14 +20,17 @@ interface linkProps {
 
 const NavLink = memo(function NavLink(props: linkProps) {
 
-    const renderSvgIcon = (badge: any) => {
+    const renderSvgIcon = (item: any) => {
 
-        console.log("BADGE: ", badge)
+        console.log("BADGE: ", item);
+        console.log("activeItems: ", props.activeItem, item)
+        const isActive = props.activeItem == item
+        console.log("IS ACTIVE: ", isActive)
         return (
         
-        <Badge showZero badgeContent = {badge.badgeContent ?? 0} color='primary' sx={{marginLeft: '8px', marginRight: '16px'}} slotProps={{badge: {
+        <Badge showZero badgeContent = {item.badge.badgeContent ?? 0} color={props.activeItem == item ? "secondary" : "primary"} sx={{marginLeft: '8px', marginRight: '16px'}} slotProps={{badge: {
             style: {
-                height: '20px',
+                height: '16px',
                 width: '16px'
             }
         }}}>
@@ -39,7 +42,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
         width="20px" 
         fill="white">
             <path 
-                d={badge.icon ?? null}/>
+                d={item.badge.icon ?? null}/>
             </svg>
         </Badge> 
         
@@ -58,8 +61,8 @@ const NavLink = memo(function NavLink(props: linkProps) {
             key={props.linkText} 
             style={{
                 backgroundColor: props.activeItem == props.item && !props.item.children ? props.theme.palette.primary.main : '', 
-                paddingTop: '4px', 
-                paddingBottom: '4px', 
+                paddingTop: '6px', 
+                paddingBottom: '6px', 
                 paddingLeft: '4px', 
                 marginTop: '4px', flexGrow: 1}}
             onClick={(e) => {setISExpanded(!isExpanded); props.onSelect(props.item)}}
@@ -77,7 +80,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
 
     {
         props.item.badge ?
-        renderSvgIcon(props.item.badge)
+        renderSvgIcon(props.item)
         :null
     }
 
@@ -154,7 +157,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
                 </p>
                 {
                     child.badge ?
-                    renderSvgIcon(child.badge) : null
+                    renderSvgIcon(child) : null
                 }
 
             </div> : ''
