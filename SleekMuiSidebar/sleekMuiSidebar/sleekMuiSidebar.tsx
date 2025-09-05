@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 import { useRef, memo, useState } from 'react';
-import { Box, Stack, Drawer } from '@mui/material';
+import { Box, Stack, Drawer, Badge } from '@mui/material';
 import testItems, {navLinkProps, navSection} from './testItems';
 import NavLink from './components/navLink';
 import { ThemeProvider } from '@mui/material/styles';
@@ -11,6 +11,7 @@ import generateTheme from '../../styling/utils/theme-provider'
 import { Config, PrimaryColor } from '../../styling/types/types';
 import PrimaryColorOptions from './components/primaryColorOptions';
 import ThemeModeOptions from './components/themModeOptions';
+
 
 export interface muiSidebarProps {
   containerHeight: number;
@@ -77,9 +78,11 @@ if (props.primaryColor != primaryColor.current) {
 return(
 
   <ThemeProvider theme={theme}>
+    
     <Box sx={{height : `${props.containerHeight}px`, width:  `${props.containerWidth}px`}}>
        <Stack sx={{backgroundColor: theme.palette.primary.sidebarFill, justifyContent: 'space-between', height: '100%', width: '100%'}}>
         <Stack sx={{ height : '100%', width: '100%', paddingBottom: '16px', overflowY: 'scroll'}} id = "mainSidebarList" alignItems='start'>
+    
           {
             items.length > 0 ? 
               items.map( (navSection : navSection) => {
@@ -98,14 +101,16 @@ return(
                     }
                   }>
                     <p style={{color: 'white', textAlign: 'left'}}>{navSection.sectionTitle}</p>
-
+              
+  
               <Stack style={{paddingLeft: '24px', paddingRight: '32px'}}>
 
                   {navSection.children.map( (child : navLinkProps) => {
                     return(
               
               !child.isHidden ?
-              
+             
+
               <NavLink 
               theme = {theme}
               svgData = {child.icon}
@@ -114,8 +119,9 @@ return(
               onSelect={(item: any) => {!item.children ?  updateActiveNav(item) : null; child.isExpanded = !child.isExpanded}}
               isExpanded = {child.isExpanded}
               item = {child}
+              badge={child.badge ?? undefined}
               />
-            
+               
               : <></>
             
             )

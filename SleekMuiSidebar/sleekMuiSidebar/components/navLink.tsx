@@ -1,11 +1,9 @@
 /* eslint-disable */
 import * as React from 'react'
-import { Container, Link, Stack, ThemeProvider, Button, Icon, Box, Tooltip } from '@mui/material';
-import {Theme, Mode} from '../../../styling/types/types'
-import { ArrowDownward, ArrowRight, ArrowUpward } from '@mui/icons-material';
+import { Stack, ThemeProvider, Box, Badge, SvgIcon} from '@mui/material';
+import {Theme} from '../../../styling/types/types'
 import { memo, useState } from 'react';
-import  {navLinkProps, navSection}  from '../testItems';
-import generateTheme from '../../../styling/utils/theme-provider';
+import  {navLinkProps}  from '../testItems';
 
 interface linkProps {
     activeItem?: navLinkProps
@@ -14,16 +12,43 @@ interface linkProps {
     onSelect: (item: any) => void;
     theme: Theme;
     isExpanded?: boolean;
-    item: navLinkProps
+    item: navLinkProps;
+    badge?: any
 }
 
 
 
 const NavLink = memo(function NavLink(props: linkProps) {
-  
+
+    const renderSvgIcon = (badge: any) => {
+
+        console.log("BADGE: ", badge)
+        return (
+        
+        <Badge showZero badgeContent = {badge.badgeContent ?? 0} color='primary' sx={{marginLeft: '8px', marginRight: '16px'}} slotProps={{badge: {
+            style: {
+                height: '20px',
+                width: '16px'
+            }
+        }}}>
+
+
+     <svg xmlns="http://www.w3.org/2000/svg" 
+        height="20px" 
+        viewBox="0 -960 960 960" 
+        width="20px" 
+        fill="white">
+            <path 
+                d={badge.icon ?? null}/>
+            </svg>
+        </Badge> 
+        
+        )
+    }
+    
     // const activeBackgroundColor = props.theme.palette.primary.main 
     const [isExpanded, setISExpanded] = useState(props.isExpanded)
-    
+     console.log("PARENT ITEM: ", props.item)
     return (
 
         <ThemeProvider theme = {props.theme}>
@@ -39,6 +64,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
                 marginTop: '4px', flexGrow: 1}}
             onClick={(e) => {setISExpanded(!isExpanded); props.onSelect(props.item)}}
             direction={'row'}
+            flexWrap={"nowrap"}
             >
 {props.svgData ? 
         
@@ -46,7 +72,14 @@ const NavLink = memo(function NavLink(props: linkProps) {
         : ''
     }
 
+    
     <p style={{margin: 'auto 0', color: 'white', fontSize: '.875rem', lineHeight: `24px`, paddingLeft: '8px'}}>{props.linkText}</p>
+
+    {
+        props.item.badge ?
+        renderSvgIcon(props.item.badge)
+        :null
+    }
 
     { props.item.children && isExpanded ? 
         
@@ -88,10 +121,11 @@ const NavLink = memo(function NavLink(props: linkProps) {
 
 <Box sx={{paddingLeft: '8px', borderLeftStyle: 'solid', borderColor: '#32383e', borderLeftWidth: '1px'}}>
   <Stack direction={'column'}>
-    {props.item.children.map((child : navLinkProps) => {
+    {props.item.children.map((child : navLinkProps, index) => {
      
         const isMatched =  props.activeItem?.navTitle == child.navTitle
      
+        console.log("CHILD: ", child)
         return (
 
             !child.isHidden ?
@@ -105,7 +139,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
                 marginTop: '4px',
                 flexGrow: 1
             }} 
-            onClick={(e) => {props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={child.navTitle}>
+            onClick={(e) => {props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={index}>
 
                 <p 
                     style={{
@@ -118,6 +152,11 @@ const NavLink = memo(function NavLink(props: linkProps) {
                         textOverflow: "ellipsis"}}>
                             {child.navTitle}
                 </p>
+                {
+                    child.badge ?
+                    renderSvgIcon(child.badge) : null
+                }
+
             </div> : ''
         )
     })}
@@ -125,7 +164,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
 </Box>
     </Box>   
 
-: ''
+: null
 
 }
        

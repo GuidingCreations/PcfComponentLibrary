@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.1.98" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="sleekMuiSidebar" version="0.3.2" display-name-key="sleekMuiSidebar" description-key="sleekMuiSidebar description" control-type="virtual" >
     
     <external-service-usage enabled="false">
       
@@ -57,7 +57,6 @@
       <code path="index.ts" order="1"/>
       <css path="./styling/index.css" order="1"/>
       <platform-library name="React" version="16.14.0" />
-      <platform-library name="Fluent" version="9.46.2" />
       
     </resources>
     
