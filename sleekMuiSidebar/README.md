@@ -59,6 +59,9 @@ This property is contained within Power Apps itself, it won't appear in the code
     ### 2. icon (optional - string): This renders an icon based on a single-path svg. You can find useable icons by going to https://fonts.google.com/icons, finding the icon you want, exporting it as svg, and extracting the 'd' property from the svg.
     ### 3. isHidden (optional - boolean): This operates exactly the same as the isHidden in the parent section, except it only controls visibility for this item
     ### 4. children (optional - array): This is a child navigation item that will be rendered under the parent, and gives the parent an expand/collapse functionality instead of a normal navigation functionality. The children here have all the same properties as parent, except it can't have more children itself (currently limited to 3 layers deep - Section, parent, child. Will eventually switch to a recursive function that renders infinitely )
+    ### 5. badge (optional) - This is the property that will cause a badge to render on the nav item. The badge property is an object with two parameters: 
+    1. icon: this will be the 'd' property from any Material font icon, you can get this by going to https://fonts.google.com/icons and downloading the svg file from there, and copying the 'd' property from the path. This will translate to the icon you see in Material font icons
+    2. badgeContent (number): This will be the number that is displayed in the little circle beside the icon 
 
 ### Example code (App.Formulas):
 ```
