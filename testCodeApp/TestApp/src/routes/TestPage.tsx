@@ -2,8 +2,12 @@ import * as React from 'react'
 import {TestListService} from '../Services/TestListService'
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
+import { useContext } from 'react';
 
-const TestPage = () => {
+export interface TestPageProps {
+  updateThemeMode: (newThemeMode: "dark" | "light") => void
+}
+const TestPage = (props: TestPageProps) => {
      
         const [listItems, setListItems ] = React.useState<any>()
         const [loading, setLoading] = React.useState(true)
@@ -41,20 +45,36 @@ const TestPage = () => {
         React.useEffect(() => {
         
       
-          loadData()
+          loadData();
+
+          let themeConfigRaw = localStorage.getItem("themeConfig");
+          if (!themeConfigRaw) {
+            localStorage.setItem('themeConfig', JSON.stringify({Mode: "dark", primaryColor: "Green"}));
+            themeConfigRaw = localStorage.getItem("themeConfig")
+          }
+
+          const themeConfig = JSON.parse(localStorage.getItem("themeConfig")!)
+          console.log(themeConfig)
 
         }, [])
 
   return (
+    
+
+
     <div style={{width: '1000px', height: '500px'}}>
     {
-    loading ?
-    <div>Loading...</div> :
-    <div>Loaded</div>
-  }
+      loading ?
+      <div>Loading...</div> :
+      <div>Loaded</div>
+    }
     <button onClick={() => loadData()} >Click me to reload</button>
-    <DataGrid loading={loading} columns={columns} rows={listItems} getRowId={(row) => row.ID} sx={{width: '100%', height: '100%'}}/>
+    <DataGrid checkboxSelection disableMultipleRowSelection = {false} loading={loading} columns={columns} rows={listItems} getRowId={(row) => row.ID} sx={{width: '100%', height: '100%'}}/>
+      <button onClick={() => props.updateThemeMode("light")}>Switch theme mode</button>
+      <a href='/TestPage2'>Go to second test page</a>
   </div>
+
+
   )
 }
 

@@ -1,6 +1,6 @@
 {
-  "appId": "76b86012-ec31-406e-aea3-f358079f109f",
-  "appDisplayName": "TestCodeApp",
+  "appId": "",
+  "appDisplayName": "testCodeApp",
   "description": null,
   "environmentId": "e8cbb91d-4dbe-ea3e-ad2b-085284374b14",
   "buildPath": "./dist",
