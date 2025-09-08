@@ -1,5 +1,5 @@
-import { createTheme, type Theme } from "@mui/material/styles";
-import React, { createContext, useContext, useState, type PropsWithChildren, type ReactNode } from "react"
+import { type Theme } from "@mui/material/styles";
+import React, { createContext, useContext, } from "react"
 
 
 export interface CustomThemeProps  {
@@ -11,6 +11,7 @@ export const CustomThemeContext = createContext<CustomThemeProps | undefined>(un
 
 export const useCustomThemeContext = () => {
   const context = useContext(CustomThemeContext);
+  console.log("USING CONTEXT", CustomThemeContext)
   if (context === undefined) {
     throw new Error("context not found")
   }
