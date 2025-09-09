@@ -1,8 +1,8 @@
 import * as React from 'react'
-import {TestListService} from '../Services/TestListService'
+import {TestListService} from '../../../Services/TestListService'
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
-import { useCustomThemeContext } from '../contexts/CustomThemeContext';
+import { useCustomThemeContext } from '../../../contexts/CustomThemeContext';
 import { createTheme, Theme } from '@mui/material/styles';
 
 

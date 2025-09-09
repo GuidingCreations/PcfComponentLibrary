@@ -13,6 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#RootLayout {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.SidebarWrapper {
+  width: 15vw;
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;

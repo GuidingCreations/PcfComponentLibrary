@@ -7,20 +7,44 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import TestPage2 from './routes/TestPage2.tsx';
+import TestPage2 from './routes/RootLayout/Children/TestPage2.tsx';
+import TestPage from './routes/RootLayout/Children/TestPage.tsx';
+import RootLayout from './routes/RootLayout/RootLayout.tsx';
+import HomePage from './routes/RootLayout/Children/HomePage.tsx';
+import MyOwnedGroups from './routes/RootLayout/Children/Groups/MyOwnedGroups.tsx';
 
+export const routes = {
+   element: <App/>,
+   children: [
+    {
+      element: <RootLayout/>,
+      children: [
+        {
+          element: <TestPage/>,
+          path: "/TestPage"
+        },
+        {
+          element: <TestPage2/>,
+          path: "/TestPage2"
+        },
+        {
+          element: <HomePage/>,
+          path: '/'
+        },
+        {
+          path: 'Groups',
+          children: [
+            {path: 'MyOwnedGroups', element: <MyOwnedGroups/>}
+          ]
+        }
+      ]
+    }
+   ]
+  
+  
+  };
 
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />
-  },
-  {
-    path: "/TestPage2",
-    element: <TestPage2/>
-  }
-]);
+const router = createBrowserRouter([routes]);
 
 
 

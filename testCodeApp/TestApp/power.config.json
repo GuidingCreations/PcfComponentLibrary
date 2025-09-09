@@ -35,6 +35,16 @@
       "authenticationType": null,
       "sharedConnectionId": null,
       "dataSets": {}
+    },
+    "9a786f90-c692-4c7e-b78c-10cb087dc1f1": {
+      "id": "/providers/Microsoft.PowerApps/apis/shared_office365groups",
+      "displayName": "Office 365 Groups",
+      "dataSources": [
+        "office365groups"
+      ],
+      "authenticationType": null,
+      "sharedConnectionId": null,
+      "dataSets": {}
     }
   },
   "databaseReferences": {}
