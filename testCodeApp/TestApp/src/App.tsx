@@ -44,6 +44,7 @@ useEffect(() => {
             <Route path = "MyOwnedGroups" element= {<MyOwnedGroups/>}/>
           </Route>
         </Route>
+        <Route path = "*" element = {<HomePage />} />
       </Routes>
       
       </ThemeProvider>

@@ -136,13 +136,7 @@ export interface ListOwnedGroups_V2_Response {
   };
 }
 
-export interface ListGroups_Response {
-  // The OData context.
-  "@odata.context"?: string;
-  // Only used in Power Apps Canvas to genereate the `$skipToken` for pagination. Power Automate and Logic Apps must use the pagination setting.
-  "@odata.nextLink"?: string;
-  // value
-  value?: {
+interface singleGroupResponseType  {
     // O365 group classification.
     classification?: string;
     // yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)
@@ -174,6 +168,14 @@ export interface ListGroups_Response {
     // List of Sensitivity Label Information
     sensitivityLabelInfo?: SensitivityLabelMetadata[];
   };
+
+export interface ListGroups_Response {
+  // The OData context.
+  "@odata.context"?: string;
+  // Only used in Power Apps Canvas to genereate the `$skipToken` for pagination. Power Automate and Logic Apps must use the pagination setting.
+  "@odata.nextLink"?: string;
+  // value
+  value?: singleGroupResponseType[]
 }
 
 export interface CreateCalendarEvent_Response {

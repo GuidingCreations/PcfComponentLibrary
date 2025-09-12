@@ -2,6 +2,7 @@
 import { Stack, ThemeProvider, Box, Badge} from '@mui/material';
 import { memo, useState } from 'react';
 import  {navLinkProps}  from './navItems';
+import { useLocation } from 'react-router-dom';
 
 interface linkProps {
     activeItem?: navLinkProps
@@ -11,22 +12,24 @@ interface linkProps {
     theme: any;
     isExpanded?: boolean;
     item: navLinkProps;
-    badge?: any
+    badge?: any;
+    href?: string;
 }
 
 
 
 const NavLink = memo(function NavLink(props: linkProps) {
 
+    const pathName = useLocation().pathname;
+    console.log("PATHs NAME: ", pathName)
+    console.log("Location: ", useLocation());
+    console.log("href: ", props.item.href);
+    const isActive = useLocation().pathname == props.item.href;
     const renderSvgIcon = (item: any) => {
 
-        console.log("BADGE: ", item);
-        console.log("activeItems: ", props.activeItem, item)
-        const isActive = props.activeItem == item
-        console.log("IS ACTIVE: ", isActive)
         return (
         
-        <Badge showZero badgeContent = {item.badge.badgeContent ?? 0} color={props.activeItem == item ? "secondary" : "primary"} sx={{marginLeft: '8px', marginRight: '16px'}} slotProps={{badge: {
+        <Badge showZero badgeContent = {item.badge.badgeContent ?? 0} color={isActive ? "secondary" : "primary"} sx={{marginLeft: '8px', marginRight: '16px'}} slotProps={{badge: {
             style: {
                 height: '16px',
                 width: '16px'
@@ -58,7 +61,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
             className='navItem'
             key={props.linkText} 
             style={{
-                backgroundColor: props.activeItem == props.item && !props.item.children ? props.theme.palette.primary.main : '', 
+                backgroundColor: isActive && !props.item.children ? props.theme.palette.primary.main : '', 
                 paddingTop: '6px', 
                 paddingBottom: '6px', 
                 paddingLeft: '4px', 
@@ -74,7 +77,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
     }
 
     
-    <p style={{margin: 'auto 0', color: 'white', fontSize: '.875rem', lineHeight: `24px`, paddingLeft: '8px'}}>{props.linkText}</p>
+    <a href={props.item.href ?? undefined} style={{margin: 'auto 0', color: 'white', fontSize: '.875rem', lineHeight: `24px`, paddingLeft: '8px'}}>{props.linkText}</a>
 
     {
         props.item.badge ?
@@ -124,9 +127,9 @@ const NavLink = memo(function NavLink(props: linkProps) {
   <Stack direction={'column'}>
     {props.item.children.map((child : navLinkProps, index) => {
      
-        const isMatched =  props.activeItem?.navTitle == child.navTitle
+        const isMatched =  pathName == child.href
      
-        console.log("CHILD: ", child)
+        console.log("CHILD rendering: ", child, useLocation().pathname, "IS MATCHING: ", child.href == useLocation().pathname)
         return (
 
             !child.isHidden ?
@@ -142,7 +145,8 @@ const NavLink = memo(function NavLink(props: linkProps) {
             }} 
             onClick={() => {props.onSelect(child)}} className={`navItem ${isMatched ? 'navItemActive' : ''}`} key={index}>
 
-                <p 
+                <a 
+                    href={child.href}
                     style={{
                         margin: 0, 
                         textAlign: 'left', 
@@ -152,7 +156,7 @@ const NavLink = memo(function NavLink(props: linkProps) {
                         overflow: 'hidden', 
                         textOverflow: "ellipsis"}}>
                             {child.navTitle}
-                </p>
+                </a>
                 {
                     child.badge ?
                     renderSvgIcon(child) : null

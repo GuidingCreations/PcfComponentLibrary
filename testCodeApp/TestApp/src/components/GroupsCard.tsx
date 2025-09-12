@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Office365GroupsService } from '../Services/Office365GroupsService'
 import { ListOwnedGroups_V2_Response } from '../Models/Office365GroupsModel'
 import Skeleton from '@mui/material/Skeleton'
@@ -23,8 +23,8 @@ const GroupsCard = (props: GroupsCardProps) => {
 
             SetSecurityGroups(filteredGroups);
             console.log("GROUPS SET: ", SecurityGroups)
-        } catch {
-            throw new Error("An error occurred while loading groups")
+        } catch (error : any) {
+            throw new Error("An error occurred while loading groups: ", error)
         } finally {
             setLoading(false)
         }

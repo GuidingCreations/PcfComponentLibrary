@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Box, Stack, Drawer, Badge } from '@mui/material';
+import { Box, Stack, Drawer } from '@mui/material';
 import navItems, { navSection, navLinkProps } from './navItems';
 import NavLink from './NavLink';
 import { useCustomThemeContext } from '../contexts/CustomThemeContext';
 import '../Styling/Sidebar.css'
+import { useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
 
@@ -13,6 +14,10 @@ const [isOpen, setIsOpen] = useState(false)
 
   return (
      <Box sx={{height : '100vh', width: '15vw'}}>
+
+      {/* To avoid stupid linting rules before I can put the options to change themes in */}
+      <a style={{display: 'none'}} onClick={() => SetCustomTheme(CustomTheme)}></a>
+
        <Stack sx={{backgroundColor: "#151b23", justifyContent: 'space-between', height: '100%', width: '100%'}}>
         <Stack sx={{ height : '100%', width: '100%', paddingBottom: '16px', overflowY: 'scroll'}} id = "mainSidebarList" alignItems='start'>
     
@@ -39,6 +44,10 @@ const [isOpen, setIsOpen] = useState(false)
               <Stack style={{paddingLeft: '24px', paddingRight: '32px'}}>
 
                   {navSection.children.map( (child : navLinkProps) => {
+                    
+                    console.log("CHILDDD: ", child)
+                    console.log("CHILD HREFF: ", child.href, "PATHHH: ", useLocation().pathname)
+                    const isExpanded = child.children?.some((child : navLinkProps) => {return useLocation().pathname == child.href}) && !child.isExpanded
                     return(
               
               !child.isHidden ?
@@ -50,9 +59,10 @@ const [isOpen, setIsOpen] = useState(false)
               activeItem={child}
               linkText = {child.navTitle}
               onSelect={() => {}}
-              isExpanded = {child.isExpanded}
+              isExpanded = {isExpanded}
               item = {child}
               badge={child.badge ?? undefined}
+              href={child.href}
               />
                
               : <></>

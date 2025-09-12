@@ -13,12 +13,19 @@ import RootLayout from './routes/RootLayout/RootLayout.tsx';
 import HomePage from './routes/RootLayout/Children/HomePage.tsx';
 import MyOwnedGroups from './routes/RootLayout/Children/Groups/MyOwnedGroups.tsx';
 
-export const routes = {
+console.log("LOADING ROUTES")
+
+const router = createBrowserRouter([{
    element: <App/>,
+   errorElement: <HomePage />,
    children: [
     {
       element: <RootLayout/>,
       children: [
+        {
+          element: <HomePage/>,
+          path: '/'
+        },
         {
           element: <TestPage/>,
           path: "/TestPage"
@@ -28,26 +35,19 @@ export const routes = {
           path: "/TestPage2"
         },
         {
-          element: <HomePage/>,
-          path: '/'
-        },
-        {
           path: 'Groups',
           children: [
             {path: 'MyOwnedGroups', element: <MyOwnedGroups/>}
           ]
+        },
+        {
+          path: '*',
+          element: <HomePage /> 
         }
       ]
     }
    ]
-  
-  
-  };
-
-const router = createBrowserRouter([routes]);
-
-
-
+  }]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
  <StrictMode>

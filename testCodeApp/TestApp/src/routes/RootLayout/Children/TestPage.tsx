@@ -3,14 +3,14 @@ import {TestListService} from '../../../Services/TestListService'
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
 import { useCustomThemeContext } from '../../../contexts/CustomThemeContext';
-import { createTheme, Theme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 
 const TestPage = () => {
      
   const {CustomTheme, SetCustomTheme} = useCustomThemeContext();
 
-        const updateThemeMode =(newMode: "dark" | "light") => {
+        const updateThemeMode =() => {
           
           
           SetCustomTheme(createTheme({palette: {mode: CustomTheme.palette.mode == "dark" ? "light": "dark"}}))
@@ -77,7 +77,7 @@ const TestPage = () => {
     }
     <button onClick={() => loadData()} >Click me to reload</button>
     <DataGrid checkboxSelection disableMultipleRowSelection = {false} loading={loading} columns={columns} rows={listItems} getRowId={(row) => row.ID} sx={{width: '100%', height: '100%'}}/>
-      <button onClick={() => {console.log("SWITCHING THEME"); updateThemeMode(CustomTheme.palette.mode == "dark" ? "light" : "dark" )}}>Switch theme mode</button>
+      <button onClick={() => {console.log("SWITCHING THEME"); updateThemeMode()}}>Switch theme mode</button>
       <a href='/TestPage2'>Go to second test page</a>
   </div>
 
