@@ -36,7 +36,7 @@ export class TestListService {
   public static async get(id: string, options?: IGetOptions): Promise<IOperationResult<TestList>> {
     const result = await getPowerSdkInstance(dataSourcesInfo).Data.retrieveRecordAsync<TestList>(
       TestListService.dataSourceName,
-      id.toString(),
+       id.toString(),
       options
     );
     return result;

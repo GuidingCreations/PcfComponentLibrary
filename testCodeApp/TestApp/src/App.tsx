@@ -38,7 +38,7 @@ useEffect(() => {
       <Routes>
         <Route element = {<RootLayout/>}>
           <Route path='/' element = {<HomePage/>}/>
-          <Route path='TestPage' element = {<TestPage/>}/>
+          <Route path='/TestPage' element = {<TestPage/>}/>
           <Route path='TestPage2' element = {<TestPage2/>}/>
           <Route path='Groups'>
             <Route path = "MyOwnedGroups" element= {<MyOwnedGroups/>}/>

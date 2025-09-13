@@ -35,7 +35,8 @@ export interface navSection {
             href: "/Groups/MyOwnedGroups"
           },
           {
-            navTitle: "subItem2"
+            navTitle: "TestPage",
+            href: './TestPage'
           },
           {
             navTitle: "subItem3"

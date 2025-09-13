@@ -22,10 +22,12 @@ const TestPage = () => {
         const columns :GridColDef[] = [
           {
             field: "TestChoices",
-            valueGetter: (value : any) => {return value.Value}
+            valueGetter: (value : any) => {return value.Value},
+            editable: true
           },
           {
-            field: "testCurrency"
+            field: "testCurrency",
+            editable: true
           }
         ]
 
@@ -76,7 +78,22 @@ const TestPage = () => {
       <div>Loaded</div>
     }
     <button onClick={() => loadData()} >Click me to reload</button>
-    <DataGrid checkboxSelection disableMultipleRowSelection = {false} loading={loading} columns={columns} rows={listItems} getRowId={(row) => row.ID} sx={{width: '100%', height: '100%'}}/>
+    <DataGrid
+      onCellEditStop={(e) => {
+        console.log("EVENT: ", e,  e.api.getRowWithUpdatedValues(e.id, "testCurrency").testCurrency, typeof  e.api.getRowWithUpdatedValues(e.id, "testCurrency").testCurrency)
+        const tryUpdate = Promise.resolve(TestListService.update(e.row.ItemInternalId as any, {testCurrency: Number(e.api.getRowWithUpdatedValues(e.id, "testCurrency").testCurrency)}));
+        tryUpdate.then(() => loadData());
+        console.log("TRY UPDATE: ", tryUpdate)
+      }} 
+      checkboxSelection 
+      disableMultipleRowSelection 
+      loading={loading} 
+      columns={columns} 
+      rows={listItems} 
+      getRowId={(row) => row.ID} 
+      sx={{width: '100%', height: '100%'}}
+      editMode='cell'
+      />
       <button onClick={() => {console.log("SWITCHING THEME"); updateThemeMode()}}>Switch theme mode</button>
       <a href='/TestPage2'>Go to second test page</a>
   </div>
