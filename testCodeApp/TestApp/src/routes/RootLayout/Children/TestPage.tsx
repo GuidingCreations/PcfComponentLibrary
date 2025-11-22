@@ -69,15 +69,12 @@ const TestPage = () => {
 
   return (
     
+    // Start wrapper for page
 
-
-    <div style={{width: '1000px', height: '500px'}}>
-    {
-      loading ?
-      <div>Loading...</div> :
-      <div>Loaded</div>
-    }
+    <div style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+    
     <button onClick={() => loadData()} >Click me to reload</button>
+    
     <DataGrid
       onCellEditStop={(e) => {
         console.log("EVENT: ", e,  e.api.getRowWithUpdatedValues(e.id, "testCurrency").testCurrency, typeof  e.api.getRowWithUpdatedValues(e.id, "testCurrency").testCurrency)
@@ -91,7 +88,7 @@ const TestPage = () => {
       columns={columns} 
       rows={listItems} 
       getRowId={(row) => row.ID} 
-      sx={{width: '100%', height: '100%'}}
+      sx={{width: '50%', height: '50%',  marginTop: 'auto', marginBottom: "auto",  maxHeight: '50vh'}}
       editMode='cell'
       />
       <button onClick={() => {console.log("SWITCHING THEME"); updateThemeMode()}}>Switch theme mode</button>

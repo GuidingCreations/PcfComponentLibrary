@@ -39,7 +39,7 @@ export interface navSection {
             href: './TestPage'
           },
           {
-            navTitle: "subItem3"
+            navTitle: "subItem5"
           }
         
         ]

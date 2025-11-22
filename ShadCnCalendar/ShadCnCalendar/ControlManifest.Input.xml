@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.12" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
+
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+    <property name="ComponentWidth" display-name-key="ComponentWidth" of-type="Whole.None" usage="bound" required="true" />
+    <property name="ComponentHeight" display-name-key="ComponentHeight" of-type="Whole.None" usage="bound" required="true" />
+    <property name="selectedDate" display-name-key="selectedDate" of-type="DateAndTime.DateOnly" usage="output"/>
+    <property name="selectedEndDate" display-name-key="selectedEndDate" of-type="DateAndTime.DateOnly" usage="output"/>
+    <property name="calendarMode" display-name-key="calendarMode" of-type="SingleLine.Text" usage="input"/>
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path = "../output.css" order = "1"/>
+      <platform-library name="React" version="16.14.0" />
+      
+    </resources>
+   
+  </control>
+</manifest>

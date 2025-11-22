@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+        "strictNullChecks": false,
+        "target": "ES2022",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "declaration": true,
+        "noEmit": true,
+        "outDir": "dist",
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+         "@/*": ["./*"]
+        },
+    
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+}
