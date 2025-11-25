@@ -1,7 +1,7 @@
 /* eslint-disable */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as React from "react";
 import { modalProps } from "../Modal";
 import TextInput from "./TextInput";
@@ -9,7 +9,11 @@ import TextInput from "./TextInput";
 export default function DeleteModal(props: modalProps) {
 
   
-
+const [inputText, setInputText] = useState<string>('')
+  
+  useEffect(() => {
+    props.onInputTextChange(inputText)
+  }, [inputText])
   
 
   return (
@@ -71,20 +75,21 @@ export default function DeleteModal(props: modalProps) {
 
           {/* Cancel / Confirm buttons container */}
             
-            {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={props.onInputTextChange}/> : null}
+            {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={setInputText}/> : null}
+            {props.requiredConfirmationText ? <p style={{fontWeight: 200, fontSize: 12, textAlign: 'start', marginTop: '4px', textWrap: 'wrap', whiteSpace: 'pre-wrap'}}>Please type {props.requiredConfirmationText} to delete</p> : null}
           
           <div className="flex gap-1 items-end w-full flex-row-reverse mt-2">
             
             
             <button 
-              className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 flex-1"
+              className={`mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 flex-1 `}
               onClick={props.OnCancel}
               >
               Cancel
             </button>
 
             <button 
-              className={"inline-flex w-full justify-center rounded-md  bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 flex-1"}
+              className={`inline-flex w-full justify-center rounded-md  bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 flex-1 ${props.requiredConfirmationText != null && inputText != props.requiredConfirmationText ? 'disabled' : ''} `}
               onClick={props.OnConfirm}
               >
               {props.confirmText}

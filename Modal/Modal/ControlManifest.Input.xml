@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="Modal" version="0.2.29" display-name-key="Modal" description-key="Modal description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="Modal" version="0.2.31" display-name-key="Modal" description-key="Modal description" control-type="virtual" >
     
     <external-service-usage enabled="false">    
     </external-service-usage>
@@ -14,6 +14,7 @@
     <property name="includeTextInput" display-name-key="includeTextInput" of-type="TwoOptions" usage="input" default-value ="false"/>
     <property name="textInputPlaceholder" display-name-key="textInputPlaceholder" of-type="SingleLine.Text" usage="input" default-value ="Please input reason"/>
     <property name="outputText" display-name-key="outputText" of-type="SingleLine.Text" usage="output" default-value =""/>
+    <property name="requiredConfirmText" display-name-key="requiredConfirmText" of-type="SingleLine.Text" usage="input" default-value =""/>
     
     <property name="containerHeight" display-name-key="containerHeight" description-key="Property_Desc_Key" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Height"/>
     <property name="containerWidth" display-name-key="containerWidth" of-type="Whole.None" usage="input" pfx-default-value = "Self.Width"/>
@@ -29,7 +30,7 @@
     <resources>
       
       <code path="index.ts" order="1"/>
-         <css path = '../../dist/output.css' order="1" />
+         <css path = '../output.css' order="1" />
 
       <platform-library name="React" version="16.8.6" />
       

@@ -2,18 +2,21 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as React from "react";
 import { modalProps } from "../Modal";
 import TextInput from "./TextInput";
 
 export default function ConfirmationModal(props: modalProps) {
 
-  const confirmationButtonClasses  =  `inline-flex w-full justify-center rounded-md  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 flex-1`
   
-
+  const [inputText, setInputText] = useState<string>('')
   
-
+  useEffect(() => {
+    props.onInputTextChange(inputText)
+  }, [inputText])
+  
+  const confirmationButtonClasses  =  `inline-flex w-full justify-center rounded-md  bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 flex-1 ${props.requiredConfirmationText != null && inputText != props.requiredConfirmationText ? 'disabled' : ''}`
   return (
     
 
@@ -70,9 +73,9 @@ export default function ConfirmationModal(props: modalProps) {
 
           {/* Cancel / Confirm buttons container */}
           
-            {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={props.onInputTextChange}/> : null}
-          
-          <div className="flex gap-1 items-end w-full flex-row-reverse mt-2">
+            {props.includeTextInput ? <TextInput placeholder={props.inputTextPlaceholder} onInputTextChange={setInputText}/> : null}
+            {props.requiredConfirmationText ? <p style={{fontWeight: 200, fontSize: 12, textAlign: 'start', marginTop: '4px', textWrap: 'wrap', whiteSpace: 'pre-wrap'}}>Please type {props.requiredConfirmationText} to confirm</p> : null}
+          <div style={{maxWidth: `${props.containerWidth /2}px`}} className="flex gap-1 items-end w-full flex-row-reverse mt-2">
             
             
             <button 
@@ -85,6 +88,7 @@ export default function ConfirmationModal(props: modalProps) {
             <button 
               className={confirmationButtonClasses}
               onClick={props.OnConfirm}
+              
               >
               {props.confirmText}
             </button>

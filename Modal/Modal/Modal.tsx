@@ -17,6 +17,7 @@ export interface modalProps {
   includeTextInput: boolean;
   inputTextPlaceholder: string;
   onInputTextChange: (newText: string) => void;
+  requiredConfirmationText?: string | null;
 }
 
 export default function Modal(props: modalProps) {

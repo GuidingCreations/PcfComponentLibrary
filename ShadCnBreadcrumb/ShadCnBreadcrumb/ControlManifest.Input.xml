@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="NamespacePlaceholder" constructor="ShadCnBreadcrumb" version="0.0.1" display-name-key="ShadCnBreadcrumb" description-key="ShadCnBreadcrumb description" control-type="virtual" >
+
+    <external-service-usage enabled="false">
+    
+    </external-service-usage>
+    <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+     
+    </data-set>
+    <resources>
+      <code path="index.ts" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      <css path = "../output.css" order = "1"/>
+      
+    </resources>
+    
+  </control>
+</manifest>

@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+.disabled {
+    pointer-events: none;
+    background-color: gray;
+}
+
+.all-centered-container {
+  justify-content: center;
+  align-items: center;
+  display: flex !important;
+}

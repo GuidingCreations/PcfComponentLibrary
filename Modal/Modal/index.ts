@@ -42,7 +42,8 @@ export class Modal implements ComponentFramework.ReactControl<IInputs, IOutputs>
             containerWidth: context.parameters.containerWidth.raw ?? 500,
             includeTextInput: context.parameters.includeTextInput.raw,
             inputTextPlaceholder: context.parameters.textInputPlaceholder.raw ?? "Please input reason",
-            onInputTextChange: this.onInputTextChange
+            onInputTextChange: this.onInputTextChange,
+            requiredConfirmationText: context.parameters.requiredConfirmText.raw
         }
 
         return React.createElement(
