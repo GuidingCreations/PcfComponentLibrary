@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.12" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.13" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     
@@ -10,6 +10,8 @@
     <property name="selectedDate" display-name-key="selectedDate" of-type="DateAndTime.DateOnly" usage="output"/>
     <property name="selectedEndDate" display-name-key="selectedEndDate" of-type="DateAndTime.DateOnly" usage="output"/>
     <property name="calendarMode" display-name-key="calendarMode" of-type="SingleLine.Text" usage="input"/>
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input"/>
+    <property name="themeColor" display-name-key="themeColor" of-type="SingleLine.Text" usage="input" default-value = "varAppPrimaryColor"/>
 
     <resources>
       <code path="index.ts" order="1"/>

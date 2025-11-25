@@ -76,7 +76,6 @@ function Calendar({
         dropdown: cn(
           "absolute bg-popover inset-0 opacity-0",
           defaultClassNames.dropdown,
-          'text-red'
         ),
         caption_label: cn(
           "select-none font-medium",
@@ -84,7 +83,6 @@ function Calendar({
             ? "text-sm"
             : "rounded-md pl-2 pr-1 flex items-center gap-1 text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5",
           defaultClassNames.caption_label,
-          props.darkMode ? 'text-white' : 'text-black'
         ),
         table: "w-full border-collapse",
         weekdays: cn("flex", defaultClassNames.weekdays),

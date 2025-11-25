@@ -45,7 +45,9 @@ export class ShadCnCalendar implements ComponentFramework.ReactControl<IInputs, 
             Height: context.parameters.ComponentHeight.raw ?? 500,
             updateSelectedDate: this.updateSelectedDate,
             updateSelectedDateRange: this.updateSelectedDateRange,
-            calendarMode: calendarMode == "single" ? "single" : calendarMode == "range" ? "range" : "single"
+            calendarMode: calendarMode == "single" ? "single" : calendarMode == "range" ? "range" : "single",
+            useDarkMode: context.parameters.useDarkMode.raw,
+            themeColor: context.parameters.themeColor.raw ?? "red"
 
         }
 
