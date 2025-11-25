@@ -30,7 +30,7 @@ export default function CalendarComponent(props: CalenderComponentProps) {
     props.updateSelectedDateRange(dateRange?.from, dateRange?.to)
   }, [dateRange])
   
-  const ThemeStyles = generateShadCnTheme(props.themeColor, true);
+  const ThemeStyles = generateShadCnTheme(props.themeColor, props.useDarkMode);
   const sizeStyles = {height: `${props.Height}px`, width: `${props.Width}px`} as React.CSSProperties
   const CalendarStyles = {...ThemeStyles, ...sizeStyles} as React.CSSProperties
 
