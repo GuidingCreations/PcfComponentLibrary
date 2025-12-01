@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ShadCnBreadcrumb" version="0.0.1" display-name-key="ShadCnBreadcrumb" description-key="ShadCnBreadcrumb description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnBreadcrumb" version="0.0.9" display-name-key="ShadCnBreadcrumb" description-key="ShadCnBreadcrumb description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     
     </external-service-usage>
-    <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+    <data-set name="navItems" display-name-key="navItems">
      
     </data-set>
+
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage = "input" pfx-default-value = "varAppUseDarkMode"/>
+    <property name="themeColor" display-name-key="themeColor" of-type="SingleLine.Text" usage = "input" pfx-default-value = "varAppPrimaryColor"/>
+    
+    <event
+      name="onNavSelect"
+      display-name-key="onNavSelect"
+      description-key="onNavSelect"
+    />
+
+    <property name="outputSelectedOption" display-name-key="outputSelectedOption" of-type="SingleLine.Text" usage = "output" default-value = ""/>
+    
+
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />

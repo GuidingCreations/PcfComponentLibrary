@@ -36,7 +36,9 @@ export default [
 
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-unused-expressions": "off"
+      "@typescript-eslint/no-unused-expressions": "off",
+         "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/no-empty-function": "off"
     },
     settings: {
       react: {

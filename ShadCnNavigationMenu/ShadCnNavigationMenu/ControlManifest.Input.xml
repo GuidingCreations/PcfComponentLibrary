@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  
+  <control namespace="NamespacePlaceholder" constructor="ShadCnNavigationMenu" version="0.0.16" display-name-key="ShadCnNavigationMenu" description-key="ShadCnNavigationMenu description" control-type="virtual" >
+
+    <external-service-usage enabled="false"/>
+
+    <data-set name="NavItems" display-name-key="NavItems"/>
+    
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" default-value = "true"/>
+    <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value = "true"/>
+    <property name="outputSelectedOption" display-name-key="outputSelectedOption" of-type="SingleLine.Text" usage="output"/>
+
+    <event
+      name="onNavSelect"
+      display-name-key="onNavSelect"
+      description-key="onNavSelect"
+    />
+
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path = "../output.css" order="1"/>
+      <platform-library name="React" version="16.14.0" />
+      
+    </resources>
+   
+  </control>
+
+</manifest>

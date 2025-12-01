@@ -66,6 +66,7 @@ if (props.primaryColor != primaryColor.current) {
 
   const [theme, setTheme] = useState(generateTheme({Mode: props.useDarkMode ? 'dark' : 'light', primaryColor: primaryColor.current}));
   
+  
   const updateTheme = () => {
     setTheme(generateTheme({Mode: props.useDarkMode ? 'dark' : 'light', primaryColor: primaryColor.current}))
   }

@@ -6,6 +6,8 @@
         "jsx": "react",
         "paths": {
         "@/*": ["./*"]
-        }
+        },
+        "allowSyntheticDefaultImports": true
+     
     }
 }
