@@ -36,7 +36,11 @@ export class ShadCnNavigationMenu implements ComponentFramework.ReactControl<IIn
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         
-        if (context.updatedProperties.includes("dataset")) {
+        console.log("UPDATED PROPS: ", this.context.updatedProperties)
+        const propsToCheck = ['dataset', 'records']
+        const needsUpdated = propsToCheck.some((prop) => this.context.updatedProperties.includes(prop)) || this.context.parameters.NavItems.sortedRecordIds.length !== this.colNavItems.length
+
+        if (needsUpdated) {
             this.colNavItems = populateDataset(this.context.parameters.NavItems)
         }
 
