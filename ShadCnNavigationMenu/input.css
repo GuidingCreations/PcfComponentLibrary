@@ -78,6 +78,20 @@
   cursor: pointer
 }
 
+.activeNavMenuItem::after {
+  content: '';
+  border-bottom: 2px solid var(--primary);
+  width: 100%;
+  display: block;
+}
+
+.activeNavMenuChild::before {
+  content: '';
+  border-left: 2px solid var(--primary);
+  width: 2px;
+  display: block;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

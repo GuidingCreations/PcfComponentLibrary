@@ -79,16 +79,17 @@ export function BreadcrumbDemo(props: BreadCrumbProps) {
               {
                 parent.children ?
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="flex items-center gap-1">
+                    <DropdownMenuTrigger className="flex items-center gap-1" onClick={() => {console.log("DROP DOWN MENU TRIGGER CLICKED")}}>
                       <BreadcrumbEllipsis className="size-4" />
                         <span className="sr-only">Toggle menu</span> 
+                          </DropdownMenuTrigger>
                         
-                        <DropdownMenuContent>
+                        <DropdownMenuContent onClick={() => console.log("DROP DOWN MENU CONTENT CLICKED")}>
                           
                           {parent.children.map((child, index) => (
                         
-                            <DropdownMenuItem key = {index} onClick={() => props.onNavItemSelect(child.Title)}>
-                              <p >{child.Title}</p>
+                            <DropdownMenuItem key = {index} asChild onClick={() => {console.log("DROPDOWN MENU ITEM CLICKED: "); props.onNavItemSelect(child.Title)}}>
+                              <p  >{child.Title}</p>
                             </DropdownMenuItem>
                             
                           ))}
@@ -96,7 +97,6 @@ export function BreadcrumbDemo(props: BreadCrumbProps) {
                         </DropdownMenuContent>
                        
                     
-                    </DropdownMenuTrigger>
                   </DropdownMenu> 
               
             

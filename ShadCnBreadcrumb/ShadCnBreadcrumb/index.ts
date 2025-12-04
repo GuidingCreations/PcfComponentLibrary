@@ -10,6 +10,8 @@ export class ShadCnBreadcrumb implements ComponentFramework.ReactControl<IInputs
     context: ComponentFramework.Context<IInputs>
 
     private onNavItemSelect = (navItemTitle: string) => {
+
+        console.log("TRIGGERED NAV SELECT: ", navItemTitle)
         this.varSelectedNavItem = navItemTitle;
         this.notifyOutputChanged();
 

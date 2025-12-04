@@ -27,12 +27,24 @@ export function cx(...args: ClassValue[]) {
 
 export function populateDataset(dataset: DataSet) {
   const items: any[] = [];
-  dataset.sortedRecordIds.map((recordID) => {
+  
+    dataset.sortedRecordIds.map((recordID) => {
     const recordToAdd: any = {};
-    dataset.columns.map((column: DataSetInterfaces.Column) => { 
-      const value : any = dataset.records[recordID].getValue(
-        column.name
-      );
+    dataset.columns.map((column: DataSetInterfaces.Column) => {
+      const formattedTypes = ["OptionSet", "multiselectpicklist", "DateAndTime.DateAndTime", "DateAndTime.DateOnly"]
+      let value : any;
+      if (formattedTypes.includes(column.dataType)) {
+        value = dataset.records[recordID].getFormattedValue(
+          column.name
+        );
+      } else {
+
+       value = dataset.records[recordID].getValue(
+          column.name
+        );
+      }
+
+    
       recordToAdd[column.name] = value
     });
     recordToAdd.recordID = dataset.records[recordID].getRecordId();

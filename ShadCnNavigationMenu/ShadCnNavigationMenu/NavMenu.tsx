@@ -16,6 +16,7 @@ import {
   navigationMenuTriggerStyle,
 } from "../components/ui/navigation-menu"
 import { memo } from "react";
+import {generateShadCnTheme} from '../../utils'
 
 // interfaces
 
@@ -87,7 +88,10 @@ export interface NavMenuProps {
   useDarkMode: boolean;
   NavItems: navItemProps[];
   useTestData: boolean;
-  onNavSelect: (navText: string) => void
+  onNavSelect: (navText: string) => void;
+  Alignment: "start" | "center" | "end";
+  activeScreen?: string | undefined;
+  primaryColor: string;
 }
 
 const NavMenu = (props: NavMenuProps) => {
@@ -108,31 +112,46 @@ const NavMenu = (props: NavMenuProps) => {
 
   // is mobile?
 
-  console.log(isMobile)
-
+  const themeSettings = generateShadCnTheme(props.primaryColor, props.useDarkMode) as React.CSSProperties
   const data = props.useTestData ? testData : props.NavItems  
 
   return (
-    <NavigationMenu viewport={isMobile}>
-      <NavigationMenuList className="flex-wrap">
+    <NavigationMenu viewport={isMobile} style={{width: '100%', maxWidth: '100%'}} className={`
+        ${props.Alignment == 'end' ? 'justify-end' : 
+          props.Alignment == "center" ? 'justify-center' :
+          'justify-start'
+        
+        }`}>
+      <NavigationMenuList className="flex-wrap" style={themeSettings}>
         
         {/* Loop through root items */}
         
-        {data.map((item, index) => (
-          <NavigationMenuItem key={index}>
+        {data.map((item, index) => {
+          
+          const isActiveItem = item.Title == props.activeScreen;
+
+          const hasActiveChildren = item.children?.some(child => child.Title == props.activeScreen);
+          
+          return (
+          <NavigationMenuItem key={index} className={`${isActiveItem || hasActiveChildren ? 'activeNavMenuItem' : null}`}>
             {
 
               // If there are children, populate trigger and content
 
               item.children ? <>
-                <NavigationMenuTrigger className={`text-black ${props.useDarkMode ? 'text-white' : null}`} style={{fontWeight: 600}}>{item.Title}</NavigationMenuTrigger> 
-                <NavigationMenuContent style={{width: "fit-content"}}>
+                <NavigationMenuTrigger className={`text-black ${props.useDarkMode ? 'text-white' : null}  `} style={{fontWeight: 600}}>{item.Title}</NavigationMenuTrigger> 
+                <NavigationMenuContent style={{width: "fit-content", zIndex: 5000}}>
                   <ul className={`grid gap-2 ${item.children.length > 1 ? 'md:grid-cols-2' : 'md:grid-cols-1'} `} style={{width: item.children.length > 1 ? '600px' : '300px'}}>
-                    {item.children.map((child, index) => (
-                      <ListItem key={index} title={child.Title} className="font-semibold" onClick={() => props.onNavSelect(child.Title)}>
+                    {item.children.map((child, index) => { 
+                      const isActiveChild = child.Title == props.activeScreen;
+                      return (
+                        <div style={{display: 'flex'}} className={` ${isActiveChild ? 'activeNavMenuChild' : null}`} key={index}>
+
+                      <ListItem  title={child.Title} className={`font-semibold`} onClick={() => props.onNavSelect(child.Title)}>
                         {child.Description}
                       </ListItem>
-                    ))}
+                        </div>
+                    )})}
                   </ul>
                 </NavigationMenuContent>
               </>
@@ -150,7 +169,7 @@ const NavMenu = (props: NavMenuProps) => {
                 
                 }
           </NavigationMenuItem>
-        ))}
+        )})}
 
 
       </NavigationMenuList>

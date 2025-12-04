@@ -472,7 +472,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       useTestData: context.parameters.useTestData.raw,
       onPaginationModelChange: this.onPaginationModelChange,
       onFilterModelChange: this.onFilterModelChange,
-      datasetLoading: this._isLoading,
+      datasetLoading: this.context.parameters.tableData.loading || this._isLoading || this.context.parameters.columnOverrides.loading || this.context.parameters.columnVisibility.loading || this.context.parameters.columnWidthTable.loading,
       useServerSidepagination: context.parameters.useServerSide.raw,
       showQuickFilter: context.parameters.showQuickFilter.raw
       

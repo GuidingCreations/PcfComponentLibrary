@@ -48,7 +48,10 @@ export class ShadCnNavigationMenu implements ComponentFramework.ReactControl<IIn
             useDarkMode: context.parameters.useDarkMode.raw,
             NavItems: this.colNavItems,
             useTestData: context.parameters.useTestData.raw,
-            onNavSelect: this.onNavSelect
+            onNavSelect: this.onNavSelect,
+            Alignment: this.context.parameters.Alignment.raw,
+            activeScreen: context.parameters.activeScreen.raw ?? '',
+            primaryColor: context.parameters.themeColor.raw ?? "Green"
         }
 
         return React.createElement(

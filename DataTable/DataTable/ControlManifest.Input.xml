@@ -2,7 +2,7 @@
 
 <manifest>
 
-  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.23.27" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="DataTable" version="0.23.36" display-name-key="DataTable" description-key="DataTable description" control-type="virtual" >
     
     <external-service-usage enabled="false">
     
@@ -57,6 +57,10 @@
     <!-- Primary color of the theme (only certain values, check styling folder) -->
 
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" hidden="false" pfx-default-value="varAppPrimaryColor"/>
+
+
+
+
 
     <!-- Whether the DataTable should show checkboxes for selection -->
 
