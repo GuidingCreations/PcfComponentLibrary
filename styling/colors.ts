@@ -1,7 +1,23 @@
 import { PrimaryColor } from "./types/types"
 
+export interface colorSchemaType {
+	50?: string;
+	100?: string;	
+	200?: string;	
+	300?: string;	
+	400?: string;	
+	500?: string;	
+	600?: string;	
+	700?: string;	
+	800?: string;	
+	900?: string;	
+	950?: string;
+	main?: string;
+	lightContrastText?: string;
+	darkContrastText? : string
+}
 
-export const california = {
+export const california : colorSchemaType = {
 	50: "#fffaea",
 	100: "#fff3c6",
 	200: "#ffe587",
@@ -13,9 +29,12 @@ export const california = {
 	800: "#953b0b",
 	900: "#7b310c",
 	950: "#471701",
+	main: "#ffbb1f",
+	lightContrastText: "#FFFFFF",
+	darkContrastText: "#FFFFFF"
 }
 
-export const teal = {
+export const teal : colorSchemaType = {
 	50: "#07DBD4",
 	100: "#07DBD4",
 	200: "#07DBD4",
@@ -32,7 +51,7 @@ export const teal = {
 	lightContrastText: "#000000"
 }
 
-export const chateauGreen = {
+export const chateauGreen : colorSchemaType = {
 	50: "#edfcf2",
 	100: "#d2f9de",
 	200: "#aaf0c4",
@@ -46,7 +65,7 @@ export const chateauGreen = {
 	950: "#032b1a",
 } 
 
-export const kepple = {
+export const kepple : colorSchemaType = {
 	50: "#f0fdfa",
 	100: "#ccfbef",
 	200: "#9af5e1",
@@ -60,7 +79,7 @@ export const kepple = {
 	950: "#042f2c",
 } 
 
-export const neonBlue = {
+export const neonBlue : colorSchemaType = {
 	50: "#ecf0ff",
 	100: "#dde3ff",
 	200: "#c2cbff",
@@ -74,7 +93,7 @@ export const neonBlue = {
 	950: "#1e1650",
 } 
 
-export const nevada = {
+export const nevada : colorSchemaType = {
 	50: "#fbfcfe",
 	100: "#f0f4f8",
 	200: "#dde7ee",
@@ -88,7 +107,7 @@ export const nevada = {
 	950: "#090a0b",
 } 
 
-export const redOrange = {
+export const redOrange : colorSchemaType = {
 	50: "#fef3f2",
 	100: "#fee4e2",
 	200: "#ffcdc9",
@@ -102,7 +121,7 @@ export const redOrange = {
 	950: "#460d09",
 } 
 
-export const royalBlue = {
+export const royalBlue : colorSchemaType = {
 	50: "#ecf3ff",
 	100: "#dce8ff",
 	200: "#c0d4ff",
@@ -116,7 +135,7 @@ export const royalBlue = {
 	950: "#151651",
 } 
 
-export const shakespeare = {
+export const shakespeare : colorSchemaType = {
 	50: "#ecfdff",
 	100: "#cff7fe",
 	200: "#a4eefd",
@@ -130,7 +149,7 @@ export const shakespeare = {
 	950: "#082f44",
 } 
 
-export const stormGrey = {
+export const stormGrey : colorSchemaType = {
 	50: "#f9fafb",
 	100: "#f1f1f4",
 	200: "#dcdfe4",
@@ -144,7 +163,7 @@ export const stormGrey = {
 	950: "#121621",
 } 
 
-export const tomatoOrange = {
+export const tomatoOrange : colorSchemaType = {
 	50: "#fff3ed",
 	100: "#ffe2d4",
 	200: "#ffc1a8",
@@ -158,7 +177,7 @@ export const tomatoOrange = {
 	950: "#440608",
 }
 
-export const Pink = {
+export const Pink : colorSchemaType = {
 	50: "#DB07B4",
 	100: "#DB07B4",
 	200: "#DB07B4",
@@ -175,7 +194,7 @@ export const Pink = {
 	main: "#DB07B4"
 }
 
-export const Red = {
+export const Red : colorSchemaType = {
 	50: "#D30404",
 	100: "#D30404",
 	200: "#D30404",
@@ -191,6 +210,21 @@ export const Red = {
 	darkContrastText: "#FFFFFF",
 	main: "#D30404"
 }
+
+export const Themes = [
+	{Name: "california", Theme: california},
+	{Name: "teal", Theme: teal},
+	{Name: "Green", Theme: chateauGreen},
+	{Name: "kepple", Theme: kepple},
+	{Name: "Neon Blue", Theme: neonBlue},
+	{Name: "redOrange", Theme: redOrange},
+	{Name: "Royal Blue", Theme: royalBlue},
+	{Name: "shakespeare", Theme: shakespeare},
+	{Name: "stormGrey", Theme: stormGrey},
+	{Name: "tomatoOrange", Theme: tomatoOrange},
+	{Name: "Pink", Theme: Pink},
+	{Name: "Red", Theme: Red}
+]
 
 export const primaryColorNames : PrimaryColor[] = [
 	"Orange",

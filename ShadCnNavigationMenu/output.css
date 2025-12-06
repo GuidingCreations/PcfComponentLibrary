@@ -304,9 +304,6 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .bg-background {
-    background-color: var(--background);
-  }
   .bg-border {
     background-color: var(--border);
   }
@@ -902,15 +899,21 @@
 }
 .activeNavMenuItem::after {
   content: '';
-  border-bottom: 2px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
   width: 100%;
   display: block;
 }
 .activeNavMenuChild::before {
   content: '';
   border-left: 2px solid var(--primary);
-  width: 2px;
+  width: 4px;
   display: block;
+}
+.navigation-menu-link {
+  max-height: fit-content;
+}
+a {
+  max-height: fit-content !important;
 }
 @layer base {
   * {

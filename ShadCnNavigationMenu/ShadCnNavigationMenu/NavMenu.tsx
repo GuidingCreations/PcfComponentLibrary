@@ -145,9 +145,9 @@ const NavMenu = (props: NavMenuProps) => {
                     {item.children.map((child, index) => { 
                       const isActiveChild = child.Title == props.activeScreen;
                       return (
-                        <div style={{display: 'flex'}} className={` ${isActiveChild ? 'activeNavMenuChild' : null}`} key={index}>
+                        <div style={{display: 'flex', padding: '8px'}} className={` ${isActiveChild ? 'activeNavMenuChild' : null}`} key={index}>
 
-                      <ListItem  title={child.Title} className={`font-semibold`} onClick={() => props.onNavSelect(child.Title)}>
+                      <ListItem  title={child.Title} className={`font-semibold navigation-menu-link`} style={{maxHeight: 'fit-content', maxWidth: '100%'}} onClick={() => props.onNavSelect(child.Title)}>
                         {child.Description}
                       </ListItem>
                         </div>

@@ -80,7 +80,7 @@
 
 .activeNavMenuItem::after {
   content: '';
-  border-bottom: 2px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
   width: 100%;
   display: block;
 }
@@ -88,8 +88,16 @@
 .activeNavMenuChild::before {
   content: '';
   border-left: 2px solid var(--primary);
-  width: 2px;
+  width: 4px;
   display: block;
+}
+
+.navigation-menu-link {
+  max-height: fit-content;
+}
+
+a {
+  max-height: fit-content !important
 }
 
 @theme inline {
@@ -139,3 +147,4 @@
     @apply bg-background text-foreground;
   }
 }
+

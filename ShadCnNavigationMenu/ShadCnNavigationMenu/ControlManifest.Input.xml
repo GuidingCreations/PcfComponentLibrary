@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
   
-  <control namespace="NamespacePlaceholder" constructor="ShadCnNavigationMenu" version="0.0.25" display-name-key="ShadCnNavigationMenu" description-key="ShadCnNavigationMenu description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnNavigationMenu" version="0.0.33" display-name-key="ShadCnNavigationMenu" description-key="ShadCnNavigationMenu description" control-type="virtual" >
 
     <external-service-usage enabled="false"/>
 
