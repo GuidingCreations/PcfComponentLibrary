@@ -17,6 +17,19 @@ export interface colorSchemaType {
 	darkContrastText? : string
 }
 
+
+
+export const primaryColorNames : PrimaryColor[] = [
+	"Orange",
+	"Green",
+	"Neon Blue",
+	"Royal Blue",
+	"Teal",
+	"Pink",
+	"Red"
+]
+
+
 export const california : colorSchemaType = {
 	50: "#fffaea",
 	100: "#fff3c6",
@@ -221,17 +234,7 @@ export const Themes = [
 	{Name: "Royal Blue", Theme: royalBlue},
 	{Name: "shakespeare", Theme: shakespeare},
 	{Name: "stormGrey", Theme: stormGrey},
-	{Name: "tomatoOrange", Theme: tomatoOrange},
+	{Name: "Orange", Theme: tomatoOrange},
 	{Name: "Pink", Theme: Pink},
 	{Name: "Red", Theme: Red}
-]
-
-export const primaryColorNames : PrimaryColor[] = [
-	"Orange",
-	"Green",
-	"Neon Blue",
-	"Royal Blue",
-	"Teal",
-	"Pink",
-	"Red"
 ]

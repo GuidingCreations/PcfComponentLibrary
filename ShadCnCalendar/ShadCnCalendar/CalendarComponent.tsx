@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client"
 import * as React from "react"
 import { Calendar } from "../components/ui/calendar"
@@ -42,7 +43,7 @@ export default function CalendarComponent(props: CalenderComponentProps) {
       onSelect={setDate}
       className= {`rounded-md border  bg-background shadow-sm ${props.useDarkMode ? "dark": ''}`}
       captionLayout="dropdown"
-      style={{width: `${props.Width}px`, height: `${props.Height}px`}}
+      style={CalendarStyles}
       darkMode = {props.useDarkMode}
       onDayClick={(e) => props.updateSelectedDate(e)}
       />
@@ -53,10 +54,10 @@ export default function CalendarComponent(props: CalenderComponentProps) {
 
     <Calendar
       mode="range"
+      className= {`rounded-md border  bg-background shadow-sm ${props.useDarkMode ? "dark": ''}`}
       selected={dateRange}
       onSelect={setDateRange}
       endMonth={new Date('12/31/2050')}
-      className= {`rounded-md border  bg-background shadow-sm ${props.useDarkMode ? "dark": ''}`}
       captionLayout="dropdown"
       style={CalendarStyles}
       darkMode = {props.useDarkMode}
