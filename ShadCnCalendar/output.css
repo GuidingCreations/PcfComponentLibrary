@@ -7,7 +7,6 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
     --text-xs: 0.75rem;
@@ -399,9 +398,6 @@
   }
   .text-accent-foreground {
     color: var(--accent-foreground);
-  }
-  .text-black {
-    color: var(--color-black);
   }
   .text-muted-foreground {
     color: var(--muted-foreground);
@@ -1031,6 +1027,18 @@
     background-color: var(--background);
     color: var(--foreground);
   }
+}
+.rdp-dropdown_root {
+  color: var(--neutralTextColor);
+}
+select > option {
+  color: var(--neutralTextColor);
+}
+.primaryColor {
+  color: var(--primary-foreground);
+}
+.defaultButton {
+  color: var(--neutralTextColor);
 }
 .text-red {
   color: red;

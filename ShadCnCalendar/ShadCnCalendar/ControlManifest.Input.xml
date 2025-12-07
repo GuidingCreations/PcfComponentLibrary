@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.18" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.38" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     

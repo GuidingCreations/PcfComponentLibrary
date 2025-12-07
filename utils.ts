@@ -300,7 +300,8 @@ export function generateShadCnTheme(themeColor: string, useDarkMode: boolean) {
 
           colorScheme  = {
             '--primary':  matchingTheme.main ?? matchingTheme[400],
-            '--primary-foreground':  matchingTheme.lightContrastText ?? 'white'
+            '--primary-foreground':  matchingTheme.contrastText ?? 'white',
+            '--neutralTextColor': useDarkMode ? "white" : 'black'
           }
 
           console.log("COLOR SCHEME: ", colorScheme)

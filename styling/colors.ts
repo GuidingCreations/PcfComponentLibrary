@@ -13,11 +13,8 @@ export interface colorSchemaType {
 	900?: string;	
 	950?: string;
 	main?: string;
-	lightContrastText?: string;
-	darkContrastText? : string
+	contrastText: string;
 }
-
-
 
 export const primaryColorNames : PrimaryColor[] = [
 	"Orange",
@@ -28,7 +25,6 @@ export const primaryColorNames : PrimaryColor[] = [
 	"Pink",
 	"Red"
 ]
-
 
 export const california : colorSchemaType = {
 	50: "#fffaea",
@@ -43,8 +39,7 @@ export const california : colorSchemaType = {
 	900: "#7b310c",
 	950: "#471701",
 	main: "#ffbb1f",
-	lightContrastText: "#FFFFFF",
-	darkContrastText: "#FFFFFF"
+	contrastText: 'white'
 }
 
 export const teal : colorSchemaType = {
@@ -60,8 +55,7 @@ export const teal : colorSchemaType = {
 	900: "#07DBD4",
 	950: "#07DBD4",
 	main: "#07DBD4",
-	darkContrastText: "#000000",
-	lightContrastText: "#000000"
+	contrastText: 'white'
 }
 
 export const chateauGreen : colorSchemaType = {
@@ -76,6 +70,7 @@ export const chateauGreen : colorSchemaType = {
 	800: "#095c37",
 	900: "#094b2f",
 	950: "#032b1a",
+	contrastText: 'white'
 } 
 
 export const kepple : colorSchemaType = {
@@ -90,6 +85,7 @@ export const kepple : colorSchemaType = {
 	800: "#115e56",
 	900: "#134e48",
 	950: "#042f2c",
+	contrastText: 'white'
 } 
 
 export const neonBlue : colorSchemaType = {
@@ -104,6 +100,7 @@ export const neonBlue : colorSchemaType = {
 	800: "#3725ae",
 	900: "#302689",
 	950: "#1e1650",
+	contrastText: 'white'
 } 
 
 export const nevada : colorSchemaType = {
@@ -118,6 +115,7 @@ export const nevada : colorSchemaType = {
 	800: "#202427",
 	900: "#121517",
 	950: "#090a0b",
+	contrastText: 'white'
 } 
 
 export const redOrange : colorSchemaType = {
@@ -132,6 +130,7 @@ export const redOrange : colorSchemaType = {
 	800: "#9a221a",
 	900: "#80231c",
 	950: "#460d09",
+	contrastText: 'white'
 } 
 
 export const royalBlue : colorSchemaType = {
@@ -146,6 +145,7 @@ export const royalBlue : colorSchemaType = {
 	800: "#2225b1",
 	900: "#24298b",
 	950: "#151651",
+	contrastText: 'white'
 } 
 
 export const shakespeare : colorSchemaType = {
@@ -160,6 +160,7 @@ export const shakespeare : colorSchemaType = {
 	800: "#145876",
 	900: "#154964",
 	950: "#082f44",
+	contrastText: 'white'
 } 
 
 export const stormGrey : colorSchemaType = {
@@ -174,6 +175,7 @@ export const stormGrey : colorSchemaType = {
 	800: "#313749",
 	900: "#212636",
 	950: "#121621",
+	contrastText: 'white'
 } 
 
 export const tomatoOrange : colorSchemaType = {
@@ -188,6 +190,7 @@ export const tomatoOrange : colorSchemaType = {
 	800: "#9f2c0f",
 	900: "#7e1110",
 	950: "#440608",
+	contrastText: 'white'
 }
 
 export const Pink : colorSchemaType = {
@@ -202,9 +205,8 @@ export const Pink : colorSchemaType = {
 	800: "#DB07B4",
 	900: "#DB07B4",
 	950: "#DB07B4",
-	lightContrastText: "#FFFFFF",
-	darkContrastText: "#FFFFFF",
-	main: "#DB07B4"
+	main: "#DB07B4",
+	contrastText: 'white'
 }
 
 export const Red : colorSchemaType = {
@@ -219,9 +221,8 @@ export const Red : colorSchemaType = {
 	800: "#D30404",
 	900: "#D30404",
 	950: "#D30404",
-	lightContrastText: "#FFFFFF",
-	darkContrastText: "#FFFFFF",
-	main: "#D30404"
+	main: "#D30404",
+	contrastText: 'white'
 }
 
 export const Themes = [

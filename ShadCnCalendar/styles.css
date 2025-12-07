@@ -40,6 +40,8 @@
   --cell-size: 1px
 }
 
+
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -123,6 +125,22 @@
   }
 }
 
+.rdp-dropdown_root {
+  color: var(--neutralTextColor)
+}
+ select > option {
+  color: var(--neutralTextColor)
+}
+
+.primaryColor {
+  color: var(--primary-foreground)
+
+
+}
+
+.defaultButton {
+  color: var(--neutralTextColor)
+}
 
 .text-red {
   color: red
@@ -135,6 +153,8 @@
 .text-black {
   color: black
 }
+
+
 
 .text-center {
   text-align: center;
