@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.38" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnCalendar" version="0.0.40" display-name-key="ShadCnCalendar" description-key="ShadCnCalendar description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     
     </external-service-usage>
-    <property name="ComponentWidth" display-name-key="ComponentWidth" of-type="Whole.None" usage="bound" required="true" />
-    <property name="ComponentHeight" display-name-key="ComponentHeight" of-type="Whole.None" usage="bound" required="true" />
+    <property name="ComponentWidth" display-name-key="ComponentWidth" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Width"/>
+    <property name="ComponentHeight" display-name-key="ComponentHeight" of-type="Whole.None" usage="bound" required="true" pfx-default-value = "Self.Height"/>
     <property name="selectedDate" display-name-key="selectedDate" of-type="DateAndTime.DateOnly" usage="output"/>
     <property name="selectedEndDate" display-name-key="selectedEndDate" of-type="DateAndTime.DateOnly" usage="output"/>
-    <property name="calendarMode" display-name-key="calendarMode" of-type="SingleLine.Text" usage="input"/>
-    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input"/>
+    <property name="calendarMode" display-name-key="calendarMode" of-type="SingleLine.Text" usage="input" default-value = "single"/>
+    <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage="input" pfx-default-value = "varUseDarkMode"/>
     <property name="themeColor" display-name-key="themeColor" of-type="SingleLine.Text" usage="input" pfx-default-value = "varAppPrimaryColor"/>
 
     <resources>

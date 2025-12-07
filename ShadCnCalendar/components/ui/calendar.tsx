@@ -192,12 +192,11 @@ function CalendarDayButton({
     if (modifiers.focused) ref.current?.focus()
   }, [modifiers.focused])
 
-  console.log("PRE_BUTTON DARK MODE: ", props.darkMode)
   return (
     <Button
       darkMode = {props.darkMode}
       ref={ref}
-      variant="default"
+      variant= {modifiers.range_middle ? "rangeMiddle" : "default"}
       size="icon"
       data-day={day.date.toLocaleDateString()}
       data-selected-single={

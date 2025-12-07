@@ -138,6 +138,11 @@
 
 }
 
+.text-contrast {
+  color: var(--neutralTextColor)
+
+}
+
 .defaultButton {
   color: var(--neutralTextColor)
 }
