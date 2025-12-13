@@ -38,6 +38,15 @@ export function populateDataset(dataset: DataSet) {
     dataset.columns.map((column: DataSetInterfaces.Column) => {
       const formattedTypes = ["OptionSet", "multiselectpicklist", "DateAndTime.DateAndTime", "DateAndTime.DateOnly"]
 
+      console.log("COLUMN: ", column.name)
+      console.log("DATA TYPE: ", column.dataType)
+      console.log("FORMATTED VALUE: ",  dataset.records[recordID].getFormattedValue(
+          column.name
+        ));
+      console.log("nonFormatted VALUE: ",  dataset.records[recordID].getValue(
+          column.name
+        ));
+
       let value : any;
       if (formattedTypes.includes(column.dataType)) {
         value = dataset.records[recordID].getFormattedValue(
@@ -51,6 +60,7 @@ export function populateDataset(dataset: DataSet) {
       }
 
       recordToAdd[column.name] = value
+      console.log("VALUE POINT DATA TYPE: ", typeof value)
     });
     recordToAdd.recordID = dataset.records[recordID].getRecordId();
     items.push(recordToAdd);
@@ -68,6 +78,7 @@ export function generateOutputObject(
     string | number | boolean | number[] | undefined
   > = {};
   dataset.columns.forEach((c) => {
+    
     const value = getRowValue(row, c);
     outputObject[c.displayName || c.name] = value;
   });

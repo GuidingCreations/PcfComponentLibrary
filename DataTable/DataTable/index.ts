@@ -43,6 +43,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     let dateOperatorsToExclude = ["isNotEmpty", "is",  "not", "after", "before", "onOrBefore"]
 
+
     operators = isServerSide ? getGridDateOperators(true).filter((operator) => !dateOperatorsToExclude.includes(operator.value)) : getGridDateOperators(true)
 
     break;
@@ -54,6 +55,8 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       ];
       operators = isServerSide ? getGridStringOperators().filter((operator) => !stringOperatorsToExclude.includes(operator.value))  : getGridStringOperators();
     break;
+
+    
 
     case "Decimal" :
 
@@ -84,6 +87,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
   private onFilterModelChange = (filterModel: GridFilterModel) => {
     
+    console.log("FILTER MODEL CHANGE: ", filterModel)
 
     if (this.context.parameters.useServerSide.raw) {  
       
@@ -139,6 +143,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       };
 
     this.context.parameters.tableData.refresh();
+    console.log("FILTER RESULT: ", populateDataset(this.context.parameters.tableData))
   }
     
   }
