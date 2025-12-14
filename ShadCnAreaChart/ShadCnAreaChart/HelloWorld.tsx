@@ -2,7 +2,7 @@
 /* eslint-disable */
 import * as React from "react"
 import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import {
   Card,
@@ -22,16 +22,40 @@ import {
 export const description = "An area chart with gradient fill"
 export interface AreaChartProps {
   width: number
-  height: number
+  height: number;
+  chartData?: any[];
+  useTestData?: boolean;
+  dateColumn?: string;
+  secondaryDateColumn?: string;
+  valueColumn?: string;
+  secondaryValueColumn?: string;
+  chartTitle?: string;
+  chartSubTitle?: string;
 }
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+const data = [
+  { month: "January", desktop: 186, mobile: 80, date: new Date(2024, 0, 1) },
+  { month: "February", desktop: 305, mobile: 200, date: new Date(2024, 1, 1) },
+  { month: "March", desktop: 237, mobile: 120, date: new Date(2024, 2, 1) },
+  { month: "April", desktop: 73, mobile: 190, date: new Date(2024, 4, 1) },
+  { month: "May", desktop: 209, mobile: 130, date: new Date(2024, 4, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 5, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 6, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 7, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 8, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 9, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 10, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2024, 11, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2025, 0, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2025, 1, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2025, 2, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2025, 3, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2025, 4, 1) },
+  { month: "June", desktop: 214, mobile: 140, date: new Date(2025, 5, 1) },
 ]
+const formatXaxis = (tickItem: string | number) => {
+  const date = new Date(tickItem);
+  return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+}
 
 const chartConfig = {
   desktop: {
@@ -44,18 +68,31 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export default function AreaChartComponent() {
+export default function AreaChartComponent(props: AreaChartProps) {
 
+  console.log("Props Received: ", props);
   document.documentElement.classList.add("dark")
 
+
+  const chartData = props.useTestData ? data : (props.chartData || []);
+
   return (
-    <Card className="bg-gray-950">
-      <CardHeader className="dark:text-white">
-        <CardTitle className="dark:text-white">Area Chart - Gradient</CardTitle>
-        <CardDescription className="dark:text-white">
-          Showing total visitors for the last 6 months
-        </CardDescription>
-      </CardHeader>
+    <div style = {{height: `${props.height}px`, width: `${props.width}px`}}>
+
+    <Card className="bg-gray-950" >
+      
+      {
+        (props.chartTitle || props.chartSubTitle) && (
+        <CardHeader className="dark:text-white">
+          {props.chartTitle ? <CardTitle className="dark:text-white">{props.chartTitle}</CardTitle> : null}
+          {props.chartSubTitle ? <CardDescription className="dark:text-white">{props.chartSubTitle}</CardDescription> : null}
+        </CardHeader>
+        )
+      }
+      
+      
+      
+      
       <CardContent>
         <ChartContainer config={chartConfig}>
           <AreaChart
@@ -65,16 +102,24 @@ export default function AreaChartComponent() {
               left: 12,
               right: 12,
             }}
+            
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey={props.useTestData ? "date" : props.dateColumn ?? "date"}
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={formatXaxis}
             />
-            <ChartTooltip labelClassName="dark:text-white" cursor={false} content={<ChartTooltipContent />}  />
+            <YAxis
+            tickLine={true}
+            axisLine= {true}
+            tickCount={5}
+            tickMargin={8}
+            
+            />
+            <ChartTooltip labelClassName="text-muted-foreground" cursor={false} content={<ChartTooltipContent />}  />
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
                 <stop
@@ -102,36 +147,22 @@ export default function AreaChartComponent() {
               </linearGradient>
             </defs>
             <Area
-              dataKey="mobile"
+              dataKey={props.useTestData ? "mobile" : props.valueColumn ?? "mobile"}
               type="natural"
               fill="url(#fillMobile)"
               fillOpacity={0.4}
               stroke="var(--color-mobile)"
               stackId="a"
             />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="url(#fillDesktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-              stackId="a"
-            />
           </AreaChart>
         </ChartContainer>
       </CardContent>
       <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm dark:text-white">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 leading-none font-medium dark:text-white">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="text-muted-foreground flex items-center gap-2 leading-none dark:text-white">
-              January - June 2024
-            </div>
-          </div>
-        </div>
+        
       </CardFooter>
     </Card>
+
+    </div>
+
   )
 }

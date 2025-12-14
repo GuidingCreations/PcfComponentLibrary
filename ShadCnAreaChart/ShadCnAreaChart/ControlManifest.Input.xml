@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ShadCnAreaChart" version="0.2.0" display-name-key="ShadCnAreaChart" description-key="ShadCnAreaChart description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnAreaChart" version="0.2.20" display-name-key="ShadCnAreaChart" description-key="ShadCnAreaChart description" control-type="virtual" >
     <external-service-usage enabled="false">
     </external-service-usage>
-    <data-set name="sampleDataSet" display-name-key="Dataset_Display_Key">
+    <data-set name="ChartData" display-name-key="ChartData">
      
     </data-set>
+
+    <data-set name="SecondDataSet" display-name-key="SecondDataSet">
+     
+    </data-set>
+
+    <property name="width" display-name-key="width" of-type="Whole.None" usage="input" pfx-default-value="Self.Width"/>
+    <property name="height" display-name-key="height" of-type="Whole.None" usage="input" pfx-default-value="Self.Height"/>
+    <property name="useTestData" display-name-key="useTestData" of-type="TwoOptions" usage="input" default-value="true"/>
+
+      <property name="dateColumn" display-name-key="dateColumn" of-type="SingleLine.Text" usage="input"/>
+      <property name="secondDateColumn" display-name-key="secondDateColumn" of-type="SingleLine.Text" usage="input"/>
+      <property name="valueColumn" display-name-key="valueColumn" of-type="SingleLine.Text" usage="input"/>
+      <property name="secondValueColumn" display-name-key="secondValueColumn" of-type="SingleLine.Text" usage="input"/>
+      <property name="chartTitle" display-name-key="chartTitle" of-type="SingleLine.Text" usage="input"/>
+      <property name="chartSubTitle" display-name-key="chartSubTitle" of-type="SingleLine.Text" usage="input"/>
+
+
+
     <resources>
       <code path="index.ts" order="1"/>
       <css path="../output.css" order="1"/>

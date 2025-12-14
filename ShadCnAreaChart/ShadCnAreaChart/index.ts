@@ -1,5 +1,9 @@
+/* eslint-disable */
+
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import  AreaChart, { AreaChartProps }  from "./HelloWorld";
+import pcfCoreFunctions from '../../utils'
+
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -7,21 +11,12 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 export class ShadCnAreaChart implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
     private context: ComponentFramework.Context<IInputs>;
-    
-    /**
-     * Empty constructor.
-     */
+    private chartData: any[] = []
+
     constructor() {
-        // Empty
     }
 
-    /**
-     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
-     * Data-set values are not initialized here, use updateView.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
-     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
-     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
-     */
+
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
@@ -31,18 +26,31 @@ export class ShadCnAreaChart implements ComponentFramework.ReactControl<IInputs,
         this.context = context;
     }
 
-    /**
-     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
-     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
-     * @returns ReactElement root react element for the control
-     */
+   
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+
+        pcfCoreFunctions.createInfoMessage("UPDATED PARAMETERS: ", this.context.updatedProperties)
+        
+        const controlNeedsUpdated = pcfCoreFunctions.needsUpdated(['dataset', 'records'], this.context);
+        if (controlNeedsUpdated) {
+            this.chartData = pcfCoreFunctions.populateDataset(this.context.parameters.ChartData);
+            console.log("Updated Chart Data: ", this.chartData);
+        }
 
         context.mode.trackContainerResize(true);
 
+
         const props : AreaChartProps= {
-            height: this.context.mode.allocatedHeight,
-            width: this.context.mode.allocatedWidth,
+            height: this.context.parameters.height.raw || 300,
+            width: this.context.parameters.width.raw || 400,
+            chartData: this.chartData.length > 0 ? this.chartData : undefined,
+            useTestData: this.context.parameters.useTestData.raw,
+            dateColumn: this.context.parameters.dateColumn.raw ?? undefined,
+            secondaryDateColumn: this.context.parameters.secondDateColumn.raw ?? undefined,
+            valueColumn: this.context.parameters.valueColumn.raw ?? undefined,
+            secondaryValueColumn: this.context.parameters.secondValueColumn.raw ?? undefined,
+            chartTitle: this.context.parameters.chartTitle.raw ?? undefined,
+            chartSubTitle: this.context.parameters.chartSubTitle.raw ?? undefined,
         };
         return React.createElement(
             AreaChart,
@@ -50,19 +58,11 @@ export class ShadCnAreaChart implements ComponentFramework.ReactControl<IInputs,
         );
     }
 
-    /**
-     * It is called by the framework prior to a control receiving new data.
-     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
-     */
+   
     public getOutputs(): IOutputs {
         return {};
     }
 
-    /**
-     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
-     * i.e. cancelling any pending remote calls, removing listeners, etc.
-     */
     public destroy(): void {
-        // Add code to cleanup control if necessary
     }
 }

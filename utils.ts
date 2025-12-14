@@ -419,3 +419,15 @@ export function generateShadCnTheme(themeColor: string, useDarkMode: boolean) {
 
   return !!isMobile
 }
+
+export function needsUpdated(paramsToCheck: string[], context: ComponentFramework.Context<any>) {
+  return paramsToCheck.some((prop) => context.updatedProperties.includes(prop))
+}
+
+const pcfCoreFunctions = {
+  needsUpdated,
+  populateDataset,
+  createInfoMessage
+}
+
+export default pcfCoreFunctions 
