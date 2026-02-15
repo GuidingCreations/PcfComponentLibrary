@@ -80,6 +80,7 @@
     <ProjectReference Include="..\ShadCnCalendar\ShadCnCalendar.pcfproj" />
     <ProjectReference Include="..\ShadCnBreadcrumb\ShadCnBreadcrumb.pcfproj" />
     <ProjectReference Include="..\ShadCnNavigationMenu\ShadCnNavigationMenu.pcfproj" />
+    <ProjectReference Include="..\ShadCnAreaChart\ShadCnAreaChart.pcfproj" />
 
   </ItemGroup>
 

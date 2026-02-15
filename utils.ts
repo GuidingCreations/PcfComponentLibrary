@@ -420,8 +420,8 @@ export function generateShadCnTheme(themeColor: string, useDarkMode: boolean) {
   return !!isMobile
 }
 
-export function needsUpdated(paramsToCheck: string[], context: ComponentFramework.Context<any>) {
-  return paramsToCheck.some((prop) => context.updatedProperties.includes(prop))
+export function needsUpdated(paramsToCheck: string[], context: ComponentFramework.Context<any>, localTableLength: number, dataSourceLength: number) {
+  return paramsToCheck.some((prop) => context.updatedProperties.includes(prop)) || localTableLength !== dataSourceLength
 }
 
 const pcfCoreFunctions = {

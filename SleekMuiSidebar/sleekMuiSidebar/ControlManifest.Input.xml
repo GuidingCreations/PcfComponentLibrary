@@ -18,6 +18,7 @@
 
     <property name="primaryColor" display-name-key="primaryColor" of-type="SingleLine.Text" usage="input" pfx-default-value="varAppPrimaryColor"/>
     <property name="activeScreen" display-name-key="activeScreen" of-type="SingleLine.Text" usage="input" pfx-default-value="App.ActiveScreen.Name"/>
+    <property name="sidebarFill" display-name-key="sidebarFill" of-type="SingleLine.Text" usage="input"/>
     
   <!-- Bools -->
 

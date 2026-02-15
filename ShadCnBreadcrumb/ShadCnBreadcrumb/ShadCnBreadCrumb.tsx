@@ -29,7 +29,8 @@ export interface BreadCrumbProps {
   navItems: parentItem[];
   onNavItemSelect: (navItemTitle: string) => void;
   themeColor: string;
-  useDarkMode: boolean
+  useDarkMode: boolean;
+  useTestMode?: boolean;
 }
 
 
@@ -65,6 +66,8 @@ export function BreadcrumbDemo(props: BreadCrumbProps) {
     }
   ]
 
+  const breadcrumbItems = props.useTestMode ? varDemoData : props.navItems;
+
    const ThemeStyles = generateShadCnTheme(props.themeColor, props.useDarkMode) as React.CSSProperties;
 
   return (
@@ -72,7 +75,7 @@ export function BreadcrumbDemo(props: BreadCrumbProps) {
       <BreadcrumbList>
 
       {
-        varDemoData.map(
+        breadcrumbItems.map(
           (parent, index) => (
             <>
             <BreadcrumbItem key = {index}>
@@ -107,7 +110,7 @@ export function BreadcrumbDemo(props: BreadCrumbProps) {
 
             }
             </BreadcrumbItem>
-            {varDemoData.length - 1 > index ? <BreadcrumbSeparator/> : null}
+            {breadcrumbItems.length - 1 > index ? <BreadcrumbSeparator/> : null}
             </>
 
           )

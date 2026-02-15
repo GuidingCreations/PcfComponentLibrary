@@ -24,6 +24,7 @@ export interface muiSidebarProps {
   changeUseDarkMode: (useDarkMode: boolean) => void
   changeActiveScreen: (newScreenName: string) => void
   activeScreen: string;
+  sidebarFill?: string | undefined;
 }
 
 const muiSidebar = memo(function muiSidebar(props: muiSidebarProps) {
@@ -81,7 +82,7 @@ return(
   <ThemeProvider theme={theme}>
     
     <Box sx={{height : `${props.containerHeight}px`, width:  `${props.containerWidth}px`}}>
-       <Stack sx={{backgroundColor: theme.palette.primary.sidebarFill, justifyContent: 'space-between', height: '100%', width: '100%'}}>
+       <Stack sx={{backgroundColor: props.sidebarFill ?? theme.palette.primary.sidebarFill, justifyContent: 'space-between', height: '100%', width: '100%'}}>
         <Stack sx={{ height : '100%', width: '100%', paddingBottom: '16px', overflowY: 'scroll'}} id = "mainSidebarList" alignItems='start'>
     
           {

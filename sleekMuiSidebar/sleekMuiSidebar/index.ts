@@ -94,7 +94,8 @@ export class sleekMuiSidebar implements ComponentFramework.ReactControl<IInputs,
             changeUseDarkMode: this.updateUseDarkMode,
             changeActiveScreen: this.updateActiveScreen,
             navItems: this._navItems,
-            activeScreen: context.parameters.activeScreen.raw || "Settings"
+            activeScreen: context.parameters.activeScreen.raw || "Settings",
+            sidebarFill: context.parameters.sidebarFill.raw == '' ? undefined : context.parameters.sidebarFill.raw ?? undefined
 
     
         };

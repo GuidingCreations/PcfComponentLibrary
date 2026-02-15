@@ -31,8 +31,9 @@ export class ShadCnAreaChart implements ComponentFramework.ReactControl<IInputs,
 
         pcfCoreFunctions.createInfoMessage("UPDATED PARAMETERS: ", this.context.updatedProperties)
         
-        const controlNeedsUpdated = pcfCoreFunctions.needsUpdated(['dataset', 'records'], this.context);
+        const controlNeedsUpdated = pcfCoreFunctions.needsUpdated(['dataset', 'records'], this.context, this.chartData.length, this.context.parameters.ChartData.sortedRecordIds.length);
         if (controlNeedsUpdated) {
+            console.log("Updating Chart Data");
             this.chartData = pcfCoreFunctions.populateDataset(this.context.parameters.ChartData);
             console.log("Updated Chart Data: ", this.chartData);
         }
@@ -41,8 +42,8 @@ export class ShadCnAreaChart implements ComponentFramework.ReactControl<IInputs,
 
 
         const props : AreaChartProps= {
-            height: this.context.parameters.height.raw || 300,
-            width: this.context.parameters.width.raw || 400,
+            height: this.context.parameters.componentHeight.raw || 300,
+            width: this.context.parameters.componentWidth.raw || 400,
             chartData: this.chartData.length > 0 ? this.chartData : undefined,
             useTestData: this.context.parameters.useTestData.raw,
             dateColumn: this.context.parameters.dateColumn.raw ?? undefined,

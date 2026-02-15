@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="NamespacePlaceholder" constructor="ShadCnBreadcrumb" version="0.0.30" display-name-key="ShadCnBreadcrumb" description-key="ShadCnBreadcrumb description" control-type="virtual" >
+  <control namespace="NamespacePlaceholder" constructor="ShadCnBreadcrumb" version="0.0.32" display-name-key="ShadCnBreadcrumb" description-key="ShadCnBreadcrumb description" control-type="virtual" >
 
     <external-service-usage enabled="false">
     
@@ -10,6 +10,7 @@
     </data-set>
 
     <property name="useDarkMode" display-name-key="useDarkMode" of-type="TwoOptions" usage = "input" pfx-default-value = "varAppUseDarkMode"/>
+    <property name="useTestMode" display-name-key="useTestMode" of-type="TwoOptions" usage = "input" default-value = "true"/>
     <property name="themeColor" display-name-key="themeColor" of-type="SingleLine.Text" usage = "input" pfx-default-value = "varAppPrimaryColor"/>
     
     <event
