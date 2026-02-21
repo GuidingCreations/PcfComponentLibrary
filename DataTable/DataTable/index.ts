@@ -479,10 +479,14 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
       onFilterModelChange: this.onFilterModelChange,
       datasetLoading: this.context.parameters.tableData.loading || this._isLoading || this.context.parameters.columnOverrides.loading || this.context.parameters.columnVisibility.loading || this.context.parameters.columnWidthTable.loading,
       useServerSidepagination: context.parameters.useServerSide.raw,
-      showQuickFilter: context.parameters.showQuickFilter.raw
+      showQuickFilter: context.parameters.showQuickFilter.raw,
+      tableHeaderFill: context.parameters.TableHeaderFill.raw == '' ? null : context.parameters.TableHeaderFill.raw ?? null,
+      tableHeaderFontColor: context.parameters.TableHeaderFontColor.raw
       
     };
     
+    console.log("PROPS: ", props)
+
     return React.createElement(DataTableComponent, props);
   }
 

@@ -34,9 +34,7 @@
 
 <!-- Input properties -->
 
-    <!-- Link to readme in github https://github.com/GuidingCreations/PcfComponentLibrary/blob/main/DataTable/READMD.md -->
-        
-    <property name="ReadMeLink" display-name-key="ReadMeLink" of-type="SingleLine.Text" usage="input" default-value=""/>
+    
         
     <!-- Should the component use dark mode? -->
     
@@ -84,6 +82,12 @@
     <!-- The text to display if there are no rows generated in the data table -->
 
     <property name="noRowsText" display-name-key="noRowsText" of-type="SingleLine.Text" usage="input" default-value="No results found"/>
+
+    <!-- Table headers -->
+
+    <property name="TableHeaderFill" display-name-key="TableHeaderFill" of-type="SingleLine.Text" usage="input" />
+    <property name="TableHeaderFontColor" display-name-key="TableHeaderFontColor" of-type="SingleLine.Text" usage="input" />
+
 
     <!-- Show quick filter or not -->
 

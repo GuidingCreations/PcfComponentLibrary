@@ -10,3 +10,13 @@
     color: var(--varToolbarIconColor);
 
 }
+
+.MuiDataGrid-columnHeader {
+    background-color: var(--varColumnHeaderBackgroundColor);
+    color: var(--varColumnHeaderTextColor);
+}
+
+.MuiDataGrid-filler {
+    background-color: var(--varColumnHeaderBackgroundColor) !important;
+    color: var(--varColumnHeaderTextColor);
+}

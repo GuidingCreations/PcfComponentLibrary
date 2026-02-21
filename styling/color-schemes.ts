@@ -223,6 +223,8 @@ export function colorSchemes(config: Config): any {
 		
 		components: {
 		
+	
+
 			MuiTooltip: {
 				styleOverrides: {
 					tooltip: {

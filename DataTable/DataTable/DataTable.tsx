@@ -102,6 +102,8 @@ export interface DataTableProps {
   datasetLoading: boolean;
   showQuickFilter: boolean;
   isDelegable: boolean;
+  tableHeaderFill?: string | undefined | null;
+  tableHeaderFontColor?: string | undefined | null;
 }
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
@@ -250,6 +252,7 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
   const renderCount = useRef(0);
   renderCount.current++;
   
+console.log("theme", theme)
 
   return (
     
@@ -284,7 +287,22 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
             
             paginationMode = {props.isDelegable ? "server" : "client"}
             
-            sx={{ color: props.useDarkMode ? "white" : "black", width: props.fullWidth ? '100%' : props.width }}
+            sx={{ 
+              color: props.useDarkMode ? "white" : "black", 
+              width: props.fullWidth ? '100%' : props.width,
+              "& .MuiDataGrid-columnHeader": {
+                '--varColumnHeaderBackgroundColor': props.tableHeaderFill ?? theme.palette.background,
+                '--varColumnHeaderTextColor': props.tableHeaderFontColor ?? theme.palette.text.primary, 
+              },
+
+              "& .MuiDataGrid-filler" : {
+                '--varColumnHeaderBackgroundColor': props.tableHeaderFill ?? theme.palette.background,
+                '--varColumnHeaderTextColor': props.tableHeaderFontColor ?? theme.palette.text.primary, 
+              }
+          
+              
+            
+              }}
             
             localeText={{ noRowsLabel: props.noRowsText ? props.noRowsText : "No results found" }}
             
