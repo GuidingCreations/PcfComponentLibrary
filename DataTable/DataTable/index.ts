@@ -428,6 +428,7 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
   public updateView(
   
     context: ComponentFramework.Context<IInputs>
+
   
   ): React.ReactElement {
 
@@ -451,37 +452,42 @@ export class DataTable implements ComponentFramework.ReactControl<IInputs, IOutp
 
     context.mode.trackContainerResize(true);
 
-    const compResultCount = !context.parameters.isDelegable.raw ? this._tableData.length : context.parameters.useServerSide.raw ? context.parameters.tableData.paging.hasNextPage ? -1 : (context.parameters.tableData.paging.pageSize - 1 * this.paginationModel.page) + this._tableData.length : context.parameters.tableData.paging.totalResultCount
+
+    const params = context.parameters
+
+    const compResultCount = !params.isDelegable.raw ? this._tableData.length : params.useServerSide.raw ? params.tableData.paging.hasNextPage ? -1 : (params.tableData.paging.pageSize - 1 * this.paginationModel.page) + this._tableData.length : params.tableData.paging.totalResultCount
     const props: DataTableProps = {
-      showToolbar: context.parameters.showToolbar.raw,
-      isDelegable: context.parameters.isDelegable.raw,
+      showToolbar: params.showToolbar.raw,
+      isDelegable: params.isDelegable.raw,
       tableData: this._tableData,
       tableColumns: this.tableColumns,
       height: context.mode.allocatedHeight,
       width: context.mode.allocatedWidth,
       setSelectedRecords: this.setSelectedRecords,
       defaultColumnWidths: this._columnWidthTable,
-      useDarkMode: context.parameters.useDarkMode.raw,
-      allowSelectMultiple: context.parameters.allowSelectMultiple.raw,
-      pageSize: context.parameters.tableData.paging.pageSize,
+      useDarkMode: params.useDarkMode.raw,
+      allowSelectMultiple: params.allowSelectMultiple.raw,
+      pageSize: params.tableData.paging.pageSize,
       pageNumber: this._pageNumber,
       totalRowCount: compResultCount,
       onOptionSelect: this.onOptionSelect,
       columnVisibility: this._columnVisibility,
-      hideFooter: context.parameters.hideFooter.raw,
-      showCheckboxes: context.parameters.showCheckboxes.raw,
-      noRowsText: context.parameters.noRowsText.raw || "No results found",
-      primaryColor: context.parameters.primaryColor.raw || 'Green',
-      useTheming: context.parameters.useTheming.raw,
+      hideFooter: params.hideFooter.raw,
+      showCheckboxes: params.showCheckboxes.raw,
+      noRowsText: params.noRowsText.raw || "No results found",
+      primaryColor: params.primaryColor.raw || 'Green',
+      useTheming: params.useTheming.raw,
       paginationModel: this.paginationModel,
-      useTestData: context.parameters.useTestData.raw,
+      useTestData: params.useTestData.raw,
       onPaginationModelChange: this.onPaginationModelChange,
       onFilterModelChange: this.onFilterModelChange,
-      datasetLoading: this.context.parameters.tableData.loading || this._isLoading || this.context.parameters.columnOverrides.loading || this.context.parameters.columnVisibility.loading || this.context.parameters.columnWidthTable.loading,
-      useServerSidepagination: context.parameters.useServerSide.raw,
-      showQuickFilter: context.parameters.showQuickFilter.raw,
-      tableHeaderFill: context.parameters.TableHeaderFill.raw == '' ? null : context.parameters.TableHeaderFill.raw ?? null,
-      tableHeaderFontColor: context.parameters.TableHeaderFontColor.raw
+      datasetLoading: params.tableData.loading || this._isLoading || params.columnOverrides.loading || params.columnVisibility.loading || params.columnWidthTable.loading,
+      useServerSidepagination: params.useServerSide.raw,
+      showQuickFilter: params.showQuickFilter.raw,
+      tableHeaderFill: params.TableHeaderFill.raw == '' ? null : params.TableHeaderFill.raw ?? null,
+      tableHeaderFontColor: params.TableHeaderFontColor.raw,
+      evenRowFill: params.evenRowFill.raw,
+      oddRowFill: params.oddRowFill.raw
       
     };
     

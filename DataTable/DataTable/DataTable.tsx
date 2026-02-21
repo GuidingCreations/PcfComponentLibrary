@@ -23,7 +23,7 @@ import ChipList from "../renderOptions/ChipList";
 // Test data
 
 const testRows: GridRowsProp = [
-  { id: 1, Title: "Hello", col2: "World" },
+  { id: 1, Title: "Hello", col2: "World",  },
   { id: 2, Title: "DataGridPro", col2: "is Awesome" },
   { id: 3, Title: "MUI", col2: "is Amazings" },
   { id: 4, Title: "Hello", col2: "World" },
@@ -104,6 +104,9 @@ export interface DataTableProps {
   isDelegable: boolean;
   tableHeaderFill?: string | undefined | null;
   tableHeaderFontColor?: string | undefined | null;
+  evenRowFill?: string | undefined | null
+  oddRowFill?: string | undefined | null
+
 }
 
 const DataTableComponent = memo(function DataTableComponent(props: DataTableProps) {
@@ -246,7 +249,9 @@ const DataTableComponent = memo(function DataTableComponent(props: DataTableProp
     '--varToolbarIconColor': `${props.useDarkMode ? theme.palette.primary.main : 'black'}`,
     paddingTop: '8px',
     height: props.height,
-    width: props.width
+    width: props.width,
+    "--evenRowFill": props.evenRowFill,
+    "--oddRowFill": props.oddRowFill
   } as React.CSSProperties
 
   const renderCount = useRef(0);
@@ -282,9 +287,9 @@ console.log("theme", theme)
             onRowSelectionModelChange={(e) => updateSelectedRecordIDs(e)}
             getRowId={getRowId}
             className={props.classes}
-            
+            getRowClassName={(params) => {console.log("PARAMSSS", params.row); const isEven = params.row.id % 2 == 0; return isEven && props.evenRowFill ? "evenRow" : !isEven && props.oddRowFill ? "oddRow" : '' }}
             onFilterModelChange={(e) => { props.onFilterModelChange ? props.onFilterModelChange(e) : null}}
-            
+             
             paginationMode = {props.isDelegable ? "server" : "client"}
             
             sx={{ 
@@ -298,7 +303,8 @@ console.log("theme", theme)
               "& .MuiDataGrid-filler" : {
                 '--varColumnHeaderBackgroundColor': props.tableHeaderFill ?? theme.palette.background,
                 '--varColumnHeaderTextColor': props.tableHeaderFontColor ?? theme.palette.text.primary, 
-              }
+              },
+              
           
               
             

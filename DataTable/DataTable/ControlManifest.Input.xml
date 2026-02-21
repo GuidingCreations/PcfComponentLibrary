@@ -93,6 +93,11 @@
 
     <property name="showQuickFilter" display-name-key="showQuickFilter" of-type="TwoOptions" usage="input" pfx-default-value="true"/>
     
+    <!-- Row colors -->
+
+    <property name="evenRowFill" display-name-key="evenRowFill" of-type="SingleLine.Text" usage="input" />
+    <property name="oddRowFill" display-name-key="oddRowFill" of-type="SingleLine.Text" usage="input" />
+
 
 <!-- Output properties -->
 

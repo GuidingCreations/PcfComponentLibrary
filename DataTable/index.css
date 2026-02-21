@@ -20,3 +20,19 @@
     background-color: var(--varColumnHeaderBackgroundColor) !important;
     color: var(--varColumnHeaderTextColor);
 }
+
+.evenRow {
+    background-color: var(--evenRowFill)
+}
+
+.oddRow {
+    background-color: var(--oddRowFill)
+}
+
+.evenRow:hover {
+    background-color: oklch(from var(--evenRowFill) calc(l + 0.25) c h) !important;
+}
+
+.oddRow:hover {
+    background-color: oklch(from var(--oddRowFill) calc(l + 0.25) c h) !important
+}
